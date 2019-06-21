@@ -10,7 +10,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
 $rc = func_20190621($mu, '/tmp/20190621dummy');
-@unkink('/tmp/20190621dummy');
+@unlink('/tmp/20190621dummy');
 
 $time_finish = microtime(true);
 
@@ -46,7 +46,7 @@ function func_20190621($mu_, $file_name_blog_) {
     foreach ($urls as $url) {
         $res = $mu_->get_contents($url, $options, true);
 
-        error_log($log_prefix . $res);
+        // error_log($log_prefix . $res);
         $rc = preg_match($pattern1, $res, $match);
 
         $bus_stop_from = $match[2] . ' ' . $match[3] . ' ' . $match[1];
