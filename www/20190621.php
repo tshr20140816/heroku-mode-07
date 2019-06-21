@@ -46,6 +46,7 @@ function func_20190621($mu_, $file_name_blog_) {
     foreach ($urls as $url) {
         $res = $mu_->get_contents($url, $options, true);
 
+        error_log($log_prefix . $res);
         $rc = preg_match($pattern1, $res, $match);
 
         $bus_stop_from = $match[2] . ' ' . $match[3] . ' ' . $match[1];
