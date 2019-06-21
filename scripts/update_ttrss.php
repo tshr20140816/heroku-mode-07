@@ -37,10 +37,12 @@ function update_ttrss($mu_)
     $urls[] = "http://blog.livedoor.jp/${livedoor_id}/atom.xml";
 
     $fc2_fqdn = $mu_->get_env('FC2_FTP_SERVER', true);
-    $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_01') . '.xml';
-    $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_02') . '.xml';
-    $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_03') . '.xml';
-    $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_04') . '.xml';
+    if ((int)date('H', strtotime('+9 hours')) < 19) {
+        $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_01') . '.xml';
+        $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_02') . '.xml';
+        $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_03') . '.xml';
+        $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_04') . '.xml';
+    }
 
     $json = '{"sid":"' . $session_id . '","op":"getFeeds","cat_id":-3}';
     $res = $mu_->get_contents($url, $options + [CURLOPT_POSTFIELDS => $json,]);
