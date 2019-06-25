@@ -66,9 +66,7 @@ done
 popd
 set -x
 
-printenv > /tmp/printenv.txt
-wc -c < /tmp/printenv.txt
-rm /tmp/printenv.txt
+printenv | wc -c
 
 ls -lang /tmp
 
