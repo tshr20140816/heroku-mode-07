@@ -38,6 +38,7 @@ function func_20190621($mu_, $file_name_blog_) {
     $url = 'https://trafficinfo.westjr.co.jp/chugoku.html';
     $res = $mu_->get_contents($url, $options);
     */
+    $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     error_log($res);
     
 }
