@@ -631,10 +631,7 @@ __HEREDOC__;
 
         error_log($log_prefix . 'RESULT : ' . $res);
 
-        // $this->update_ttrss();
-
         error_log($log_prefix . 'start exec');
-        // exec('php -d apc.enable_cli=1 ../scripts/update_ttrss.php >/dev/null &');
         exec('php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ../scripts/update_ttrss.php >/dev/null &');
         error_log($log_prefix . 'finish exec');
     }
