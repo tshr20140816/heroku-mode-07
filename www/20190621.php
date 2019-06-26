@@ -44,5 +44,8 @@ function func_20190621($mu_, $file_name_blog_) {
     
     $matches = $matches[1];
     array_shift($matches);
-    error_log(print_r($matches, true));
+    // error_log(print_r($matches, true));
+    foreach ($matches as $match) {
+        error_log(strip_tags($match));
+    }
 }
