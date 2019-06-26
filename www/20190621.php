@@ -48,4 +48,8 @@ function func_20190621($mu_, $file_name_blog_) {
     foreach ($matches as $match) {
         error_log(strip_tags($match));
     }
+    
+    $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
+    $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=ksjogpsnbujpo";
+    $res = $mu_->get_contents($url);
 }
