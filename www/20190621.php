@@ -42,8 +42,9 @@ function func_20190621($mu_, $file_name_blog_) {
     // error_log($res);
     $rc = preg_match_all('/<article .*?>(.+?)<\/article>/s', $res, $matches);
     
-    $item = $matches[1][2];
-    error_log(trim(strip_tags($item)));
+    $description = trim(strip_tags($matches[1][2]));
+    $hash = hash('sha512', $res);
+    error_log($hash);
     
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
     $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=ksjogpsnbujpo";
