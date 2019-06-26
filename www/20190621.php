@@ -34,7 +34,10 @@ function func_20190621($mu_, $file_name_blog_) {
     
     $url = 'https://trafficinfo.westjr.co.jp/sp/chugoku.html';
     $res = $mu_->get_contents($url, $options);
+    /*
     $url = 'https://trafficinfo.westjr.co.jp/chugoku.html';
     $res = $mu_->get_contents($url, $options);
+    */
+    error_log($res);
     
 }
