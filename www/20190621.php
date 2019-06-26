@@ -39,6 +39,8 @@ function func_20190621($mu_, $file_name_blog_) {
     $res = $mu_->get_contents($url, $options);
     */
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
-    error_log($res);
+    // error_log($res);
+    $rc = preg_match_all('/<article .*?>(.+?)<\/article>/s', $res, $matches);
     
+    error_log(print_r($matches, true));
 }
