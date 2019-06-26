@@ -42,5 +42,7 @@ function func_20190621($mu_, $file_name_blog_) {
     // error_log($res);
     $rc = preg_match_all('/<article .*?>(.+?)<\/article>/s', $res, $matches);
     
+    $matches = $matches[1];
+    array_shift($matches);
     error_log(print_r($matches, true));
 }
