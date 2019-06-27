@@ -5,6 +5,7 @@ hourly
 → (rainfall)
 → search_hotel
   → get_twitter_jaxa
+    → get_river_image
   → lib_info * 4
     → (library_rental_ok)
 */
