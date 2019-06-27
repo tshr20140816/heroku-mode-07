@@ -41,7 +41,7 @@ function get_river_image($mu_)
 <item>
 <guid isPermaLink="false">__HASH__</guid>
 <pubDate>__PUBDATE__</pubDate>
-<title>River NoImagew</title>
+<title>River Image</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
