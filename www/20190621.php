@@ -21,7 +21,9 @@ function func_20190621b($mu_, $file_name_blog_) {
     $url = 'http://hyogo.rivercam.info/nishinomiya/detail/mukogawanamaze.html';
     $res = $mu_->get_contents($url);
     
-    error_log($res);
+    // error_log($res);
+    $rc = preg_match('/<img alt="最新監視カメラ画像".+? src="(.+?)"/s', $res, $match);
+    error_log(print_r($match));
 }
 
 function func_20190621($mu_, $file_name_blog_) {
