@@ -18,12 +18,14 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 exit();
 
 function func_20190621b($mu_, $file_name_blog_) {
-    $url = 'http://hyogo.rivercam.info/nishinomiya/detail/mukogawanamaze.html';
+    $url = 'http://hyogo.rivercam.info/nishinomiya/detail/mukogawanamaze.html?' . hash('md5', microtime(true));
     $res = $mu_->get_contents($url);
     
     // error_log($res);
     $rc = preg_match('/<img alt="最新監視カメラ画像".+? src="(.+?)"/s', $res, $match);
     error_log(print_r($match, true));
+    $url = 'http://hyogo.rivercam.info' . $match[1];
+    $res = $mu_->get_contents($url);
 }
 
 function func_20190621($mu_, $file_name_blog_) {
