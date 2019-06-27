@@ -26,6 +26,8 @@ function func_20190621b($mu_, $file_name_blog_) {
     error_log(print_r($match, true));
     $url = 'http://hyogo.rivercam.info' . $match[1];
     $res = $mu_->get_contents($url);
+    header('content-type: image/jpeg');
+    echo $res;
 }
 
 function func_20190621($mu_, $file_name_blog_) {
