@@ -24,7 +24,8 @@ function func_20190621b($mu_, $file_name_blog_) {
     // error_log($res);
     $rc = preg_match('/.+?(\d+\/\d+ \d+:\d+).+?<td>(.+?)<img alt="上昇率" /s', $res, $match);
     
-    error_log(print_r($match, true));
+    // error_log(print_r($match, true));
+    error_log($match[1] . ' ' . trim($match[2]));
 }
 
 function func_20190621($mu_, $file_name_blog_) {
