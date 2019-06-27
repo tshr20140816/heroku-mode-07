@@ -11,6 +11,9 @@ $mu = new MyUtils();
 
 $rc = get_twitter_jaxa($mu);
 
+$url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/get_river_image.php';
+exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
+
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
 
