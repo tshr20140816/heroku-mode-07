@@ -9,24 +9,13 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190621b($mu, '/tmp/20190621dummy');
+func_20190621($mu, '/tmp/20190621dummy');
 @unlink('/tmp/20190621dummy');
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
-
-function func_20190621b($mu_, $file_name_blog_) {
-    $url = 'http://hyogo.rivercam.info/nishinomiya/detail/mukogawanamaze.html?' . hash('md5', microtime(true));
-    $res = $mu_->get_contents($url);
-    
-    // error_log($res);
-    $rc = preg_match('/.+?(\d+\/\d+ \d+:\d+).+?<td>(.+?)<img alt="上昇率" /s', $res, $match);
-    
-    // error_log(print_r($match, true));
-    error_log($match[1] . ' ' . trim($match[2]));
-}
 
 function func_20190621($mu_, $file_name_blog_) {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
