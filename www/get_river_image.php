@@ -27,8 +27,12 @@ function get_river_image($mu_)
     $rc = preg_match('/<img alt="最新監視カメラ画像".+? src="(.+?)"/s', $res, $match);
     error_log($log_prefix . print_r($match, true));
     $url = 'http://' . parse_url($url, PHP_URL_HOST) . $match[1];
+    
+    $rc = preg_match('/.+?(\d+\/\d+ \d+:\d+).+?<td>(.+?)<img alt="上昇率" /s', $res, $match);
+    $description = $match[1] . ' ' . trim($match[2] . 'm');
+    
     $res = $mu_->get_contents($url);
-    $description = '<img src="data:image/jpeg;base64,' . base64_encode($res) . '" />';
+    $description .= '<img src="data:image/jpeg;base64,' . base64_encode($res) . '" />';
     $description = '<![CDATA[' . $description . ']]>';
 
     $xml_text = <<< __HEREDOC__
