@@ -828,7 +828,9 @@ __HEREDOC__;
             error_log($log_prefix . '$res : ' . $res);
             $res = $http_code;
 
-            if ($http_code != '503') {
+            if ($http_code != '429' || $http_code != '503') {
+                // 429 quickchart
+                // 503 feed43
                 break;
             } else {
                 sleep(3);
