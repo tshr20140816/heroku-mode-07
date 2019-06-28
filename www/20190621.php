@@ -21,6 +21,8 @@ function func_20190621b($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $cookie = tempnam("/tmp", 'cookie_' . md5(microtime(true)));
+    
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
         CURLOPT_HTTPHEADER => [
@@ -31,13 +33,20 @@ function func_20190621b($mu_, $file_name_blog_)
             'DNT: 1',
             'Upgrade-Insecure-Requests: 1',
             ],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
     ];
+    
+    $url = 'https://traininfo.jr-central.co.jp/shinkansen/sp/ja/ti08.html';
+    $res = $mu_->get_contents($url, $options);
     
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/common/data/common_ja.json';
     $res = $mu_->get_contents($url, $options);
     
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/var/train_info/train_location_info.json';
     $res = $mu_->get_contents($url, $options);
+    
+    unlink($cookie);
 }
 
 function func_20190621($mu_, $file_name_blog_)
