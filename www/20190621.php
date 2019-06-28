@@ -34,7 +34,7 @@ function func_20190621b($mu_, $file_name_blog_)
     ];
     
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/common/data/common_ja.json';
-    $res = $mu_->get_contents($url, $options, true);
+    $res = $mu_->get_contents($url, $options);
     
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/var/train_info/train_location_info.json';
     $res = $mu_->get_contents($url, $options);
