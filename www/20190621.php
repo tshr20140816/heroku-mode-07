@@ -37,6 +37,9 @@ function func_20190621b($mu_, $file_name_blog_)
         CURLOPT_COOKIEFILE => $cookie,
     ];
     
+    $url = 'https://jr-central.co.jp/';
+    $res = $mu_->get_contents($url, $options);
+    
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/pc/ja/ti08.html';
     $res = $mu_->get_contents($url, $options);
     
