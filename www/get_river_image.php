@@ -29,7 +29,7 @@ function get_river_image($mu_)
     $url = 'http://' . parse_url($url, PHP_URL_HOST) . $match[1];
     
     $rc = preg_match('/.+?(\d+\/\d+ \d+:\d+).+?<td>(.+?)<img alt="上昇率" /s', $res, $match);
-    $description = $match[1] . ' ' . trim($match[2]) . 'm<br />';
+    $description = trim(strip_tags($match[1])) . ' ' . trim(strip_tags($match[2])) . 'm<br />';
     
     $res = $mu_->get_contents($url);
     $description .= '<img src="data:image/jpeg;base64,' . base64_encode($res) . '" />';
