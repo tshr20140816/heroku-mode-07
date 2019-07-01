@@ -89,6 +89,7 @@ function func_20190621($mu_, $file_name_blog_)
     foreach ($matches[1] as $item) {
         $tmp = trim(strip_tags($item));
         $tmp = preg_replace('/\t+/', '', $tmp);
+        $tmp = mb_convert_kana($tmp, 'as');
         error_log($log_prefix . $tmp);
     }
     
