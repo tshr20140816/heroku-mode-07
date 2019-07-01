@@ -82,7 +82,7 @@ function func_20190621($mu_, $file_name_blog_)
     
     // error_log(print_r($match, true));
     
-    $rc = preg_match("/<div class='jisyo'>(.+?)<!-- \.jisyo-->/s", $match[1], $matches);
+    $rc = preg_match_all("/<div class='jisyo'>(.+?)<!-- \.jisyo-->/s", $match[1], $matches);
     
     error_log(print_r($matches, true));
     
