@@ -9,7 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190621b($mu, '/tmp/20190621dummy');
+func_20190621($mu, '/tmp/20190621dummy');
 @unlink('/tmp/20190621dummy');
 
 $time_finish = microtime(true);
@@ -69,7 +69,7 @@ function func_20190621($mu_, $file_name_blog_)
             ],
     ];
     
-    $url = 'https://trafficinfo.westjr.co.jp/sp/chugoku.html';
+    $url = 'https://trafficinfo.westjr.co.jp/chugoku.html';
     $res = $mu_->get_contents($url, $options);
     /*
     $url = 'https://trafficinfo.westjr.co.jp/chugoku.html';
@@ -77,14 +77,15 @@ function func_20190621($mu_, $file_name_blog_)
     */
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     // error_log($res);
-    $rc = preg_match_all('/<article .*?>(.+?)<\/article>/s', $res, $matches);
     
-    $description = trim(strip_tags($matches[1][2]));
-    $hash = hash('sha512', $res);
-    error_log($description);
-    error_log($hash);
+    $rc = preg_match("/<div id='syosai_7'>(.+?)<!--#syosai_n-->/s", $res, $match);
     
+    error_log(print_r($match, true));
+    
+    
+    /*
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
     $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=ksjogpsnbujpo";
     $res = $mu_->get_contents($url);
+    */
 }
