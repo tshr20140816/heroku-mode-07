@@ -80,8 +80,11 @@ function func_20190621($mu_, $file_name_blog_)
     
     $rc = preg_match("/<div id='syosai_7'>(.+?)<!--#syosai_n-->/s", $res, $match);
     
-    error_log(print_r($match, true));
+    // error_log(print_r($match, true));
     
+    $rc = preg_match("/<div class='jisyo'>(.+?)<!-- \.jisyo-->/s", $match[1], $matches);
+    
+    error_log(print_r($matches, true));
     
     /*
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
