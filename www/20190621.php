@@ -78,10 +78,17 @@ function func_20190621($mu_, $file_name_blog_)
     
     $rc = preg_match("/common.obsData = JSON.parse\('(.+)'/", $res, $match);
     
-    error_log(print_r($match, true));
+    // error_log(print_r($match, true));
     
     $json = json_decode($match[1], true);
     
     error_log(print_r($json, true));
+    //ObsrvtnCode
+    $ObsrvtnCode = $json[0]['ObsrvtnCode'];
+    $url = 'https://giwiz-weather.c.yimg.jp/r/iwiz-weather-river/obsrvtn/per60/${ObsrvtnCode}.png';
+    $url = 'https://typhoon.yahoo.co.jp/weather/river/1/' . urlencode($url);
     
+    $res = $mu_->get_contents($url, $options);
+    
+    error_log($res);
 }
