@@ -89,6 +89,23 @@ function func_20190621($mu_, $file_name_blog_)
     $url = "https://giwiz-weather.c.yimg.jp/r/iwiz-weather-river/obsrvtn/per60/${ObsrvtnCode}.png";
     $url = 'https://typhoon.yahoo.co.jp/weather/river/1/' . urlencode($url);
     
+    $options = [
+        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_HTTPHEADER => [
+            'Accept: */*',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+            'Referer: https://typhoon.yahoo.co.jp/weather/river/3400110001/',
+            'TE: Trailers',
+            'X-Requested-With: XMLHttpRequest',
+            ],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+    ];
+    
     $res = $mu_->get_contents($url, $options);
     
     error_log($res);
