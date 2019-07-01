@@ -87,7 +87,9 @@ function func_20190621($mu_, $file_name_blog_)
     // error_log(print_r($matches, true));
     
     foreach ($matches[1] as $item) {
-        error_log($log_prefix . trim(strip_tags($item)));
+        $tmp = trim(strip_tags($item));
+        $tmp = preg_replace('/\t+/', ' ', $tmp);
+        error_log($log_prefix . trim(strip_tags($tmp)));
     }
     
     /*
