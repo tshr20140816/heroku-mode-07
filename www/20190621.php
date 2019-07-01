@@ -68,6 +68,7 @@ function func_20190621($mu_, $file_name_blog_)
             'Connection: keep-alive',
             'DNT: 1',
             'Upgrade-Insecure-Requests: 1',
+            'Referer: https://typhoon.yahoo.co.jp/weather/river/3400110001/',
             ],
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
