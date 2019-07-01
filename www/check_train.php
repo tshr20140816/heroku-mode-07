@@ -21,32 +21,24 @@ function check_train($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
-    
     $res = $mu_->get_contents($url, null, true);
-    
+
     $stations = [];
     foreach (json_decode($res, true)['stations'] as $station) {
         $stations[$station['info']['code']] = $station['info']['name'];
     }
-    
-    // error_log(print_r($stations, true));
-    
-    $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
 
+    $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
     $res = $mu_->get_contents($url);
     $json = json_decode($res, true);
-    
-    // error_log(print_r($json, true));
-    
+
     $update_time = $json['update'];
     $delays_up = [];
     $delays_down = [];
     foreach ($json['trains'] as $train) {
         if ($train['delayMinutes'] != '0') {
-            // error_log(print_r($train, true));
             $tmp = explode('_', $train['pos']);
             $station_name = $stations[$tmp[0]];
-            // error_log($station_name);
             if ($train['direction'] == '0') {
                 $delays_up[] = '上り ' . $station_name . ' ' . $train['dest'] . '行き ' . $train['displayType']
                     . ' ' . $train['delayMinutes'] . '分遅れ';
@@ -56,10 +48,7 @@ function check_train($mu_)
             }
         }
     }
-    /*
-    error_log(print_r($delays_up, true));
-    error_log(print_r($delays_down, true));
-    */
+
     $description = '';
     if (count($delays_up) > 0) {
         $description = implode("\n", $delays_up);
@@ -68,8 +57,45 @@ function check_train($mu_)
         $description .= "\n\n";
         $description .= implode("\n", $delays_down);
     }
-    if (trim($description) != '') {
-        $mu_->post_blog_livedoor('TRAIN', trim($description));
+
+    if (trim($description) == '') {
+        return;
     }
+
+    $options = [
+        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_HTTPHEADER => [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+            ],
+    ];
+
+    $url = 'https://trafficinfo.westjr.co.jp/chugoku.html';
+    $res = $mu_->get_contents($url, $options);
+    $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
+
+    $rc = preg_match("/<div id='syosai_7'>(.+?)<!--#syosai_n-->/s", $res, $match);
+    if ($rc == 1) {
+        $rc = preg_match_all("/<div class='jisyo'>(.+?)<!-- \.jisyo-->/s", $match[1], $matches);
+        if ($rc == false) {
+            $rc = 0;
+        }
+    }
+
+    $description = trim($description);
+    if ($rc > 0) {
+        foreach ($matches[1] as $item) {
+            $tmp = trim(strip_tags($item));
+            $tmp = preg_replace('/\t+/', '', $tmp);
+            $tmp = mb_convert_kana($tmp, 'as');
+            $description .= "\n\n" . $tmp;
+        }
+    }
+
+    $mu_->post_blog_livedoor('TRAIN', $description);
 }
     
