@@ -79,4 +79,9 @@ function func_20190621($mu_, $file_name_blog_)
     $rc = preg_match("/common.obsData = JSON.parse\('(.+)'/", $res, $match);
     
     error_log(print_r($match, true));
+    
+    $json = json_decode($match[1], true);
+    
+    error_log(print_r($json, true));
+    
 }
