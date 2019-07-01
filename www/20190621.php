@@ -84,7 +84,11 @@ function func_20190621($mu_, $file_name_blog_)
     
     $rc = preg_match_all("/<div class='jisyo'>(.+?)<!-- \.jisyo-->/s", $match[1], $matches);
     
-    error_log(print_r($matches, true));
+    // error_log(print_r($matches, true));
+    
+    foreach ($matches[1] as $item) {
+        error_log($log_prefix . trim(strip_tags($item)));
+    }
     
     /*
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
