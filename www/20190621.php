@@ -76,7 +76,7 @@ function func_20190621($mu_, $file_name_blog_)
     $url = 'https://typhoon.yahoo.co.jp/weather/river/3400110001/';
     $res = $mu_->get_contents($url, $options);
     
-    $rc = preg_match("/common.obsData = JSON.parse('(.+)');/", $res, $match);
+    $rc = preg_match("/common.obsData = JSON.parse('(.+)'/", $res, $match);
     
     error_log(print_r($match, true));
 }
