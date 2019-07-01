@@ -57,6 +57,8 @@ function func_20190621($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $cookie = tempnam("/tmp", 'cookie_' . md5(microtime(true)));
+    
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
         CURLOPT_HTTPHEADER => [
@@ -67,10 +69,14 @@ function func_20190621($mu_, $file_name_blog_)
             'DNT: 1',
             'Upgrade-Insecure-Requests: 1',
             ],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
     ];
     
     $url = 'https://typhoon.yahoo.co.jp/weather/river/3400110001/';
     $res = $mu_->get_contents($url, $options);
     
-    error_log($res);
+    $rc = preg_match('/common.obsData = (.+)/', $res, $match);
+    
+    error_log(print_r($match, true));
 }
