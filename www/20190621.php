@@ -57,6 +57,56 @@ function func_20190621($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
+    
+    $res = $mu_->get_contents($url, null, true);
+    
+    $stations = [];
+    foreach (json_decode($res, true)['stations'] as $station) {
+        $stations[$station['info']['code']] = $station['info']['name'];
+    }
+    
+    // error_log(print_r($stations, true));
+    
+    $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
+
+    $res = $mu_->get_contents($url);
+    $json = json_decode($res, true);
+    
+    // error_log(print_r($json, true));
+    
+    $update_time = $json['update'];
+    $delays_up = [];
+    $delays_down = [];
+    foreach ($json['trains'] as $train) {
+        if ($train['delayMinutes'] != '0') {
+            // error_log(print_r($train, true));
+            $tmp = explode('_', $train['pos']);
+            $station_name = $stations[$tmp[0]];
+            // error_log($station_name);
+            if ($train['direction'] == '0') {
+                $delays_up[] = '上り ' . $station_name . ' ' . $train['dest'] . '行き ' . $train['displayType']
+                    . ' ' . $train['delayMinutes'] . '分遅れ';
+            } else {
+                $delays_down[] = '下り ' . $station_name . ' ' . $train['dest'] . '行き ' . $train['displayType']
+                    . ' ' . $train['delayMinutes'] . '分遅れ';
+            }
+        }
+    }
+    
+    $description = '';
+    if (count($delays_up) > 0) {
+        $description = implode("\n", $delays_up);
+    }
+    if (count($delays_down) > 0) {
+        $description .= "\n\n";
+        $description .= implode("\n", $delays_down);
+    }
+    
+    if (trim($description) == '') {
+        return;
+    }
+
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
         CURLOPT_HTTPHEADER => [
@@ -86,16 +136,14 @@ function func_20190621($mu_, $file_name_blog_)
     
     // error_log(print_r($matches, true));
     
+    $description = trim($description);
     foreach ($matches[1] as $item) {
         $tmp = trim(strip_tags($item));
         $tmp = preg_replace('/\t+/', '', $tmp);
         $tmp = mb_convert_kana($tmp, 'as');
-        error_log($log_prefix . $tmp);
+        // error_log($log_prefix . $tmp);
+        $description .= "\n\n" . $tmp;
     }
     
-    /*
-    $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
-    $url = "http://blog.livedoor.jp/${livedoor_id}/search?q=ksjogpsnbujpo";
-    $res = $mu_->get_contents($url);
-    */
+    $mu_->post_blog_livedoor('TRAIN', $description);
 }
