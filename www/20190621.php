@@ -56,8 +56,6 @@ function func_20190621b($mu_, $file_name_blog_)
 function func_20190621($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-    $cookie = tempnam("/tmp", 'cookie_' . md5(microtime(true)));
     
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate, br',
@@ -69,8 +67,6 @@ function func_20190621($mu_, $file_name_blog_)
             'DNT: 1',
             'Upgrade-Insecure-Requests: 1',
             ],
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
     ];
     
     $url = 'https://typhoon.yahoo.co.jp/weather/river/3400110001/';
@@ -83,28 +79,4 @@ function func_20190621($mu_, $file_name_blog_)
     $json = json_decode($match[1], true);
     
     error_log(print_r($json, true));
-    //ObsrvtnCode
-    $ObsrvtnCode = $json[0]['ObsrvtnCode'];
-    $url = "https://giwiz-weather.c.yimg.jp/r/iwiz-weather-river/obsrvtn/per60/${ObsrvtnCode}.png";
-    $url = 'https://typhoon.yahoo.co.jp/weather/river/1/' . urlencode($url);
-    
-    $options = [
-        CURLOPT_ENCODING => 'gzip, deflate, br',
-        CURLOPT_HTTPHEADER => [
-            'Accept: */*',
-            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
-            'Cache-Control: no-cache',
-            'Connection: keep-alive',
-            'DNT: 1',
-            'Referer: https://typhoon.yahoo.co.jp/weather/river/3400110001/',
-            'TE: Trailers',
-            'X-Requested-With: XMLHttpRequest',
-            ],
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
-    ];
-    
-    $res = $mu_->get_contents($url, $options);
-    
-    error_log($res);
 }
