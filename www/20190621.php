@@ -91,7 +91,7 @@ function func_20190621($mu_, $file_name_blog_)
                       'label' => ['enabled' => true,
                                   'content' => $json[0]['WaterValue'],
                                   'position' => 'center',
-                                  'backgroundColor' => $one_data['cyan'],
+                                  'backgroundColor' => 'cyan',
                                  ],
                      ];
     
