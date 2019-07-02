@@ -88,19 +88,17 @@ function func_20190621($mu_, $file_name_blog_)
     $data2[] = $json[0]['WaterValue'] + 10.0;
     $data2[] = $json[0]['WaterValue'] + 10.0;
     
-    /*
-    $data2 = [];
-    $data2[] = $json[0]['StageWarn'];
-    $data2[] = $json[0]['StageWarn'];
-    
     $data3 = [];
-    $data3[] = $json[0]['StageSpcl'];
-    $data3[] = $json[0]['StageSpcl'];
+    $data3[] = $json[0]['StageWarn'];
+    $data3[] = $json[0]['StageWarn'];
     
     $data4 = [];
-    $data4[] = $json[0]['StageDng'];
-    $data4[] = $json[0]['StageDng'];
-    */
+    $data4[] = $json[0]['StageSpcl'];
+    $data4[] = $json[0]['StageSpcl'];
+    
+    $data5 = [];
+    $data5[] = $json[0]['StageDng'];
+    $data5[] = $json[0]['StageDng'];
     
     $datasets = [];
     $datasets[] = ['data' => $data1,
@@ -120,6 +118,33 @@ function func_20190621($mu_, $file_name_blog_)
                    'borderWidth' => 1,
                    'pointRadius' => 0,
                    'yAxisID' => 'y-axis-1',
+                  ];
+    $datasets[] = ['data' => $data3,
+                   'fill' => false,
+                   'pointStyle' => 'line',
+                   'backgroundColor' => 'yellow',
+                   'borderColor' => 'yellow',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                   'yAxisID' => 'y-axis-0',
+                  ];
+    $datasets[] = ['data' => $data4,
+                   'fill' => false,
+                   'pointStyle' => 'line',
+                   'backgroundColor' => 'orange',
+                   'borderColor' => 'orange',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                   'yAxisID' => 'y-axis-0',
+                  ];
+    $datasets[] = ['data' => $data5,
+                   'fill' => false,
+                   'pointStyle' => 'line',
+                   'backgroundColor' => 'red',
+                   'borderColor' => 'red',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                   'yAxisID' => 'y-axis-0',
                   ];
     
     $scales = new stdClass();
