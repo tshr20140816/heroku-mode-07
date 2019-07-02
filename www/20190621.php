@@ -135,6 +135,8 @@ function func_20190621($mu_, $file_name_blog_)
     $chart_data = ['type' => 'line',
                    'data' => ['datasets' => $datasets,
                              ],
+                   'options' => ['scales' => $scales,
+                                ],
                   ];
     
     $url = 'https://quickchart.io/chart?width=900&height=480&c=' . urlencode(json_encode($chart_data));
