@@ -98,7 +98,7 @@ function func_20190621($mu_, $file_name_blog_)
     
     $datasets = [];
     $datasets[] = ['data' => $data1,
-                   'fill' => true,
+                   'fill' => false,
                    'pointStyle' => 'line',
                    'backgroundColor' => 'cyan',
                    'borderColor' => 'cyan',
