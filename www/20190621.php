@@ -81,6 +81,20 @@ function func_20190621($mu_, $file_name_blog_)
     $json = json_decode($match[1], true);
     error_log(print_r($json, true));
 
+    $annotations = [];
+    
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-0',
+                      'value' => $json[0]['WaterValue'];
+                      'borderColor' => 'rgba(0,0,0,0)',
+                      'label' => ['enabled' => true,
+                                  'content' => $json[0]['WaterValue'],
+                                  'position' => 'center',
+                                  'backgroundColor' => $one_data['cyan'],
+                                 ],
+                     ];
+    
     $data1 = [];
     $data1[] = $json[0]['WaterValue'];
     $data1[] = $json[0]['WaterValue'];
@@ -174,11 +188,14 @@ function func_20190621($mu_, $file_name_blog_)
     $chart_data = ['type' => 'line',
                    'data' => ['datasets' => $datasets,
                              ],
-                   'options' => ['legend' => ['display' => false,],
+                   'options' => ['legend' => ['display' => false,
+                                             ],
                                  'scales' => $scales,
                                  'title' => ['display' => true,
                                              'text' => $title,
                                             ],
+                                 'annotation' => ['annotations' => $annotations,
+                                                 ],
                                 ],
                   ];
     
