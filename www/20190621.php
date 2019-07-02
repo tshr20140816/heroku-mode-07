@@ -81,20 +81,20 @@ function func_20190621($mu_, $file_name_blog_)
     error_log(print_r($json, true));
 
     $data1 = [];
-    $data1[] = json[0]['WaterValue'];
-    $data1[] = json[0]['WaterValue'];
+    $data1[] = $json[0]['WaterValue'];
+    $data1[] = $json[0]['WaterValue'];
     
     $data2 = [];
-    $data2[] = json[0]['StageWarn'];
-    $data2[] = json[0]['StageWarn'];
+    $data2[] = $json[0]['StageWarn'];
+    $data2[] = $json[0]['StageWarn'];
     
     $data3 = [];
-    $data3[] = json[0]['StageSpcl'];
-    $data3[] = json[0]['StageSpcl'];
+    $data3[] = $json[0]['StageSpcl'];
+    $data3[] = $json[0]['StageSpcl'];
     
     $data4 = [];
-    $data4[] = json[0]['StageDng'];
-    $data4[] = json[0]['StageDng'];
+    $data4[] = $json[0]['StageDng'];
+    $data4[] = $json[0]['StageDng'];
     
     $datasets = [];
     $datasets[] = ['data' => $data1,
