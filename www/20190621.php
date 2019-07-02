@@ -110,6 +110,7 @@ function func_20190621($mu_, $file_name_blog_)
                    'pointRadius' => 0,
                    'yAxisID' => 'y-axis-0',
                   ];
+    /*
     $datasets[] = ['data' => $data2,
                    'fill' => false,
                    'pointStyle' => 'line',
@@ -119,6 +120,7 @@ function func_20190621($mu_, $file_name_blog_)
                    'pointRadius' => 0,
                    'yAxisID' => 'y-axis-1',
                   ];
+                  */
     $datasets[] = ['data' => $data3,
                    'fill' => false,
                    'pointStyle' => 'line',
