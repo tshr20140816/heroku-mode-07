@@ -75,6 +75,7 @@ function func_20190621($mu_, $file_name_blog_)
     $rc = preg_match("/common.riverData = JSON.parse\('(.+)'/", $res, $match);
     $json = json_decode($match[1], true);
     error_log(print_r($json, true));
+    $title = $json['RiverName'];
     
     $rc = preg_match("/common.obsData = JSON.parse\('(.+)'/", $res, $match);
     $json = json_decode($match[1], true);
@@ -175,10 +176,13 @@ function func_20190621($mu_, $file_name_blog_)
                              ],
                    'options' => ['legend' => ['display' => false,],
                                  'scales' => $scales,
+                                 'title' => ['display' => true,
+                                             'text' => $title,
+                                            ],
                                 ],
                   ];
     
-    $url = 'https://quickchart.io/chart?width=900&height=480&c=' . urlencode(json_encode($chart_data));
+    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . urlencode(json_encode($chart_data));
     
     $res = $mu_->get_contents($url);
     
