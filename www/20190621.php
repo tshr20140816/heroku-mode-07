@@ -92,6 +92,7 @@ function func_20190621($mu_, $file_name_blog_)
                                   'content' => $json[0]['WaterValue'],
                                   'position' => 'center',
                                   'backgroundColor' => 'cyan',
+                                  'fontColor' => 'black',
                                  ],
                      ];
     
