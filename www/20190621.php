@@ -242,7 +242,7 @@ function func_20190621($mu_, $file_name_blog_)
                                 ],
                   ];
     
-    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . urlencode(json_encode($chart_data));
+    $url = 'https://quickchart.io/chart?width=300&height=160&c=' . urlencode(json_encode($chart_data));
     
     $res = $mu_->get_contents($url);
     
