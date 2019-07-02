@@ -173,7 +173,8 @@ function func_20190621($mu_, $file_name_blog_)
     $chart_data = ['type' => 'line',
                    'data' => ['datasets' => $datasets,
                              ],
-                   'options' => ['scales' => $scales,
+                   'options' => ['legend' => ['display' => false,],
+                                 'scales' => $scales,
                                 ],
                   ];
     
