@@ -155,7 +155,7 @@ function func_20190621($mu_, $file_name_blog_)
                         'position' => 'left',
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-1',
-                        'display' => true,
+                        'display' => false,
                         'position' => 'right',
                        ];
     
