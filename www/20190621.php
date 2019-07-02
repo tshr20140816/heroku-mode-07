@@ -109,6 +109,19 @@ function func_20190621($mu_, $file_name_blog_)
                                  ],
                      ];
     
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-0',
+                      'value' => $json[0]['StageSpcl'],
+                      'borderColor' => 'rgba(0,0,0,0)',
+                      'label' => ['enabled' => true,
+                                  'content' => $json[0]['StageSpcl'],
+                                  'position' => 'center',
+                                  'backgroundColor' => 'orange',
+                                  'fontColor' => 'black',
+                                 ],
+                     ];
+    
     $data1 = [];
     $data1[] = $json[0]['WaterValue'];
     $data1[] = $json[0]['WaterValue'];
