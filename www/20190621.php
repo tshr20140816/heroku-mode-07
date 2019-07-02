@@ -100,6 +100,10 @@ function func_20190621($mu_, $file_name_blog_)
     $data5[] = $json[0]['StageDng'];
     $data5[] = $json[0]['StageDng'];
     
+    $data6 = [];
+    $data6[] = $json[0]['StageDng'] + 10.0;
+    $data6[] = $json[0]['StageDng'] + 10.0;
+    
     $datasets = [];
     $datasets[] = ['data' => $data1,
                    'fill' => false,
@@ -110,17 +114,15 @@ function func_20190621($mu_, $file_name_blog_)
                    'pointRadius' => 0,
                    'yAxisID' => 'y-axis-0',
                   ];
-    /*
     $datasets[] = ['data' => $data2,
                    'fill' => false,
                    'pointStyle' => 'line',
-                   'backgroundColor' => 'red',
-                   'borderColor' => 'red',
+                   'backgroundColor' => 'blue',
+                   'borderColor' => 'blue',
                    'borderWidth' => 1,
                    'pointRadius' => 0,
                    'yAxisID' => 'y-axis-1',
                   ];
-                  */
     $datasets[] = ['data' => $data3,
                    'fill' => false,
                    'pointStyle' => 'line',
@@ -147,6 +149,15 @@ function func_20190621($mu_, $file_name_blog_)
                    'borderWidth' => 1,
                    'pointRadius' => 0,
                    'yAxisID' => 'y-axis-0',
+                  ];
+    $datasets[] = ['data' => $data6,
+                   'fill' => false,
+                   'pointStyle' => 'line',
+                   'backgroundColor' => 'blue',
+                   'borderColor' => 'blue',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                   'yAxisID' => 'y-axis-1',
                   ];
     
     $scales = new stdClass();
