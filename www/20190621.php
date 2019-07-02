@@ -81,6 +81,8 @@ function func_20190621($mu_, $file_name_blog_)
     $json = json_decode($match[1], true);
     error_log(print_r($json, true));
 
+    $title .= ' ' . $json[0]['ObsrvtnTime'];
+    
     $annotations = [];
     
     $annotations[] = ['type' => 'line',
