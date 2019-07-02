@@ -115,5 +115,5 @@ function func_20190621($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url);
     
     header('Content-Type: image/png');
-    echo $res
+    echo $res;
 }
