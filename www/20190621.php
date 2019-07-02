@@ -80,4 +80,40 @@ function func_20190621($mu_, $file_name_blog_)
     $json = json_decode($match[1], true);
     error_log(print_r($json, true));
 
+    $data1 = [];
+    $data1[] = json[0]['WaterValue'];
+    $data1[] = json[0]['WaterValue'];
+    
+    $data2 = [];
+    $data2[] = json[0]['StageWarn'];
+    $data2[] = json[0]['StageWarn'];
+    
+    $data3 = [];
+    $data3[] = json[0]['StageSpcl'];
+    $data3[] = json[0]['StageSpcl'];
+    
+    $data4 = [];
+    $data4[] = json[0]['StageDng'];
+    $data4[] = json[0]['StageDng'];
+    
+    $datasets = [];
+    $datasets[] = ['data' => $data1,
+                   'fill' => true,
+                   'pointStyle' => 'line',
+                   'backgroundColor' => 'cyan',
+                   'borderColor' => 'cyan',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                  ];
+    $chart_data = ['type' => 'line',
+                   'data' => ['datasets' => $datasets,
+                             ],
+                  ];
+    
+    $url = 'https://quickchart.io/chart?width=900&height=480&c=' . urlencode(json_encode($chart_data));
+    
+    $res = $mu_->get_contents($url);
+    
+    header('Content-Type: image/png');
+    echo $res
 }
