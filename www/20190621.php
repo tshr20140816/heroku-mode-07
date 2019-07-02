@@ -85,6 +85,11 @@ function func_20190621($mu_, $file_name_blog_)
     $data1[] = $json[0]['WaterValue'];
     
     $data2 = [];
+    $data2[] = $json[0]['WaterValue'] + 10.0;
+    $data2[] = $json[0]['WaterValue'] + 10.0;
+    
+    /*
+    $data2 = [];
     $data2[] = $json[0]['StageWarn'];
     $data2[] = $json[0]['StageWarn'];
     
@@ -95,6 +100,7 @@ function func_20190621($mu_, $file_name_blog_)
     $data4 = [];
     $data4[] = $json[0]['StageDng'];
     $data4[] = $json[0]['StageDng'];
+    */
     
     $datasets = [];
     $datasets[] = ['data' => $data1,
@@ -104,7 +110,28 @@ function func_20190621($mu_, $file_name_blog_)
                    'borderColor' => 'cyan',
                    'borderWidth' => 1,
                    'pointRadius' => 0,
+                   'yAxisID' => 'y-axis-0',
                   ];
+    $datasets[] = ['data' => $data2,
+                   'fill' => false,
+                   'pointStyle' => 'line',
+                   'backgroundColor' => 'red',
+                   'borderColor' => 'red',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                   'yAxisID' => 'y-axis-1',
+                  ];
+    
+    $scales = new stdClass();
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'display' => true,
+                        'position' => 'left',
+                       ];
+    $scales->yAxes[] = ['id' => 'y-axis-1',
+                        'display' => true,
+                        'position' => 'right',
+                       ];
+    
     $chart_data = ['type' => 'line',
                    'data' => ['datasets' => $datasets,
                              ],
