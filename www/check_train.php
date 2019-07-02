@@ -86,7 +86,7 @@ function check_train($mu_)
         }
     }
 
-    $description = trim($description);
+    $description = trim($description) . "\n\n-----";
     if ($rc > 0) {
         foreach ($matches[1] as $item) {
             $tmp = trim(strip_tags($item));
