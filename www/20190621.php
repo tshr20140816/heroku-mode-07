@@ -115,10 +115,10 @@ function func_20190621($mu_, $file_name_blog_)
                    'yAxisID' => 'y-axis-0',
                   ];
     $datasets[] = ['data' => $data2,
-                   'fill' => false,
+                   'fill' => true,
                    'pointStyle' => 'line',
-                   'backgroundColor' => 'blue',
-                   'borderColor' => 'blue',
+                   'backgroundColor' => 'cyan',
+                   'borderColor' => 'cyan',
                    'borderWidth' => 1,
                    'pointRadius' => 0,
                    'yAxisID' => 'y-axis-1',
