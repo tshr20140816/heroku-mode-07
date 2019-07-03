@@ -191,24 +191,6 @@ function func_20190621($mu_, $file_name_blog_)
     $data7[] = $target['StageDng'] + 10.0;
     
     $datasets = [];
-    $datasets[] = ['data' => $data1,
-                   'fill' => false,
-                   'pointStyle' => 'line',
-                   'backgroundColor' => 'cyan',
-                   'borderColor' => 'cyan',
-                   'borderWidth' => 1,
-                   'pointRadius' => 0,
-                   'yAxisID' => 'y-axis-0',
-                  ];
-    $datasets[] = ['data' => $data2,
-                   'fill' => true,
-                   'pointStyle' => 'line',
-                   'backgroundColor' => 'cyan',
-                   'borderColor' => 'cyan',
-                   'borderWidth' => 1,
-                   'pointRadius' => 0,
-                   'yAxisID' => 'y-axis-1',
-                  ];
     if (count($data3) > 0) {
         $datasets[] = ['data' => $data3,
                        'fill' => false,
@@ -256,6 +238,24 @@ function func_20190621($mu_, $file_name_blog_)
                    'pointRadius' => 0,
                    'yAxisID' => 'y-axis-1',
                   ];
+    $datasets[] = ['data' => $data1,
+                   'fill' => false,
+                   'pointStyle' => 'line',
+                   'backgroundColor' => 'cyan',
+                   'borderColor' => 'cyan',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                   'yAxisID' => 'y-axis-0',
+                  ];
+    $datasets[] = ['data' => $data2,
+                   'fill' => true,
+                   'pointStyle' => 'line',
+                   'backgroundColor' => 'cyan',
+                   'borderColor' => 'cyan',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                   'yAxisID' => 'y-axis-1',
+                  ];
     
     $scales = new stdClass();
     $scales->yAxes[] = ['id' => 'y-axis-0',
@@ -264,7 +264,6 @@ function func_20190621($mu_, $file_name_blog_)
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-1',
                         'display' => false,
-                        'position' => 'right',
                        ];
     
     $chart_data = ['type' => 'line',
