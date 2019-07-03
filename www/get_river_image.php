@@ -305,7 +305,7 @@ function get_river_water_level($mu_, $file_name_rss_items_, $url_, $point_)
     $url = 'https://quickchart.io/chart?width=300&height=160&c=' . urlencode(json_encode($chart_data));
 
     $res = $mu_->get_contents($url);
-    $description .= '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+    $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     $description = '<![CDATA[' . $description . ']]>';
 
     $rss_item_text = <<< __HEREDOC__
