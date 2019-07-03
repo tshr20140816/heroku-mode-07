@@ -44,7 +44,7 @@ function get_results_batting2($mu_)
     $timestamp = strtotime('-13 hours');
     // $timestamp = mktime(0, 0, 0, 4, 21, 2019);
 
-    if (strpos($base_record, date('Y/m/d', $timestamp)) != false) {
+    if (strpos($base_record, date('Y/m/d', $timestamp)) !== false) {
         return;
     }
 
@@ -60,7 +60,7 @@ function get_results_batting2($mu_)
 
     $url = '';
     foreach ($matches as $match) {
-        if (strpos($match[0], '広島') != false) {
+        if (strpos($match[0], '広島') !== false) {
             $url = 'https://baseball.yahoo.co.jp/npb/game/' . $match[1] . '/stats';
             break;
         }
@@ -73,10 +73,10 @@ function get_results_batting2($mu_)
 
     $description = '';
     foreach (explode('</table>', $res) as $data) {
-        if (strpos($data, $name) != false) {
+        if (strpos($data, $name) !== false) {
             $rc = preg_match_all('/<tr.*?>(.+?)<\/tr>/s', $data, $matches);
             foreach ($matches[1] as $item) {
-                if (strpos($item, $name) != false) {
+                if (strpos($item, $name) !== false) {
                     $tmp = str_replace("\n", '', $item);
                     $tmp = preg_replace('/<.+?>/s', ' ', $tmp);
                     $tmp = str_replace($name, '', $tmp);
