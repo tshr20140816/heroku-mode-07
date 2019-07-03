@@ -215,7 +215,7 @@ $list_add_task = array_merge($list_add_task, get_task_amedas($mu, $list_contents
 $rainfall_continue_flag = false;
 foreach (get_task_rainfall($mu, $list_contents) as $task) {
     $list_add_task[] = $task;
-    if (strpos($task, '☀') == false) {
+    if (strpos($task, '☀') === false) {
         $rainfall_continue_flag = true;
     }
 }
