@@ -1075,7 +1075,7 @@ __HEREDOC__;
                 CURLOPT_HTTPHEADER => ['Accept: application/json',],
             ];
 
-            $res = $this->get_contents($url, $options);
+            $res = $this->get_contents($url, $options, true);
             $json = json_decode($res);
             if (count($json) === 0) {
                 break;
@@ -1381,6 +1381,7 @@ __HEREDOC__;
 
         // CloudApp
 
+        /*
         $url = 'http://my.cl.ly/items/new';
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
@@ -1417,6 +1418,12 @@ __HEREDOC__;
         $res = $this->get_contents(trim($match[1]), $options);
 
         unlink($file_name_);
+        */
+
+        error_log($log_prefix . 'start exec');
+        exec('php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ../scripts/backup_cloudapp.php ' .
+             $file_name_ . ' >/dev/null &');
+        error_log($log_prefix . 'finish exec');
 
         return $file_size;
     }
