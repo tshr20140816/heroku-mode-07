@@ -211,7 +211,7 @@ function func_20190621($mu_, $file_name_blog_)
                   ];
     if (count($data3) > 0) {
         $datasets[] = ['data' => $data3,
-                       'fill' => true,
+                       'fill' => false,
                        'pointStyle' => 'line',
                        'backgroundColor' => 'green',
                        'borderColor' => 'green',
