@@ -92,12 +92,10 @@ function check_train($mu_)
             $tmp = trim(strip_tags($item));
             $tmp = preg_replace('/\t+/', '', $tmp);
             $tmp = mb_convert_kana($tmp, 'as');
-            /*
-            if (strpos($tmp, '【芸備線】 西日本豪雨に伴う 運転見合わせ') == false) {
+            // $description .= "\n\n" . $tmp;
+            if (strpos($tmp, '【芸備線】 西日本豪雨に伴う 運転見合わせ') === false) {
                 $description .= "\n\n" . $tmp;
             }
-            */
-            $description .= "\n\n" . $tmp;
         }
     }
 
