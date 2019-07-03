@@ -62,7 +62,7 @@ if ($count !== 0) {
     }    
     $list_add_task = get_task_rainfall2($mu, $file_name_blog);
     foreach ($list_add_task as $task) {
-        if (strpos($task, '☀') == false) {
+        if (strpos($task, '☀') === false) {
             $continue_flag = true;
         }
     }
