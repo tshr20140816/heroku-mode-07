@@ -217,7 +217,7 @@ function func_20190621($mu_, $file_name_blog_)
                        'borderColor' => 'green',
                        'borderWidth' => 1,
                        'pointRadius' => 0,
-                       'yAxisID' => 'y-axis-1',
+                       'yAxisID' => 'y-axis-0',
                       ];
     }
     $datasets[] = ['data' => $data4,
