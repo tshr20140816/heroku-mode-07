@@ -315,7 +315,7 @@ __HEREDOC__;
         $items = explode('<hr size="1">', $res);
 
         foreach ($items as $item) {
-            if (strpos($item, '取引年月日') == false) {
+            if (strpos($item, '取引年月日') === false) {
                 continue;
             }
 
@@ -328,7 +328,7 @@ __HEREDOC__;
             $amount = (int)str_replace(',', '', trim($match[1]));
 
             if ($use_date > $last_use_date) {
-                if (strpos($item, 'チャージ') != false) {
+                if (strpos($item, 'チャージ') !== false) {
                     $balance += $amount;
                 } else {
                     $balance -= $amount;
@@ -436,7 +436,7 @@ __HEREDOC__;
     if ($j != 1) {
         $description = $mu_->search_blog($keyword);
     }
-    if (strpos($description, " ${j},") == false) {
+    if (strpos($description, " ${j},") === false) {
         $description = '<div class="' . $keyword . '">' . trim("${description} ${j},${record_count}") . '</div>';
         $mu_->post_blog_wordpress_async($keyword, $description);
     }
@@ -454,7 +454,7 @@ __HEREDOC__;
     if ($j != 1) {
         $description = $mu_->search_blog($keyword);
     }
-    if (strpos($description, " ${j},") == false) {
+    if (strpos($description, " ${j},") === false) {
         $description = '<div class="' . $keyword . '">' . trim("${description} ${j},${database_size}") . '</div>';
         $mu_->post_blog_wordpress_async($keyword, $description);
     }
@@ -921,7 +921,7 @@ function check_hidrive_usage($mu_, $file_name_blog_)
     if ($j != 1) {
         $description = $mu_->search_blog($keyword);
     }
-    if (strpos($description, " ${j},") == false) {
+    if (strpos($description, " ${j},") === false) {
         $description = '<div class="' . $keyword . '">' . trim($description . " ${j}," . $size) . '</div>';
         $mu_->post_blog_wordpress_async($keyword, $description);
     }
