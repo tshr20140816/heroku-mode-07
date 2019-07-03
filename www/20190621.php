@@ -89,7 +89,7 @@ function func_20190621($mu_, $file_name_blog_)
         }
     }
     
-    $title .= ' ' . $target['ObsrvtnTime'];
+    $title .= ' ' . $target['ObsrvtnName'] . ' ' . $target['ObsrvtnTime'];
     
     $annotations = [];
     
