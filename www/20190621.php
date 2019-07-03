@@ -69,7 +69,7 @@ function func_20190621($mu_, $file_name_blog_)
             ],
     ];
     
-    $url = 'https://typhoon.yahoo.co.jp/weather/river/3400110001/';
+    $url = $mu_->get_env('URL_RIVER_YAHOO_1');
     $res = $mu_->get_contents($url, $options);
     
     $rc = preg_match("/common.riverData = JSON.parse\('(.+)'/", $res, $match);
@@ -81,17 +81,25 @@ function func_20190621($mu_, $file_name_blog_)
     $json = json_decode($match[1], true);
     error_log(print_r($json, true));
 
-    $title .= ' ' . $json[0]['ObsrvtnTime'];
+    $target = null;
+    foreach ($json as $item) {
+        if ($item['ObsrvtnName'] == $mu_->get_env('RIVER_POINT_1')) {
+            $target = $item;
+            break;
+        }
+    }
+    
+    $title .= ' ' . $target['ObsrvtnTime'];
     
     $annotations = [];
     
     $annotations[] = ['type' => 'line',
                       'mode' => 'horizontal',
                       'scaleID' => 'y-axis-0',
-                      'value' => $json[0]['WaterValue'],
+                      'value' => $target['WaterValue'],
                       'borderColor' => 'rgba(0,0,0,0)',
                       'label' => ['enabled' => true,
-                                  'content' => $json[0]['WaterValue'],
+                                  'content' => $target['WaterValue'],
                                   'position' => 'center',
                                   'backgroundColor' => 'cyan',
                                   'fontColor' => 'black',
@@ -101,10 +109,10 @@ function func_20190621($mu_, $file_name_blog_)
     $annotations[] = ['type' => 'line',
                       'mode' => 'horizontal',
                       'scaleID' => 'y-axis-0',
-                      'value' => $json[0]['StageWarn'],
+                      'value' => $target['StageWarn'],
                       'borderColor' => 'rgba(0,0,0,0)',
                       'label' => ['enabled' => true,
-                                  'content' => $json[0]['StageWarn'],
+                                  'content' => $target['StageWarn'],
                                   'position' => 'left',
                                   'backgroundColor' => 'yellow',
                                   'fontColor' => 'black',
@@ -114,10 +122,10 @@ function func_20190621($mu_, $file_name_blog_)
     $annotations[] = ['type' => 'line',
                       'mode' => 'horizontal',
                       'scaleID' => 'y-axis-0',
-                      'value' => $json[0]['StageSpcl'],
+                      'value' => $target['StageSpcl'],
                       'borderColor' => 'rgba(0,0,0,0)',
                       'label' => ['enabled' => true,
-                                  'content' => $json[0]['StageSpcl'],
+                                  'content' => $target['StageSpcl'],
                                   'position' => 'center',
                                   'backgroundColor' => 'orange',
                                   'fontColor' => 'black',
@@ -127,10 +135,10 @@ function func_20190621($mu_, $file_name_blog_)
     $annotations[] = ['type' => 'line',
                       'mode' => 'horizontal',
                       'scaleID' => 'y-axis-0',
-                      'value' => $json[0]['StageDng'],
+                      'value' => $target['StageDng'],
                       'borderColor' => 'rgba(0,0,0,0)',
                       'label' => ['enabled' => true,
-                                  'content' => $json[0]['StageDng'],
+                                  'content' => $target['StageDng'],
                                   'position' => 'right',
                                   'backgroundColor' => 'red',
                                   'fontColor' => 'black',
@@ -138,28 +146,28 @@ function func_20190621($mu_, $file_name_blog_)
                      ];
     
     $data1 = [];
-    $data1[] = $json[0]['WaterValue'];
-    $data1[] = $json[0]['WaterValue'];
+    $data1[] = $target['WaterValue'];
+    $data1[] = $target['WaterValue'];
     
     $data2 = [];
-    $data2[] = $json[0]['WaterValue'] + 10.0;
-    $data2[] = $json[0]['WaterValue'] + 10.0;
+    $data2[] = $target['WaterValue'] + 10.0;
+    $data2[] = $target['WaterValue'] + 10.0;
     
     $data3 = [];
-    $data3[] = $json[0]['StageWarn'];
-    $data3[] = $json[0]['StageWarn'];
+    $data3[] = $target['StageWarn'];
+    $data3[] = $target['StageWarn'];
     
     $data4 = [];
-    $data4[] = $json[0]['StageSpcl'];
-    $data4[] = $json[0]['StageSpcl'];
+    $data4[] = $target['StageSpcl'];
+    $data4[] = $target['StageSpcl'];
     
     $data5 = [];
-    $data5[] = $json[0]['StageDng'];
-    $data5[] = $json[0]['StageDng'];
+    $data5[] = $target['StageDng'];
+    $data5[] = $target['StageDng'];
     
     $data6 = [];
-    $data6[] = $json[0]['StageDng'] + 10.0;
-    $data6[] = $json[0]['StageDng'] + 10.0;
+    $data6[] = $target['StageDng'] + 10.0;
+    $data6[] = $target['StageDng'] + 10.0;
     
     $datasets = [];
     $datasets[] = ['data' => $data1,
