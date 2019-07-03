@@ -81,7 +81,7 @@ function check_train($mu_)
     $rc = preg_match("/<div id='syosai_7'>(.+?)<!--#syosai_n-->/s", $res, $match);
     if ($rc == 1) {
         $rc = preg_match_all("/<div class='jisyo'>(.+?)<!-- \.jisyo-->/s", $match[1], $matches);
-        if ($rc == false) {
+        if ($rc === false) {
             $rc = 0;
         }
     }
