@@ -106,6 +106,21 @@ function func_20190621($mu_, $file_name_blog_)
                                  ],
                      ];
     
+    if ($target['StageGnl'] != '') {
+        $annotations[] = ['type' => 'line',
+                          'mode' => 'horizontal',
+                          'scaleID' => 'y-axis-0',
+                          'value' => $target['StageGnl'],
+                          'borderColor' => 'rgba(0,0,0,0)',
+                          'label' => ['enabled' => true,
+                                      'content' => $target['StageGnl'],
+                                      'position' => 'right',
+                                      'backgroundColor' => 'green',
+                                      'fontColor' => 'black',
+                                     ],
+                         ];
+    }
+    
     $annotations[] = ['type' => 'line',
                       'mode' => 'horizontal',
                       'scaleID' => 'y-axis-0',
@@ -154,20 +169,26 @@ function func_20190621($mu_, $file_name_blog_)
     $data2[] = $target['WaterValue'] + 10.0;
     
     $data3 = [];
-    $data3[] = $target['StageWarn'];
-    $data3[] = $target['StageWarn'];
+    if ($target['StageGnl'] != '') {
+        $data3[] = $target['StageGnl'];
+        $data3[] = $target['StageGnl'];
+    }
     
     $data4 = [];
-    $data4[] = $target['StageSpcl'];
-    $data4[] = $target['StageSpcl'];
+    $data4[] = $target['StageWarn'];
+    $data4[] = $target['StageWarn'];
     
     $data5 = [];
-    $data5[] = $target['StageDng'];
-    $data5[] = $target['StageDng'];
+    $data5[] = $target['StageSpcl'];
+    $data5[] = $target['StageSpcl'];
     
     $data6 = [];
-    $data6[] = $target['StageDng'] + 10.0;
-    $data6[] = $target['StageDng'] + 10.0;
+    $data6[] = $target['StageDng'];
+    $data6[] = $target['StageDng'];
+    
+    $data7 = [];
+    $data7[] = $target['StageDng'] + 10.0;
+    $data7[] = $target['StageDng'] + 10.0;
     
     $datasets = [];
     $datasets[] = ['data' => $data1,
@@ -188,7 +209,18 @@ function func_20190621($mu_, $file_name_blog_)
                    'pointRadius' => 0,
                    'yAxisID' => 'y-axis-1',
                   ];
-    $datasets[] = ['data' => $data3,
+    if (count($data3) > 0) {
+        $datasets[] = ['data' => $data3,
+                       'fill' => true,
+                       'pointStyle' => 'line',
+                       'backgroundColor' => 'green',
+                       'borderColor' => 'green',
+                       'borderWidth' => 1,
+                       'pointRadius' => 0,
+                       'yAxisID' => 'y-axis-1',
+                      ];
+    }
+    $datasets[] = ['data' => $data4,
                    'fill' => false,
                    'pointStyle' => 'line',
                    'backgroundColor' => 'yellow',
@@ -197,7 +229,7 @@ function func_20190621($mu_, $file_name_blog_)
                    'pointRadius' => 0,
                    'yAxisID' => 'y-axis-0',
                   ];
-    $datasets[] = ['data' => $data4,
+    $datasets[] = ['data' => $data5,
                    'fill' => false,
                    'pointStyle' => 'line',
                    'backgroundColor' => 'orange',
@@ -206,7 +238,7 @@ function func_20190621($mu_, $file_name_blog_)
                    'pointRadius' => 0,
                    'yAxisID' => 'y-axis-0',
                   ];
-    $datasets[] = ['data' => $data5,
+    $datasets[] = ['data' => $data6,
                    'fill' => false,
                    'pointStyle' => 'line',
                    'backgroundColor' => 'red',
@@ -215,7 +247,7 @@ function func_20190621($mu_, $file_name_blog_)
                    'pointRadius' => 0,
                    'yAxisID' => 'y-axis-0',
                   ];
-    $datasets[] = ['data' => $data6,
+    $datasets[] = ['data' => $data7,
                    'fill' => false,
                    'pointStyle' => 'line',
                    'backgroundColor' => 'blue',
