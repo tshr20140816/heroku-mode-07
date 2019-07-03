@@ -69,7 +69,7 @@ function func_20190621($mu_, $file_name_blog_)
             ],
     ];
     
-    $url = $mu_->get_env('URL_RIVER_YAHOO_2');
+    $url = $mu_->get_env('URL_RIVER_YAHOO_1');
     $res = $mu_->get_contents($url, $options);
     
     $rc = preg_match("/common.riverData = JSON.parse\('(.+)'/", $res, $match);
@@ -83,7 +83,7 @@ function func_20190621($mu_, $file_name_blog_)
 
     $target = null;
     foreach ($json as $item) {
-        if ($item['ObsrvtnName'] == $mu_->get_env('RIVER_POINT_2')) {
+        if ($item['ObsrvtnName'] == $mu_->get_env('RIVER_POINT_1')) {
             $target = $item;
             break;
         }
