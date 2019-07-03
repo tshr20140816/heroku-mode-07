@@ -86,7 +86,7 @@ function func_20190621($mu_, $file_name_blog_)
             $tmp = trim(strip_tags($item));
             $tmp = preg_replace('/\t+/', '', $tmp);
             $tmp = mb_convert_kana($tmp, 'as');
-            if (strpos($tmp, '【芸備線】 西日本豪雨に伴う 運転見合わせ') == false) {
+            if (strpos($tmp, '【芸備線】 西日本豪雨に伴う 運転見合わせ') === false) {
                 error_log($tmp);
             } else {
                 error_log('HIT');
