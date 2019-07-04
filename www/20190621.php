@@ -65,11 +65,17 @@ function func_20190621($mu_, $file_name_blog_)
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
-        CURLOPT_HEADER => true,
         CURLOPT_CUSTOMREQUEST => 'PROPFIND',
         CURLOPT_HTTPHEADER => ['Depth: 1',],
     ];
     
     $res = $mu_->get_contents($url, $options);
-    error_log($res);
+    // error_log($res);
+    
+    $dom = DOMDocument::loadXML($res);
+    
+    foreach($dom->getElementsByTagName('D:response') as $item) {
+        error_log(print_r($item, true));
+    }
+    
 }
