@@ -56,6 +56,32 @@ function func_20190621b($mu_, $file_name_blog_)
 function func_20190621($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
+    $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
+
+    $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/";
+    
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
+        CURLOPT_CUSTOMREQUEST => 'PROPFIND',
+        CURLOPT_HTTPHEADER => ['Depth: 1',],
+    ];
+    
+    $res = $mu_->get_contents($url, $options);
+    
+    $files = [];
+    foreach (explode('</D:response>', $res) as $item) {
+        $rc = preg_match('/<D:href>(.+?)<.+?<lp1:creationdate>(.+?)<.+?<lp1:getcontentlength>/s', $item, $match);
+        if ($rc === 1) {
+            if (strtotime($match[2]) > strtotime('-20 hours')) {
+                error_log(print_r($match, true));
+                $files = $match[0];
+            }
+            // error_log(date('Y/m/d H:i:s', strtotime($match[2])));
+        }
+    }
 
     $user_cloudapp = $mu_->get_env('CLOUDAPP_USER', true);
     $password_cloudapp = $mu_->get_env('CLOUDAPP_PASSWORD', true);
@@ -76,7 +102,7 @@ function func_20190621($mu_, $file_name_blog_)
             break;
         }
         foreach ($json as $item) {
-            if ($item->file_name == $base_name) {
+            if ($item->file_name == pathinfo($files[0])['basename']) {
                 $url_target = $item->href;
                 break 2;
             }
@@ -84,29 +110,5 @@ function func_20190621($mu_, $file_name_blog_)
     }
     error_log($log_prefix . $url_target);
     return;
-    
-    $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
-    $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
-
-    $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/";
-    
-    $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-        CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
-        CURLOPT_CUSTOMREQUEST => 'PROPFIND',
-        CURLOPT_HTTPHEADER => ['Depth: 1',],
-    ];
-    
-    $res = $mu_->get_contents($url, $options);
-    
-    foreach (explode('</D:response>', $res) as $item) {
-        $rc = preg_match('/<D:href>(.+?)<.+?<lp1:creationdate>(.+?)<.+?<lp1:getcontentlength>/s', $item, $match);
-        if ($rc === 1) {
-            if (strtotime($match[2]) > strtotime('-20 hours')) {
-                error_log(print_r($match, true));
-            }
-            // error_log(date('Y/m/d H:i:s', strtotime($match[2])));
-        }
-    }
     
 }
