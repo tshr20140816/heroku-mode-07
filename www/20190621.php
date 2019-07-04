@@ -123,27 +123,29 @@ __HEREDOC__;
             break;
         }
     }
-    
-    $url_target = '';
-    $page = 0;
-    for (;;) {
-        $page++;
-        $url = 'http://my.cl.ly/items?per_page=100&page=' . $page;
-        $res = $mu_->get_contents($url, null, true);
-        $json = json_decode($res);
-        // error_log(print_r($json, true));
-        if (count($json) === 0) {
-            break;
-        }
-        foreach ($json as $item) {
-            if ($item->file_name == pathinfo($files[0])['basename']) {
-                $url_target = $item->href;
-                break 2;
+
+    foreach ($files as $file) {
+        $url_target = '';
+        $page = 0;
+        for (;;) {
+            $page++;
+            $url = 'http://my.cl.ly/items?per_page=100&page=' . $page;
+            $res = $mu_->get_contents($url, null, true);
+            $json = json_decode($res);
+            // error_log(print_r($json, true));
+            if (count($json) === 0) {
+                break;
+            }
+            foreach ($json as $item) {
+                if ($item->file_name == pathinfo($file)['basename']) {
+                    $url_target = $item->href;
+                    break 2;
+                }
             }
         }
+        error_log($log_prefix . $file . ' ' . $url_target);
     }
     
-    error_log($log_prefix . $url_target);
     return;
     
 }
