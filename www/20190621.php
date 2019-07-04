@@ -124,8 +124,16 @@ __HEREDOC__;
         }
     }
 
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+        CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
+        CURLOPT_HTTPHEADER => ['Accept: application/json',],
+        CURLOPT_CUSTOMREQUEST => 'DELETE',
+        CURLOPT_HEADER => true,
+    ];
+    
+    $urls = [];
     foreach ($files as $file) {
-        $url_target = '';
         $page = 0;
         for (;;) {
             $page++;
@@ -138,12 +146,64 @@ __HEREDOC__;
             }
             foreach ($json as $item) {
                 if ($item->file_name == pathinfo($file)['basename']) {
-                    $url_target = $item->href;
-                    break 2;
+                    $urls[$item->href] = $options;
                 }
             }
         }
-        error_log($log_prefix . $file . ' ' . $url_target);
+    }
+    
+    $res = $mu_->get_contents_multi($urls);
+    error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
+    error_log($log_prefix . print_r($res, true));
+    $res = null;
+    
+    foreach ($files as $file) {
+        $base_name = pathinfo($file)['basename'];
+        $url = "https://webdav.hidrive.strato.com/users/${user}/${base_name}";
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+            CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
+            CURLOPT_CUSTOMREQUEST => 'GET',
+        ];
+        $res = $mu->get_contents($url, $options);
+        @unlink("/tmp/${base_name}");
+        file_put_contents("/tmp/${base_name}", $res);
+        
+        $url = 'http://my.cl.ly/items/new';
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+            CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
+            CURLOPT_HTTPHEADER => ['Accept: application/json',],
+        ];
+        $res = $mu_->get_contents($url, $options);
+        $json = json_decode($res);
+
+        $post_data = [
+            'AWSAccessKeyId' => $json->params->AWSAccessKeyId,
+            'key' => $json->params->key,
+            'policy' => $json->params->policy,
+            'signature' => $json->params->signature,
+            'success_action_redirect' => $json->params->success_action_redirect,
+            'acl' => $json->params->acl,
+            'file' => new CURLFile("/tmp/${base_name}", 'text/plain', $base_name),
+        ];
+        $options = [
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $post_data,
+            CURLOPT_HEADER => true,
+            CURLOPT_FOLLOWLOCATION => false,
+        ];
+        $res = $mu_->get_contents($json->url, $options);
+        $rc = preg_match('/Location: (.+)/i', $res, $match);
+
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+            CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
+            CURLOPT_HTTPHEADER => ['Accept: application/json',],
+            CURLOPT_HEADER => true,
+        ];
+        $res = $mu_->get_contents(trim($match[1]), $options);
+        unlink("/tmp/${base_name}");
     }
     
     return;
