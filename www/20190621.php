@@ -77,7 +77,7 @@ function func_20190621($mu_, $file_name_blog_)
         if ($rc === 1) {
             if (strtotime($match[2]) > strtotime('-20 hours')) {
                 error_log(print_r($match, true));
-                $files[] = $match[0];
+                $files[] = $match[1];
             }
             // error_log(date('Y/m/d H:i:s', strtotime($match[2])));
         }
