@@ -72,7 +72,7 @@ function func_20190621($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, $options);
     
     foreach (explode('</D:response>', $res) as $item) {
-        $rc = preg_match('/<D:href>(.+?)<.+?<lp1:getcontentlength>.+?<lp1:creationdate>(.+?)</s', $item, $match);
+        $rc = preg_match('/<D:href>(.+?)<.+?<lp1:creationdate>(.+?)<.+?<lp1:getcontentlength>/s', $item, $match);
         if ($rc === 1) {
             if (strtotime($match[2]) > strtotime('-20 hours')) {
                 error_log(print_r($match, true));
