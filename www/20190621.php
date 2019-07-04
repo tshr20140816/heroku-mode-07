@@ -159,13 +159,13 @@ __HEREDOC__;
     
     foreach ($files as $file) {
         $base_name = pathinfo($file)['basename'];
-        $url = "https://webdav.hidrive.strato.com/users/${user}/${base_name}";
+        $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
             CURLOPT_CUSTOMREQUEST => 'GET',
         ];
-        $res = $mu->get_contents($url, $options);
+        $res = $mu_->get_contents($url, $options);
         @unlink("/tmp/${base_name}");
         file_put_contents("/tmp/${base_name}", $res);
         
