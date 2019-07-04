@@ -1045,9 +1045,11 @@ __HEREDOC__;
         $user_4shared = $this->get_env('4SHARED_USER', true);
         $password_4shared = $this->get_env('4SHARED_PASSWORD', true);
 
+        /*
         $user_cloudapp = $this->get_env('CLOUDAPP_USER', true);
         $password_cloudapp = $this->get_env('CLOUDAPP_PASSWORD', true);
-
+        */
+        
         $authtoken_zoho = $this->get_env('ZOHO_AUTHTOKEN', true);
 
         $res = bzcompress($data_, 9);
@@ -1064,6 +1066,7 @@ __HEREDOC__;
 
         // CloudApp
 
+        /*
         $url_target = '';
         $page = 0;
         for (;;) {
@@ -1099,6 +1102,7 @@ __HEREDOC__;
             ];
             $urls[$url_target] = $options;
         }
+        */
 
         // Zoho
 
@@ -1421,10 +1425,13 @@ __HEREDOC__;
         unlink($file_name_);
         */
 
+        /*
         error_log($log_prefix . 'start exec');
         exec('php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ../scripts/backup_cloudapp.php ' .
              $file_name_ . ' >/dev/null &');
         error_log($log_prefix . 'finish exec');
+        */
+        unlink($file_name_);
 
         return $file_size;
     }
