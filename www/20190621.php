@@ -57,40 +57,19 @@ function func_20190621($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
+    $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
+
+    $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/";
+    
     $options = [
-        CURLOPT_ENCODING => 'gzip, deflate, br',
-        CURLOPT_HTTPHEADER => [
-            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
-            'Cache-Control: no-cache',
-            'Connection: keep-alive',
-            'DNT: 1',
-            'Upgrade-Insecure-Requests: 1',
-            ],
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
+        CURLOPT_HEADER => true,
+        CURLOPT_CUSTOMREQUEST => 'PROPFIND',
+        CURLOPT_HTTPHEADER => ['Depth: 1',],
     ];
     
-    $url = 'https://trafficinfo.westjr.co.jp/chugoku.html';
     $res = $mu_->get_contents($url, $options);
-    $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
-
-    $rc = preg_match("/<div id='syosai_7'>(.+?)<!--#syosai_n-->/s", $res, $match);
-    if ($rc == 1) {
-        $rc = preg_match_all("/<div class='jisyo'>(.+?)<!-- \.jisyo-->/s", $match[1], $matches);
-        if ($rc == false) {
-            $rc = 0;
-        }
-    }
-
-    if ($rc > 0) {
-        foreach ($matches[1] as $item) {
-            $tmp = trim(strip_tags($item));
-            $tmp = preg_replace('/\t+/', '', $tmp);
-            $tmp = mb_convert_kana($tmp, 'as');
-            if (strpos($tmp, '【芸備線】 西日本豪雨に伴う 運転見合わせ') === false) {
-                error_log($tmp);
-            } else {
-                error_log('HIT');
-            }
-        }
-    }
+    error_log($res);
 }
