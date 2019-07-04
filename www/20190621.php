@@ -83,6 +83,8 @@ function func_20190621($mu_, $file_name_blog_)
         }
     }
 
+    error_log(pathinfo($files[0])['basename']);
+    
     $user_cloudapp = $mu_->get_env('CLOUDAPP_USER', true);
     $password_cloudapp = $mu_->get_env('CLOUDAPP_PASSWORD', true);
     
@@ -98,6 +100,7 @@ function func_20190621($mu_, $file_name_blog_)
         ];
         $res = $mu_->get_contents($url, $options);
         $json = json_decode($res);
+        error_log(print_r($json));
         if (count($json) === 0) {
             break;
         }
