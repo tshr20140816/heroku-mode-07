@@ -73,6 +73,6 @@ function func_20190621($mu_, $file_name_blog_)
     // error_log($res);
     
     $xml = simplexml_load_string($res);
-    error_log(print_r($res, true));
+    error_log(print_r($xml, true));
     
 }
