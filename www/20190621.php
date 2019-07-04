@@ -72,9 +72,10 @@ function func_20190621($mu_, $file_name_blog_)
     $res = $mu_->get_contents($url, $options);
     // error_log($res);
     
-    $dom = DOMDocument::loadXML($res);
+    $doc = new DOMDocument();
+    $doc->loadXML($res);
     
-    foreach($dom->getElementsByTagName('D:response') as $item) {
+    foreach($doc->getElementsByTagName('D:response') as $item) {
         error_log(print_r($item, true));
     }
     
