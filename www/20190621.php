@@ -91,7 +91,7 @@ DELETE
  WHERE url_base64 = :b_url_base64
 __HEREDOC__;
 
-    $pdo = $mu->get_pdo();
+    $pdo = $mu_->get_pdo();
     $statement_delete = $pdo->prepare($sql_delete);
     for ($i = 0; $i < 10; $i++) {
         $url = 'http://my.cl.ly/items?per_page=100&page=' . ($i + 1);
