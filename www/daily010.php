@@ -8,6 +8,7 @@ daily010
     → get_youtube_play_count
       → get_results_batting
         → make_graph
+          → backup_cloudapp
 */
 include(dirname(__FILE__) . '/../classes/MyUtils.php');
 
