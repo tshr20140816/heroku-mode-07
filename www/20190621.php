@@ -57,6 +57,34 @@ function func_20190621($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $user_cloudapp = $mu_->get_env('CLOUDAPP_USER', true);
+    $password_cloudapp = $mu_->get_env('CLOUDAPP_PASSWORD', true);
+    
+    $url_target = '';
+    $page = 0;
+    for (;;) {
+        $page++;
+        $url = 'http://my.cl.ly/items?per_page=100&page=' . $page;
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+            CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
+            CURLOPT_HTTPHEADER => ['Accept: application/json',],
+        ];
+        $res = $mu_->get_contents($url, $options);
+        $json = json_decode($res);
+        if (count($json) === 0) {
+            break;
+        }
+        foreach ($json as $item) {
+            if ($item->file_name == $base_name) {
+                $url_target = $item->href;
+                break 2;
+            }
+        }
+    }
+    error_log($log_prefix . $url_target);
+    return;
+    
     $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
     $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
 
