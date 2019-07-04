@@ -50,6 +50,9 @@ foreach ($url_length as $method_name => $length) {
     $description .= "${method_name} : " . number_format($length) . "\n";
 }
 
+$url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/backup_cloudapp.php';
+exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
+
 $time_finish = microtime(true);
 $mu->post_blog_wordpress(
     "${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]',
