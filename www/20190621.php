@@ -100,7 +100,7 @@ function func_20190621($mu_, $file_name_blog_)
         ];
         $res = $mu_->get_contents($url, $options);
         $json = json_decode($res);
-        error_log(print_r($json));
+        error_log(print_r($json, true));
         if (count($json) === 0) {
             break;
         }
