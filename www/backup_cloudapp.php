@@ -9,10 +9,10 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-backup_cloudapp($mu);
+$description = backup_cloudapp($mu);
 
 $time_finish = microtime(true);
-$mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]');
+$mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]', $description);
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
@@ -72,6 +72,8 @@ __HEREDOC__;
         CURLOPT_HTTPHEADER => ['Accept: application/json',],
     ];
 
+    $size = 0;
+    $view_counter = 0;
     $page = 0;
     for (;;) {
         $page++;
@@ -80,6 +82,10 @@ __HEREDOC__;
         $json = json_decode($res);
         if (count($json) === 0) {
             break;
+        }
+        foreach ($json as $item) {
+            $size += $item->content_length;
+            $view_counter += $item->view_counter;
         }
     }
 
@@ -163,4 +169,6 @@ __HEREDOC__;
         $res = $mu_->get_contents(trim($match[1]), $options);
         unlink("/tmp/${base_name}");
     }
+    
+    return "CloudApp usage : ${size}Byte ${view_counter}View";
 }
