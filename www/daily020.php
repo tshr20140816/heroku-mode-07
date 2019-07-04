@@ -68,7 +68,7 @@ check_cloudme_usage($mu, $file_name_blog);
 check_4shared_usage($mu, $file_name_blog);
 
 // CloudApp usage
-check_cloudapp_usage($mu, $file_name_blog);
+// check_cloudapp_usage($mu, $file_name_blog);
 
 // Zoho usage
 check_zoho_usage($mu, $file_name_blog);
