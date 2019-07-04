@@ -74,8 +74,10 @@ function func_20190621($mu_, $file_name_blog_)
     foreach (explode('</D:response>', $res) as $item) {
         $rc = preg_match('/<D:href>(.+?)<.+?<lp1:creationdate>(.+?)</s', $item, $match);
         if ($rc === 1) {
-            error_log(print_r($match, true));
-            error_log(date('Y/m/d H:i:s', strtotime($match[2])));
+            if (strtotime($match[2])) > strtotime('-20 hours')) {
+                error_log(print_r($match, true));
+            }
+            // error_log(date('Y/m/d H:i:s', strtotime($match[2])));
         }
     }
     
