@@ -70,9 +70,12 @@ function func_20190621($mu_, $file_name_blog_)
     ];
     
     $res = $mu_->get_contents($url, $options);
-    // error_log($res);
     
-    $xml = simplexml_load_string($res);
-    error_log(print_r($xml, true));
+    foreach (explode('</D:response>', $res) as $item) {
+        $rc = preg_match('/<D:href>(.+?)<.+?<lp1:creationdate>(.+?)</s', $item, $match);
+        if ($rc === 1) {
+            error_log(print_r($match, true));
+        }
+    }
     
 }
