@@ -85,6 +85,25 @@ function func_20190621($mu_, $file_name_blog_)
 
     error_log(pathinfo($files[0])['basename']);
     
+    $sql_delete = <<< __HEREDOC__
+DELETE
+  FROM t_webcache
+ WHERE url_base64 = :b_url_base64
+__HEREDOC__;
+
+    $pdo = $mu->get_pdo();
+    $statement_delete = $pdo->prepare($sql_delete);
+    for ($i = 0; $ < 10; $i++) {
+        $url = 'http://my.cl.ly/items?per_page=100&page=' . ($i + 1);
+        $rc = $statement_delete->execute([':b_url_base64' => base64_encode($url),
+                                         ]);
+        error_log($log_prefix . ($i + 1) . ' ' . $rc);
+        if ($rc === false) {
+            break;
+        }
+    }
+    $pdo = null;
+    
     $user_cloudapp = $mu_->get_env('CLOUDAPP_USER', true);
     $password_cloudapp = $mu_->get_env('CLOUDAPP_PASSWORD', true);
     
@@ -98,7 +117,7 @@ function func_20190621($mu_, $file_name_blog_)
             CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
             CURLOPT_HTTPHEADER => ['Accept: application/json',],
         ];
-        $res = $mu_->get_contents($url, $options);
+        $res = $mu_->get_contents($url, $options, true);
         $json = json_decode($res);
         // error_log(print_r($json, true));
         if (count($json) === 0) {
