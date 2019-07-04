@@ -93,7 +93,7 @@ __HEREDOC__;
 
     $pdo = $mu->get_pdo();
     $statement_delete = $pdo->prepare($sql_delete);
-    for ($i = 0; $ < 10; $i++) {
+    for ($i = 0; $i < 10; $i++) {
         $url = 'http://my.cl.ly/items?per_page=100&page=' . ($i + 1);
         $rc = $statement_delete->execute([':b_url_base64' => base64_encode($url),
                                          ]);
