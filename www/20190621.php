@@ -107,17 +107,29 @@ __HEREDOC__;
     $user_cloudapp = $mu_->get_env('CLOUDAPP_USER', true);
     $password_cloudapp = $mu_->get_env('CLOUDAPP_PASSWORD', true);
     
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+        CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
+        CURLOPT_HTTPHEADER => ['Accept: application/json',],
+    ];
+    
+    $page = 0;
+    for (;;) {
+        $page++;
+        $url = 'http://my.cl.ly/items?per_page=100&page=' . $page;
+        $res = $mu_->get_contents($url, $options, true);
+        $json = json_decode($res);
+        if (count($json) === 0) {
+            break;
+        }
+    }
+    
     $url_target = '';
     $page = 0;
     for (;;) {
         $page++;
         $url = 'http://my.cl.ly/items?per_page=100&page=' . $page;
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-            CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
-            CURLOPT_HTTPHEADER => ['Accept: application/json',],
-        ];
-        $res = $mu_->get_contents($url, $options, true);
+        $res = $mu_->get_contents($url, null, true);
         $json = json_decode($res);
         // error_log(print_r($json, true));
         if (count($json) === 0) {
@@ -130,6 +142,7 @@ __HEREDOC__;
             }
         }
     }
+    
     error_log($log_prefix . $url_target);
     return;
     
