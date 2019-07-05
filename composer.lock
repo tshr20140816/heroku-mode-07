@@ -1578,7 +1578,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.3.6",
+        "php": ">=7.3.7",
         "ext-mbstring": "*",
         "ext-gd": "*",
         "ext-apcu": "*",
