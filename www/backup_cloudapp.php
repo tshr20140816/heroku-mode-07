@@ -170,5 +170,6 @@ __HEREDOC__;
         unlink("/tmp/${base_name}");
     }
     
+    $size = number_format($size);
     return "CloudApp usage : ${size}Byte ${view_counter}View";
 }
