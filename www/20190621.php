@@ -32,7 +32,7 @@ function func_20190621c($mu_)
     $rc = preg_match('/<div class="time-wrap">(.+?)<\/div>/s', $res, $match);
     
     // error_log(print_r($match, true));
-    error_log(trim(strip_tags($match[1])));
+    error_log(trim(str_replace("\r\n", '', strip_tags($match[1]))));
     
     $rc = preg_match('/.+<div class="table-header">.*?<h4><i class="i tv"><\/i>テレビで視聴する<\/h4>(.+?)<div class="table-header">/s', $res, $match);
     // error_log(print_r($match, true));
