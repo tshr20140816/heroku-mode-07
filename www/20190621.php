@@ -36,7 +36,7 @@ function func_20190621c($mu_)
     $dt = strtotime(str_replace('.', '/', $match[1]) . ' ' . $match[2]);
     error_log(date('Y/m/d H:i', $dt));
     
-    if (date('Ymd', $dt) != date('Ymd', '+9 hours')) {
+    if (date('Ymd', $dt) != date('Ymd', strtotime('+9 hours'))) {
         return;
     }
     
