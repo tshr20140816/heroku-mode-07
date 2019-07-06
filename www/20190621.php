@@ -29,6 +29,10 @@ function func_20190621c($mu_)
     $res = $mu_->get_contents($url);
     // error_log($res);
     
+    $rc = preg_match('/<div class="time-wrap">(.+?)<\/div>/s', $res, $match);
+    
+    error_log(print_r($match, true));
+    
     $rc = preg_match('/.+<div class="table-header">.*?<h4><i class="i tv"><\/i>テレビで視聴する<\/h4>(.+?)<div class="table-header">/s', $res, $match);
     // error_log(print_r($match, true));
     
