@@ -38,7 +38,11 @@ function func_20190621c($mu_)
     // error_log(print_r($match, true));
     
     foreach (explode('<div class="table-list">', $match[1]) as $item) {
-        error_log(trim(preg_replace("/(\n| )+/s", ' ', strip_tags($item))));
+        // error_log(trim(preg_replace("/(\n| )+/s", ' ', strip_tags($item))));
+        $tmp = trim(preg_replace("/(\n| )+/s", ' ', strip_tags($item)));
+        $tmp = str_replace('~', '', $tmp);
+        $tmp = trim(str_replace('LIVE', '', $tmp));
+        error_log($tmp);
     }
 }
 
