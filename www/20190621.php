@@ -22,7 +22,7 @@ function func_20190621c($mu_)
     $res = $mu_->get_contents($url);
     // error_log($res);
     
-    $rc = preg_match_all('/<a href="\/games\/(.+?)">/', $res, $matches)
+    $rc = preg_match_all('/<a href="\/games\/(.+?)">/', $res, $matches);
     error_log(print_r($matches, true));
 }
 
