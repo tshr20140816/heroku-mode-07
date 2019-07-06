@@ -32,7 +32,13 @@ function func_20190621c($mu_)
     $rc = preg_match('/<div class="time-wrap">.*?<.+?>(.+?)<.+?>.*?<.+?>(.+?)</s', $res, $match);
     
     error_log(print_r($match, true));
-    error_log(date('Y/m/d H:i', strtotime(str_replace('.', '/',  $match[1]) . ' ' . $match[2])));
+    
+    $dt = strtotime(str_replace('.', '/',  $match[1]) . ' ' . $match[2]));
+    error_log(date('Y/m/d H:i', $dt));
+    
+    if (date('Ymd', $dt) != date('Ymd', '+9 hours')) {
+        return;
+    }
     
     $rc = preg_match('/.+<div class="table-header">.*?<h4><i class="i tv"><\/i>テレビで視聴する<\/h4>(.+?)<div class="table-header">/s', $res, $match);
     // error_log(print_r($match, true));
