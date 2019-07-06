@@ -54,7 +54,7 @@ function func_20190621c($mu_)
             $tv .= ' ' . $tmp;
         }
     }
-    error_log(date('m/d H:i') . $tv);
+    error_log(date('m/d H:i', $dt) . $tv);
 }
 
 function func_20190621b($mu_, $file_name_blog_)
