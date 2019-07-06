@@ -42,7 +42,9 @@ function func_20190621c($mu_)
         $tmp = trim(preg_replace("/(\n| )+/s", ' ', strip_tags($item)));
         $tmp = str_replace('~', '', $tmp);
         $tmp = trim(str_replace('LIVE', '', $tmp));
-        error_log($tmp);
+        if (strlen($tmp) > 0) { 
+            error_log($tmp);
+        }
     }
 }
 
