@@ -188,6 +188,7 @@ $list_get_task = [get_task_highway($mu, $file_name_blog),
                   get_task_bus($mu, $file_name_blog),
                   get_task_f1($mu, $file_name_blog),
                   get_task_amefootlive($mu, $file_name_blog),
+                  get_task_tv($mu, $file_name_blog),
                  ];
 foreach ($list_get_task as $list_add_task_tmp) {
     $list_duplicate_task_keys = array_intersect(array_keys($list_add_task_tmp), array_keys($list_delete_task));
@@ -430,26 +431,24 @@ function get_task_tv($mu_, $file_name_blog_)
     $dt = strtotime(str_replace('.', '/', $match[1]) . ' ' . $match[2]);
     error_log($log_prefix . date('Y/m/d H:i', $dt));
     
-    if (date('Ymd', $dt) != date('Ymd', strtotime('+9 hours'))) {
-        return [];
-    }
-    
-    $rc = preg_match('/.+<div class="table-header">.*?<h4><i class="i tv"><\/i>テレビで視聴する<\/h4>(.+?)<div class="table-header">/s', $res, $match);
-    
-    $tv = '';
-    foreach (explode('<div class="table-list">', $match[1]) as $item) {
-        // error_log(trim(preg_replace("/(\n| )+/s", ' ', strip_tags($item))));
-        $tmp = trim(preg_replace("/(\n| )+/s", ' ', strip_tags($item)));
-        $tmp = str_replace('~', '', $tmp);
-        $tmp = trim(str_replace('LIVE', '', $tmp));
-        if (strlen($tmp) > 0) { 
-            // error_log($tmp);
-            $tv .= ' ' . $tmp;
+    if (date('Ymd', $dt) == date('Ymd', strtotime('+9 hours'))) {
+        $rc = preg_match(
+            '/.+<div class="table-header">.*?<h4><i class="i tv"><\/i>テレビで視聴する<\/h4>(.+?)<div class="table-header">/s',
+            $res, $match);
+
+        $title = '';
+        foreach (explode('<div class="table-list">', $match[1]) as $item) {
+            $tmp = trim(preg_replace("/(\n| )+/s", ' ', strip_tags($item)));
+            $tmp = str_replace('~', '', $tmp);
+            $tmp = trim(str_replace('LIVE', '', $tmp));
+            if (strlen($tmp) > 0) { 
+                $title .= ' ' . $tmp;
+            }
         }
+        $tmp = str_replace('__TITLE__', date('m/d H:i', $dt) . ' TV' . $title, $add_task_template);
+        $tmp = str_replace('__DUEDATE__', strtotime('+9 hours'), $tmp);
+        $list_add_task[] = str_replace('__CONTEXT__', $list_context_id[date('w', strtotime('+9 hours'))], $tmp);
     }
-    $tmp = str_replace('__TITLE__', $tv, $add_task_template);
-    $tmp = str_replace('__DUEDATE__', strtotime('+9 hours'), $tmp);
-    $list_add_task[] = str_replace('__CONTEXT__', $list_context_id[date('w', $timestamp)], $tmp);
 
     $count_task = count($list_add_task);
     file_put_contents($file_name_blog_, "tv Task Add : ${count_task}\n", FILE_APPEND);
