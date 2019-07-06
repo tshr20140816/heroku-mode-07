@@ -27,7 +27,10 @@ function func_20190621c($mu_)
     
     $url = 'https://spocale.com/games/' . $matches[1][0];
     $res = $mu_->get_contents($url);
-    error_log($res);
+    // error_log($res);
+    
+    $rc = preg_match('/.+<div class="table-header">.*?<h4><i class="i tv"><\/i>テレビで視聴する<\/h4>(.+?)<div class="table-header">/s', $res, $match);
+    error_log(print_r($match, true));
 }
 
 function func_20190621b($mu_, $file_name_blog_)
