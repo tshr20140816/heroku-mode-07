@@ -25,7 +25,7 @@ function func_20190621c($mu_)
     $rc = preg_match_all('/<a href="\/games\/(.+?)">/', $res, $matches);
     error_log(print_r($matches, true));
     
-    $url = 'https://spocale.com/games/' . $matches[1][0]:
+    $url = 'https://spocale.com/games/' . $matches[1][0];
     $res = $mu_->get_contents($url);
     error_log($res);
 }
