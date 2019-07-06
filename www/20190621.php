@@ -38,7 +38,7 @@ function func_20190621c($mu_)
     // error_log(print_r($match, true));
     
     foreach (explode('<div class="table-list">', $match[1]) as $item) {
-        error_log($item);
+        error_log(trim(strip_tags($item)));
     }
 }
 
