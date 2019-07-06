@@ -33,7 +33,7 @@ function func_20190621c($mu_)
     
     error_log(print_r($match, true));
     
-    $dt = strtotime(str_replace('.', '/',  $match[1]) . ' ' . $match[2]));
+    $dt = strtotime(str_replace('.', '/', $match[1]) . ' ' . $match[2]));
     error_log(date('Y/m/d H:i', $dt));
     
     if (date('Ymd', $dt) != date('Ymd', '+9 hours')) {
@@ -43,15 +43,18 @@ function func_20190621c($mu_)
     $rc = preg_match('/.+<div class="table-header">.*?<h4><i class="i tv"><\/i>テレビで視聴する<\/h4>(.+?)<div class="table-header">/s', $res, $match);
     // error_log(print_r($match, true));
     
+    $tv = '';
     foreach (explode('<div class="table-list">', $match[1]) as $item) {
         // error_log(trim(preg_replace("/(\n| )+/s", ' ', strip_tags($item))));
         $tmp = trim(preg_replace("/(\n| )+/s", ' ', strip_tags($item)));
         $tmp = str_replace('~', '', $tmp);
         $tmp = trim(str_replace('LIVE', '', $tmp));
         if (strlen($tmp) > 0) { 
-            error_log($tmp);
+            // error_log($tmp);
+            $tv .= ' ' . $tmp;
         }
     }
+    error_log(date('m/d H:i') . $tv);
 }
 
 function func_20190621b($mu_, $file_name_blog_)
