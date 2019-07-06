@@ -14,6 +14,7 @@ HIGHWAY
 CARP
 BUS
 AMEFOOT
+TV
 */
 include(dirname(__FILE__) . '/../classes/MyUtils.php');
 
@@ -156,6 +157,7 @@ foreach ($tasks as $task) {
             || $task['tag'] == 'HIGHWAY'
             || $task['tag'] == 'BUS'
             || $task['tag'] == 'F1'
+            || $task['tag'] == 'TV'
             || $task['tag'] == 'AMEFOOT') {
             $hash = date('Ymd', $task['duedate']) . hash('sha512', $task['title']);
             $list_delete_task[$hash] = $task['id'];
@@ -402,6 +404,57 @@ function get_sun($mu_)
 
     error_log($log_prefix . '$list_sunrise_sunset : ' . print_r($list_sunrise_sunset, true));
     return $list_sunrise_sunset;
+}
+
+function get_task_tv($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    // Get Folders
+    $folder_id_private = $mu_->get_folder_id('PRIVATE');
+    // Get Contexts
+    $list_context_id = $mu_->get_contexts();
+
+    $list_add_task = [];
+    $add_task_template = '{"title":"__TITLE__","duedate":"__DUEDATE__","context":"__CONTEXT__","tag":"TV","folder":"'
+      . $folder_id_private . '"}';
+
+    $url = 'https://spocale.com/team_and_players/12';
+    $res = $mu_->get_contents($url, null, true);
+    $rc = preg_match_all('/<a href="\/games\/(.+?)">/', $res, $matches);
+
+    $url = 'https://spocale.com/games/' . $matches[1][0];
+    $res = $mu_->get_contents($url, null, true);
+    $rc = preg_match('/<div class="time-wrap">.*?<.+?>(.+?)<.+?>.*?<.+?>(.+?)</s', $res, $match);
+    
+    $dt = strtotime(str_replace('.', '/', $match[1]) . ' ' . $match[2]);
+    error_log($log_prefix . date('Y/m/d H:i', $dt));
+    
+    if (date('Ymd', $dt) != date('Ymd', strtotime('+9 hours'))) {
+        return [];
+    }
+    
+    $rc = preg_match('/.+<div class="table-header">.*?<h4><i class="i tv"><\/i>テレビで視聴する<\/h4>(.+?)<div class="table-header">/s', $res, $match);
+    
+    $tv = '';
+    foreach (explode('<div class="table-list">', $match[1]) as $item) {
+        // error_log(trim(preg_replace("/(\n| )+/s", ' ', strip_tags($item))));
+        $tmp = trim(preg_replace("/(\n| )+/s", ' ', strip_tags($item)));
+        $tmp = str_replace('~', '', $tmp);
+        $tmp = trim(str_replace('LIVE', '', $tmp));
+        if (strlen($tmp) > 0) { 
+            // error_log($tmp);
+            $tv .= ' ' . $tmp;
+        }
+    }
+    $tmp = str_replace('__TITLE__', $tv, $add_task_template);
+    $tmp = str_replace('__DUEDATE__', strtotime('+9 hours'), $tmp);
+    $list_add_task[] = str_replace('__CONTEXT__', $list_context_id[date('w', $timestamp)], $tmp);
+
+    $count_task = count($list_add_task);
+    file_put_contents($file_name_blog_, "tv Task Add : ${count_task}\n", FILE_APPEND);
+    error_log($log_prefix . 'Tasks tv : ' . print_r($list_add_task, true));
+    return $list_add_task;
 }
 
 function get_task_amefootlive($mu_, $file_name_blog_)
