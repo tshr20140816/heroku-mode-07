@@ -30,7 +30,11 @@ function func_20190621c($mu_)
     // error_log($res);
     
     $rc = preg_match('/.+<div class="table-header">.*?<h4><i class="i tv"><\/i>テレビで視聴する<\/h4>(.+?)<div class="table-header">/s', $res, $match);
-    error_log(print_r($match, true));
+    // error_log(print_r($match, true));
+    
+    foreach (explode('<div class="table-list">', $match[1]) as $item) {
+        error_log($item);
+    }
 }
 
 function func_20190621b($mu_, $file_name_blog_)
