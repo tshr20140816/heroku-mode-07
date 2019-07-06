@@ -19,14 +19,14 @@ exit();
 function func_20190621c($mu_)
 {
     $url = 'https://spocale.com/team_and_players/12';
-    $res = $mu_->get_contents($url);
+    $res = $mu_->get_contents($url, null, true);
     // error_log($res);
     
     $rc = preg_match_all('/<a href="\/games\/(.+?)">/', $res, $matches);
     error_log(print_r($matches, true));
     
     $url = 'https://spocale.com/games/' . $matches[1][0];
-    $res = $mu_->get_contents($url);
+    $res = $mu_->get_contents($url, null, true);
     // error_log($res);
     
     $rc = preg_match('/<div class="time-wrap">.*?<.+?>(.+?)<.+?>.*?<.+?>(.+?)</s', $res, $match);
