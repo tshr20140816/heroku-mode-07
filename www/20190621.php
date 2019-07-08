@@ -23,17 +23,14 @@ function func_20190621($mu_)
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/common/data/common_ja.json';
     $res = $mu_->get_contents_proxy($url);
     $tmp = explode('</script>', $res);
-    $tmp = trim(end($tmp));
-    error_log($tmp);
+    $tmp = json_decode(trim(end($tmp)), true);
+    error_log(print_r($tmp, true));
     
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/var/train_info/train_location_info.json';
-    // $res = $mu_->get_contents($url, $options);
     $res = $mu_->get_contents_proxy($url);
-    // error_log($res);
     $tmp = explode('</script>', $res);
     $tmp = json_decode(trim(end($tmp)), true);
     error_log(print_r($tmp, true));
-    // error_log(json_decode(trim(end(explode('</script>', $res))), true));
     
 }
 
