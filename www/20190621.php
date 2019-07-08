@@ -20,12 +20,6 @@ function func_20190621($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $url = 'https://traininfo.jr-central.co.jp/shinkansen/pc/ja/ti08.html';
-    $res = $mu_->get_contents_proxy($url);
-    $tmp = explode('</script>', $res);
-    $tmp = trim(end($tmp));
-    error_log($tmp);
-    
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/common/data/common_ja.json';
     $res = $mu_->get_contents_proxy($url);
     $tmp = explode('</script>', $res);
