@@ -22,6 +22,9 @@ exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${ur
 $urls = [];
 $urls_is_cache = [];
 
+$url = 'https://spocale.com/team_and_players/12?' . $suffix;
+$urls_is_cache[$url] = null;
+
 $url = 'https://baseball.yahoo.co.jp/npb/standings/?' . $suffix;
 $urls_is_cache[$url] = null;
 
