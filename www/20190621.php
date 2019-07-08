@@ -32,7 +32,9 @@ function func_20190621($mu_)
     // $res = $mu_->get_contents($url, $options);
     $res = $mu_->get_contents_proxy($url);
     // error_log($res);
-    error_log(json_decode(trim(end(explode('</script>', $res))), true));
+    $tmp = end(explode('</script>', $res));
+    error_log($tmp);
+    // error_log(json_decode(trim(end(explode('</script>', $res))), true));
     
 }
 
