@@ -34,7 +34,7 @@ function func_20190621($mu_)
     // error_log($res);
     $tmp = trim(end(explode('</script>', $res)));
     error_log($tmp);
-    error_log(json_decode($tmp), true);
+    error_log(print_r(json_decode($tmp), true));
     // error_log(json_decode(trim(end(explode('</script>', $res))), true));
     
 }
