@@ -420,7 +420,7 @@ function get_task_tv($mu_, $file_name_blog_)
     $add_task_template = '{"title":"__TITLE__","duedate":"__DUEDATE__","context":"__CONTEXT__","tag":"TV","folder":"'
       . $folder_id_private . '"}';
 
-    $url = 'https://spocale.com/team_and_players/12';
+    $url = 'https://spocale.com/team_and_players/12?4nocache' . date('Ymd', strtotime('+9 hours'));
     $res = $mu_->get_contents($url, null, true);
     $rc = preg_match_all('/<a href="\/games\/(.+?)">/', $res, $matches);
 
