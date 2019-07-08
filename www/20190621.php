@@ -9,55 +9,14 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190621c($mu);
+func_20190621($mu);
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
 
-function func_20190621c($mu_)
-{
-    $url = 'https://spocale.com/team_and_players/12';
-    $res = $mu_->get_contents($url, null, true);
-    // error_log($res);
-    
-    $rc = preg_match_all('/<a href="\/games\/(.+?)">/', $res, $matches);
-    error_log(print_r($matches, true));
-    
-    $url = 'https://spocale.com/games/' . $matches[1][0];
-    $res = $mu_->get_contents($url, null, true);
-    // error_log($res);
-    
-    $rc = preg_match('/<div class="time-wrap">.*?<.+?>(.+?)<.+?>.*?<.+?>(.+?)</s', $res, $match);
-    
-    error_log(print_r($match, true));
-    
-    $dt = strtotime(str_replace('.', '/', $match[1]) . ' ' . $match[2]);
-    error_log(date('Y/m/d H:i', $dt));
-    
-    if (date('Ymd', $dt) != date('Ymd', strtotime('+9 hours'))) {
-        return;
-    }
-    
-    $rc = preg_match('/.+<div class="table-header">.*?<h4><i class="i tv"><\/i>テレビで視聴する<\/h4>(.+?)<div class="table-header">/s', $res, $match);
-    // error_log(print_r($match, true));
-    
-    $tv = '';
-    foreach (explode('<div class="table-list">', $match[1]) as $item) {
-        // error_log(trim(preg_replace("/(\n| )+/s", ' ', strip_tags($item))));
-        $tmp = trim(preg_replace("/(\n| )+/s", ' ', strip_tags($item)));
-        $tmp = str_replace('~', '', $tmp);
-        $tmp = trim(str_replace('LIVE', '', $tmp));
-        if (strlen($tmp) > 0) { 
-            // error_log($tmp);
-            $tv .= ' ' . $tmp;
-        }
-    }
-    error_log(date('m/d H:i', $dt) . $tv);
-}
-
-function func_20190621b($mu_, $file_name_blog_)
+function func_20190621($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -78,7 +37,8 @@ function func_20190621b($mu_, $file_name_blog_)
     ];
     
     $url = 'https://jr-central.co.jp/';
-    $res = $mu_->get_contents($url, $options);
+    $res = $mu_->get_contents_proxy($url);
+    error_log($res);
     
     /*
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/pc/ja/ti08.html';
