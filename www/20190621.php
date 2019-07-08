@@ -36,20 +36,24 @@ function func_20190621($mu_)
         CURLOPT_COOKIEFILE => $cookie,
     ];
     
+    /*
     $url = 'https://jr-central.co.jp/';
     $res = $mu_->get_contents_proxy($url);
     error_log($res);
-    
+    */
     /*
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/pc/ja/ti08.html';
     $res = $mu_->get_contents($url, $options);
     
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/common/data/common_ja.json';
     $res = $mu_->get_contents($url, $options);
+    */
     
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/var/train_info/train_location_info.json';
-    $res = $mu_->get_contents($url, $options);
-    */
+    // $res = $mu_->get_contents($url, $options);
+    $res = $mu_->get_contents_proxy($url);
+    error_log($res);
+    
     unlink($cookie);
 }
 
