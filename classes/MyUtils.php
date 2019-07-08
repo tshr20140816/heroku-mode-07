@@ -1440,6 +1440,7 @@ __HEREDOC__;
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+        error_log($log_prefix . $url_);
         $cookie = tempnam('/tmp', 'cookie_' . md5(microtime(true)));
 
         $post_data = ['form[url]' => $url_,
