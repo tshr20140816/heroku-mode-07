@@ -124,6 +124,7 @@ function func_20190621($mu_)
                                         'xAxisID' => 'x-axis-1',
                                         'yAxisID' => 'y-axis-0',
                                         'showLine' => false,
+                                        'pointStyle' => 'triangle',
                                        ],
                                       ],
                        ],
