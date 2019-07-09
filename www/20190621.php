@@ -53,12 +53,37 @@ function func_20190621($mu_)
         }
     }
     */
+    $labels = [];
     // kudari
     foreach ($betweenStations[2] as $item) {
         error_log($stations[$item['station']]);
         foreach ($item['trains'] as $train) {
             error_log('下り ' . $trains[$train['train']] . ' ' . $train['trainNumber']);
         }
+        $labels[] = $stations[$item['station']];
     }
+    $data = [];
+    foreach ($labels as $item) {
+        $data = 0;
+    }
+    
+    $data = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => [['data' => $data,
+                                        'fill' => false,
+                                       ],
+                                      ],
+                       ],
+             'options' => ['legend' => ['display' => false,],
+                           'animation' => ['duration' => 0,],
+                           'hover' => ['animationDuration' => 0,],
+                           'responsiveAnimationDuration' => 0,
+                          ],
+            ];
+    
+    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . urlencode(json_encode($data));
+    $res = $mu_->get_contents($url);
+    header('Content-Type: image/png');
+    echo $res;
 }
 
