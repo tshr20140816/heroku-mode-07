@@ -61,6 +61,8 @@ function func_20190621($mu_)
     array_shift($data);
     $labels = $tmp_labels;
     
+    $max_y = 0;
+    
     $data1 = [];
     $index = 0;
     // kudari
@@ -69,6 +71,9 @@ function func_20190621($mu_)
         $level = 0;
         foreach ($item['trains'] as $train) {
             error_log('下り ' . $trains[$train['train']] . ' ' . $train['trainNumber']);
+            if ($max_y < $level) {
+                $max_y = $level;
+            }
             $tmp = new stdClass();
             $tmp->x = (string)$index;
             $tmp->y = ++$level;
@@ -84,6 +89,9 @@ function func_20190621($mu_)
         $level = 0;
         foreach ($item['trains'] as $train) {
             error_log('下り ' . $trains[$train['train']] . ' ' . $train['trainNumber']);
+            if ($max_y < $level) {
+                $max_y = $level;
+            }
             $tmp = new stdClass();
             $tmp->x = (string)($index + 1);
             $tmp->y = ++$level;
@@ -108,6 +116,7 @@ function func_20190621($mu_)
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => false,
                         'ticks' => ['stepSize' => 1,
+                                    'max' => $max_y + 1,
                                    ],
                        ];
     
@@ -138,7 +147,7 @@ function func_20190621($mu_)
                           ],
             ];
     
-    $url = 'https://quickchart.io/chart?width=1500&height=300&c=' . urlencode(json_encode($data));
+    $url = 'https://quickchart.io/chart?width=1500&height=200&c=' . urlencode(json_encode($data));
     $res = $mu_->get_contents($url);
     error_log(strlen($url));
     header('Content-Type: image/png');
