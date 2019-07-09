@@ -24,13 +24,16 @@ function func_20190621($mu_)
     $res = $mu_->get_contents_proxy($url);
     $tmp = explode('</script>', $res);
     $tmp = trim(end($tmp));
-    $tmp = mb_convert_encoding($tmp, 'UTF-8');
     error_log($tmp);
     error_log(mb_detect_encoding($tmp));
+    $rc = preg_match('/"station": {(.+?)}/s', $tmp, $match);
+    error_log(print_r($match, true));
+    
+    /*
     $json = json_decode($tmp, true);
     error_log('json_last_error : ' . json_last_error());
     error_log('json_last_error_msg : ' . json_last_error_msg());
-
+    */
     /*
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/var/train_info/train_location_info.json';
     $res = $mu_->get_contents_proxy($url);
