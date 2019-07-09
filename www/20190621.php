@@ -90,7 +90,7 @@ function func_20190621($mu_)
                         'labels' => $labels,
                        ];
     $scales->xAxes[] = ['id' => 'x-axis-1',
-                        'display' => true,
+                        'display' => false,
                         'labels' => $labels0,
                        ];
     
