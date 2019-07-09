@@ -42,5 +42,10 @@ function func_20190621($mu_)
     // error_log(print_r($tmp, true));
     $atStations = $tmp['trainLocationInfo']['atStation']['bounds'];
     error_log(print_r($atStations, true));
+    
+    // kudari
+    foreach ($atStations[2] as $item) {
+        error_log($stations[$item['station']]);
+    }
 }
 
