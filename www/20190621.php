@@ -91,7 +91,7 @@ function func_20190621($mu_)
                        ];
     $scales->yAxes[] = ['id' => 'x-axis-1',
                         'display' => true,
-                        'labels' => $labels0;
+                        'labels' => $labels0,
                        ];
     
     $data = ['type' => 'line',
