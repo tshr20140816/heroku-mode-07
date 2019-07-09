@@ -125,7 +125,7 @@ function func_20190621($mu_)
                                         'yAxisID' => 'y-axis-0',
                                         'showLine' => false,
                                         'pointStyle' => 'triangle',
-                                        'pointRadius' => 10,
+                                        'pointRadius' => 20,
                                        ],
                                       ],
                        ],
@@ -137,7 +137,7 @@ function func_20190621($mu_)
                           ],
             ];
     
-    $url = 'https://quickchart.io/chart?width=1500&height=800&c=' . urlencode(json_encode($data));
+    $url = 'https://quickchart.io/chart?width=1500&height=400&c=' . urlencode(json_encode($data));
     $res = $mu_->get_contents($url);
     error_log(strlen($url));
     header('Content-Type: image/png');
