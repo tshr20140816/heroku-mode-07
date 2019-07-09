@@ -80,9 +80,12 @@ function func_20190621($mu_)
     array_shift($data);
     $labels = $tmp_labels;
     
-    $data = ['type' => 'scatter',
+    $data = ['type' => 'line',
              'data' => ['labels' => $labels,
-                        'datasets' => [['data' => $data1,
+                        'datasets' => [['data' => $data,
+                                        'fill' => false,
+                                       ],
+                                       ['data' => $data1,
                                         'fill' => false,
                                        ],
                                       ],
