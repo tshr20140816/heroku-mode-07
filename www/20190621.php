@@ -9,14 +9,15 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190621($mu);
+func_20190621($mu, 1);
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
 
-function func_20190621($mu_)
+// $bound_ : 1 上り 2 下り
+function func_20190621($mu_, $bound_ = 2)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
@@ -47,7 +48,7 @@ function func_20190621($mu_)
     
     $labels = [];
     // kudari
-    foreach ($betweenStations[2] as $item) {
+    foreach ($betweenStations[$bound_] as $item) {
         $labels[] = $stations[$item['station']];
     }
     $data = [];
@@ -73,11 +74,11 @@ function func_20190621($mu_)
     
     $index = 0;
     // kudari eki
-    foreach ($atStations[1] as $item) {
+    foreach ($atStations[$bound_] as $item) {
         error_log($stations[$item['station']]);
         $level = 0;
         foreach ($item['trains'] as $train) {
-            error_log('上り ' . $trains[$train['train']] . ' ' . $train['trainNumber']);
+            error_log($trains[$train['train']] . ' ' . $train['trainNumber']);
             if ($max_y < $level) {
                 $max_y = $level;
             }
@@ -103,16 +104,16 @@ function func_20190621($mu_)
     
     $index = 0;
     // kudari ekikan
-    foreach ($betweenStations[1] as $item) {
+    foreach ($betweenStations[$bound_] as $item) {
         error_log($stations[$item['station']]);
         $level = 0;
         foreach ($item['trains'] as $train) {
-            error_log('上り ' . $trains[$train['train']] . ' ' . $train['trainNumber']);
+            error_log($trains[$train['train']] . ' ' . $train['trainNumber']);
             if ($max_y < $level) {
                 $max_y = $level;
             }
             $tmp = new stdClass();
-            $tmp->x = (string)($index - 1);
+            $tmp->x = (string)($bound_ == 2 ? $index + 1 : $index - 1);
             $tmp->y = ++$level;
             if ($trains[$train['train']] == 'のぞみ') {
                 $data1[] = $tmp;
@@ -151,6 +152,7 @@ function func_20190621($mu_)
                                    ],
                        ];
     
+    $pointRotation = $bound_ == 2 ? 270 : 90;
     $data = ['type' => 'line',
              'data' => ['labels' => array_reverse($labels),
                         'datasets' => [['data' => array_reverse($data),
@@ -168,7 +170,7 @@ function func_20190621($mu_)
                                         'showLine' => false,
                                         'pointStyle' => 'triangle',
                                         'pointRadius' => 12,
-                                        'pointRotation' => 90,
+                                        'pointRotation' => $pointRotation,
                                         'pointBackgroundColor' => 'yellow',
                                         'pointBorderColor' => 'black',
                                        ],
@@ -180,7 +182,7 @@ function func_20190621($mu_)
                                         'showLine' => false,
                                         'pointStyle' => 'triangle',
                                         'pointRadius' => 12,
-                                        'pointRotation' => 90,
+                                        'pointRotation' => $pointRotation,
                                         'pointBackgroundColor' => 'red',
                                         'pointBorderColor' => 'red',
                                        ],
@@ -192,7 +194,7 @@ function func_20190621($mu_)
                                         'showLine' => false,
                                         'pointStyle' => 'triangle',
                                         'pointRadius' => 12,
-                                        'pointRotation' => 90,
+                                        'pointRotation' => $pointRotation,
                                         'pointBackgroundColor' => 'orange',
                                         'pointBorderColor' => 'orange',
                                        ],
@@ -204,7 +206,7 @@ function func_20190621($mu_)
                                         'showLine' => false,
                                         'pointStyle' => 'triangle',
                                         'pointRadius' => 12,
-                                        'pointRotation' => 90,
+                                        'pointRotation' => $pointRotation,
                                         'pointBackgroundColor' => 'pink',
                                         'pointBorderColor' => 'black',
                                        ],
@@ -216,7 +218,7 @@ function func_20190621($mu_)
                                         'showLine' => false,
                                         'pointStyle' => 'triangle',
                                         'pointRadius' => 12,
-                                        'pointRotation' => 90,
+                                        'pointRotation' => $pointRotation,
                                         'pointBackgroundColor' => 'blue',
                                         'pointBorderColor' => 'blue',
                                        ],
@@ -228,7 +230,7 @@ function func_20190621($mu_)
                                         'showLine' => false,
                                         'pointStyle' => 'triangle',
                                         'pointRadius' => 12,
-                                        'pointRotation' => 90,
+                                        'pointRotation' => $pointRotation,
                                         'pointBackgroundColor' => 'black',
                                         'pointBorderColor' => 'black',
                                        ],
