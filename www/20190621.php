@@ -133,6 +133,7 @@ function func_20190621($mu_)
                         'display' => true,
                         'labels' => array_reverse($labels),
                         'ticks' => ['fontColor' => 'black',
+                                    'fontSize' => 12,
                                    ],
                        ];
     $scales->xAxes[] = ['id' => 'x-axis-1',
