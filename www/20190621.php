@@ -65,8 +65,9 @@ function func_20190621($mu_)
     
     $data1 = []; // nozomi
     $data2 = []; // hikara
-    $data3 = []; // nokori
-    $data4 = []; // mizuho
+    $data3 = []; // mizuho
+    $data4 = []; // sakura
+    $data5 = []; // nokori
     $index = 0;
     // kudari eki
     foreach ($atStations[2] as $item) {
@@ -86,8 +87,10 @@ function func_20190621($mu_)
                 $data2[] = $tmp;
             } else if ($trains[$train['train']] == 'みずほ') {
                 $data3[] = $tmp;
-            } else {
+            } else if ($trains[$train['train']] == 'さくら') {
                 $data4[] = $tmp;
+            } else {
+                $data5[] = $tmp;
             }
         }
         $index += 2;
@@ -112,8 +115,10 @@ function func_20190621($mu_)
                 $data2[] = $tmp;
             } else if ($trains[$train['train']] == 'みずほ') {
                 $data3[] = $tmp;
-            } else {
+            } else if ($trains[$train['train']] == 'さくら') {
                 $data4[] = $tmp;
+            } else {
+                $data5[] = $tmp;
             }
         }
         $index += 2;
@@ -188,6 +193,18 @@ function func_20190621($mu_)
                                        ],
                                        ['type' => 'line',
                                         'data' => array_reverse($data4),
+                                        'fill' => false,
+                                        'xAxisID' => 'x-axis-1',
+                                        'yAxisID' => 'y-axis-0',
+                                        'showLine' => false,
+                                        'pointStyle' => 'triangle',
+                                        'pointRadius' => 12,
+                                        'pointRotation' => 270,
+                                        'pointBackgroundColor' => 'pink',
+                                        'pointBorderColor' => 'pink',
+                                       ],
+                                       ['type' => 'line',
+                                        'data' => array_reverse($data5),
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-1',
                                         'yAxisID' => 'y-axis-0',
