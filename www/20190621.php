@@ -44,15 +44,21 @@ function func_20190621($mu_)
     // error_log(print_r($atStations, true));
     $betweenStations = $tmp['trainLocationInfo']['betweenStation']['bounds'];
     
-    /*
+    $data1 = [];
+    $index = 0;
     // kudari
     foreach ($atStations[2] as $item) {
         error_log($stations[$item['station']]);
         foreach ($item['trains'] as $train) {
             error_log('下り ' . $trains[$train['train']] . ' ' . $train['trainNumber']);
+            $tmp = new stdClass();
+            $tmp->x = $index;
+            $tmp->y = 1;
+            $data1[] = $tmp;
         }
+        $index += 2;
     }
-    */
+    
     $labels = [];
     // kudari
     foreach ($betweenStations[2] as $item) {
@@ -74,9 +80,9 @@ function func_20190621($mu_)
     array_shift($data);
     $labels = $tmp_labels;
     
-    $data = ['type' => 'line',
+    $data = ['type' => 'scatter',
              'data' => ['labels' => $labels,
-                        'datasets' => [['data' => $data,
+                        'datasets' => [['data' => $data1,
                                         'fill' => false,
                                        ],
                                       ],
