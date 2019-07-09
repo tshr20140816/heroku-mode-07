@@ -35,7 +35,7 @@ function func_20190621($mu_, $bound_ = 2)
     $trains = json_decode('{' . $match[1] . '}', true);
     error_log(print_r($trains, true));
     
-    $url = 'https://traininfo.jr-central.co.jp/shinkansen/var/train_info/train_location_info.json';
+    $url = 'https://traininfo.jr-central.co.jp/shinkansen/var/train_info/train_location_info.json?' . microtime(true);
     $res = $mu_->get_contents_proxy($url);
     $tmp = explode('</script>', $res);
     // error_log(trim(end($tmp)));
