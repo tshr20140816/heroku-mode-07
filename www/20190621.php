@@ -64,8 +64,9 @@ function func_20190621($mu_)
     $max_y = 0;
     
     $data1 = [];
+    $data2 = [];
     $index = 0;
-    // kudari
+    // kudari eki
     foreach ($atStations[2] as $item) {
         error_log($stations[$item['station']]);
         $level = 0;
@@ -77,13 +78,17 @@ function func_20190621($mu_)
             $tmp = new stdClass();
             $tmp->x = (string)$index;
             $tmp->y = ++$level;
-            $data1[] = $tmp;
+            if ($trains[$train['train']] == 'のぞみ' || $trains[$train['train']] == 'みずほ') {
+                $data1[] = $tmp;
+            } else {
+                $data2[] = $tmp;
+            }
         }
         $index += 2;
     }
     
     $index = 0;
-    // kudari
+    // kudari ekikan
     foreach ($betweenStations[2] as $item) {
         error_log($stations[$item['station']]);
         $level = 0;
@@ -95,7 +100,11 @@ function func_20190621($mu_)
             $tmp = new stdClass();
             $tmp->x = (string)($index + 1);
             $tmp->y = ++$level;
-            $data1[] = $tmp;
+            if ($trains[$train['train']] == 'のぞみ' || $trains[$train['train']] == 'みずほ') {
+                $data1[] = $tmp;
+            } else {
+                $data2[] = $tmp;
+            }
         }
         $index += 2;
     }
@@ -133,6 +142,17 @@ function func_20190621($mu_)
                                        ],
                                        ['type' => 'line',
                                         'data' => array_reverse($data1),
+                                        'fill' => false,
+                                        'xAxisID' => 'x-axis-1',
+                                        'yAxisID' => 'y-axis-0',
+                                        'showLine' => false,
+                                        'pointStyle' => 'triangle',
+                                        'pointRadius' => 12,
+                                        'pointRotation' => 270,
+                                       ],
+                                      ],
+                                       ['type' => 'line',
+                                        'data' => array_reverse($data2),
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-1',
                                         'yAxisID' => 'y-axis-0',
