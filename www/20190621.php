@@ -24,6 +24,7 @@ function func_20190621($mu_)
     $res = $mu_->get_contents_proxy($url);
     $tmp = explode('</script>', $res);
     $tmp = trim(end($tmp));
+    $tmp = mb_convert_encoding($tmp, 'UTF-8');
     error_log($tmp);
     $json = json_decode($tmp, true);
     error_log('json_last_error : ' . json_last_error());
