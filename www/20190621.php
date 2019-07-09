@@ -85,11 +85,11 @@ function func_20190621($mu_)
         $labels0[] = $i;
     }
     $scales = new stdClass();
-    $scales->yAxes[] = ['id' => 'x-axis-0',
+    $scales->xAxes[] = ['id' => 'x-axis-0',
                         'display' => true,
                         'labels' => $labels,
                        ];
-    $scales->yAxes[] = ['id' => 'x-axis-1',
+    $scales->xAxes[] = ['id' => 'x-axis-1',
                         'display' => true,
                         'labels' => $labels0,
                        ];
