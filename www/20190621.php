@@ -116,7 +116,7 @@ function func_20190621($mu_)
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => false,
                         'ticks' => ['stepSize' => 1,
-                                    'max' => $max_y + 1,
+                                    'max' => $max_y + 2,
                                    ],
                        ];
     
@@ -147,7 +147,7 @@ function func_20190621($mu_)
                            'annotation' => ['annotations' => [['type' => 'line',
                                                                'mode' => 'horizontal',
                                                                'scaleID' => 'y-axis-0',
-                                                               'value' => $max_y + 1,
+                                                               'value' => $max_y + 2,
                                                                'borderColor' => 'black',
                                                                'borderWidth' => 1,
                                                               ],
