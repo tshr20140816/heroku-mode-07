@@ -44,6 +44,23 @@ function func_20190621($mu_)
     // error_log(print_r($atStations, true));
     $betweenStations = $tmp['trainLocationInfo']['betweenStation']['bounds'];
     
+    $labels = [];
+    // kudari
+    foreach ($betweenStations[2] as $item) {
+        $labels[] = $stations[$item['station']];
+    }
+    $data = [];
+    $tmp_labels = [];
+    foreach ($labels as $item) {
+        $tmp_labels[] = '';
+        $tmp_labels[] = $item;
+        $data[] = 0;
+        $data[] = 0;
+    }
+    array_shift($tmp_labels);
+    array_shift($data);
+    $labels = $tmp_labels;
+    
     $data1 = [];
     $index = 0;
     // kudari
@@ -60,26 +77,20 @@ function func_20190621($mu_)
         $index += 2;
     }
     
-    $labels = [];
+    $index = 0;
     // kudari
     foreach ($betweenStations[2] as $item) {
         error_log($stations[$item['station']]);
+        $level = 0;
         foreach ($item['trains'] as $train) {
             error_log('下り ' . $trains[$train['train']] . ' ' . $train['trainNumber']);
+            $tmp = new stdClass();
+            $tmp->x = (string)($index + 1);
+            $tmp->y = ++$level;
+            $data1[] = $tmp;
         }
-        $labels[] = $stations[$item['station']];
+        $index += 2;
     }
-    $data = [];
-    $tmp_labels = [];
-    foreach ($labels as $item) {
-        $tmp_labels[] = '';
-        $tmp_labels[] = $item;
-        $data[] = 0;
-        $data[] = 0;
-    }
-    array_shift($tmp_labels);
-    array_shift($data);
-    $labels = $tmp_labels;
     
     $labels0 = [];
     for ($i = 0; $i < count($labels); $i++) {
