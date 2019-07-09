@@ -150,7 +150,7 @@ function func_20190621($mu_)
                                         'pointRadius' => 12,
                                         'pointRotation' => 270,
                                         'pointBackgroundColor' => 'yellow',
-                                        'pointBorderColor' => 'yellow',
+                                        'pointBorderColor' => 'black',
                                        ],
                                        ['type' => 'line',
                                         'data' => array_reverse($data2),
