@@ -101,7 +101,7 @@ function func_20190621($mu_)
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-0',
                                        ],
-                                       ['type' => 'scatter',
+                                       ['type' => 'line',
                                         'data' => $data1,
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-1',
