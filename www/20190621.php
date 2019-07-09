@@ -159,6 +159,7 @@ function func_20190621($mu_)
     $url = 'https://quickchart.io/chart?width=1500&height=200&c=' . urlencode(json_encode($data));
     $res = $mu_->get_contents($url);
     error_log(strlen($url));
+    error_log($max_y);
     header('Content-Type: image/png');
     echo $res;
 }
