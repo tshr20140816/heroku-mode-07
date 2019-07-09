@@ -68,6 +68,7 @@ function func_20190621($mu_)
     $data3 = []; // mizuho
     $data4 = []; // sakura
     $data5 = []; // nokori
+    
     $index = 0;
     // kudari eki
     foreach ($atStations[2] as $item) {
