@@ -107,13 +107,13 @@ function func_20190621($mu_)
     $scales = new stdClass();
     $scales->xAxes[] = ['id' => 'x-axis-0',
                         'display' => true,
-                        'labels' => $labels,
+                        'labels' => array_reverse($labels),
                         'ticks' => ['fontColor' => 'black',
                                    ],
                        ];
     $scales->xAxes[] = ['id' => 'x-axis-1',
                         'display' => false,
-                        'labels' => $labels0,
+                        'labels' => array_reverse($labels0),
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => false,
@@ -123,8 +123,8 @@ function func_20190621($mu_)
                        ];
     
     $data = ['type' => 'line',
-             'data' => ['labels' => $labels,
-                        'datasets' => [['data' => $data,
+             'data' => ['labels' => array_reverse($labels),
+                        'datasets' => [['data' => array_reverse($data),
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-0',
                                         'yAxisID' => 'y-axis-0',
@@ -132,14 +132,14 @@ function func_20190621($mu_)
                                         'showLine' => false,
                                        ],
                                        ['type' => 'line',
-                                        'data' => $data1,
+                                        'data' => array_reverse($data1),
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-1',
                                         'yAxisID' => 'y-axis-0',
                                         'showLine' => false,
                                         'pointStyle' => 'triangle',
                                         'pointRadius' => 12,
-                                        'pointRotation' => 90,
+                                        'pointRotation' => 270,
                                        ],
                                       ],
                        ],
