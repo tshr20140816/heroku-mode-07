@@ -41,10 +41,20 @@ function func_20190621($mu_)
     $tmp = json_decode(trim(end($tmp)), true);
     // error_log(print_r($tmp, true));
     $atStations = $tmp['trainLocationInfo']['atStation']['bounds'];
-    error_log(print_r($atStations, true));
+    // error_log(print_r($atStations, true));
+    $betweenStations = $tmp['trainLocationInfo']['betweenStation']['bounds'];
     
+    /*
     // kudari
     foreach ($atStations[2] as $item) {
+        error_log($stations[$item['station']]);
+        foreach ($item['trains'] as $train) {
+            error_log('下り ' . $trains[$train['train']] . ' ' . $train['trainNumber']);
+        }
+    }
+    */
+    // kudari
+    foreach ($betweenStations[2] as $item) {
         error_log($stations[$item['station']]);
         foreach ($item['trains'] as $train) {
             error_log('下り ' . $trains[$train['train']] . ' ' . $train['trainNumber']);
