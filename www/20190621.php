@@ -26,6 +26,7 @@ function func_20190621($mu_)
     $tmp = trim(end($tmp));
     $tmp = mb_convert_encoding($tmp, 'UTF-8');
     error_log($tmp);
+    error_log(mb_detect_encoding($tmp));
     $json = json_decode($tmp, true);
     error_log('json_last_error : ' . json_last_error());
     error_log('json_last_error_msg : ' . json_last_error_msg());
