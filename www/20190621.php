@@ -25,6 +25,9 @@ function func_20190621($mu_)
     $tmp = explode('</script>', $res);
     $tmp = trim(end($tmp));
     error_log($tmp);
+    $json = json_decode($tmp, true);
+    error_log('json_last_error : ' . json_last_error());
+    error_log('json_last_error_msg : ' . json_last_error_msg());
 
     /*
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/var/train_info/train_location_info.json';
