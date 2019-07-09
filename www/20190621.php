@@ -146,7 +146,7 @@ function func_20190621($mu_)
                            'scales' => $scales,
                            'annotation' => ['annotations' => [['type' => 'line',
                                                                'mode' => 'horizontal',
-                                                               'scaleID' => 'u-axis-0',
+                                                               'scaleID' => 'y-axis-0',
                                                                'value' => $max_y + 1,
                                                                'borderColor' => 'black',
                                                                'borderWidth' => 1,
