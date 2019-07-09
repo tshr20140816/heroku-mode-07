@@ -105,17 +105,24 @@ function func_20190621($mu_)
                         'display' => false,
                         'labels' => $labels0,
                        ];
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'display' => true,
+                        'ticks' => ['stepSize' => 1,
+                                   ],
+                       ];
     
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
                         'datasets' => [['data' => $data,
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-0',
+                                        'yAxisID' => 'y-axis-0',
                                        ],
                                        ['type' => 'line',
                                         'data' => $data1,
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-1',
+                                        'yAxisID' => 'y-axis-0',
                                         'showLine' => false,
                                        ],
                                       ],
@@ -130,6 +137,7 @@ function func_20190621($mu_)
     
     $url = 'https://quickchart.io/chart?width=1500&height=800&c=' . urlencode(json_encode($data));
     $res = $mu_->get_contents($url);
+    error_log(strlen($url));
     header('Content-Type: image/png');
     echo $res;
 }
