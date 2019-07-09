@@ -26,10 +26,16 @@ function func_20190621($mu_)
     $tmp = trim(end($tmp));
     // error_log($tmp);
     // error_log(mb_detect_encoding($tmp));
+    
     $rc = preg_match('/"station": {(.+?)}/s', $tmp, $match);
     // error_log(print_r($match, true));
-    $json = json_decode('{' . $match[1] . '}', true);
-    error_log(print_r($json, true));
+    $stations = json_decode('{' . $match[1] . '}', true);
+    error_log(print_r($stations, true));
+    
+    $rc = preg_match('/"train": {(.+?)}/s', $tmp, $match);
+    // error_log(print_r($match, true));
+    $trains = json_decode('{' . $match[1] . '}', true);
+    error_log(print_r($trains, true));
     
     /*
     $json = json_decode($tmp, true);
