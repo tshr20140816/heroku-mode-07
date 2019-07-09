@@ -106,7 +106,7 @@ function func_20190621($mu_)
                         'labels' => $labels0,
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-0',
-                        'display' => true,
+                        'display' => false,
                         'ticks' => ['stepSize' => 1,
                                    ],
                        ];
@@ -138,7 +138,7 @@ function func_20190621($mu_)
                           ],
             ];
     
-    $url = 'https://quickchart.io/chart?width=1500&height=400&c=' . urlencode(json_encode($data));
+    $url = 'https://quickchart.io/chart?width=1500&height=300&c=' . urlencode(json_encode($data));
     $res = $mu_->get_contents($url);
     error_log(strlen($url));
     header('Content-Type: image/png');
