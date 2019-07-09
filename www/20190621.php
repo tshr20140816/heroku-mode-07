@@ -49,11 +49,12 @@ function func_20190621($mu_)
     // kudari
     foreach ($atStations[2] as $item) {
         error_log($stations[$item['station']]);
+        $level = 0;
         foreach ($item['trains'] as $train) {
             error_log('下り ' . $trains[$train['train']] . ' ' . $train['trainNumber']);
             $tmp = new stdClass();
             $tmp->x = $index;
-            $tmp->y = 1;
+            $tmp->y = ++$level;
             $data1[] = $tmp;
         }
         $index += 2;
