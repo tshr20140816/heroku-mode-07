@@ -112,7 +112,7 @@ function func_20190621($mu_)
                 $max_y = $level;
             }
             $tmp = new stdClass();
-            $tmp->x = (string)($index + 1);
+            $tmp->x = (string)($index - 1);
             $tmp->y = ++$level;
             if ($trains[$train['train']] == 'のぞみ') {
                 $data1[] = $tmp;
