@@ -28,6 +28,8 @@ function func_20190621($mu_)
     error_log(mb_detect_encoding($tmp));
     $rc = preg_match('/"station": {(.+?)}/s', $tmp, $match);
     error_log(print_r($match, true));
+    $json = json_decode('{' . $match[1] . '}', true);
+    error_log(print_r($json, true));
     
     /*
     $json = json_decode($tmp, true);
