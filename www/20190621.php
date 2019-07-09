@@ -133,7 +133,6 @@ function func_20190621($mu_)
                         'display' => true,
                         'labels' => array_reverse($labels),
                         'ticks' => ['fontColor' => 'black',
-                                    'fontSize' => 20,
                                    ],
                        ];
     $scales->xAxes[] = ['id' => 'x-axis-1',
@@ -235,16 +234,16 @@ function func_20190621($mu_)
                           ],
             ];
     
-    $url = 'https://quickchart.io/chart?width=1500&height=200&c=' . urlencode(json_encode($data));
+    $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode(json_encode($data));
     $res = $mu_->get_contents($url);
     error_log(strlen($url));
     
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
-    $im2 = imagecreatetruecolor(imagesx($im1) / 4, imagesy($im1) / 4);
+    $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
     imagealphablending($im2, false);
     imagesavealpha($im2, true);
-    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 4, imagesy($im1) / 4, imagesx($im1), imagesy($im1));
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
     imagedestroy($im1);
     $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
