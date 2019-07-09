@@ -47,7 +47,7 @@ function func_20190621($mu_)
     foreach ($atStations[2] as $item) {
         error_log($stations[$item['station']]);
         foreach ($item['trains'] as $train) {
-            error_log($train['trainNumber']);
+            error_log($trains[$train['train']] . ' ' . $train['trainNumber']);
         }
     }
 }
