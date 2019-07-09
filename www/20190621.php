@@ -126,6 +126,8 @@ function func_20190621($mu_)
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-0',
                                         'yAxisID' => 'y-axis-0',
+                                        'pointRadius' => 0,
+                                        'showLine' => false,
                                        ],
                                        ['type' => 'line',
                                         'data' => $data1,
