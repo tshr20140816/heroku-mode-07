@@ -67,7 +67,8 @@ function func_20190621($mu_)
     $data2 = []; // hikara
     $data3 = []; // mizuho
     $data4 = []; // sakura
-    $data5 = []; // nokori
+    $data5 = []; // kodama
+    $data6 = []; // ???
     
     $index = 0;
     // kudari eki
@@ -90,8 +91,10 @@ function func_20190621($mu_)
                 $data3[] = $tmp;
             } else if ($trains[$train['train']] == 'さくら') {
                 $data4[] = $tmp;
-            } else {
+            } else if ($trains[$train['train']] == 'こだま') {
                 $data5[] = $tmp;
+            } else {
+                $data6[] = $tmp;
             }
         }
         $index += 2;
@@ -215,6 +218,18 @@ function func_20190621($mu_)
                                         'pointRotation' => 270,
                                         'pointBackgroundColor' => 'blue',
                                         'pointBorderColor' => 'blue',
+                                       ],
+                                       ['type' => 'line',
+                                        'data' => array_reverse($data6),
+                                        'fill' => false,
+                                        'xAxisID' => 'x-axis-1',
+                                        'yAxisID' => 'y-axis-0',
+                                        'showLine' => false,
+                                        'pointStyle' => 'triangle',
+                                        'pointRadius' => 12,
+                                        'pointRotation' => 270,
+                                        'pointBackgroundColor' => 'black',
+                                        'pointBorderColor' => 'black',
                                        ],
                                       ],
                        ],
