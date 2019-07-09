@@ -103,6 +103,7 @@ function func_20190621($mu_)
                                        ['data' => $data1,
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-1',
+                                        'showLine' => false,
                                        ],
                                       ],
                        ],
