@@ -63,8 +63,10 @@ function func_20190621($mu_)
     
     $max_y = 0;
     
-    $data1 = [];
-    $data2 = [];
+    $data1 = []; // nozomi
+    $data2 = []; // hikara
+    $data3 = []; // nokori
+    $data4 = []; // mizuho
     $index = 0;
     // kudari eki
     foreach ($atStations[2] as $item) {
@@ -78,10 +80,14 @@ function func_20190621($mu_)
             $tmp = new stdClass();
             $tmp->x = (string)$index;
             $tmp->y = ++$level;
-            if ($trains[$train['train']] == 'のぞみ' || $trains[$train['train']] == 'みずほ') {
+            if ($trains[$train['train']] == 'のぞみ') {
                 $data1[] = $tmp;
-            } else {
+            } else if ($trains[$train['train']] == 'ひかり') {
                 $data2[] = $tmp;
+            } else if ($trains[$train['train']] == 'みずほ') {
+                $data3[] = $tmp;
+            } else {
+                $data4[] = $tmp;
             }
         }
         $index += 2;
@@ -100,10 +106,14 @@ function func_20190621($mu_)
             $tmp = new stdClass();
             $tmp->x = (string)($index + 1);
             $tmp->y = ++$level;
-            if ($trains[$train['train']] == 'のぞみ' || $trains[$train['train']] == 'みずほ') {
+            if ($trains[$train['train']] == 'のぞみ') {
                 $data1[] = $tmp;
-            } else {
+            } else if ($trains[$train['train']] == 'ひかり') {
                 $data2[] = $tmp;
+            } else if ($trains[$train['train']] == 'みずほ') {
+                $data3[] = $tmp;
+            } else {
+                $data4[] = $tmp;
             }
         }
         $index += 2;
@@ -154,6 +164,30 @@ function func_20190621($mu_)
                                        ],
                                        ['type' => 'line',
                                         'data' => array_reverse($data2),
+                                        'fill' => false,
+                                        'xAxisID' => 'x-axis-1',
+                                        'yAxisID' => 'y-axis-0',
+                                        'showLine' => false,
+                                        'pointStyle' => 'triangle',
+                                        'pointRadius' => 12,
+                                        'pointRotation' => 270,
+                                        'pointBackgroundColor' => 'red',
+                                        'pointBorderColor' => 'red',
+                                       ],
+                                       ['type' => 'line',
+                                        'data' => array_reverse($data3),
+                                        'fill' => false,
+                                        'xAxisID' => 'x-axis-1',
+                                        'yAxisID' => 'y-axis-0',
+                                        'showLine' => false,
+                                        'pointStyle' => 'triangle',
+                                        'pointRadius' => 12,
+                                        'pointRotation' => 270,
+                                        'pointBackgroundColor' => 'orange',
+                                        'pointBorderColor' => 'orange',
+                                       ],
+                                       ['type' => 'line',
+                                        'data' => array_reverse($data4),
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-1',
                                         'yAxisID' => 'y-axis-0',
