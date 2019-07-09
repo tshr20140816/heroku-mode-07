@@ -150,7 +150,6 @@ function func_20190621($mu_)
                                         'pointRadius' => 12,
                                         'pointRotation' => 270,
                                        ],
-                                      ],
                                        ['type' => 'line',
                                         'data' => array_reverse($data2),
                                         'fill' => false,
