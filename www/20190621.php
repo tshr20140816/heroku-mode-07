@@ -80,6 +80,11 @@ function func_20190621($mu_)
     array_shift($data);
     $labels = $tmp_labels;
     
+    $labels0 = [];
+    for ($i = 0; $i < count($labels); $i++) {
+        $labels0[] = $i;
+    }
+    
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
                         'datasets' => [['data' => $data,
@@ -87,6 +92,7 @@ function func_20190621($mu_)
                                        ],
                                        ['data' => $data1,
                                         'fill' => false,
+                                        'label' => $labels0,
                                        ],
                                       ],
                        ],
