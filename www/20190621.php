@@ -144,6 +144,13 @@ function func_20190621($mu_)
                            'hover' => ['animationDuration' => 0,],
                            'responsiveAnimationDuration' => 0,
                            'scales' => $scales,
+                           'annotation' => ['annotations' => [['type' => 'line',
+                                                               'mode' => 'horizontal',
+                                                               'scaleID' => 'u-axis-0',
+                                                               'value' => $max_y + 1,
+                                                               'borderColor' => 'black',
+                                                               'borderWidth' => 1,
+                                                              ],
                           ],
             ];
     
