@@ -40,7 +40,7 @@ function func_20190621($mu_)
     // error_log(trim(end($tmp)));
     $tmp = json_decode(trim(end($tmp)), true);
     // error_log(print_r($tmp, true));
-    $atStations = $tmp['trainLocationInfo']['atStation'];
+    $atStations = $tmp['trainLocationInfo']['atStation']['bounds'];
     error_log(print_r($atStations, true));
 }
 
