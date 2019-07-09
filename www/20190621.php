@@ -64,7 +64,7 @@ function func_20190621($mu_)
     }
     $data = [];
     foreach ($labels as $item) {
-        $data = 0;
+        $data[] = 0;
     }
     
     $data = ['type' => 'line',
