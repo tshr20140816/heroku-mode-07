@@ -24,14 +24,8 @@ function func_20190621($mu_)
     $res = $mu_->get_contents_proxy($url);
     $tmp = explode('</script>', $res);
     $tmp = trim(end($tmp));
-    error_log(strlen($tmp));
     error_log($tmp);
-    $tmp = json_decode($tmp);
-    error_log(json_last_error());
-    error_log(json_last_error_msg());
-    error_log(print_r($tmp, true));
-    
-    
+
     /*
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/var/train_info/train_location_info.json';
     $res = $mu_->get_contents_proxy($url);
