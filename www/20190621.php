@@ -108,7 +108,7 @@ function func_20190621($mu_)
     $scales->xAxes[] = ['id' => 'x-axis-0',
                         'display' => true,
                         'labels' => $labels,
-                        'ticks' => ['fontColor' => 'n;ack',
+                        'ticks' => ['fontColor' => 'black',
                                    ],
                        ];
     $scales->xAxes[] = ['id' => 'x-axis-1',
