@@ -46,6 +46,9 @@ function func_20190621($mu_)
     // kudari
     foreach ($atStations[2] as $item) {
         error_log($stations[$item['station']]);
+        foreach ($item['trains'] as $train) {
+            error_log($train['trainNumber']);
+        }
     }
 }
 
