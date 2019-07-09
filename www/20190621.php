@@ -63,9 +63,16 @@ function func_20190621($mu_)
         $labels[] = $stations[$item['station']];
     }
     $data = [];
+    $tmp_labels = [];
     foreach ($labels as $item) {
+        $tmp_labels[] = '';
+        $tmp_labels[] = $item;
+        $data[] = 0;
         $data[] = 0;
     }
+    array_shift($tmp_labels);
+    array_shift($data);
+    $labels = $tmp_labels;
     
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
