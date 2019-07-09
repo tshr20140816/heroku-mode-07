@@ -84,15 +84,25 @@ function func_20190621($mu_)
     for ($i = 0; $i < count($labels); $i++) {
         $labels0[] = $i;
     }
+    $scales = new stdClass();
+    $scales->yAxes[] = ['id' => 'x-axis-0',
+                        'display' => true,
+                        'labels' => $labels,
+                       ];
+    $scales->yAxes[] = ['id' => 'x-axis-1',
+                        'display' => true,
+                        'labels' => $labels0;
+                       ];
     
     $data = ['type' => 'line',
              'data' => ['labels' => $labels,
                         'datasets' => [['data' => $data,
                                         'fill' => false,
+                                        'xAxisID' => 'x-axis-0',
                                        ],
                                        ['data' => $data1,
                                         'fill' => false,
-                                        'label' => $labels0,
+                                        'xAxisID' => 'x-axis-1',
                                        ],
                                       ],
                        ],
@@ -100,6 +110,7 @@ function func_20190621($mu_)
                            'animation' => ['duration' => 0,],
                            'hover' => ['animationDuration' => 0,],
                            'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
                           ],
             ];
     
