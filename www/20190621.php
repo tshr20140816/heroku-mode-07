@@ -53,7 +53,7 @@ function func_20190621($mu_)
         foreach ($item['trains'] as $train) {
             error_log('下り ' . $trains[$train['train']] . ' ' . $train['trainNumber']);
             $tmp = new stdClass();
-            $tmp->x = $index;
+            $tmp->x = (string)$index;
             $tmp->y = ++$level;
             $data1[] = $tmp;
         }
@@ -83,7 +83,7 @@ function func_20190621($mu_)
     
     $labels0 = [];
     for ($i = 0; $i < count($labels); $i++) {
-        $labels0[] = $i;
+        $labels0[] = (string)$i;
     }
     $scales = new stdClass();
     $scales->xAxes[] = ['id' => 'x-axis-0',
