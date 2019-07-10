@@ -23,6 +23,7 @@ function func_20190601($mu_)
     $hash_url = 'url' . hash('sha512', 'https://www.jtb.co.jp/');
     
     $list_item = [];
+    $list_item[] = '';
     $limit = 30000;
     
     $urls = [];
@@ -82,6 +83,6 @@ function func_20190601($mu_)
     $res = $mu_->search_blog($hash_url);
     if ($res != $hash_info) {
         $description = '<div class="' . $hash_url . '">' . "${hash_info}</div>${info}";
-        $mu_->post_blog_wordpress_async($hash_url, $description);
+        $mu_->post_blog_wordpress($hash_url, $description);
     }
 }
