@@ -27,10 +27,15 @@ function func_20190601($mu_)
     
     $tmp = explode('<article class="', $res);
     
-    for ($i = 0; $i < 5; $i++) {
+    for ($i = 0; $i < 1; $i++) {
         // error_log($tmp[$i + 1]);
         $rc = preg_match('/<h3 class="domtour-tour-list__name"><a .*?href="(.+?)".*?>(.+?)<.+?<span class="dom-hotel-price__adult-price"><em>(.+?)</s', $tmp[$i + 1], $match);
         array_shift($match);
         error_log(print_r($match, true));
+        
+        $url = 'https://www.jtb.co.jp' . $match[0];
+        $res = $mu_->get_contents($url);
+        
+        error_log($res);
     }
 }
