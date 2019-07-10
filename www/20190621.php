@@ -63,7 +63,7 @@ function func_20190621($mu_, $bound_ = 2)
     // error_log(trim(end($tmp)));
     $tmp = json_decode(trim(end($tmp)), true);
     // error_log(print_r($tmp, true));
-    $dt = $tmp['trainLocationInfo']['datetime'];
+    $dt = $tmp['trainLocationInfo']['datetime'] + 32400; // +9 hours
     $atStations = $tmp['trainLocationInfo']['atStation']['bounds'];
     // error_log(print_r($atStations, true));
     $betweenStations = $tmp['trainLocationInfo']['betweenStation']['bounds'];
@@ -184,9 +184,10 @@ function func_20190621($mu_, $bound_ = 2)
                                         'pointRadius' => 0,
                                         'showLine' => false,
                                         'borderColor' => 'rgba(0,0,0,0)',
+                                        'backgroundColor' => 'rgba(0,0,0,0)',
                                         'pointBackgroundColor' => 'rgba(0,0,0,0)',
                                         'pointBorderColor' => 'rgba(0,0,0,0)',
-                                        'label' => '',
+                                        'label' => date('Y/m/d H:i', $dt),
                                        ],
                                        ['type' => 'line',
                                         'data' => array_reverse($data1),
@@ -273,7 +274,7 @@ function func_20190621($mu_, $bound_ = 2)
                            'hover' => ['animationDuration' => 0,],
                            'responsiveAnimationDuration' => 0,
                            'scales' => $scales,
-                           'title' => ['display' => true,
+                           'title' => ['display' => false,
                                        'text' => date('Y/m/d H:i', $dt),
                                       ],
                            'annotation' => ['annotations' => [['type' => 'line',
