@@ -15,8 +15,8 @@ $res1 = $mu->get_contents_proxy($url);
 $url = 'https://traininfo.jr-central.co.jp/shinkansen/var/train_info/train_location_info.json?' . microtime(true);
 $res2 = $mu->get_contents_proxy($url);
 
-$res1 = func_20190621($mu, ,$res1, $res2, 1);
-$res2 = func_20190621($mu, ,$res1, $res2, 2);
+$res1 = func_20190621($mu, $res1, $res2, 1);
+$res2 = func_20190621($mu, $res1, $res2, 2);
 
 $im1 = imagecreatetruecolor(1000, 280);
 imagealphablending($im1, false);
