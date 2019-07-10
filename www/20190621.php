@@ -156,10 +156,12 @@ function func_20190621($mu_, $bound_ = 2)
     
     $data_nozomi_teishaeki = [];
     
-    $tmp = new stdClass();
-    $tmp->x = '名古屋';
-    $tmp->y = 0;
-    $data_nozomi_teishaeki[] = $tmp;
+    foreach (['東京', '品川', '新横浜', '名古屋', '京都', '新大阪', '新神戸', '岡山', '広島', '小倉', '博多'] as $item) {
+        $tmp = new stdClass();
+        $tmp->x = $item;
+        $tmp->y = 0;
+        $data_nozomi_teishaeki[] = $tmp;
+    }
     
     $labels0 = [];
     for ($i = 0; $i < count($labels); $i++) {
