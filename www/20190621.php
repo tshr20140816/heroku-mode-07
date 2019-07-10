@@ -267,7 +267,7 @@ function func_20190621($mu_, $bound_ = 2)
                                                                'mode' => 'horizontal',
                                                                'scaleID' => 'y-axis-0',
                                                                'value' => $max_y + 2,
-                                                               'borderColor' => 'black',
+                                                               'borderColor' => 'rgba(0,0,0,0)',
                                                                'borderWidth' => 1,
                                                               ],
                                                              ],
