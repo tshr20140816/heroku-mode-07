@@ -281,7 +281,7 @@ function func_20190621($mu_, $bound_ = 2)
                                        ],
                                       ],
                        ],
-             'options' => ['legend' => ['display' => true,],
+             'options' => ['legend' => ['labels' => ['fontColor' => 'black',],],
                            'animation' => ['duration' => 0,],
                            'hover' => ['animationDuration' => 0,],
                            'responsiveAnimationDuration' => 0,
