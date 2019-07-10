@@ -33,7 +33,7 @@ function func_20190601($mu_)
         $tmp = explode('<article class="', $res);
         array_shift($tmp);
 
-        for ($tmp as $tour) {
+        foreach ($tmp as $tour) {
             // error_log($tour);
             $rc = preg_match('/<h3 class="domtour-tour-list__name"><a .*?href=".+?\?(.+?)".*?>(.+?)</s', $tour, $match);
             array_shift($match);
