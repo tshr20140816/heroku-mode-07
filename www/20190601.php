@@ -29,8 +29,6 @@ function func_20190601($mu_)
     
     error_log($tmp[1]);
     
-    //<span class="dom-hotel-price__adult-price"><em>24,500</em>
-    $rc = preg_match('/<span class="dom-hotel-price__adult-price"><em>(.+?)</', $tmp[1], $match);
-    
+    $rc = preg_match('/<h3 class="domtour-tour-list__name"><.+?>(.+?)<.+?<span class="dom-hotel-price__adult-price"><em>(.+?)</s', $tmp[1], $match);
     error_log(print_r($match, true));
 }
