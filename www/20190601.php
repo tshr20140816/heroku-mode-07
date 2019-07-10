@@ -21,6 +21,7 @@ function func_20190601($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
     $url = 'https://www.jtb.co.jp/kokunai_tour/list/1301/?departure=HIJ&capacity=2&godate=20190830&traveldays=2&room=1&transportation=2&samehm=1&toursort=low&itemperpage=20';
+    $url = 'https://www.jtb.co.jp/kokunai_tour/list/130302/?departure=HIJ&capacity=2&godate=20190830&traveldays=2&room=1&transportation=2&samehm=1&toursort=low&page=1&itemperpage=20';
     $res = $mu_->get_contents($url);
     
     // error_log($res);
