@@ -299,7 +299,7 @@ function func_20190621($mu_, $bound_ = 2)
                                         'pointStyle' => 'circle',
                                         'pointRadius' => 3,
                                         'pointBackgroundColor' => 'yellow',
-                                        'pointBorderColor' => 'yellow',
+                                        'pointBorderColor' => 'black',
                                         'label' => '',
                                        ],
                                       ],
