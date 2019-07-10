@@ -10,13 +10,13 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
 $url = 'https://traininfo.jr-central.co.jp/shinkansen/common/data/common_ja.json';
-$res1 = $mu->get_contents_proxy($url);
+$res_common_ja = $mu->get_contents_proxy($url);
 
 $url = 'https://traininfo.jr-central.co.jp/shinkansen/var/train_info/train_location_info.json?' . microtime(true);
-$res2 = $mu->get_contents_proxy($url);
+$res_train_location_info = $mu->get_contents_proxy($url);
 
-$res1 = func_20190621($mu, $res1, $res2, 1);
-$res2 = func_20190621($mu, $res1, $res2, 2);
+$res1 = func_20190621($mu, $res_common_ja, $res_train_location_info, 1);
+$res2 = func_20190621($mu, $res_common_ja, $res_train_location_info, 2);
 
 $im1 = imagecreatetruecolor(1000, 280);
 imagealphablending($im1, false);
