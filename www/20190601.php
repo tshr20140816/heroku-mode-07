@@ -31,10 +31,11 @@ function func_20190601($mu_)
         $res = $mu_->get_contents($url);
 
         $tmp = explode('<article class="', $res);
+        array_shift($tmp);
 
-        for ($i = 0; $i < 5; $i++) {
-            // error_log($tmp[$i + 1]);
-            $rc = preg_match('/<h3 class="domtour-tour-list__name"><a .*?href=".+?\?(.+?)".*?>(.+?)</s', $tmp[$i + 1], $match);
+        for ($tmp as $tour) {
+            // error_log($tour);
+            $rc = preg_match('/<h3 class="domtour-tour-list__name"><a .*?href=".+?\?(.+?)".*?>(.+?)</s', $tour, $match);
             array_shift($match);
             // error_log(print_r($match, true));
 
