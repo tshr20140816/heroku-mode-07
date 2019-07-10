@@ -183,6 +183,8 @@ function func_20190621($mu_, $bound_ = 2)
                                         'yAxisID' => 'y-axis-0',
                                         'pointRadius' => 0,
                                         'showLine' => false,
+                                        'pointBackgroundColor' => 'rgba(0,0,0,0)',
+                                        'pointBorderColor' => 'rgba(0,0,0,0)',
                                         'label' => '',
                                        ],
                                        ['type' => 'line',
