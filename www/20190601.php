@@ -9,48 +9,18 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$file_name_rss_items = tempnam('/tmp', 'rss_' . md5(microtime(true)));
-@unlink($file_name_rss_items);
+$rc = func_20190601($mu);
 
-$rc = func_20190601($mu, $file_name_rss_items);
-
-$time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
 
-function func_20190601($mu_, $file_name_rss_items_)
+function func_20190601($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $ftp_link_id = ftp_connect(getenv('TEST_FTP_SERVER'), 21);
+    $url = 'https://www.jtb.co.jp/kokunai_tour/list/1301/?departure=HIJ&capacity=2&godate=20190830&traveldays=2&room=1&transportation=2&samehm=1&toursort=low&itemperpage=20';
+    $res = $mu_->get_contents($url);
     
-    $rc = ftp_login($ftp_link_id, getenv('TEST_FTP_ID'), getenv('TEST_FTP_PASSWORD'));
-    error_log('ftp_login : ' . $rc);
-    
-    // $rc = ftp_pasv($ftp_link_id, true);
-    // error_log('ftp_pasv : ' . $rc);
-    $rc = ftp_raw($ftp_link_id, 'PASV');
-    error_log(print_r($rc, true));
-    
-    // $rc = ftp_chdir($ftp_link_id, '/root');
-    // error_log('ftp_chdir : ' . $rc);
-
-    // $rc = ftp_nlist($ftp_link_id, './');
-    // error_log(print_r($rc, true));
-
-    // $rc = ftp_pwd($ftp_link_id);
-    // error_log('ftp_pwd : ' . $rc);
-    $rc = ftp_raw($ftp_link_id, 'TYPE BIN');
-    error_log(print_r($rc, true));
-    
-    $file_name = '/app/phpcs.phar';
-    error_log('file size : ' . filesize($file_name));
-    
-    error_log(pathinfo($file_name)['basename']);
-    $rc = ftp_put($ftp_link_id, pathinfo($file_name)['basename'], $file_name, FTP_BINARY);
-    error_log('ftp_put : ' . $rc);
-    
-    $rc = ftp_close($ftp_link_id);
-    error_log('ftp_close : ' . $rc);
+    error_log($res);
 }
