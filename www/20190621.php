@@ -9,7 +9,29 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190621($mu, 2);
+$res1 = func_20190621($mu, 1);
+$res2 = func_20190621($mu, 2);
+
+$im1 = imagecreatetruecolor(1000, 280);
+imagealphablending($im1, false);
+imagesavealpha($im1, false);
+
+$im2 = imagecreatefrompng($res1);
+imagecopy($im1, $im2, 0, 0, 0, 0, 1000, 140);
+imagedestroy($im2);
+
+$im2 = imagecreatefrompng($res2);
+imagecopy($im1, $im2, 0, 140, 0, 0, 1000, 140);
+imagedestroy($im2);
+
+$file = tempnam("/tmp", md5(microtime(true)));
+imagepng($im1, $file, 9);
+imagedestroy($im1);
+
+header('Content-Type: image/png');
+echo file_get_contents($file);
+
+unlink($file);
 
 $time_finish = microtime(true);
 
@@ -270,6 +292,7 @@ function func_20190621($mu_, $bound_ = 2)
     $res = file_get_contents($file);
     unlink($file);
     
-    header('Content-Type: image/png');
-    echo $res;
+    // header('Content-Type: image/png');
+    // echo $res;
+    return $res;
 }
