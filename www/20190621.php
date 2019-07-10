@@ -89,9 +89,9 @@ function func_20190621($mu_, $bound_ = 2)
     
     $data1 = []; // nozomi
     $data2 = []; // hikara
-    $data3 = []; // mizuho
-    $data4 = []; // sakura
-    $data5 = []; // kodama
+    $data3 = []; // kodama
+    $data4 = []; // mizuho
+    $data5 = []; // sakura
     $data6 = []; // ???
     
     $index = 0;
@@ -111,11 +111,11 @@ function func_20190621($mu_, $bound_ = 2)
                 $data1[] = $tmp;
             } else if ($trains[$train['train']] == 'ひかり') {
                 $data2[] = $tmp;
-            } else if ($trains[$train['train']] == 'みずほ') {
-                $data3[] = $tmp;
-            } else if ($trains[$train['train']] == 'さくら') {
-                $data4[] = $tmp;
             } else if ($trains[$train['train']] == 'こだま') {
+                $data3[] = $tmp;
+            } else if ($trains[$train['train']] == 'みずほ') {
+                $data4[] = $tmp;
+            } else if ($trains[$train['train']] == 'さくら') {
                 $data5[] = $tmp;
             } else {
                 $data6[] = $tmp;
@@ -141,12 +141,14 @@ function func_20190621($mu_, $bound_ = 2)
                 $data1[] = $tmp;
             } else if ($trains[$train['train']] == 'ひかり') {
                 $data2[] = $tmp;
-            } else if ($trains[$train['train']] == 'みずほ') {
+            } else if ($trains[$train['train']] == 'こだま') {
                 $data3[] = $tmp;
-            } else if ($trains[$train['train']] == 'さくら') {
+            } else if ($trains[$train['train']] == 'みずほ') {
                 $data4[] = $tmp;
-            } else {
+            } else if ($trains[$train['train']] == 'さくら') {
                 $data5[] = $tmp;
+            } else {
+                $data6[] = $tmp;
             }
         }
         $index += 2;
@@ -226,6 +228,21 @@ function func_20190621($mu_, $bound_ = 2)
                                         'yAxisID' => 'y-axis-0',
                                         'showLine' => false,
                                         'borderColor' => 'black',
+                                        'backgroundColor' => 'blue',
+                                        'pointStyle' => 'triangle',
+                                        'pointRadius' => 12,
+                                        'pointRotation' => $pointRotation,
+                                        'pointBackgroundColor' => 'blue',
+                                        'pointBorderColor' => 'black',
+                                        'label' => 'こだま',
+                                       ],
+                                       ['type' => 'line',
+                                        'data' => array_reverse($data4),
+                                        'fill' => false,
+                                        'xAxisID' => 'x-axis-1',
+                                        'yAxisID' => 'y-axis-0',
+                                        'showLine' => false,
+                                        'borderColor' => 'black',
                                         'backgroundColor' => 'orange',
                                         'pointStyle' => 'triangle',
                                         'pointRadius' => 12,
@@ -235,7 +252,7 @@ function func_20190621($mu_, $bound_ = 2)
                                         'label' => 'みずほ',
                                        ],
                                        ['type' => 'line',
-                                        'data' => array_reverse($data4),
+                                        'data' => array_reverse($data5),
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-1',
                                         'yAxisID' => 'y-axis-0',
@@ -248,21 +265,6 @@ function func_20190621($mu_, $bound_ = 2)
                                         'pointBackgroundColor' => 'pink',
                                         'pointBorderColor' => 'black',
                                         'label' => 'さくら',
-                                       ],
-                                       ['type' => 'line',
-                                        'data' => array_reverse($data5),
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-1',
-                                        'yAxisID' => 'y-axis-0',
-                                        'showLine' => false,
-                                        'borderColor' => 'black',
-                                        'backgroundColor' => 'blue',
-                                        'pointStyle' => 'triangle',
-                                        'pointRadius' => 12,
-                                        'pointRotation' => $pointRotation,
-                                        'pointBackgroundColor' => 'blue',
-                                        'pointBorderColor' => 'black',
-                                        'label' => 'こだま',
                                        ],
                                        ['type' => 'line',
                                         'data' => array_reverse($data6),
