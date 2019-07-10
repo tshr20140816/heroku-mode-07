@@ -25,7 +25,7 @@ function func_20190601($mu_)
     
     // error_log($res);
     
-    $tmp = explode('<div class="domtour-tour-list__item-in">', $res);
+    $tmp = explode('<article class="', $res);
     
     error_log($tmp[1]);
 }
