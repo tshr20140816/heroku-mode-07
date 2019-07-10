@@ -16,11 +16,11 @@ $im1 = imagecreatetruecolor(1000, 280);
 imagealphablending($im1, false);
 imagesavealpha($im1, false);
 
-$im2 = imagecreatefrompng($res1);
+$im2 = imagecreatefromstring($res1);
 imagecopy($im1, $im2, 0, 0, 0, 0, 1000, 140);
 imagedestroy($im2);
 
-$im2 = imagecreatefrompng($res2);
+$im2 = imagecreatefromstring($res2);
 imagecopy($im1, $im2, 0, 140, 0, 0, 1000, 140);
 imagedestroy($im2);
 
