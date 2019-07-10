@@ -31,9 +31,9 @@ function func_20190601($mu_)
         // error_log($tmp[$i + 1]);
         $rc = preg_match('/<h3 class="domtour-tour-list__name"><a .*?href=".+?\?(.+?)".*?>(.+?)<.+?<span class="dom-hotel-price__adult-price"><em>(.+?)</s', $tmp[$i + 1], $match);
         array_shift($match);
-        // error_log(print_r($match, true));
+        error_log(print_r($match, true));
         
-        $plan_name = $match[1];
+        // $plan_name = $match[1];
         
         $url = 'https://www.jtb.co.jp/kokunai_tour/spookserver?Command=TourShouhinListData&hotelsort=low&page=1&rating=5-4&' . str_replace('&amp;', '&', $match[0]);
         $res = $mu_->get_contents($url);
@@ -42,7 +42,7 @@ function func_20190601($mu_)
         $json = json_decode($res);
         // error_log(print_r($json, true));
         foreach ($json->tourShouhinList as $item) {
-            error_log($plan_name . ' ' . $item->shisetsu_name . ' '. $item->min_price);
+            error_log($item->shisetsu_name . ' '. $item->min_price);
         }
     }
 }
