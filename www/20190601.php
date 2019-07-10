@@ -38,9 +38,7 @@ function func_20190601($mu_)
             array_shift($match);
             // error_log(print_r($match, true));
 
-            // $plan_name = $match[1];
-            $list_item[] = $match[1];
-            $list_item[] = '';
+            $plan_name = $match[1];
 
             $url = 'https://www.jtb.co.jp/kokunai_tour/spookserver?Command=TourShouhinListData&hotelsort=low&page=1&rating=5-4&'
                 . str_replace('&amp;', '&', $match[0]);
@@ -49,13 +47,22 @@ function func_20190601($mu_)
             // error_log($res);
             $json = json_decode($res);
             // error_log(print_r($json, true));
+            
+            $is_first = true;
             foreach ($json->tourShouhinList as $item) {
                 // error_log($item->shisetsu_name . ' '. $item->min_price);
                 if ($limit > (int)$item->min_price) {
+                    if ($is_first) {
+                        $list_item[] = $plan_name;
+                        $list_item[] = '';
+                        $is_first = false;
+                    }
                     $list_item[] = $item->shisetsu_name . ' '. $item->min_price;
                 }
             }
-            $list_item[] = '';
+            if ($is_first === false) {
+                $list_item[] = '';
+            }
         }
     }
     error_log(print_r($list_item, true));
