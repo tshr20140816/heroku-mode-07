@@ -27,8 +27,10 @@ function func_20190601($mu_)
     
     $tmp = explode('<article class="', $res);
     
-    error_log($tmp[1]);
-    
-    $rc = preg_match('/<h3 class="domtour-tour-list__name"><.+?>(.+?)<.+?<span class="dom-hotel-price__adult-price"><em>(.+?)</s', $tmp[1], $match);
-    error_log(print_r($match, true));
+    for ($i = 0; $i < 5; $i++) {
+        // error_log($tmp[$i + 1]);
+        $rc = preg_match('/<h3 class="domtour-tour-list__name"><.+?>(.+?)<.+?<span class="dom-hotel-price__adult-price"><em>(.+?)</s', $tmp[$i + 1], $match);
+        array_shift($match);
+        error_log(print_r($match, true));
+    }
 }
