@@ -215,32 +215,11 @@ function make_score_map($mu_, $file_name_rss_items_)
     $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
-    $res = file_get_contents($file);
+
+    $res = $mu_->shrink_image($file);
+
     unlink($file);
-
-    $url = 'https://api.tinify.com/shrink';
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-                CURLOPT_POST => true,
-                CURLOPT_BINARYTRANSFER => true,
-                CURLOPT_POSTFIELDS => $res,
-                CURLOPT_HEADER => true,
-               ];
-    $res = $mu_->get_contents($url, $options);
-
-    $tmp = preg_split('/^\r\n/m', $res, 2);
-
-    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
-    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
-    $json = json_decode($tmp[1]);
-    error_log($log_prefix . print_r($json, true));
-
-    $url = $json->output->url;
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-               ];
-    $res = $mu_->get_contents($url, $options);
+    
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
     $mu_->post_blog_hatena('Score Map', $description);
@@ -377,29 +356,10 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
     $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
-    $res = file_get_contents($file);
-    unlink($file);
 
-    $url = 'https://api.tinify.com/shrink';
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-                CURLOPT_POST => true,
-                CURLOPT_BINARYTRANSFER => true,
-                CURLOPT_POSTFIELDS => $res,
-                CURLOPT_HEADER => true,
-               ];
-    $res = $mu_->get_contents($url, $options);
-    $tmp = preg_split('/^\r\n/m', $res, 2);
-    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
-    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-    $mu_->post_blog_wordpress_async('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
-    $json = json_decode($tmp[1]);
-    error_log($log_prefix . print_r($json, true));
-    $url = $json->output->url;
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-               ];
-    $res = $mu_->get_contents($url, $options);
+    $res = $mu_->shrink_image($file, true);
+
+    unlink($file);
 
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
@@ -568,32 +528,11 @@ __HEREDOC__;
     $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
-    $res = file_get_contents($file);
+
+    $res = $mu_->shrink_image($file);
+
     unlink($file);
 
-    $url = 'https://api.tinify.com/shrink';
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-                CURLOPT_POST => true,
-                CURLOPT_BINARYTRANSFER => true,
-                CURLOPT_POSTFIELDS => $res,
-                CURLOPT_HEADER => true,
-               ];
-    $res = $mu_->get_contents($url, $options);
-
-    $tmp = preg_split('/^\r\n/m', $res, 2);
-
-    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
-    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
-    $json = json_decode($tmp[1]);
-    error_log($log_prefix . print_r($json, true));
-
-    $url = $json->output->url;
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-               ];
-    $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     $mu_->post_blog_hatena('heroku dyno usage', $description);
     $mu_->post_blog_fc2_async('heroku dyno usage', $description);
@@ -755,32 +694,11 @@ __HEREDOC__;
     $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
-    $res = file_get_contents($file);
+
+    $res = $mu_->shrink_image($file);
+
     unlink($file);
 
-    $url = 'https://api.tinify.com/shrink';
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-                CURLOPT_POST => true,
-                CURLOPT_BINARYTRANSFER => true,
-                CURLOPT_POSTFIELDS => $res,
-                CURLOPT_HEADER => true,
-               ];
-    $res = $mu_->get_contents($url, $options);
-
-    $tmp = preg_split('/^\r\n/m', $res, 2);
-
-    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
-    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
-    $json = json_decode($tmp[1]);
-    error_log($log_prefix . print_r($json, true));
-
-    $url = $json->output->url;
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-               ];
-    $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     // $mu_->post_blog_hatena('heroku dyno usage 2', $description);
     // $mu_->post_blog_fc2_async('heroku dyno usage 2', $description);
@@ -896,32 +814,11 @@ __HEREDOC__;
     $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
-    $res = file_get_contents($file);
+
+    $res = $mu_->shrink_image($file);
+
     unlink($file);
 
-    $url = 'https://api.tinify.com/shrink';
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-                CURLOPT_POST => true,
-                CURLOPT_BINARYTRANSFER => true,
-                CURLOPT_POSTFIELDS => $res,
-                CURLOPT_HEADER => true,
-               ];
-    $res = $mu_->get_contents($url, $options);
-
-    $tmp = preg_split('/^\r\n/m', $res, 2);
-
-    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
-    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
-    $json = json_decode($tmp[1]);
-    error_log($log_prefix . print_r($json, true));
-
-    $url = $json->output->url;
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-               ];
-    $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     $mu_->post_blog_hatena('waon balance', $description);
     $mu_->post_blog_fc2_async('waon balance', $description);
@@ -1146,32 +1043,11 @@ function make_database($mu_, $file_name_rss_items_, $pattern_)
     $file = tempnam("/tmp", md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
-    $res = file_get_contents($file);
+
+    $res = $mu_->shrink_image($file);
+
     unlink($file);
 
-    $url = 'https://api.tinify.com/shrink';
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-                CURLOPT_POST => true,
-                CURLOPT_BINARYTRANSFER => true,
-                CURLOPT_POSTFIELDS => $res,
-                CURLOPT_HEADER => true,
-               ];
-    $res = $mu_->get_contents($url, $options);
-
-    $tmp = preg_split('/^\r\n/m', $res, 2);
-
-    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
-    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
-    $json = json_decode($tmp[1]);
-    error_log($log_prefix . print_r($json, true));
-
-    $url = $json->output->url;
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-               ];
-    $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     if ($pattern_ == 2) {
         $mu_->post_blog_hatena('database', $description);
@@ -1282,32 +1158,11 @@ function make_process_time($mu_, $file_name_rss_items_)
     $file = tempnam("/tmp", md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
-    $res = file_get_contents($file);
+
+    $res = $mu_->shrink_image($file);
+
     unlink($file);
 
-    $url = 'https://api.tinify.com/shrink';
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-                CURLOPT_POST => true,
-                CURLOPT_BINARYTRANSFER => true,
-                CURLOPT_POSTFIELDS => $res,
-                CURLOPT_HEADER => true,
-               ];
-    $res = $mu_->get_contents($url, $options);
-
-    $tmp = preg_split('/^\r\n/m', $res, 2);
-
-    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
-    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
-    $json = json_decode($tmp[1]);
-    error_log($log_prefix . print_r($json, true));
-
-    $url = $json->output->url;
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-               ];
-    $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     // $mu_->post_blog_hatena('process time', $description);
     // $mu_->post_blog_fc2_async('process time', $description);
@@ -1411,32 +1266,11 @@ __HEREDOC__;
     $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
-    $res = file_get_contents($file);
+
+    $res = $mu_->shrink_image($file);
+
     unlink($file);
 
-    $url = 'https://api.tinify.com/shrink';
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-                CURLOPT_POST => true,
-                CURLOPT_BINARYTRANSFER => true,
-                CURLOPT_POSTFIELDS => $res,
-                CURLOPT_HEADER => true,
-               ];
-    $res = $mu_->get_contents($url, $options);
-
-    $tmp = preg_split('/^\r\n/m', $res, 2);
-
-    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
-    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
-    $json = json_decode($tmp[1]);
-    error_log($log_prefix . print_r($json, true));
-
-    $url = $json->output->url;
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-               ];
-    $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     // $mu_->post_blog_hatena('post count', $description);
     // $mu_->post_blog_fc2_async('post count', $description);
@@ -1566,32 +1400,11 @@ function make_github_contributions($mu_, $file_name_rss_items_)
     $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
-    $res = file_get_contents($file);
+
+    $res = $mu_->shrink_image($file);
+
     unlink($file);
 
-    $url = 'https://api.tinify.com/shrink';
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-                CURLOPT_POST => true,
-                CURLOPT_BINARYTRANSFER => true,
-                CURLOPT_POSTFIELDS => $res,
-                CURLOPT_HEADER => true,
-               ];
-    $res = $mu_->get_contents($url, $options);
-
-    $tmp = preg_split('/^\r\n/m', $res, 2);
-
-    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
-    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
-    $json = json_decode($tmp[1]);
-    error_log($log_prefix . print_r($json, true));
-
-    $url = $json->output->url;
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-               ];
-    $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     // $mu_->post_blog_hatena('github contributions', $description);
     // $mu_->post_blog_fc2_async('github contributions', $description);
@@ -1670,32 +1483,11 @@ function make_storage_usage($mu_, $file_name_rss_items_)
     $file = tempnam("/tmp", md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
-    $res = file_get_contents($file);
+
+    $res = $mu_->shrink_image($file);
+
     unlink($file);
 
-    $url = 'https://api.tinify.com/shrink';
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-                CURLOPT_POST => true,
-                CURLOPT_BINARYTRANSFER => true,
-                CURLOPT_POSTFIELDS => $res,
-                CURLOPT_HEADER => true,
-               ];
-    $res = $mu_->get_contents($url, $options);
-
-    $tmp = preg_split('/^\r\n/m', $res, 2);
-
-    $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
-    error_log($log_prefix . 'Compression count : ' . $match[1]); // Limits 500/month
-    // $mu_->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $match[1] . "\r\n" . 'Limits 500/month');
-    $json = json_decode($tmp[1]);
-    error_log($log_prefix . print_r($json, true));
-
-    $url = $json->output->url;
-    $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
-               ];
-    $res = $mu_->get_contents($url, $options);
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     // $mu_->post_blog_hatena('storage usage', $description);
     // $mu_->post_blog_fc2_async('storage usage', $description);
