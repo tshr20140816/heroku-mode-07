@@ -28,4 +28,9 @@ function func_20190601($mu_)
     $tmp = explode('<article class="', $res);
     
     error_log($tmp[1]);
+    
+    //<span class="dom-hotel-price__adult-price"><em>24,500</em>
+    $rc = preg_match('/<span class="dom-hotel-price__adult-price"><em>(.+?)</', $tmp[1], $match);
+    
+    error_log(print_r($match, true));
 }
