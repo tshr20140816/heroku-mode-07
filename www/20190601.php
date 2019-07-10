@@ -22,5 +22,9 @@ function func_20190601($mu_)
     $url = 'https://www.jtb.co.jp/kokunai_tour/list/1301/?departure=HIJ&capacity=2&godate=20190830&traveldays=2&room=1&transportation=2&samehm=1&toursort=low&itemperpage=20';
     $res = $mu_->get_contents($url);
     
-    error_log($res);
+    // error_log($res);
+    
+    $tmp = explode('<div class="domtour-tour-list__item-in">', $res);
+    
+    error_log($tmp[1]);
 }
