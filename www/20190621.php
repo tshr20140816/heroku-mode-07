@@ -14,7 +14,7 @@ $res2 = func_20190621($mu, 2);
 
 $im1 = imagecreatetruecolor(1000, 280);
 imagealphablending($im1, false);
-imagesavealpha($im1, false);
+imagesavealpha($im1, true);
 
 $im2 = imagecreatefromstring($res1);
 imagecopy($im1, $im2, 0, 0, 0, 0, 1000, 140);
