@@ -36,6 +36,8 @@ function func_20190601($mu_)
         $url = 'https://www.jtb.co.jp/kokunai_tour/spookserver?Command=TourShouhinListData&hotelsort=low&page=1&rating=5-4&' . str_replace('&amp;', '&', $match[0]);
         $res = $mu_->get_contents($url);
         
-        error_log($res);
+        // error_log($res);
+        $json = json_decode($res);
+        error_log(print_r($json, true));
     }
 }
