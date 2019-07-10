@@ -21,6 +21,7 @@ function func_20190601($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
     $list_item = [];
+    $limit = 30000;
     
     $urls = [];
     $urls[] = 'https://www.jtb.co.jp/kokunai_tour/list/1301/?departure=HIJ&capacity=2&godate=20190830&traveldays=2&room=1&transportation=2&samehm=1&toursort=low&&page=1&itemperpage=40';
@@ -50,7 +51,9 @@ function func_20190601($mu_)
             // error_log(print_r($json, true));
             foreach ($json->tourShouhinList as $item) {
                 // error_log($item->shisetsu_name . ' '. $item->min_price);
-                $list_item[] = $item->shisetsu_name . ' '. $item->min_price;
+                if ($limit > (int)$item->min_price) {
+                    $list_item[] = $item->shisetsu_name . ' '. $item->min_price;
+                }
             }
             $list_item[] = '';
         }
