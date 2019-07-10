@@ -154,6 +154,13 @@ function func_20190621($mu_, $bound_ = 2)
         $index += 2;
     }
     
+    $data_nozomi_teishaeki = [];
+    
+    $tmp = new stdClass();
+    $tmp->x = '名古屋';
+    $tmp->y = 0;
+    $data_nozomi_teishaeki[] = $tmp;
+    
     $labels0 = [];
     for ($i = 0; $i < count($labels); $i++) {
         $labels0[] = (string)$i;
@@ -280,6 +287,20 @@ function func_20190621($mu_, $bound_ = 2)
                                         'pointBackgroundColor' => 'black',
                                         'pointBorderColor' => 'black',
                                         'label' => 'その他',
+                                       ],
+                                       ['type' => 'line',
+                                        'data' => $data_nozomi_teishaeki,
+                                        'fill' => false,
+                                        'xAxisID' => 'x-axis-0',
+                                        'yAxisID' => 'y-axis-0',
+                                        'showLine' => false,
+                                        'borderColor' => 'rgba(0,0,0,0)',
+                                        'backgroundColor' => 'rgba(0,0,0,0)',
+                                        'pointStyle' => 'circle',
+                                        'pointRadius' => 6,
+                                        'pointBackgroundColor' => 'blue',
+                                        'pointBorderColor' => 'blue',
+                                        'label' => '',
                                        ],
                                       ],
                        ],
