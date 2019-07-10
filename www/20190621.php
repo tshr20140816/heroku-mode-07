@@ -9,8 +9,14 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$res1 = func_20190621($mu, 1);
-$res2 = func_20190621($mu, 2);
+$url = 'https://traininfo.jr-central.co.jp/shinkansen/common/data/common_ja.json';
+$res1 = $mu->get_contents_proxy($url);
+
+$url = 'https://traininfo.jr-central.co.jp/shinkansen/var/train_info/train_location_info.json?' . microtime(true);
+$res2 = $mu->get_contents_proxy($url);
+
+$res1 = func_20190621($mu, ,$res1, $res2, 1);
+$res2 = func_20190621($mu, ,$res1, $res2, 2);
 
 $im1 = imagecreatetruecolor(1000, 280);
 imagealphablending($im1, false);
@@ -39,13 +45,11 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 exit();
 
 // $bound_ : 1 上り 2 下り
-function func_20190621($mu_, $bound_ = 2)
+function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $url = 'https://traininfo.jr-central.co.jp/shinkansen/common/data/common_ja.json';
-    $res = $mu_->get_contents_proxy($url);
-    $tmp = explode('</script>', $res);
+    $tmp = explode('</script>', $common_ja_);
     $tmp = trim(end($tmp));
     // error_log($tmp);
     
@@ -57,9 +61,7 @@ function func_20190621($mu_, $bound_ = 2)
     $trains = json_decode('{' . $match[1] . '}', true);
     error_log(print_r($trains, true));
     
-    $url = 'https://traininfo.jr-central.co.jp/shinkansen/var/train_info/train_location_info.json?' . microtime(true);
-    $res = $mu_->get_contents_proxy($url);
-    $tmp = explode('</script>', $res);
+    $tmp = explode('</script>', $train_location_info_);
     // error_log(trim(end($tmp)));
     $tmp = json_decode(trim(end($tmp)), true);
     // error_log(print_r($tmp, true));
