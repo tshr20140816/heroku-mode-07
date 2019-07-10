@@ -20,6 +20,8 @@ function func_20190601($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    $hash_url = 'url' . hash('sha512', 'https://www.jtb.co.jp/');
+    
     $list_item = [];
     $limit = 30000;
     
@@ -72,4 +74,14 @@ function func_20190601($mu_)
         }
     }
     error_log(print_r($list_item, true));
+    
+    $info = implode("\n", $list_item);
+    
+    $hash_info = hash('sha512', $info);
+    error_log($log_prefix . "info hash : ${hash_info}");
+    $res = $mu_->search_blog($hash_url);
+    if ($res != $hash_info) {
+        $description = '<div class="' . $hash_url . '">' . "${hash_info}</div>${info}";
+        $mu_->post_blog_wordpress_async($hash_url, $description);
+    }
 }
