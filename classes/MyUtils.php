@@ -1049,7 +1049,7 @@ __HEREDOC__;
         $user_cloudapp = $this->get_env('CLOUDAPP_USER', true);
         $password_cloudapp = $this->get_env('CLOUDAPP_PASSWORD', true);
         */
-        
+
         $authtoken_zoho = $this->get_env('ZOHO_AUTHTOKEN', true);
 
         $res = bzcompress($data_, 9);
@@ -1583,4 +1583,54 @@ __HEREDOC__;
 
         return $results;
     }
+
+    public function shrink_image($file_, $is_put_blog_ = false)
+    {
+        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+        $url = 'https://api.tinify.com/shrink';
+        $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                    CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+                    CURLOPT_POST => true,
+                    CURLOPT_BINARYTRANSFER => true,
+                    CURLOPT_POSTFIELDS => file_get_contents($file_),
+                    CURLOPT_HEADER => true,
+                    CURLOPT_TIMEOUT => 5,
+                   ];
+        for ($i = 0; $i < 3; $i++) {
+            $res = $this->get_contents($url, $options);
+            if (strlen($res) > 0) {
+                break;
+            }
+        }
+
+        if (strlen($res) < 4) {
+            return file_get_contents($file_);
+        }
+
+        $tmp = preg_split('/^\r\n/m', $res, 2);
+
+        $json = json_decode($tmp[1]);
+        error_log($log_prefix . print_r($json, true));
+
+        $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
+
+        $compression_count = $match[1];
+        error_log($log_prefix . 'Compression count : ' . $compression_count); // Limits 500/month
+        if ($is_put_blog_) {
+            $this->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $compression_count . "\r\n" . 'Limits 500/month');
+        }
+
+        $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                    CURLOPT_USERPWD => 'api:' . getenv('TINYPNG_API_KEY'),
+                   ];
+        $res = $this->get_contents($json->output->url, $options);
+
+        if (strlen($res) < 4) {
+            $res = file_get_contents($file_);
+        }
+
+        return $res;
+    }
+
 }
