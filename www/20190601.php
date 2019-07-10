@@ -57,7 +57,7 @@ function func_20190601($mu_)
                         $list_item[] = '';
                         $is_first = false;
                     }
-                    $list_item[] = $item->shisetsu_name . ' '. number_format($item->min_price);
+                    $list_item[] = number_format($item->min_price) . ' ' . $item->shisetsu_name;
                 }
             }
             if ($is_first === false) {
