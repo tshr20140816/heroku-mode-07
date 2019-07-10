@@ -187,7 +187,7 @@ function func_20190621($mu_, $bound_ = 2)
                                         'backgroundColor' => 'rgba(0,0,0,0)',
                                         'pointBackgroundColor' => 'rgba(0,0,0,0)',
                                         'pointBorderColor' => 'rgba(0,0,0,0)',
-                                        'label' => ($bound_ === 1 ? '上り' : '下り') . date('Y/m/d H:i', $dt),
+                                        'label' => ($bound_ === 1 ? '<上り> ' : '<下り> ') . date('Y/m/d H:i', $dt),
                                        ],
                                        ['type' => 'line',
                                         'data' => array_reverse($data1),
