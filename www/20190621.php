@@ -50,33 +50,30 @@ exit();
 function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
+
     $tmp = explode('</script>', $common_ja_);
     $tmp = trim(end($tmp));
-    // error_log($tmp);
-    
+
     $rc = preg_match('/"station": {(.+?)}/s', $tmp, $match);
     $stations = json_decode('{' . $match[1] . '}', true);
-    error_log(print_r($stations, true));
-    
+    error_log($log_prefix . print_r($stations, true));
+
     $rc = preg_match('/"train": {(.+?)}/s', $tmp, $match);
     $trains = json_decode('{' . $match[1] . '}', true);
-    error_log(print_r($trains, true));
-    
+    error_log($log_prefix . print_r($trains, true));
+
     $tmp = explode('</script>', $train_location_info_);
-    // error_log(trim(end($tmp)));
     $tmp = json_decode(trim(end($tmp)), true);
-    // error_log(print_r($tmp, true));
     $dt = $tmp['trainLocationInfo']['datetime'] + 32400; // +9 hours
     $atStations = $tmp['trainLocationInfo']['atStation']['bounds'];
-    // error_log(print_r($atStations, true));
     $betweenStations = $tmp['trainLocationInfo']['betweenStation']['bounds'];
-    
+
     $labels = [];
     // kudari
     foreach ($betweenStations[$bound_] as $item) {
         $labels[] = $stations[$item['station']];
     }
+
     $data = [];
     $data['station'] = [];
     $tmp_labels = [];
@@ -91,103 +88,73 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
         }
     }
     array_shift($tmp_labels);
-    array_shift($data['station']);
     $labels = $tmp_labels;
-    
+
     $max_y = 0;
-    
+
     $train_name = ['nozomi', 'hikari', 'kodama', 'mizuho', 'sakura', 'sonota'];
-    
+
     $defines['nozomi']['color'] = 'yellow';
     $defines['hikari']['color'] = 'red';
     $defines['kodama']['color'] = 'blue';
     $defines['mizuho']['color'] = 'orange';
     $defines['sakura']['color'] = 'pink';
     $defines['sonota']['color'] = 'black';
-    
+
     $defines['nozomi']['label'] = 'のぞみ';
     $defines['hikari']['label'] = 'ひかり';
     $defines['kodama']['label'] = 'こだま';
     $defines['mizuho']['label'] = 'みずほ';
     $defines['sakura']['label'] = 'さくら';
     $defines['sonota']['label'] = '';
-    
+
     foreach ($train_name as $item) {
         $data[$item] = [];
         $data[$item]['ontime'] = [];
         $data[$item]['delay'] = [];
     }
-    
-    $index = 0;
-    // kudari eki
-    foreach ($atStations[$bound_] as $item) {
-        error_log($stations[$item['station']]);
-        $level = 0;
-        foreach ($item['trains'] as $train) {
-            error_log($trains[$train['train']] . ' ' . $train['trainNumber'] . ' ' . $train['delay']);
-            if ($max_y < $level) {
-                $max_y = $level;
-            }
-            $tmp = new stdClass();
-            $tmp->x = (string)$index;
-            $tmp->y = ++$level;
-            if ((int)$train['delay'] === 0) {
-                $key = 'ontime';
-            } else {
-                $key = 'delay';
-            }
-            if ($trains[$train['train']] == 'のぞみ') {
-                $data['nozomi'][$key][] = $tmp;
-            } else if ($trains[$train['train']] == 'ひかり') {
-                $data['hikari'][$key][] = $tmp;
-            } else if ($trains[$train['train']] == 'こだま') {
-                $data['kodama'][$key][] = $tmp;
-            } else if ($trains[$train['train']] == 'みずほ') {
-                $data['mizuho'][$key][] = $tmp;
-            } else if ($trains[$train['train']] == 'さくら') {
-                $data['sakura'][$key][] = $tmp;
-            } else {
-                $data['sonota'][$key][] = $tmp;
-            }
+
+    for ($i = 0; $i < 2; $i++) {
+        $index = 0;
+        if ($i === 0) {
+            $target = $atStations[$bound_]; // eki
+        } else {
+            $target = $betweenStations[$bound_]; // ekikan
         }
-        $index += 2;
-    }
-    
-    $index = 0;
-    // kudari ekikan
-    foreach ($betweenStations[$bound_] as $item) {
-        error_log($stations[$item['station']]);
-        $level = 0;
-        foreach ($item['trains'] as $train) {
-            error_log($trains[$train['train']] . ' ' . $train['trainNumber'] . ' ' . $train['delay']);
-            if ($max_y < $level) {
-                $max_y = $level;
+        foreach ($target as $item) {
+            error_log($log_prefix . $stations[$item['station']]);
+            $level = 0;
+            foreach ($item['trains'] as $train) {
+                error_log($log_prefix . $trains[$train['train']] . ' ' . $train['trainNumber'] . ' ' . $train['delay']);
+                if ($max_y < $level) {
+                    $max_y = $level;
+                }
+                $tmp = new stdClass();
+                $tmp->x = (string)($i === 0 ? $index : ($bound_ == 2 ? $index + 1 : $index - 1));
+                $tmp->y = ++$level;
+                if ((int)$train['delay'] === 0) {
+                    $key = 'ontime';
+                } else {
+                    $key = 'delay';
+                }
+                if ($trains[$train['train']] == 'のぞみ') {
+                    $data['nozomi'][$key][] = $tmp;
+                } else if ($trains[$train['train']] == 'ひかり') {
+                    $data['hikari'][$key][] = $tmp;
+                } else if ($trains[$train['train']] == 'こだま') {
+                    $data['kodama'][$key][] = $tmp;
+                } else if ($trains[$train['train']] == 'みずほ') {
+                    $data['mizuho'][$key][] = $tmp;
+                } else if ($trains[$train['train']] == 'さくら') {
+                    $data['sakura'][$key][] = $tmp;
+                } else {
+                    $data['sonota'][$key][] = $tmp;
+                }
             }
-            $tmp = new stdClass();
-            $tmp->x = (string)($bound_ == 2 ? $index + 1 : $index - 1);
-            $tmp->y = ++$level;
-            if ((int)$train['delay'] === 0) {
-                $key = 'ontime';
-            } else {
-                $key = 'delay';
-            }
-            if ($trains[$train['train']] == 'のぞみ') {
-                $data['nozomi'][$key][] = $tmp;
-            } else if ($trains[$train['train']] == 'ひかり') {
-                $data['hikari'][$key][] = $tmp;
-            } else if ($trains[$train['train']] == 'こだま') {
-                $data['kodama'][$key][] = $tmp;
-            } else if ($trains[$train['train']] == 'みずほ') {
-                $data['mizuho'][$key][] = $tmp;
-            } else if ($trains[$train['train']] == 'さくら') {
-                $data['sakura'][$key][] = $tmp;
-            } else {
-                $data['sonota'][$key][] = $tmp;
-            }
+            $index += 2;
         }
-        $index += 2;
     }
-    
+
     $labels0 = [];
     for ($i = 0; $i < count($labels); $i++) {
         $labels0[] = (string)$i;
@@ -209,9 +176,8 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                                     'max' => $max_y + 2,
                                    ],
                        ];
-    
-    $datasets = [];
 
+    $datasets = [];
     $datasets[] = ['data' => array_reverse($data['station']),
                    'fill' => false,
                    'xAxisID' => 'x-axis-0',
@@ -226,9 +192,10 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                    'pointBorderColor' => 'black',
                    'label' => ($bound_ === 1 ? '<上り> ' : '<下り> ') . date('Y/m/d H:i', $dt),
                   ];
-    
+
     $pointRotation = $bound_ == 2 ? 270 : 90;
     foreach ($train_name as $item) {
+        $count = count($data[$item]['ontime']) + count($data[$item]['delay']);
         $datasets[] = ['type' => 'line',
                        'data' => array_reverse($data[$item]['ontime']),
                        'fill' => false,
@@ -242,7 +209,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                        'pointRotation' => $pointRotation,
                        'pointBackgroundColor' => $defines[$item]['color'],
                        'pointBorderColor' => 'black',
-                       'label' => $defines[$item]['label'] === '' ? '' : $defines[$item]['label'] . ' ' . (count($data[$item]['ontime']) + count($data[$item]['delay'])),
+                       'label' => $defines[$item]['label'] === '' ? '' : $defines[$item]['label'] . " ${count}",
                       ];
     }
     foreach ($train_name as $item) {
@@ -265,7 +232,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                           ];
         }
     }
-    
+
     $json = ['type' => 'line',
              'data' => ['labels' => array_reverse($labels),
                         'datasets' => $datasets,
@@ -286,11 +253,11 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                                            ],
                           ],
             ];
-    
+
     $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
-    error_log(strlen($url));
-    
+    error_log($log_prefix . strlen($url));
+
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
     $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
@@ -303,6 +270,6 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     imagedestroy($im2);
     $res = file_get_contents($file);
     unlink($file);
-    
+
     return $res;
 }
