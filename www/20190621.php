@@ -217,6 +217,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                                         'pointRotation' => $pointRotation,
                                         'pointBackgroundColor' => 'yellow',
                                         'pointBorderColor' => 'cyan',
+                                        'pointBorderWidth' => 3,
                                         'label' => 'のぞみ',
                                        ],
                                        ['type' => 'line',
