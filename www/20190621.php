@@ -124,21 +124,26 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
             if ($max_y < $level) {
                 $max_y = $level;
             }
+            if ($trains[$train['train']] == 'のぞみ') {
+                $target = $data['nozomi'];
+            } else if ($trains[$train['train']] == 'ひかり') {
+                $target = $data['hikari'];
+            } else if ($trains[$train['train']] == 'こだま') {
+                $target = $data['kodama'];
+            } else if ($trains[$train['train']] == 'みずほ') {
+                $target = $data['mizuho'];
+            } else if ($trains[$train['train']] == 'さくら') {
+                $target = $data['sakura'];
+            } else {
+                $target = $data['sonota'];
+            }
             $tmp = new stdClass();
             $tmp->x = (string)$index;
             $tmp->y = ++$level;
-            if ($trains[$train['train']] == 'のぞみ') {
-                $data['nozomi']['ontime'][] = $tmp;
-            } else if ($trains[$train['train']] == 'ひかり') {
-                $data['hikari']['ontime'][] = $tmp;
-            } else if ($trains[$train['train']] == 'こだま') {
-                $data['kodama']['ontime'][] = $tmp;
-            } else if ($trains[$train['train']] == 'みずほ') {
-                $data['mizuho']['ontime'][] = $tmp;
-            } else if ($trains[$train['train']] == 'さくら') {
-                $data['sakura']['ontime'][] = $tmp;
+            if ((int)$train['delay'] === 0) {
+                $target['ontime'][] = $tmp;
             } else {
-                $data['sonota']['ontime'][] = $tmp;
+                $target['delay'][] = $tmp;
             }
         }
         $index += 2;
@@ -154,21 +159,26 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
             if ($max_y < $level) {
                 $max_y = $level;
             }
+            if ($trains[$train['train']] == 'のぞみ') {
+                $target = $data['nozomi'];
+            } else if ($trains[$train['train']] == 'ひかり') {
+                $target = $data['hikari'];
+            } else if ($trains[$train['train']] == 'こだま') {
+                $target = $data['kodama'];
+            } else if ($trains[$train['train']] == 'みずほ') {
+                $target = $data['mizuho'];
+            } else if ($trains[$train['train']] == 'さくら') {
+                $target = $data['sakura'];
+            } else {
+                $target = $data['sonota'];
+            }
             $tmp = new stdClass();
             $tmp->x = (string)($bound_ == 2 ? $index + 1 : $index - 1);
             $tmp->y = ++$level;
-            if ($trains[$train['train']] == 'のぞみ') {
-                $data['nozomi']['ontime'][] = $tmp;
-            } else if ($trains[$train['train']] == 'ひかり') {
-                $data['hikari']['ontime'][] = $tmp;
-            } else if ($trains[$train['train']] == 'こだま') {
-                $data['kodama']['ontime'][] = $tmp;
-            } else if ($trains[$train['train']] == 'みずほ') {
-                $data['mizuho']['ontime'][] = $tmp;
-            } else if ($trains[$train['train']] == 'さくら') {
-                $data['sakura']['ontime'][] = $tmp;
+            if ((int)$train['delay'] === 0) {
+                $target['ontime'][] = $tmp;
             } else {
-                $data['sonota']['ontime'][] = $tmp;
+                $target['delay'][] = $tmp;
             }
         }
         $index += 2;
