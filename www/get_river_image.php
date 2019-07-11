@@ -653,7 +653,7 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
 
     $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode(json_encode($data));
     $res = $mu_->get_contents($url);
-    error_log(strlen($url));
+    error_log($log_prefix . strlen($url));
 
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
