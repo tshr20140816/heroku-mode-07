@@ -78,12 +78,13 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
         $labels[] = $stations[$item['station']];
     }
     $data = [];
+    $data['station'] = [];
     $tmp_labels = [];
     foreach ($labels as $item) {
         $tmp_labels[] = '';
         $tmp_labels[] = $item;
-        $data[] = 0;
-        $data[] = 0;
+        $data['station'][] = 0;
+        $data['station'][] = 0;
     }
     array_shift($tmp_labels);
     array_shift($data);
@@ -192,7 +193,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     $pointRotation = $bound_ == 2 ? 270 : 90;
     $data = ['type' => 'line',
              'data' => ['labels' => array_reverse($labels),
-                        'datasets' => [['data' => array_reverse($data),
+                        'datasets' => [['data' => array_reverse($data['station']),
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-0',
                                         'yAxisID' => 'y-axis-0',
@@ -216,8 +217,8 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                                         'pointRadius' => 12,
                                         'pointRotation' => $pointRotation,
                                         'pointBackgroundColor' => 'yellow',
-                                        'pointBorderColor' => 'cyan',
-                                        'pointBorderWidth' => 3,
+                                        'pointBorderColor' => 'black',
+                                        'pointBorderWidth' => 1,
                                         'label' => 'のぞみ',
                                        ],
                                        ['type' => 'line',
