@@ -248,22 +248,26 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                        'pointBorderWidth' => 1,
                        'label' => $defines[$item]['label'] === '' ? '' : $defines[$item]['label'] . ' ' . count($data[$item]['ontime']),
                       ];
-        $datasets[] = ['type' => 'line',
-                       'data' => array_reverse($data[$item]['delay']),
-                       'fill' => false,
-                       'xAxisID' => 'x-axis-1',
-                       'yAxisID' => 'y-axis-0',
-                       'showLine' => false,
-                       'borderColor' => 'rgba(0,0,0,0)',
-                       'backgroundColor' => 'rgba(0,0,0,0)',
-                       'pointStyle' => 'triangle',
-                       'pointRadius' => 12,
-                       'pointRotation' => $pointRotation,
-                       'pointBackgroundColor' => $defines[$item]['color'],
-                       'pointBorderColor' => 'cyan',
-                       'pointBorderWidth' => 3,
-                       'label' => '',
-                      ];
+    }
+    foreach ($train_name as $item) {
+        if (count($data[$item]['delay']) > 0) {
+            $datasets[] = ['type' => 'line',
+                           'data' => array_reverse($data[$item]['delay']),
+                           'fill' => false,
+                           'xAxisID' => 'x-axis-1',
+                           'yAxisID' => 'y-axis-0',
+                           'showLine' => false,
+                           'borderColor' => 'rgba(0,0,0,0)',
+                           'backgroundColor' => 'rgba(0,0,0,0)',
+                           'pointStyle' => 'triangle',
+                           'pointRadius' => 12,
+                           'pointRotation' => $pointRotation,
+                           'pointBackgroundColor' => $defines[$item]['color'],
+                           'pointBorderColor' => 'cyan',
+                           'pointBorderWidth' => 3,
+                           'label' => '',
+                          ];
+        }
     }
     
     $datasets[] = ['type' => 'line',
