@@ -19,8 +19,8 @@ $res1 = func_20190621($mu, $res_common_ja, $res_train_location_info, 1);
 $res2 = func_20190621($mu, $res_common_ja, $res_train_location_info, 2);
 
 $im1 = imagecreatetruecolor(1000, 280);
-imagealphablending($im1, false);
-imagesavealpha($im1, true);
+// imagealphablending($im1, false);
+// imagesavealpha($im1, true);
 
 imagefill($im1, 0, 0, imagecolorallocate($im1, 255, 255, 255));
 
