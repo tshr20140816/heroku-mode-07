@@ -327,6 +327,8 @@ __HEREDOC__;
 
 function get_shinkansen_image($mu_, $file_name_rss_items_)
 {
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
     $url = 'https://traininfo.jr-central.co.jp/shinkansen/common/data/common_ja.json';
     $res_common_ja = $mu_->get_contents_proxy($url);
 
@@ -423,10 +425,10 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
     $index = 0;
     // kudari eki
     foreach ($atStations[$bound_] as $item) {
-        error_log($stations[$item['station']]);
+        error_log($log_prefix . $stations[$item['station']]);
         $level = 0;
         foreach ($item['trains'] as $train) {
-            error_log($log_prefix . $trains[$train['train']] . ' ' . $train['trainNumber']);
+            error_log($log_prefix . $trains[$train['train']] . ' ' . $train['trainNumber'] . ' ' . $train['delay']);
             if ($max_y < $level) {
                 $max_y = $level;
             }
@@ -453,10 +455,10 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
     $index = 0;
     // kudari ekikan
     foreach ($betweenStations[$bound_] as $item) {
-        error_log($stations[$item['station']]);
+        error_log($log_prefix . $stations[$item['station']]);
         $level = 0;
         foreach ($item['trains'] as $train) {
-            error_log($trains[$train['train']] . ' ' . $train['trainNumber']);
+            error_log($log_prefix . $trains[$train['train']] . ' ' . $train['trainNumber'] . ' ' . $train['delay']);
             if ($max_y < $level) {
                 $max_y = $level;
             }
