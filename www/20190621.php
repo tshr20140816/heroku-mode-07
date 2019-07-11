@@ -83,10 +83,6 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     foreach ($labels as $item) {
         $tmp_labels[] = '';
         $tmp_labels[] = $item;
-        /*
-        $data['station'][] = 0;
-        $data['station'][] = 0;
-        */
         if (in_array($item, ['東京', '品川', '新横浜', '名古屋', '京都', '新大阪', '新神戸', '岡山', '広島', '小倉', '博多'], true)) {
             $tmp = new stdClass();
             $tmp->x = $item;
@@ -192,17 +188,6 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
         $index += 2;
     }
     
-    /*
-    $data['nozomi_teishaeki'] = [];
-    
-    foreach (['東京', '品川', '新横浜', '名古屋', '京都', '新大阪', '新神戸', '岡山', '広島', '小倉', '博多'] as $item) {
-        $tmp = new stdClass();
-        $tmp->x = $item;
-        $tmp->y = 0;
-        $data['nozomi_teishaeki'][] = $tmp;
-    }
-    */
-    
     $labels0 = [];
     for ($i = 0; $i < count($labels); $i++) {
         $labels0[] = (string)$i;
@@ -281,23 +266,6 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
         }
     }
     
-    /*
-    $datasets[] = ['type' => 'line',
-                   'data' => $data['nozomi_teishaeki'],
-                   'fill' => false,
-                   'xAxisID' => 'x-axis-0',
-                   'yAxisID' => 'y-axis-0',
-                   'showLine' => false,
-                   'borderColor' => 'rgba(0,0,0,0)',
-                   'backgroundColor' => 'rgba(0,0,0,0)',
-                   'pointStyle' => 'circle',
-                   'pointRadius' => 2,
-                   'pointBackgroundColor' => 'black',
-                   'pointBorderColor' => 'black',
-                   'label' => '',
-                  ];
-                  */
-    
     $json = ['type' => 'line',
              'data' => ['labels' => array_reverse($labels),
                         'datasets' => $datasets,
@@ -336,7 +304,5 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     $res = file_get_contents($file);
     unlink($file);
     
-    // header('Content-Type: image/png');
-    // echo $res;
     return $res;
 }
