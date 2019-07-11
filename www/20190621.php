@@ -245,7 +245,6 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                        'pointRotation' => $pointRotation,
                        'pointBackgroundColor' => $defines[$item]['color'],
                        'pointBorderColor' => 'black',
-                       'pointBorderWidth' => 1,
                        'label' => $defines[$item]['label'] === '' ? '' : $defines[$item]['label'] . ' ' . count($data[$item]['ontime']),
                       ];
     }
