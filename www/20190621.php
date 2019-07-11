@@ -22,6 +22,8 @@ $im1 = imagecreatetruecolor(1000, 280);
 imagealphablending($im1, false);
 imagesavealpha($im1, true);
 
+imagefill($im1, 0, 0, imagecolorallocate($im1, 255, 255, 255));
+
 $im2 = imagecreatefromstring($res1);
 imagecopy($im1, $im2, 0, 0, 0, 0, 1000, 140);
 imagedestroy($im2);
