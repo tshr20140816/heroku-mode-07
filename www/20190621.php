@@ -191,7 +191,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                        ];
     
     $pointRotation = $bound_ == 2 ? 270 : 90;
-    $data = ['type' => 'line',
+    $json = ['type' => 'line',
              'data' => ['labels' => array_reverse($labels),
                         'datasets' => [['data' => array_reverse($data['station']),
                                         'fill' => false,
@@ -329,7 +329,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                           ],
             ];
     
-    $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode(json_encode($data));
+    $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     error_log(strlen($url));
     
