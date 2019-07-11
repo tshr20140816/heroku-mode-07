@@ -87,7 +87,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
         $data['station'][] = 0;
         $data['station'][] = 0;
         */
-        if (in_array($item, ['東京', '品川', '新横浜', '名古屋', '京都', '新大阪', '新神戸', '岡山', '広島', '小倉', '博多'])) {
+        if (in_array($item, ['東京', '品川', '新横浜', '名古屋', '京都', '新大阪', '新神戸', '岡山', '広島', '小倉', '博多'], true)) {
             $tmp = new stdClass();
             $tmp->x = $item;
             $tmp->y = 0;
