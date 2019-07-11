@@ -423,6 +423,8 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
     $data5 = []; // sakura
     $data6 = []; // ???
 
+    $is_delay = false;
+
     $index = 0;
     // kudari eki
     foreach ($atStations[$bound_] as $item) {
@@ -430,6 +432,9 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
         $level = 0;
         foreach ($item['trains'] as $train) {
             error_log($log_prefix . $trains[$train['train']] . ' ' . $train['trainNumber'] . ' ' . $train['delay']);
+            if ((int)$train['delay'] > 0) {
+                $is_delay = true;
+            }
             if ($max_y < $level) {
                 $max_y = $level;
             }
@@ -460,6 +465,9 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
         $level = 0;
         foreach ($item['trains'] as $train) {
             error_log($log_prefix . $trains[$train['train']] . ' ' . $train['trainNumber'] . ' ' . $train['delay']);
+            if ((int)$train['delay'] > 0) {
+                $is_delay = true;
+            }
             if ($max_y < $level) {
                 $max_y = $level;
             }
