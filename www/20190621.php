@@ -92,12 +92,12 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     
     $max_y = 0;
     
-    $data1 = []; // nozomi
-    $data2 = []; // hikara
-    $data3 = []; // kodama
-    $data4 = []; // mizuho
-    $data5 = []; // sakura
-    $data6 = []; // ???
+    $data['nozomi'] = [];
+    $data['hikari'] = [];
+    $data['kodama'] = [];
+    $data['mizuho'] = [];
+    $data['sakura'] = [];
+    $data['sonota'] = [];
     
     $index = 0;
     // kudari eki
@@ -113,17 +113,17 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
             $tmp->x = (string)$index;
             $tmp->y = ++$level;
             if ($trains[$train['train']] == 'のぞみ') {
-                $data1[] = $tmp;
+                $data['nozomi'][] = $tmp;
             } else if ($trains[$train['train']] == 'ひかり') {
-                $data2[] = $tmp;
+                $data['hikari'][] = $tmp;
             } else if ($trains[$train['train']] == 'こだま') {
-                $data3[] = $tmp;
+                $data['kodama'][] = $tmp;
             } else if ($trains[$train['train']] == 'みずほ') {
-                $data4[] = $tmp;
+                $data['mizuho'][] = $tmp;
             } else if ($trains[$train['train']] == 'さくら') {
-                $data5[] = $tmp;
+                $data['sakura'][] = $tmp;
             } else {
-                $data6[] = $tmp;
+                $data['sonota'][] = $tmp;
             }
         }
         $index += 2;
@@ -143,17 +143,17 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
             $tmp->x = (string)($bound_ == 2 ? $index + 1 : $index - 1);
             $tmp->y = ++$level;
             if ($trains[$train['train']] == 'のぞみ') {
-                $data1[] = $tmp;
+                $data['nozomi'][] = $tmp;
             } else if ($trains[$train['train']] == 'ひかり') {
-                $data2[] = $tmp;
+                $data['hikari'][] = $tmp;
             } else if ($trains[$train['train']] == 'こだま') {
-                $data3[] = $tmp;
+                $data['kodama'][] = $tmp;
             } else if ($trains[$train['train']] == 'みずほ') {
-                $data4[] = $tmp;
+                $data['mizuho'][] = $tmp;
             } else if ($trains[$train['train']] == 'さくら') {
-                $data5[] = $tmp;
+                $data['sakura'][] = $tmp;
             } else {
-                $data6[] = $tmp;
+                $data['sonota'][] = $tmp;
             }
         }
         $index += 2;
@@ -206,7 +206,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                                         'label' => ($bound_ === 1 ? '<上り> ' : '<下り> ') . date('Y/m/d H:i', $dt),
                                        ],
                                        ['type' => 'line',
-                                        'data' => array_reverse($data1),
+                                        'data' => array_reverse($data['nozomi']),
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-1',
                                         'yAxisID' => 'y-axis-0',
@@ -222,7 +222,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                                         'label' => 'のぞみ',
                                        ],
                                        ['type' => 'line',
-                                        'data' => array_reverse($data2),
+                                        'data' => array_reverse($data['hikari']),
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-1',
                                         'yAxisID' => 'y-axis-0',
@@ -237,7 +237,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                                         'label' => 'ひかり',
                                        ],
                                        ['type' => 'line',
-                                        'data' => array_reverse($data3),
+                                        'data' => array_reverse($data['kodama']),
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-1',
                                         'yAxisID' => 'y-axis-0',
@@ -252,7 +252,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                                         'label' => 'こだま',
                                        ],
                                        ['type' => 'line',
-                                        'data' => array_reverse($data4),
+                                        'data' => array_reverse($data['mizuho']),
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-1',
                                         'yAxisID' => 'y-axis-0',
@@ -267,7 +267,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                                         'label' => 'みずほ',
                                        ],
                                        ['type' => 'line',
-                                        'data' => array_reverse($data5),
+                                        'data' => array_reverse($data['sakura']),
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-1',
                                         'yAxisID' => 'y-axis-0',
@@ -282,7 +282,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                                         'label' => 'さくら',
                                        ],
                                        ['type' => 'line',
-                                        'data' => array_reverse($data6),
+                                        'data' => array_reverse($data['sonota']),
                                         'fill' => false,
                                         'xAxisID' => 'x-axis-1',
                                         'yAxisID' => 'y-axis-0',
