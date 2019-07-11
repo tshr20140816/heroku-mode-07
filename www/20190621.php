@@ -102,7 +102,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
         error_log($stations[$item['station']]);
         $level = 0;
         foreach ($item['trains'] as $train) {
-            error_log($trains[$train['train']] . ' ' . $train['trainNumber']);
+            error_log($trains[$train['train']] . ' ' . $train['trainNumber'] . ' ' . $train['delay']);
             if ($max_y < $level) {
                 $max_y = $level;
             }
@@ -132,7 +132,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
         error_log($stations[$item['station']]);
         $level = 0;
         foreach ($item['trains'] as $train) {
-            error_log($trains[$train['train']] . ' ' . $train['trainNumber']);
+            error_log($trains[$train['train']] . ' ' . $train['trainNumber'] . ' ' . $train['delay']);
             if ($max_y < $level) {
                 $max_y = $level;
             }
