@@ -85,6 +85,12 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
         $tmp_labels[] = $item;
         $data['station'][] = 0;
         $data['station'][] = 0;
+        if (in_array($item, ['東京', '品川', '新横浜', '名古屋', '京都', '新大阪', '新神戸', '岡山', '広島', '小倉', '博多'])) {
+            $tmp = new stdClass();
+            $tmp->x = $item;
+            $tmp->y = 0;
+            $data['station'][] = $tmp;
+        }
     }
     array_shift($tmp_labels);
     array_shift($data['station']);
@@ -184,6 +190,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
         $index += 2;
     }
     
+    /*
     $data['nozomi_teishaeki'] = [];
     
     foreach (['東京', '品川', '新横浜', '名古屋', '京都', '新大阪', '新神戸', '岡山', '広島', '小倉', '博多'] as $item) {
@@ -192,6 +199,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
         $tmp->y = 0;
         $data['nozomi_teishaeki'][] = $tmp;
     }
+    */
     
     $labels0 = [];
     for ($i = 0; $i < count($labels); $i++) {
@@ -225,8 +233,10 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                    'showLine' => false,
                    'borderColor' => 'rgba(0,0,0,0)',
                    'backgroundColor' => 'rgba(0,0,0,0)',
-                   'pointBackgroundColor' => 'rgba(0,0,0,0)',
-                   'pointBorderColor' => 'rgba(0,0,0,0)',
+                   'pointStyle' => 'circle',
+                   'pointRadius' => 2,
+                   'pointBackgroundColor' => 'black',
+                   'pointBorderColor' => 'black',
                    'label' => ($bound_ === 1 ? '<上り> ' : '<下り> ') . date('Y/m/d H:i', $dt),
                   ];
     
@@ -269,6 +279,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
         }
     }
     
+    /*
     $datasets[] = ['type' => 'line',
                    'data' => $data['nozomi_teishaeki'],
                    'fill' => false,
@@ -283,6 +294,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                    'pointBorderColor' => 'black',
                    'label' => '',
                   ];
+                  */
     
     $json = ['type' => 'line',
              'data' => ['labels' => array_reverse($labels),
