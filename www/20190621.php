@@ -93,8 +93,6 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     $max_y = 0;
     
     $train_name = ['nozomi', 'hikari', 'kodama', 'mizuho', 'sakura', 'sonota'];
-    $train_color = ['yellow', 'red', 'blue', 'orange', 'pink', 'black'];
-    $train_label = ['のぞみ', 'ひかり', 'こだま', 'みずほ', 'さくら', ''];
     
     $defines['nozomi']['color'] = 'yellow';
     $defines['hikari']['color'] = 'red';
@@ -112,6 +110,8 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     
     foreach ($train_name as $item) {
         $data[$item] = [];
+        $data[$item]['ontime'] = [];
+        $data[$item]['delay'] = [];
     }
     
     $index = 0;
@@ -128,17 +128,17 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
             $tmp->x = (string)$index;
             $tmp->y = ++$level;
             if ($trains[$train['train']] == 'のぞみ') {
-                $data['nozomi'][] = $tmp;
+                $data['nozomi']['ontime'][] = $tmp;
             } else if ($trains[$train['train']] == 'ひかり') {
-                $data['hikari'][] = $tmp;
+                $data['hikari']['ontime'][] = $tmp;
             } else if ($trains[$train['train']] == 'こだま') {
-                $data['kodama'][] = $tmp;
+                $data['kodama']['ontime'][] = $tmp;
             } else if ($trains[$train['train']] == 'みずほ') {
-                $data['mizuho'][] = $tmp;
+                $data['mizuho']['ontime'][] = $tmp;
             } else if ($trains[$train['train']] == 'さくら') {
-                $data['sakura'][] = $tmp;
+                $data['sakura']['ontime'][] = $tmp;
             } else {
-                $data['sonota'][] = $tmp;
+                $data['sonota']['ontime'][] = $tmp;
             }
         }
         $index += 2;
@@ -158,17 +158,17 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
             $tmp->x = (string)($bound_ == 2 ? $index + 1 : $index - 1);
             $tmp->y = ++$level;
             if ($trains[$train['train']] == 'のぞみ') {
-                $data['nozomi'][] = $tmp;
+                $data['nozomi']['ontime'][] = $tmp;
             } else if ($trains[$train['train']] == 'ひかり') {
-                $data['hikari'][] = $tmp;
+                $data['hikari']['ontime'][] = $tmp;
             } else if ($trains[$train['train']] == 'こだま') {
-                $data['kodama'][] = $tmp;
+                $data['kodama']['ontime'][] = $tmp;
             } else if ($trains[$train['train']] == 'みずほ') {
-                $data['mizuho'][] = $tmp;
+                $data['mizuho']['ontime'][] = $tmp;
             } else if ($trains[$train['train']] == 'さくら') {
-                $data['sakura'][] = $tmp;
+                $data['sakura']['ontime'][] = $tmp;
             } else {
-                $data['sonota'][] = $tmp;
+                $data['sonota']['ontime'][] = $tmp;
             }
         }
         $index += 2;
@@ -223,7 +223,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     $pointRotation = $bound_ == 2 ? 270 : 90;
     foreach ($train_name as $item) {
         $datasets[] = ['type' => 'line',
-                       'data' => array_reverse($data[$item]),
+                       'data' => array_reverse($data[$item]['ontime']),
                        'fill' => false,
                        'xAxisID' => 'x-axis-1',
                        'yAxisID' => 'y-axis-0',
