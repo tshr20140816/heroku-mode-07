@@ -402,102 +402,86 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
     foreach ($betweenStations[$bound_] as $item) {
         $labels[] = $stations[$item['station']];
     }
+
     $data = [];
+    $data['station'] = [];
     $tmp_labels = [];
     foreach ($labels as $item) {
         $tmp_labels[] = '';
         $tmp_labels[] = $item;
-        $data[] = 0;
-        $data[] = 0;
+        if (in_array($item, ['東京', '品川', '新横浜', '名古屋', '京都', '新大阪', '新神戸', '岡山', '広島', '小倉', '博多'], true)) {
+            $tmp = new stdClass();
+            $tmp->x = $item;
+            $tmp->y = 0;
+            $data['station'][] = $tmp;
+        }
     }
     array_shift($tmp_labels);
-    array_shift($data);
     $labels = $tmp_labels;
 
     $max_y = 0;
 
-    $data1 = []; // nozomi
-    $data2 = []; // hikara
-    $data3 = []; // kodama
-    $data4 = []; // mizuho
-    $data5 = []; // sakura
-    $data6 = []; // ???
+    $train_name = ['nozomi', 'hikari', 'kodama', 'mizuho', 'sakura', 'sonota'];
 
-    $is_delay = false;
+    $defines['nozomi']['color'] = 'yellow';
+    $defines['hikari']['color'] = 'red';
+    $defines['kodama']['color'] = 'blue';
+    $defines['mizuho']['color'] = 'orange';
+    $defines['sakura']['color'] = 'pink';
+    $defines['sonota']['color'] = 'black';
 
-    $index = 0;
-    // kudari eki
-    foreach ($atStations[$bound_] as $item) {
-        error_log($log_prefix . $stations[$item['station']]);
-        $level = 0;
-        foreach ($item['trains'] as $train) {
-            error_log($log_prefix . $trains[$train['train']] . ' ' . $train['trainNumber'] . ' ' . $train['delay']);
-            if ((int)$train['delay'] > 0) {
-                $is_delay = true;
-            }
-            if ($max_y < $level) {
-                $max_y = $level;
-            }
-            $tmp = new stdClass();
-            $tmp->x = (string)$index;
-            $tmp->y = ++$level;
-            if ($trains[$train['train']] == 'のぞみ') {
-                $data1[] = $tmp;
-            } else if ($trains[$train['train']] == 'ひかり') {
-                $data2[] = $tmp;
-            } else if ($trains[$train['train']] == 'こだま') {
-                $data3[] = $tmp;
-            } else if ($trains[$train['train']] == 'みずほ') {
-                $data4[] = $tmp;
-            } else if ($trains[$train['train']] == 'さくら') {
-                $data5[] = $tmp;
-            } else {
-                $data6[] = $tmp;
-            }
-        }
-        $index += 2;
+    $defines['nozomi']['label'] = 'のぞみ';
+    $defines['hikari']['label'] = 'ひかり';
+    $defines['kodama']['label'] = 'こだま';
+    $defines['mizuho']['label'] = 'みずほ';
+    $defines['sakura']['label'] = 'さくら';
+    $defines['sonota']['label'] = '';
+
+    foreach ($train_name as $item) {
+        $data[$item] = [];
+        $data[$item]['ontime'] = [];
+        $data[$item]['delay'] = [];
     }
 
-    $index = 0;
-    // kudari ekikan
-    foreach ($betweenStations[$bound_] as $item) {
-        error_log($log_prefix . $stations[$item['station']]);
-        $level = 0;
-        foreach ($item['trains'] as $train) {
-            error_log($log_prefix . $trains[$train['train']] . ' ' . $train['trainNumber'] . ' ' . $train['delay']);
-            if ((int)$train['delay'] > 0) {
-                $is_delay = true;
-            }
-            if ($max_y < $level) {
-                $max_y = $level;
-            }
-            $tmp = new stdClass();
-            $tmp->x = (string)($bound_ == 2 ? $index + 1 : $index - 1);
-            $tmp->y = ++$level;
-            if ($trains[$train['train']] == 'のぞみ') {
-                $data1[] = $tmp;
-            } else if ($trains[$train['train']] == 'ひかり') {
-                $data2[] = $tmp;
-            } else if ($trains[$train['train']] == 'こだま') {
-                $data3[] = $tmp;
-            } else if ($trains[$train['train']] == 'みずほ') {
-                $data4[] = $tmp;
-            } else if ($trains[$train['train']] == 'さくら') {
-                $data5[] = $tmp;
-            } else {
-                $data6[] = $tmp;
-            }
+    for ($i = 0; $i < 2; $i++) {
+        $index = 0;
+        if ($i === 0) {
+            $target = $atStations[$bound_]; // eki
+        } else {
+            $target = $betweenStations[$bound_]; // ekikan
         }
-        $index += 2;
-    }
-
-    $data_nozomi_teishaeki = [];
-
-    foreach (['東京', '品川', '新横浜', '名古屋', '京都', '新大阪', '新神戸', '岡山', '広島', '小倉', '博多'] as $item) {
-        $tmp = new stdClass();
-        $tmp->x = $item;
-        $tmp->y = 0;
-        $data_nozomi_teishaeki[] = $tmp;
+        foreach ($target as $item) {
+            error_log($log_prefix . $stations[$item['station']]);
+            $level = 0;
+            foreach ($item['trains'] as $train) {
+                error_log($log_prefix . $trains[$train['train']] . ' ' . $train['trainNumber'] . ' ' . $train['delay']);
+                if ($max_y < $level) {
+                    $max_y = $level;
+                }
+                $tmp = new stdClass();
+                $tmp->x = (string)($i === 0 ? $index : ($bound_ == 2 ? $index + 1 : $index - 1));
+                $tmp->y = ++$level;
+                if ((int)$train['delay'] === 0) {
+                    $key = 'ontime';
+                } else {
+                    $key = 'delay';
+                }
+                if ($trains[$train['train']] == 'のぞみ') {
+                    $data['nozomi'][$key][] = $tmp;
+                } else if ($trains[$train['train']] == 'ひかり') {
+                    $data['hikari'][$key][] = $tmp;
+                } else if ($trains[$train['train']] == 'こだま') {
+                    $data['kodama'][$key][] = $tmp;
+                } else if ($trains[$train['train']] == 'みずほ') {
+                    $data['mizuho'][$key][] = $tmp;
+                } else if ($trains[$train['train']] == 'さくら') {
+                    $data['sakura'][$key][] = $tmp;
+                } else {
+                    $data['sonota'][$key][] = $tmp;
+                }
+            }
+            $index += 2;
+        }
     }
 
     $labels0 = [];
@@ -522,128 +506,62 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
                                    ],
                        ];
 
+    $datasets = [];
+    $datasets[] = ['data' => array_reverse($data['station']),
+                   'fill' => false,
+                   'xAxisID' => 'x-axis-0',
+                   'pointRadius' => 0,
+                   'showLine' => false,
+                   'borderColor' => 'rgba(0,0,0,0)',
+                   'backgroundColor' => 'rgba(0,0,0,0)',
+                   'pointStyle' => 'circle',
+                   'pointRadius' => 2,
+                   'pointBackgroundColor' => 'black',
+                   'pointBorderColor' => 'black',
+                   'label' => ($bound_ === 1 ? '<上り> ' : '<下り> ') . date('Y/m/d H:i', $dt),
+                  ];
+
     $pointRotation = $bound_ == 2 ? 270 : 90;
-    $data = ['type' => 'line',
+    // on time
+    foreach ($train_name as $item) {
+        $count = count($data[$item]['ontime']) + count($data[$item]['delay']);
+        $datasets[] = ['data' => array_reverse($data[$item]['ontime']),
+                       'fill' => false,
+                       'xAxisID' => 'x-axis-1',
+                       'showLine' => false,
+                       'borderColor' => $defines[$item]['label'] === '' ? 'rgba(0,0,0,0)' : 'black',
+                       'backgroundColor' => $defines[$item]['label'] === '' ? 'rgba(0,0,0,0)' : $defines[$item]['color'],
+                       'pointStyle' => 'triangle',
+                       'pointRadius' => 12,
+                       'pointRotation' => $pointRotation,
+                       'pointBackgroundColor' => $defines[$item]['color'],
+                       'pointBorderColor' => 'black',
+                       'label' => $defines[$item]['label'] === '' ? '' : $defines[$item]['label'] . " ${count}",
+                      ];
+    }
+    // delay
+    foreach ($train_name as $item) {
+        if (count($data[$item]['delay']) > 0) {
+            $datasets[] = ['data' => array_reverse($data[$item]['delay']),
+                           'fill' => false,
+                           'xAxisID' => 'x-axis-1',
+                           'showLine' => false,
+                           'borderColor' => 'rgba(0,0,0,0)',
+                           'backgroundColor' => 'rgba(0,0,0,0)',
+                           'pointStyle' => 'triangle',
+                           'pointRadius' => 12,
+                           'pointRotation' => $pointRotation,
+                           'pointBackgroundColor' => $defines[$item]['color'],
+                           'pointBorderColor' => 'cyan',
+                           'pointBorderWidth' => 3,
+                           'label' => '',
+                          ];
+        }
+    }
+
+    $json = ['type' => 'line',
              'data' => ['labels' => array_reverse($labels),
-                        'datasets' => [['data' => array_reverse($data),
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-0',
-                                        'yAxisID' => 'y-axis-0',
-                                        'pointRadius' => 0,
-                                        'showLine' => false,
-                                        'borderColor' => 'rgba(0,0,0,0)',
-                                        'backgroundColor' => 'rgba(0,0,0,0)',
-                                        'pointBackgroundColor' => 'rgba(0,0,0,0)',
-                                        'pointBorderColor' => 'rgba(0,0,0,0)',
-                                        'label' => ($is_delay === true ? '★ ' : '')
-                                                    . ($bound_ === 1 ? '<上り> ' : '<下り> ')
-                                                    . date('Y/m/d H:i', $dt),
-                                       ],
-                                       ['type' => 'line',
-                                        'data' => array_reverse($data1),
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-1',
-                                        'yAxisID' => 'y-axis-0',
-                                        'showLine' => false,
-                                        'borderColor' => 'black',
-                                        'backgroundColor' => 'yellow',
-                                        'pointStyle' => 'triangle',
-                                        'pointRadius' => 12,
-                                        'pointRotation' => $pointRotation,
-                                        'pointBackgroundColor' => 'yellow',
-                                        'pointBorderColor' => 'black',
-                                        'label' => 'のぞみ ' . count($data1),
-                                       ],
-                                       ['type' => 'line',
-                                        'data' => array_reverse($data2),
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-1',
-                                        'yAxisID' => 'y-axis-0',
-                                        'showLine' => false,
-                                        'borderColor' => 'black',
-                                        'backgroundColor' => 'red',
-                                        'pointStyle' => 'triangle',
-                                        'pointRadius' => 12,
-                                        'pointRotation' => $pointRotation,
-                                        'pointBackgroundColor' => 'red',
-                                        'pointBorderColor' => 'black',
-                                        'label' => 'ひかり ' . count($data2),
-                                       ],
-                                       ['type' => 'line',
-                                        'data' => array_reverse($data3),
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-1',
-                                        'yAxisID' => 'y-axis-0',
-                                        'showLine' => false,
-                                        'borderColor' => 'black',
-                                        'backgroundColor' => 'blue',
-                                        'pointStyle' => 'triangle',
-                                        'pointRadius' => 12,
-                                        'pointRotation' => $pointRotation,
-                                        'pointBackgroundColor' => 'blue',
-                                        'pointBorderColor' => 'black',
-                                        'label' => 'こだま ' . count($data3),
-                                       ],
-                                       ['type' => 'line',
-                                        'data' => array_reverse($data4),
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-1',
-                                        'yAxisID' => 'y-axis-0',
-                                        'showLine' => false,
-                                        'borderColor' => 'black',
-                                        'backgroundColor' => 'orange',
-                                        'pointStyle' => 'triangle',
-                                        'pointRadius' => 12,
-                                        'pointRotation' => $pointRotation,
-                                        'pointBackgroundColor' => 'orange',
-                                        'pointBorderColor' => 'black',
-                                        'label' => 'みずほ ' . count($data4),
-                                       ],
-                                       ['type' => 'line',
-                                        'data' => array_reverse($data5),
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-1',
-                                        'yAxisID' => 'y-axis-0',
-                                        'showLine' => false,
-                                        'borderColor' => 'black',
-                                        'backgroundColor' => 'pink',
-                                        'pointStyle' => 'triangle',
-                                        'pointRadius' => 12,
-                                        'pointRotation' => $pointRotation,
-                                        'pointBackgroundColor' => 'pink',
-                                        'pointBorderColor' => 'black',
-                                        'label' => 'さくら ' . count($data5),
-                                       ],
-                                       ['type' => 'line',
-                                        'data' => array_reverse($data6),
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-1',
-                                        'yAxisID' => 'y-axis-0',
-                                        'showLine' => false,
-                                        'borderColor' => 'rgba(0,0,0,0)',
-                                        'backgroundColor' => 'rgba(0,0,0,0)',
-                                        'pointStyle' => 'triangle',
-                                        'pointRadius' => 12,
-                                        'pointRotation' => $pointRotation,
-                                        'pointBackgroundColor' => 'black',
-                                        'pointBorderColor' => 'black',
-                                        'label' => '',
-                                       ],
-                                       ['type' => 'line',
-                                        'data' => $data_nozomi_teishaeki,
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-0',
-                                        'yAxisID' => 'y-axis-0',
-                                        'showLine' => false,
-                                        'borderColor' => 'rgba(0,0,0,0)',
-                                        'backgroundColor' => 'rgba(0,0,0,0)',
-                                        'pointStyle' => 'circle',
-                                        'pointRadius' => 2,
-                                        'pointBackgroundColor' => 'black',
-                                        'pointBorderColor' => 'black',
-                                        'label' => '',
-                                       ],
-                                      ],
+                        'datasets' => $datasets,
                        ],
              'options' => ['legend' => ['labels' => ['fontColor' => 'black',],],
                            'animation' => ['duration' => 0,],
@@ -662,7 +580,7 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
                           ],
             ];
 
-    $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode(json_encode($data));
+    $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     error_log($log_prefix . strlen($url));
 
