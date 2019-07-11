@@ -92,12 +92,27 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     
     $max_y = 0;
     
-    $data['nozomi'] = [];
-    $data['hikari'] = [];
-    $data['kodama'] = [];
-    $data['mizuho'] = [];
-    $data['sakura'] = [];
-    $data['sonota'] = [];
+    $train_name = ['nozomi', 'hikari', 'kodama', 'mizuho', 'sakura', 'sonota'];
+    $train_color = ['yellow', 'red', 'blue', 'orange', 'pink', 'black'];
+    $train_label = ['のぞみ', 'ひかり', 'こだま', 'みずほ', 'さくら', ''];
+    
+    $defines['nozomi']['color'] = 'yellow';
+    $defines['hikari']['color'] = 'red';
+    $defines['kodama']['color'] = 'blue';
+    $defines['mizuho']['color'] = 'orange';
+    $defines['sakura']['color'] = 'pink';
+    $defines['sonota']['color'] = 'black';
+    
+    $defines['nozomi']['label'] = 'のぞみ';
+    $defines['hikari']['label'] = 'ひかり';
+    $defines['kodama']['label'] = 'こだま';
+    $defines['mizuho']['label'] = 'みずほ';
+    $defines['sakura']['label'] = 'さくら';
+    $defines['sonota']['label'] = '';
+    
+    foreach ($train_name as $item) {
+        $data[$item] = [];
+    }
     
     $index = 0;
     // kudari eki
@@ -159,13 +174,13 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
         $index += 2;
     }
     
-    $data_nozomi_teishaeki = [];
+    $data['nozomi_teishaeki'] = [];
     
     foreach (['東京', '品川', '新横浜', '名古屋', '京都', '新大阪', '新神戸', '岡山', '広島', '小倉', '博多'] as $item) {
         $tmp = new stdClass();
         $tmp->x = $item;
         $tmp->y = 0;
-        $data_nozomi_teishaeki[] = $tmp;
+        $data['nozomi_teishaeki'][] = $tmp;
     }
     
     $labels0 = [];
@@ -190,127 +205,59 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                                    ],
                        ];
     
+    $datasets = [];
+
+    $datasets[] = ['data' => array_reverse($data['station']),
+                   'fill' => false,
+                   'xAxisID' => 'x-axis-0',
+                   'yAxisID' => 'y-axis-0',
+                   'pointRadius' => 0,
+                   'showLine' => false,
+                   'borderColor' => 'rgba(0,0,0,0)',
+                   'backgroundColor' => 'rgba(0,0,0,0)',
+                   'pointBackgroundColor' => 'rgba(0,0,0,0)',
+                   'pointBorderColor' => 'rgba(0,0,0,0)',
+                   'label' => ($bound_ === 1 ? '<上り> ' : '<下り> ') . date('Y/m/d H:i', $dt),
+                  ];
+    
     $pointRotation = $bound_ == 2 ? 270 : 90;
+    foreach ($train_name as $item) {
+        $datasets[] = ['type' => 'line',
+                       'data' => array_reverse($data[$item]),
+                       'fill' => false,
+                       'xAxisID' => 'x-axis-1',
+                       'yAxisID' => 'y-axis-0',
+                       'showLine' => false,
+                       'borderColor' => $defines[$item]['label'] === '' ? 'rgba(0,0,0,0)' : 'black',
+                       'backgroundColor' => $defines[$item]['label'] === '' ? 'rgba(0,0,0,0)' : $defines[$item]['color'],
+                       'pointStyle' => 'triangle',
+                       'pointRadius' => 12,
+                       'pointRotation' => $pointRotation,
+                       'pointBackgroundColor' => $defines[$item]['color'],
+                       'pointBorderColor' => 'black',
+                       'pointBorderWidth' => 1,
+                       'label' => $defines[$item]['label'],
+                      ];
+    }
+    
+    $datasets[] = ['type' => 'line',
+                   'data' => $data['nozomi_teishaeki'],
+                   'fill' => false,
+                   'xAxisID' => 'x-axis-0',
+                   'yAxisID' => 'y-axis-0',
+                   'showLine' => false,
+                   'borderColor' => 'rgba(0,0,0,0)',
+                   'backgroundColor' => 'rgba(0,0,0,0)',
+                   'pointStyle' => 'circle',
+                   'pointRadius' => 2,
+                   'pointBackgroundColor' => 'black',
+                   'pointBorderColor' => 'black',
+                   'label' => '',
+                  ];
+    
     $json = ['type' => 'line',
              'data' => ['labels' => array_reverse($labels),
-                        'datasets' => [['data' => array_reverse($data['station']),
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-0',
-                                        'yAxisID' => 'y-axis-0',
-                                        'pointRadius' => 0,
-                                        'showLine' => false,
-                                        'borderColor' => 'rgba(0,0,0,0)',
-                                        'backgroundColor' => 'rgba(0,0,0,0)',
-                                        'pointBackgroundColor' => 'rgba(0,0,0,0)',
-                                        'pointBorderColor' => 'rgba(0,0,0,0)',
-                                        'label' => ($bound_ === 1 ? '<上り> ' : '<下り> ') . date('Y/m/d H:i', $dt),
-                                       ],
-                                       ['type' => 'line',
-                                        'data' => array_reverse($data['nozomi']),
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-1',
-                                        'yAxisID' => 'y-axis-0',
-                                        'showLine' => false,
-                                        'borderColor' => 'black',
-                                        'backgroundColor' => 'yellow',
-                                        'pointStyle' => 'triangle',
-                                        'pointRadius' => 12,
-                                        'pointRotation' => $pointRotation,
-                                        'pointBackgroundColor' => 'yellow',
-                                        'pointBorderColor' => 'black',
-                                        'pointBorderWidth' => 1,
-                                        'label' => 'のぞみ',
-                                       ],
-                                       ['type' => 'line',
-                                        'data' => array_reverse($data['hikari']),
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-1',
-                                        'yAxisID' => 'y-axis-0',
-                                        'showLine' => false,
-                                        'borderColor' => 'black',
-                                        'backgroundColor' => 'red',
-                                        'pointStyle' => 'triangle',
-                                        'pointRadius' => 12,
-                                        'pointRotation' => $pointRotation,
-                                        'pointBackgroundColor' => 'red',
-                                        'pointBorderColor' => 'black',
-                                        'label' => 'ひかり',
-                                       ],
-                                       ['type' => 'line',
-                                        'data' => array_reverse($data['kodama']),
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-1',
-                                        'yAxisID' => 'y-axis-0',
-                                        'showLine' => false,
-                                        'borderColor' => 'black',
-                                        'backgroundColor' => 'blue',
-                                        'pointStyle' => 'triangle',
-                                        'pointRadius' => 12,
-                                        'pointRotation' => $pointRotation,
-                                        'pointBackgroundColor' => 'blue',
-                                        'pointBorderColor' => 'black',
-                                        'label' => 'こだま',
-                                       ],
-                                       ['type' => 'line',
-                                        'data' => array_reverse($data['mizuho']),
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-1',
-                                        'yAxisID' => 'y-axis-0',
-                                        'showLine' => false,
-                                        'borderColor' => 'black',
-                                        'backgroundColor' => 'orange',
-                                        'pointStyle' => 'triangle',
-                                        'pointRadius' => 12,
-                                        'pointRotation' => $pointRotation,
-                                        'pointBackgroundColor' => 'orange',
-                                        'pointBorderColor' => 'black',
-                                        'label' => 'みずほ',
-                                       ],
-                                       ['type' => 'line',
-                                        'data' => array_reverse($data['sakura']),
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-1',
-                                        'yAxisID' => 'y-axis-0',
-                                        'showLine' => false,
-                                        'borderColor' => 'black',
-                                        'backgroundColor' => 'pink',
-                                        'pointStyle' => 'triangle',
-                                        'pointRadius' => 12,
-                                        'pointRotation' => $pointRotation,
-                                        'pointBackgroundColor' => 'pink',
-                                        'pointBorderColor' => 'black',
-                                        'label' => 'さくら',
-                                       ],
-                                       ['type' => 'line',
-                                        'data' => array_reverse($data['sonota']),
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-1',
-                                        'yAxisID' => 'y-axis-0',
-                                        'showLine' => false,
-                                        'borderColor' => 'rgba(0,0,0,0)',
-                                        'backgroundColor' => 'rgba(0,0,0,0)',
-                                        'pointStyle' => 'triangle',
-                                        'pointRadius' => 12,
-                                        'pointRotation' => $pointRotation,
-                                        'pointBackgroundColor' => 'black',
-                                        'pointBorderColor' => 'black',
-                                        'label' => '',
-                                       ],
-                                       ['type' => 'line',
-                                        'data' => $data_nozomi_teishaeki,
-                                        'fill' => false,
-                                        'xAxisID' => 'x-axis-0',
-                                        'yAxisID' => 'y-axis-0',
-                                        'showLine' => false,
-                                        'borderColor' => 'rgba(0,0,0,0)',
-                                        'backgroundColor' => 'rgba(0,0,0,0)',
-                                        'pointStyle' => 'circle',
-                                        'pointRadius' => 2,
-                                        'pointBackgroundColor' => 'black',
-                                        'pointBorderColor' => 'black',
-                                        'label' => '',
-                                       ],
-                                      ],
+                        'datasets' => $datasets,
                        ],
              'options' => ['legend' => ['labels' => ['fontColor' => 'black',],],
                            'animation' => ['duration' => 0,],
