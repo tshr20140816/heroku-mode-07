@@ -535,7 +535,9 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
                                         'backgroundColor' => 'rgba(0,0,0,0)',
                                         'pointBackgroundColor' => 'rgba(0,0,0,0)',
                                         'pointBorderColor' => 'rgba(0,0,0,0)',
-                                        'label' => ($bound_ === 1 ? '<上り> ' : '<下り> ') . date('Y/m/d H:i', $dt),
+                                        'label' => ($is_delay === true ? '★ ' : '')
+                                                    . ($bound_ === 1 ? '<上り> ' : '<下り> ')
+                                                    . date('Y/m/d H:i', $dt),
                                        ],
                                        ['type' => 'line',
                                         'data' => array_reverse($data1),
