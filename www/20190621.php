@@ -196,8 +196,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     $pointRotation = $bound_ == 2 ? 270 : 90;
     foreach ($train_name as $item) {
         $count = count($data[$item]['ontime']) + count($data[$item]['delay']);
-        $datasets[] = ['type' => 'line',
-                       'data' => array_reverse($data[$item]['ontime']),
+        $datasets[] = ['data' => array_reverse($data[$item]['ontime']),
                        'fill' => false,
                        'xAxisID' => 'x-axis-1',
                        // 'yAxisID' => 'y-axis-0',
@@ -214,8 +213,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     }
     foreach ($train_name as $item) {
         if (count($data[$item]['delay']) > 0) {
-            $datasets[] = ['type' => 'line',
-                           'data' => array_reverse($data[$item]['delay']),
+            $datasets[] = ['data' => array_reverse($data[$item]['delay']),
                            'fill' => false,
                            'xAxisID' => 'x-axis-1',
                            // 'yAxisID' => 'y-axis-0',
