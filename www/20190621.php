@@ -87,7 +87,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
         $data['station'][] = 0;
     }
     array_shift($tmp_labels);
-    array_shift($data);
+    array_shift($data['station']);
     $labels = $tmp_labels;
     
     $max_y = 0;
