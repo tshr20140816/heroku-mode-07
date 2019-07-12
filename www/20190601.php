@@ -52,11 +52,11 @@ function func_20190601($mu_)
     foreach ($json['trains'] as $train) {
         if ($train['direction'] == '0') {
             error_log(print_r($train, true));
-            $tmp = explode('_', $train['pos']);
-            error_log('name : ' . $stations[$tmp[0]]['name']);
-            error_log('index : ' . $stations[$tmp[0]]['index']);
+            $pos = explode('_', $train['pos']);
+            error_log('name : ' . $stations[$pos[0]]['name']);
+            error_log('index : ' . $stations[$pos[0]]['index']);
             $tmp = new stdClass();
-            $tmp->x = $stations[$tmp[0]]['index'];
+            $tmp->x = $stations[$pos[0]]['index'];
             $tmp->y = 1;
             $data['kudari'][] = $tmp;
         }
