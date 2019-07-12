@@ -34,8 +34,6 @@ foreach ($pdo->query($sql_select) as $row) {
 
 $pdo = null;
 
-$rc = apcu_clear_cache();
-
 header('Content-Type: plain/text');
 echo substr($url, 0, 5);
 
