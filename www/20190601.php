@@ -34,12 +34,13 @@ function func_20190601($mu_)
         
         $tmp_labels[] = '';
         $tmp_labels[] = $station['info']['name'];
-        $data['station'] = 0;
-        $data['station'] = 0;
     }
     array_shift($tmp_labels);
     $labels = $tmp_labels;
-    array_shift($data['station']);
+
+    $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
+    $res = $mu_->get_contents($url);
+    error_log(print_r(json_decode($res, true), true));
     
     $scales = new stdClass();
     $scales->xAxes[] = ['id' => 'x-axis-0',
@@ -81,9 +82,4 @@ function func_20190601($mu_)
     
     header('Content-Type: image/png');
     echo $res;
-    /*
-    $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
-    $res = $mu_->get_contents($url);
-    error_log(print_r(json_decode($res, true), true));
-    */
 }
