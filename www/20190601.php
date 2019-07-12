@@ -41,6 +41,7 @@ function func_20190601($mu_)
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
     $res = $mu_->get_contents($url);
     // error_log(print_r(json_decode($res, true), true));
+    $json = json_decode($res, true);
     
     $update_time = $json['update'];
     foreach ($json['trains'] as $train) {
