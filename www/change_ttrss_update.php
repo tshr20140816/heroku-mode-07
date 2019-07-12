@@ -34,7 +34,7 @@ foreach ($pdo->query($sql_select) as $row) {
 
 $pdo = null;
 
-header('Content-Type: plain/text');
+header('Content-Type: text/plain');
 echo substr(parse_url($url, PHP_URL_HOST), 0, 5);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
