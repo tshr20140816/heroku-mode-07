@@ -62,7 +62,7 @@ function func_20190601($mu_)
                 $tmp->x = (string)($stations[$pos[0]]['index'] + 1);
             }
             $tmp->y = 1;
-            $data['nobori'][$train['dest']] = $tmp;
+            $data['nobori'][$train['dest']][] = $tmp;
         }
     }
     
