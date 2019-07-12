@@ -59,7 +59,7 @@ function func_20190601($mu_)
             if ($pos[1] === '####') {
                 $tmp->x = (string)$stations[$pos[0]]['index'];
             } else {
-                $tmp->x = (string)($stations[$pos[0]]['index'] + 1);
+                $tmp->x = (string)($stations[$pos[0]]['index'] - 1);
             }
             $tmp->y = 1;
             $data['nobori'][$train['dest']][] = $tmp;
@@ -108,7 +108,7 @@ function func_20190601($mu_)
                        'pointStyle' => 'triangle',
                        'pointRadius' => 12,
                        // 'pointRotation' => $pointRotation,
-                       'pointRotation' => 270,
+                       'pointRotation' => 90,
                        // 'pointBackgroundColor' => $defines[$item]['color'],
                        // 'pointBackgroundColor' => 'red',
                        'pointBorderColor' => 'black',
