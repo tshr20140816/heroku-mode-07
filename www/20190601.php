@@ -62,7 +62,11 @@ function func_20190601($mu_)
                 $tmp->x = (string)($stations[$pos[0]]['index'] - 1);
             }
             $tmp->y = 1;
-            $data['nobori'][$train['dest']][] = $tmp;
+            if ($train['delayMinutes'] === 0) {
+                $data['nobori']['ontime'][$train['dest']][] = $tmp;
+            } else {
+                $data['nobori']['deley'][$train['dest']][] = $tmp;
+            }
         }
     }
     
@@ -98,7 +102,7 @@ function func_20190601($mu_)
                    // 'label' => ($bound_ === 1 ? '<上り> ' : '<下り> ') . date('Y/m/d H:i', $dt),
                   ];
     
-    foreach ($data['nobori'] as $key => $item) {
+    foreach ($data['nobori']['ontime'] as $key => $item) {
         $datasets[] = ['data' => array_reverse($item),
                        'fill' => false,
                        'xAxisID' => 'x-axis-1',
@@ -112,6 +116,26 @@ function func_20190601($mu_)
                        // 'pointBackgroundColor' => $defines[$item]['color'],
                        // 'pointBackgroundColor' => 'red',
                        'pointBorderColor' => 'black',
+                       // 'label' => $defines[$item]['label'] === '' ? '' : $defines[$item]['label'] . " ${count}",
+                       'label' => $key,
+                      ];
+    }
+    
+    foreach ($data['nobori']['delay'] as $key => $item) {
+        $datasets[] = ['data' => array_reverse($item),
+                       'fill' => false,
+                       'xAxisID' => 'x-axis-1',
+                       'showLine' => false,
+                       // 'borderColor' => $defines[$item]['label'] === '' ? 'rgba(0,0,0,0)' : 'black',
+                       // 'backgroundColor' => $defines[$item]['label'] === '' ? 'rgba(0,0,0,0)' : $defines[$item]['color'],
+                       'pointStyle' => 'triangle',
+                       'pointRadius' => 12,
+                       // 'pointRotation' => $pointRotation,
+                       'pointRotation' => 90,
+                       // 'pointBackgroundColor' => $defines[$item]['color'],
+                       // 'pointBackgroundColor' => 'red',
+                       'pointBorderColor' => 'cyan',
+                       'pointBorderWidth' => 3,
                        // 'label' => $defines[$item]['label'] === '' ? '' : $defines[$item]['label'] . " ${count}",
                        'label' => $key,
                       ];
