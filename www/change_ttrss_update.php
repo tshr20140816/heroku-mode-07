@@ -29,13 +29,13 @@ $statement = $pdo->prepare($sql_update);
 $rc = $statement->execute();
 
 foreach ($pdo->query($sql_select) as $row) {
-   $url = $row['value'];
+    $host = $row['value'];
 }
 
 $pdo = null;
 
 header('Content-Type: plain/text');
-echo substr($url, 0, 5);
+echo substr($host, 0, 5);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
