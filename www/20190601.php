@@ -46,6 +46,8 @@ function func_20190601($mu_)
     // error_log(print_r(json_decode($res, true), true));
     $json = json_decode($res, true);
     
+    $data['kudari'] = [];
+    
     $update_time = $json['update'];
     foreach ($json['trains'] as $train) {
         if ($train['direction'] == '0') {
@@ -53,7 +55,16 @@ function func_20190601($mu_)
             $tmp = explode('_', $train['pos']);
             error_log('name : ' . $stations[$tmp[0]]['name']);
             error_log('index : ' . $stations[$tmp[0]]['index']);
+            $tmp = new stdClass();
+            $tmp->x = $stations[$tmp[0]]['index'];
+            $tmp->y = 1;
+            $data['kudari'][] = $tmp;
         }
+    }
+    
+    $labels0 = [];
+    for ($i = 0; $i < count($labels); $i++) {
+        $labels0[] = (string)$i;
     }
     
     $scales = new stdClass();
@@ -62,6 +73,10 @@ function func_20190601($mu_)
                         'labels' => array_reverse($labels),
                         'ticks' => ['fontColor' => 'black',
                                    ],
+                       ];
+    $scales->xAxes[] = ['id' => 'x-axis-1',
+                        'display' => false,
+                        'labels' => array_reverse($labels0),
                        ];
     
     $datasets = [];
@@ -77,6 +92,22 @@ function func_20190601($mu_)
                    'pointBackgroundColor' => 'black',
                    'pointBorderColor' => 'black',
                    // 'label' => ($bound_ === 1 ? '<上り> ' : '<下り> ') . date('Y/m/d H:i', $dt),
+                  ];
+    
+    $datasets[] = ['data' => array_reverse($data['kudari']),
+                   'fill' => false,
+                   'xAxisID' => 'x-axis-1',
+                   'showLine' => false,
+                   // 'borderColor' => $defines[$item]['label'] === '' ? 'rgba(0,0,0,0)' : 'black',
+                   // 'backgroundColor' => $defines[$item]['label'] === '' ? 'rgba(0,0,0,0)' : $defines[$item]['color'],
+                   'pointStyle' => 'triangle',
+                   'pointRadius' => 12,
+                   // 'pointRotation' => $pointRotation,
+                   'pointRotation' => 270,
+                   // 'pointBackgroundColor' => $defines[$item]['color'],
+                   'pointBackgroundColor' => 'red',
+                   'pointBorderColor' => 'black',
+                   // 'label' => $defines[$item]['label'] === '' ? '' : $defines[$item]['label'] . " ${count}",
                   ];
     
     $json = ['type' => 'line',
