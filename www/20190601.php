@@ -109,7 +109,7 @@ function func_20190601($mu_)
                    // 'pointRotation' => $pointRotation,
                    'pointRotation' => 270,
                    // 'pointBackgroundColor' => $defines[$item]['color'],
-                   'pointBackgroundColor' => 'red',
+                   // 'pointBackgroundColor' => 'red',
                    'pointBorderColor' => 'black',
                    // 'label' => $defines[$item]['label'] === '' ? '' : $defines[$item]['label'] . " ${count}",
                   ];
