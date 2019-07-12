@@ -33,7 +33,7 @@ function func_20190601($mu_)
         $stations[$station['info']['code']] = $station['info']['name'];
         
         $tmp_labels[] = '';
-        $tmp_labels[] = $item;
+        $tmp_labels[] = $station['info']['name'];
         $data['station'] = 0;
         $data['station'] = 0;
     }
