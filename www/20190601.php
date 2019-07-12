@@ -56,7 +56,11 @@ function func_20190601($mu_)
             error_log('name : ' . $stations[$pos[0]]['name']);
             error_log('index : ' . $stations[$pos[0]]['index']);
             $tmp = new stdClass();
-            $tmp->x = (string)$stations[$pos[0]]['index'];
+            if ($pos[1] === '####') {
+                $tmp->x = (string)$stations[$pos[0]]['index'];
+            } else {
+                $tmp->x = (string)($stations[$pos[0]]['index'] + 1);
+            }
             $tmp->y = 1;
             $data['kudari'][] = $tmp;
         }
