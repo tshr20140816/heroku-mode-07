@@ -29,8 +29,11 @@ function func_20190601($mu_)
     $data = [];
     $data['station'] = [];
     $tmp_labels = [];
+    $index = 0;
     foreach (json_decode($res, true)['stations'] as $station) {
-        $stations[$station['info']['code']] = $station['info']['name'];
+        $stations[$station['info']['code']]['name'] = $station['info']['name'];
+        $stations[$station['info']['code']]['index'] = $index;
+        $index += 2;
         
         $tmp_labels[] = '';
         $tmp_labels[] = $station['info']['name'];
@@ -48,7 +51,8 @@ function func_20190601($mu_)
         if ($train['direction'] == '0') {
             error_log(print_r($train, true));
             $tmp = explode('_', $train['pos']);
-            
+            error_log('name : ' . $stations[$tmp[0]]['name']);
+            error_log('index : ' . $stations[$tmp[0]]['index']);
         }
     }
     
