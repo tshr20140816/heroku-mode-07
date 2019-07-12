@@ -16,6 +16,22 @@ function update_ttrss($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $sql_select = <<< __HEREDOC__
+SELECT M1.value
+  FROM m_env M1
+ WHERE M1.key = 'URL_TTRSS_' || ( SELECT M2.value
+                                    FROM m_env M2
+                                   WHERE M2.key = 'TTRSS_SELECTED'
+                                )
+__HEREDOC__;
+    
+    $pdo = $mu_->get_pdo();
+    
+    foreach ($pdo->query($sql_select) as $row) {
+        $url = $row['value'];
+    }
+    $pdo = null;
+    
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
@@ -23,7 +39,8 @@ function update_ttrss($mu_)
         CURLOPT_POST => true,
     ];
 
-    $url = $mu_->get_env('URL_TTRSS_1') . 'api/';
+    // $url = $mu_->get_env('URL_TTRSS_1') . 'api/';
+    $url .= 'api/';
     $login_user = base64_decode(getenv('TTRSS_USER'));
     $login_password = base64_decode(getenv('TTRSS_PASSWORD'));
     $json = '{"op":"login","user":"' . $login_user .'","password":"' . $login_password . '"}';
