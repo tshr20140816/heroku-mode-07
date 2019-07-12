@@ -63,9 +63,17 @@ function func_20190601($mu_)
             }
             $tmp->y = 1;
             if ($train['delayMinutes'] === 0) {
-                $data['nobori']['ontime'][$train['dest']][] = $tmp;
+                if ($train['displayType'] === '普通') {
+                    $data['nobori']['ontime'][$train['dest']][] = $tmp;
+                } else {
+                    $data['nobori']['ontime'][$train['dest'] . ' ' . $train['displayType']][] = $tmp;
+                }
             } else {
-                $data['nobori']['deley'][$train['dest']][] = $tmp;
+                if ($train['displayType'] === '普通') {
+                    $data['nobori']['deley'][$train['dest']][] = $tmp;
+                } else {
+                    $data['nobori']['deley'][$train['dest'] . ' ' . $train['displayType']][] = $tmp;
+                }
             }
         }
     }
