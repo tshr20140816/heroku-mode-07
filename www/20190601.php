@@ -20,69 +20,11 @@ function func_20190601($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $hash_url = 'url' . hash('sha512', 'https://www.jtb.co.jp/');
+    $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
+    $res = $mu_->get_contents($url, null, true);
+    error_log(print_r(json_decode($res, true), true));
     
-    $list_item = [];
-    $list_item[] = '';
-    $limit = 30000;
-    
-    $urls = [];
-    for ($i = 0; $i < 10; $i++) {
-        $url = $mu_->get_env('URL_JTB_' . $i);
-        if (strlen($url) < 10) {
-            continue;
-        }
-        $urls[] = $url;
-    }
-
-    foreach ($urls as $url) {
-        $res = $mu_->get_contents($url);
-
-        $tmp = explode('<article class="', $res);
-        array_shift($tmp);
-
-        foreach ($tmp as $tour) {
-            // error_log($tour);
-            $rc = preg_match('/<h3 class="domtour-tour-list__name"><a .*?href=".+?\?(.+?)".*?>(.+?)</s', $tour, $match);
-            array_shift($match);
-            // error_log(print_r($match, true));
-
-            $plan_name = $match[1];
-
-            $url = 'https://www.jtb.co.jp/kokunai_tour/spookserver?Command=TourShouhinListData&hotelsort=low&page=1&rating=5-4&'
-                . str_replace('&amp;', '&', $match[0]);
-            $res = $mu_->get_contents($url);
-
-            // error_log($res);
-            $json = json_decode($res);
-            // error_log(print_r($json, true));
-            
-            $is_first = true;
-            foreach ($json->tourShouhinList as $item) {
-                // error_log($item->shisetsu_name . ' '. $item->min_price);
-                if ($limit > (int)$item->min_price) {
-                    if ($is_first) {
-                        $list_item[] = $plan_name;
-                        $list_item[] = '';
-                        $is_first = false;
-                    }
-                    $list_item[] = number_format($item->min_price) . ' ' . $item->shisetsu_name;
-                }
-            }
-            if ($is_first === false) {
-                $list_item[] = '';
-            }
-        }
-    }
-    error_log(print_r($list_item, true));
-    
-    $info = implode("\n", $list_item);
-    
-    $hash_info = hash('sha512', $info);
-    error_log($log_prefix . "info hash : ${hash_info}");
-    $res = $mu_->search_blog($hash_url);
-    if ($res != $hash_info) {
-        $description = '<div class="' . $hash_url . '">' . "${hash_info}</div>${info}";
-        $mu_->post_blog_wordpress($hash_url, $description);
-    }
+    $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
+    $res = $mu_->get_contents($url);
+    error_log(print_r(json_decode($res, true), true));
 }
