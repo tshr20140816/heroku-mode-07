@@ -40,7 +40,16 @@ function func_20190601($mu_)
 
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
     $res = $mu_->get_contents($url);
-    error_log(print_r(json_decode($res, true), true));
+    // error_log(print_r(json_decode($res, true), true));
+    
+    $update_time = $json['update'];
+    foreach ($json['trains'] as $train) {
+        if ($train['direction'] == '0') {
+            error_log(print_r($train, true));
+            $tmp = explode('_', $train['pos']);
+            
+        }
+    }
     
     $scales = new stdClass();
     $scales->xAxes[] = ['id' => 'x-axis-0',
