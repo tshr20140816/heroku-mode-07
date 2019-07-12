@@ -24,14 +24,15 @@ SELECT M1.value
                                    WHERE M2.key = 'TTRSS_SELECTED'
                                 )
 __HEREDOC__;
-    
+
     $pdo = $mu_->get_pdo();
-    
+
     foreach ($pdo->query($sql_select) as $row) {
         $url = $row['value'];
     }
+
     $pdo = null;
-    
+
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
