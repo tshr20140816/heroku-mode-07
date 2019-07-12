@@ -100,6 +100,7 @@ function func_20190601($mu_)
                    'pointBackgroundColor' => 'black',
                    'pointBorderColor' => 'black',
                    // 'label' => ($bound_ === 1 ? '<上り> ' : '<下り> ') . date('Y/m/d H:i', $dt),
+                   'label' => date('Y/m/d H:i', strtotime($update_time) + 32400)
                   ];
     
     foreach ($data['nobori']['ontime'] as $key => $item) {
