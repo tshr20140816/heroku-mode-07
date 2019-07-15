@@ -697,7 +697,7 @@ function check_zoho_usage($mu_, $file_name_blog_)
         CURLMOPT_MAX_HOST_CONNECTIONS => 10,
     ];
     $size = 0;
-    foreach (array_chunk($urls, 30, true) as $urls_chunk) {
+    foreach (array_chunk($urls, 10, true) as $urls_chunk) {
         $list_contents = $mu_->get_contents_multi($urls_chunk, null, $multi_options);
         foreach ($list_contents as $res) {
             $size += strlen($res);
