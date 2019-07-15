@@ -71,7 +71,7 @@ check_4shared_usage($mu, $file_name_blog);
 // check_cloudapp_usage($mu, $file_name_blog);
 
 // Zoho usage
-check_zoho_usage($mu, $file_name_blog);
+// check_zoho_usage($mu, $file_name_blog);
 
 // github contribution count
 count_github_contribution($mu, $file_name_blog);
