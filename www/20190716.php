@@ -22,13 +22,10 @@ function func_20190716b($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $user = $mu_->get_env('LOGGLY_ID', true);
-    $password = $mu_->get_env('LOGGLY_PASSWORD', true);
-    $host = explode('@', $user)[0];
+    $host = explode('@', $mu_->get_env('LOGGLY_ID', true))[0];
+    $api_token = getenv('LOGLLY_API_TOKEN');
     
-    $options = [
-        CURLOPT_USERPWD => "${user}:${password}",
-    ];
+    $options = [CURLOPT_HTTPHEADER => ["Authorization: Bearer ${api_token}",],];
     
     $url = "https://${host}.loggly.com/apiv2/search?q=*&from=-30m&until=now";
     $res = $mu_->get_contents($url, $options);
