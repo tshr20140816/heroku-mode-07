@@ -32,9 +32,11 @@ function func_20190716b($mu_)
     
     // error_log($res);
     
-    foreach (json_decode($res, true) as $item) {
-        error_log(print_r($item, true));
-        break;
+    foreach (json_decode($res, true) as $items) {
+        foreach ($items as $item) {
+            error_log(print_r($item, true));
+            break;
+        }
     }
     
 }
