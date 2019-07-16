@@ -20,6 +20,10 @@ function func_20190716($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $options = [CURLOPT_HEADER => true,
+               CURLOPT_NOBODY => true,
+               ];
+    
     $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
     $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
     $res = $mu_->get_contents($url);
@@ -27,8 +31,10 @@ function func_20190716($mu_)
     foreach (json_decode($res)->FILES as $item) {
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
-        $res = $mu_->get_contents($url);
-        $size += strlen($res);
+        $res = $mu_->get_contents($url, $options);
+        // $size += strlen($res);
+        error_log($res);
+        break;
     }
-    error_log(number_format($size));
+    // error_log(number_format($size));
 }
