@@ -9,12 +9,33 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190716($mu);
+func_20190716b($mu);
+// func_20190716($mu);
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
+
+
+function func_20190716b($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $user = $mu_->get_env('LOGGLY_ID', true);
+    $password = $mu_->get_env('LOGGLY_PASSWORD', true);
+    $host = explode('@', $user)[0];
+    
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user}:${password}",
+    ];
+    
+    $url = "https://${host}.loggly.com/apiv2/search?q=*&from=-30m&until=now";
+    $res = $mu_->get_contents($url);
+    
+    error_log($res);
+}
 
 function func_20190716($mu_)
 {
