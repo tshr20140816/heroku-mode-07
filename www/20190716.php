@@ -27,16 +27,14 @@ function func_20190716b($mu_)
     
     $options = [CURLOPT_HTTPHEADER => ["Authorization: Bearer ${api_token}",],];
     
-    $url = "https://${host}.loggly.com/apiv2/events/iterate?q=Fatal&from=-12h&until=now&order=desc&size=50";
+    $url = "https://${host}.loggly.com/apiv2/events/iterate?q=Fatal&from=-12h&until=now&order=desc&size=50&filter=tag;" . getenv('HEROKU_APP_NAME');
     $res = $mu_->get_contents($url, $options);
     
     // error_log($res);
     
     foreach (json_decode($res, true) as $items) {
         foreach ($items as $item) {
-            if (in_array(getenv('HEROKU_APP_NAME'), $item['tags'], true)) {
-                error_log(date('Y/m/d H:i:s ', (int)($item['timestamp'] / 1000)) . trim($item['raw']));
-            }
+            error_log(date('Y/m/d H:i:s ', (int)($item['timestamp'] / 1000)) . trim($item['raw']));
         }
     }
     
