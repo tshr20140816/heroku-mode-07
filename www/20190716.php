@@ -35,8 +35,7 @@ function func_20190716b($mu_)
     foreach (json_decode($res, true) as $items) {
         foreach ($items as $item) {
             if (in_array(getenv('HEROKU_APP_NAME'), $item['tags'], true)) {
-                error_log(print_r($item['raw'], true));
-                error_log(date('Y/m/d H:i:s', (int)($item['timestamp'] / 1000)));
+                error_log(date('Y/m/d H:i:s ', (int)($item['timestamp'] / 1000)) . trim($item['raw']);
             }
         }
     }
