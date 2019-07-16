@@ -33,7 +33,7 @@ function func_20190716b($mu_)
     
     error_log($res);
     
-    $rc = preg_match_all('/ "raw": "\[\d+-...- \d+:\d+:\d UTC\] PHP .+/', $res, $matches);
+    $rc = preg_match_all('/^\s+"raw": "\[\d+-...- \d+:\d+:\d+ UTC\] PHP .+/', $res, $matches);
     
     error_log(print_r($matches, true));
 }
