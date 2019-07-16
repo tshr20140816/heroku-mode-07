@@ -23,10 +23,12 @@ function func_20190716($mu_)
     $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
     $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
     $res = $mu_->get_contents($url);
-    $urls = [];
+    $size = 0;
     foreach (json_decode($res)->FILES as $item) {
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
-        $res = $mu_->get_contents($url, null, true);
+        $res = $mu_->get_contents($url);
+        $size += strlen($res);
     }
+    error_log(number_format($size));
 }
