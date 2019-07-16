@@ -20,21 +20,28 @@ function func_20190716($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $options = [CURLOPT_HEADER => true,
-               CURLOPT_NOBODY => true,
-               ];
-    
     $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
     $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
     $res = $mu_->get_contents($url);
-    $size = 0;
+    
+    $urls = [];
     foreach (json_decode($res)->FILES as $item) {
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
-        $res = $mu_->get_contents($url, $options);
-        // $size += strlen($res);
-        error_log($res);
-        break;
+        $urls[$url] = null;
     }
-    // error_log(number_format($size));
+    
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 3,
+    ];
+    $size = 0;
+    foreach (array_chunk($urls, 5, true) as $urls_chunk) {
+        $list_contents = $mu_->get_contents_multi($urls_chunk, null, $multi_options);
+        foreach ($list_contents as $res) {
+            $size += strlen($res);
+        }
+        $list_contents = null;
+    }
+    error_log(number_format($size));    
 }
