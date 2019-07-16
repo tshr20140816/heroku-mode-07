@@ -1221,6 +1221,7 @@ __HEREDOC__;
             ];
             $res = $this->get_contents($url, $options);
 
+            /*
             $url = 'https://webdav.opendrive.com/' . $base_name;
             $options = [
                 CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
@@ -1231,6 +1232,7 @@ __HEREDOC__;
                 CURLOPT_HEADER => true,
             ];
             $res = $this->get_contents($url, $options);
+            */
 
             $url = "https://webdav.cloudme.com/${user_cloudme}/xios/${base_name}";
             $options = [
@@ -1314,6 +1316,7 @@ __HEREDOC__;
             ];
             $urls[$url] = $options;
 
+            /*
             $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
             copy($file_name_, end($list_file_name));
             $list_fh[] = fopen(end($list_file_name), 'rb');
@@ -1328,6 +1331,7 @@ __HEREDOC__;
                 CURLOPT_HEADER => true,
             ];
             $urls[$url] = $options;
+            */
 
             $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
             copy($file_name_, end($list_file_name));
