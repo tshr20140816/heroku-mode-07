@@ -27,7 +27,6 @@ function func_20190716b($mu_)
     $host = explode('@', $user)[0];
     
     $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${user}:${password}",
     ];
     
