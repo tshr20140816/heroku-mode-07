@@ -45,8 +45,8 @@ function backup_opendrive($mu_)
         }
     }
 
-    $user_opendrive = $this->get_env('OPENDRIVE_USER', true);
-    $password_opendrive = $this->get_env('OPENDRIVE_PASSWORD', true);
+    $user_opendrive = $mu_->get_env('OPENDRIVE_USER', true);
+    $password_opendrive = $mu_->get_env('OPENDRIVE_PASSWORD', true);
 
     foreach ($files as $file) {
         $base_name = pathinfo($file)['basename'];
