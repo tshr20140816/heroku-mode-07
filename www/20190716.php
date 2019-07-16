@@ -36,7 +36,7 @@ function func_20190716($mu_)
         CURLMOPT_MAX_HOST_CONNECTIONS => 3,
     ];
     $size = 0;
-    foreach (array_chunk($urls, 5, true) as $urls_chunk) {
+    foreach (array_chunk($urls, 10, true) as $urls_chunk) {
         $list_contents = $mu_->get_contents_multi($urls_chunk, null, $multi_options);
         foreach ($list_contents as $res) {
             $size += strlen($res);
