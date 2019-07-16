@@ -30,17 +30,11 @@ function func_20190716b($mu_)
     $url = "https://${host}.loggly.com/apiv2/events/iterate?q=Fatal&from=-24h&until=now&order=asc&size=50&filter=tag;" . getenv('HEROKU_APP_NAME');
     $res = $mu_->get_contents($url, $options);
     
-    error_log($res);
+    // error_log($res);
     
-    foreach (json_decode($res, true) as $items) {
-        foreach ($items as $item) {
-            if (substr($item['raw'], 27, 3) === 'PHP') {
-                // error_log(date('Y/m/d H:i:s ', (int)($item['timestamp'] / 1000)) . $item['raw']);
-                error_log('MARKER : ' . $item['raw']);
-            }
-        }
-    }
+    $rc = preg_match_all('/\[\d+-...-\d+ ..:..:.. UTC\] PHP .+?/', $res, $matches);
     
+    error_log(print_r($matches, true));
 }
 
 function func_20190716($mu_)
