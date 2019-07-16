@@ -36,7 +36,7 @@ function func_20190716b($mu_)
         foreach ($items as $item) {
             if (substr($item['raw'], 27, 3) === 'PHP') {
                 // error_log(date('Y/m/d H:i:s ', (int)($item['timestamp'] / 1000)) . $item['raw']);
-                error_log('MARKER : ' . $item);
+                error_log('MARKER : ' . $item['raw']);
             }
         }
     }
