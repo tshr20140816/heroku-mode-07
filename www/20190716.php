@@ -23,7 +23,7 @@ function func_20190716b($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
     $host = explode('@', $mu_->get_env('LOGGLY_ID', true))[0];
-    $api_token = getenv('LOGLLY_API_TOKEN');
+    $api_token = getenv('LOGGLY_API_TOKEN');
     
     $options = [CURLOPT_HTTPHEADER => ["Authorization: Bearer ${api_token}",],];
     
