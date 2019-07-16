@@ -27,7 +27,7 @@ function func_20190716b($mu_)
     
     $options = [CURLOPT_HTTPHEADER => ["Authorization: Bearer ${api_token}",],];
     
-    $url = "https://${host}.loggly.com/apiv2/events/iterate?q=Fatal tag:" . getenv('HEROKU_APP_NAME') . '&from=-24h&until=now&order=asc&size=50';
+    $url = "https://${host}.loggly.com/apiv2/events/iterate?q=Fatal tag:" . getenv('HEROKU_APP_NAME') . '&from=-2d&until=now&order=asc&size=50';
     $res = $mu_->get_contents($url, $options);
     
     error_log($res);
