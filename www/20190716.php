@@ -35,7 +35,8 @@ function func_20190716b($mu_)
     foreach (json_decode($res, true) as $items) {
         foreach ($items as $item) {
             if (substr($item['raw'], 27, 3) === 'PHP') {
-                error_log(date('Y/m/d H:i:s ', (int)($item['timestamp'] / 1000)) . $item['raw']);
+                // error_log(date('Y/m/d H:i:s ', (int)($item['timestamp'] / 1000)) . $item['raw']);
+                error_log('MARKER : ' . $item);
             }
         }
     }
