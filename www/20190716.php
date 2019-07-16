@@ -27,7 +27,7 @@ function func_20190716b($mu_)
     
     $options = [CURLOPT_HTTPHEADER => ["Authorization: Bearer ${api_token}",],];
     
-    $url = "https://${host}.loggly.com/apiv2/search?q=*&from=-30m&until=now";
+    $url = "https://${host}.loggly.com/apiv2/search?q=Fatal&from=-12h&until=now";
     $res = $mu_->get_contents($url, $options);
     
     error_log($res);
