@@ -30,7 +30,7 @@ function func_20190716b($mu_)
     $url = "https://${host}.loggly.com/apiv2/events/iterate?q=Fatal&from=-12h&until=now&order=desc&size=50&filter=tag;" . getenv('HEROKU_APP_NAME');
     $res = $mu_->get_contents($url, $options);
     
-    // error_log($res);
+    error_log($res);
     
     foreach (json_decode($res, true) as $items) {
         foreach ($items as $item) {
