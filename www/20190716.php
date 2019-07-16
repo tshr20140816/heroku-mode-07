@@ -34,8 +34,9 @@ function func_20190716b($mu_)
     
     foreach (json_decode($res, true) as $items) {
         foreach ($items as $item) {
-            error_log(print_r($item, true));
-            break;
+            if (in_array('HEROKU_APP_NAME', $item['tags'], true)) {
+                error_log(print_r($item, true));
+            }
         }
     }
     
