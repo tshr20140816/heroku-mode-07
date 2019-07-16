@@ -30,7 +30,13 @@ function func_20190716b($mu_)
     $url = "https://${host}.loggly.com/apiv2/events/iterate?q=Fatal&from=-12h&until=now&size=50";
     $res = $mu_->get_contents($url, $options);
     
-    error_log($res);
+    // error_log($res);
+    
+    foreach (json_decode($res, true) as $item) {
+        error_log(print_r($item, true));
+        break;
+    }
+    
 }
 
 function func_20190716($mu_)
