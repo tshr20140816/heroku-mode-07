@@ -92,7 +92,7 @@ function func_20190601b($mu_)
             } else {
                 $key .= '_X';
             }
-            $data[] = $tmp;
+            $data[$key] = $tmp;
         }
     }
     error_log(print_r($data, true));
