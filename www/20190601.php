@@ -22,7 +22,7 @@ function func_20190601b($mu_)
 
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
     $res = $mu_->get_contents($url, null, true);
-    error_log(print_r(json_decode($res, true), true));
+    // error_log(print_r(json_decode($res, true), true));
 
     $stations = [];
     $index = 0;
@@ -39,22 +39,35 @@ function func_20190601b($mu_)
     
     error_log(print_r($labels, true));
     error_log(print_r($stations, true));
-    
-    return;
-    
+
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
     $res = $mu_->get_contents($url);
     error_log(print_r(json_decode($res, true), true));
     $json = json_decode($res, true);
     
     $list_yaxes = [];
-    foreach ($json['trains'] as $item) {
-        if ($item['direction'] == '1') {
-            $list_yaxes[$item['dest'] . ',' . $item['displayType'] . ',' . $item['delayMinutes']] = $item['delayMinutes'];
+    foreach ($json['trains'] as $train) {
+        if ($train['direction'] == '1') {
+            $list_yaxes[$train['dest'] . ',' . $train['displayType'] . ',' . $train['delayMinutes']] = $train['delayMinutes'];
         }
     }
     asort($list_yaxes, SORT_NUMERIC);
     error_log(print_r($list_yaxes, true));
+    
+    $data = [];
+    foreach ($json['trains'] as $train) {
+        if ($train['direction'] == '1') {
+            $tmp = new stdClass();
+            if ($pos[1] === '####') {
+                $tmp->x = (string)$stations[$pos[0]]['index'];
+            } else {
+                $tmp->x = (string)($stations[$pos[0]]['index'] + 1);
+            }
+            $tmp-y = $train['dest'] . ',' . $train['displayType'] . ',' . $train['delayMinutes'];
+            $data[] = $tmp;
+        }
+    }
+    error_log(print_r($data, true));
 }
 
 function func_20190601($mu_)
