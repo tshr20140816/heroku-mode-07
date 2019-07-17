@@ -140,6 +140,13 @@ function func_20190601b($mu_)
         if (count($value) === 0) {
             continue;
         }
+        if (substr($key, -2) === '_0') {
+            $pointBorderColor = 'black';
+            $pointBorderWidth = 1;
+        } else {
+            $pointBorderColor = 'cyan';
+            $pointBorderWidth = 3;
+        }
         $datasets[] = ['data' => $value,
                        'fill' => false,
                        'xAxisID' => 'x-axis-1',
@@ -149,7 +156,8 @@ function func_20190601b($mu_)
                        'pointStyle' => 'triangle',
                        'pointRadius' => 12,
                        'pointRotation' => 90,
-                       'pointBorderColor' => 'black',
+                       'pointBorderColor' => $pointBorderColor,
+                       'pointBorderWidth' => $pointBorderWidth,
                       ];
     }
     
