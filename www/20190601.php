@@ -186,6 +186,28 @@ function func_20190601b($mu_)
                        'borderWidth' => 2,
                       ];
     }
+
+    $index = 0;
+    foreach (array_keys($yaxes) as $item) {
+        $station_name = explode('_', $item)[0];
+        if (in_array($station_name, $labels, true)) {
+            $tmp_data = [];
+            $tmp = new stdClass();
+            $tmp->x = $station_name;
+            $tmp->y = $index;
+            $tmp_data[] = $tmp;
+            $datasets[] = ['data' => $tmp_data,
+                           'fill' => false,
+                           'xAxisID' => 'x-axis-0',
+                           'pointStyle' => 'circle',
+                           'pointRadius' => 3,
+                           'showLine' => false,
+                           'pointBackgroundColor' => 'black',
+                           'pointBorderColor' => 'black',
+                          ];
+        }
+        $index++;
+    }
     
     $json = ['type' => 'line',
              'data' => ['labels' => $labels,
