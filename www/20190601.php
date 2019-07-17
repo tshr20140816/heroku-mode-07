@@ -95,12 +95,13 @@ function func_20190601b($mu_)
                         'display' => false,
                         'labels' => $labels0,
                        ];
-    /*
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => true,
-                        'labels' => $list_yaxes,
+                        'ticks' => ['stepSize' => 1,
+                                    'max' => count($yaxes) + 1,
+                                    'min' => 0,
+                                   ],
                        ];
-                       */
     
     $datasets = [];
     $datasets[] = ['data' => [],
