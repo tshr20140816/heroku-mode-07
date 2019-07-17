@@ -62,7 +62,12 @@ function func_20190601b($mu_)
     }
     error_log(print_r($yaxes, true));
     
-    $data = [];
+    $data['普通_0'] = [];
+    $data['快速_0'] = [];
+    $data['その他_0'] = [];
+    $data['普通_X'] = [];
+    $data['快速_X'] = [];
+    $data['その他_X'] = [];
     foreach ($json['trains'] as $train) {
         if ($train['direction'] == '1') {
             $pos = explode('_', $train['pos']);
@@ -73,6 +78,20 @@ function func_20190601b($mu_)
                 $tmp->x = (string)($stations[$pos[0]]['index'] + 1);
             }
             $tmp->y = $yaxes[$train['dest'] . '_' . $train['displayType'] . '_' . $train['delayMinutes']];
+            $key = '';
+            switch ($train['displayType']) {
+                case '普通':
+                case '快速':
+                    $key = $train['displayType'];
+                    break;
+                default:
+                    $key = 'その他'
+            }
+            if ((int)$train['delayMinutes'] === 0) {
+                $key .= '_' . $train['delayMinutes'];
+            } else {
+                $key .= '_X';
+            }
             $data[] = $tmp;
         }
     }
@@ -118,17 +137,19 @@ function func_20190601b($mu_)
                    'pointBorderColor' => 'black',
                    // 'label' => date('Y/m/d H:i', strtotime($update_time) + 32400)
                   ];
-    $datasets[] = ['data' => $data,
-                   'fill' => false,
-                   'xAxisID' => 'x-axis-1',
-                   // 'yAxisID' => 'y-axis-0',
-                   'pointRadius' => 0,
-                   'showLine' => false,
-                   'pointStyle' => 'triangle',
-                   'pointRadius' => 12,
-                   'pointRotation' => 90,
-                   'pointBorderColor' => 'black',
-                  ];
+    foreach ($data as $item) {
+        $datasets[] = ['data' => $item,
+                       'fill' => false,
+                       'xAxisID' => 'x-axis-1',
+                       // 'yAxisID' => 'y-axis-0',
+                       'pointRadius' => 0,
+                       'showLine' => false,
+                       'pointStyle' => 'triangle',
+                       'pointRadius' => 12,
+                       'pointRotation' => 90,
+                       'pointBorderColor' => 'black',
+                      ];
+    }
     
     $json = ['type' => 'line',
              'data' => ['labels' => $labels,
