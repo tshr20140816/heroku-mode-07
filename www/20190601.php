@@ -175,8 +175,13 @@ function func_20190601b($mu_)
     foreach (array_keys($yaxes) as $item) {
         if ($item != 'dummy') {
             $index++;
-            $case .= "case ${index}: s = '${item}'; break; ";
-            error_log(mb_substr($item, -4));
+            if (mb_substr($item, -5) === '_普通_0') {
+                $case .= "case ${index}: s = '" . explode('_', $item)[0] . "'; break; ";
+            } else if (substr($item, -2) === '_0') {
+                $case .= "case ${index}: s = '" . substr($item, 0, strlen($item) - 2) . "'; break; ";                
+            } else {
+                $case .= "case ${index}: s = '${item}'; break; ";
+            }
         }
     }
     $case .= " default: s = '';";
