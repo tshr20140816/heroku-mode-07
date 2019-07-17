@@ -37,8 +37,6 @@ $api_key_yahoo = $mu->get_env('YAHOO_API_KEY', true);
 $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/outlet_parking_information.php';
 exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 
-// exec('curl --head ' . $mu->get_env('URL_TTRSS_1') . ' > /dev/null 2>&1 &');
-
 $urls[$mu->get_env('URL_AMEDAS')] = null;
 $urls[$mu->get_env('URL_WEATHER_WARN')] = null;
 $urls[$mu->get_env('URL_TAIKAN_SHISU')] = null;
