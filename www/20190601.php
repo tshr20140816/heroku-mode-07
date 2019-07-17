@@ -23,7 +23,15 @@ function func_20190601b($mu_)
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
     $res = $mu_->get_contents($url);
     error_log(print_r(json_decode($res, true), true));
-    // $json = json_decode($res, true);
+    $json = json_decode($res, true);
+    
+    $list_yaxes = [];
+    foreach ($json['trains'] as $item) {
+        // error_log($item['dest'] . ' ' . $item['displayType'] . ' ' . $item['delayMinutes']);
+        $list_yaxes[$item['dest'] . ' ' . $item['displayType'] . ' ' . $item['delayMinutes']] = $item['delayMinutes'];
+    }
+    asort($list_yaxes, SORT_NUMERIC);
+    error_log(print_r($list_yaxes, true));
 }
 
 function func_20190601($mu_)
