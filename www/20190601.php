@@ -147,8 +147,8 @@ function func_20190601b($mu_)
     $case = '';
     $index = 0;
     foreach (array_keys($yaxes) as $item) {
-        $index++;
         if ($item != 'dummy') {
+            $index++;
             $case .= "case ${index}: s = '${item}'; break; ";
         }
     }
