@@ -57,6 +57,7 @@ function func_20190601b($mu_)
     $data = [];
     foreach ($json['trains'] as $train) {
         if ($train['direction'] == '1') {
+            $pos = explode('_', $train['pos']);
             $tmp = new stdClass();
             if ($pos[1] === '####') {
                 $tmp->x = (string)$stations[$pos[0]]['index'];
