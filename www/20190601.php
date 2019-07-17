@@ -180,7 +180,7 @@ function func_20190601b($mu_)
         }
         $tmp_data = [];
         $tmp = new stdClass();
-        $tmp->x = (string)0;
+        $tmp->x = '0';
         $tmp->y = $i;
         $tmp_data[] = $tmp;
         $tmp = new stdClass();
