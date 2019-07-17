@@ -60,6 +60,7 @@ function func_20190601b($mu_)
     foreach ($list_yaxes as $item) {
         $yaxes[$item] = $index++;
     }
+    error_log(print_r($yaxes, true));
     
     $data = [];
     foreach ($json['trains'] as $train) {
