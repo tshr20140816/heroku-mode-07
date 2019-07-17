@@ -144,11 +144,11 @@ function func_20190601b($mu_)
         if (substr($key, -2) === '_0') {
             $pointBorderColor = 'black';
             $pointBorderWidth = 1;
-            $pointBackgroundColor = 'green'
+            $pointBackgroundColor = 'green';
         } else {
             $pointBorderColor = 'cyan';
             $pointBorderWidth = 3;
-            $pointBackgroundColor = 'yellow'
+            $pointBackgroundColor = 'yellow';
         }
         $datasets[] = ['data' => $value,
                        'fill' => false,
