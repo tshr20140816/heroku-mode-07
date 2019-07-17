@@ -182,7 +182,7 @@ function func_20190601b($mu_)
                        'xAxisID' => 'x-axis-1',
                        'pointRadius' => 0,
                        'showLine' => true,
-                       'borderColor' => 'black',
+                       'borderColor' => 'gray',
                        'borderWidth' => 2,
                       ];
     }
