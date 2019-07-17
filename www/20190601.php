@@ -196,6 +196,22 @@ function func_20190601b($mu_)
                            'hover' => ['animationDuration' => 0,],
                            'responsiveAnimationDuration' => 0,
                            'scales' => $scales,
+                           'annotation' => ['annotations' => [['type' => 'line',
+                                                               'mode' => 'vertical',
+                                                               'scaleID' => 'x-axis-0',
+                                                               'value' => '向洋',
+                                                               'borderColor' => 'red',
+                                                               'borderWidth' => 1,
+                                                              ],
+                                                              ['type' => 'line',
+                                                               'mode' => 'vertical',
+                                                               'scaleID' => 'x-axis-0',
+                                                               'value' => '新井口',
+                                                               'borderColor' => 'red',
+                                                               'borderWidth' => 1,
+                                                              ],
+                                                             ],
+                                           ],
                           ],
             ];
     
@@ -222,7 +238,8 @@ function func_20190601b($mu_)
     $tmp = str_replace('"__CALLBACK__"', "function(value){var s = ''; switch (value) {" . $case . "} return s;}", json_encode($json));
     $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
-    
+    error_log(strlen($url));
+
     header('Content-Type: image/png');
     echo $res;
     
