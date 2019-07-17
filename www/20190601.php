@@ -69,6 +69,73 @@ function func_20190601b($mu_)
         }
     }
     error_log(print_r($data, true));
+    
+    
+    $labels0 = [];
+    for ($i = 0; $i < count($labels); $i++) {
+        $labels0[] = (string)$i;
+    }
+    
+    $scales = new stdClass();
+    $scales->xAxes[] = ['id' => 'x-axis-0',
+                        'display' => true,
+                        'labels' => $labels,
+                        'ticks' => ['fontColor' => 'black',
+                                   ],
+                       ];
+    $scales->xAxes[] = ['id' => 'x-axis-1',
+                        'display' => false,
+                        'labels' => $labels0,
+                       ];
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'display' => true,
+                        'labels' => $list_yaxes,
+                       ];
+    
+    $datasets = [];
+    $datasets[] = ['data' => [],
+                   'fill' => false,
+                   'xAxisID' => 'x-axis-0',
+                   'pointRadius' => 0,
+                   'showLine' => false,
+                   'borderColor' => 'rgba(0,0,0,0)',
+                   'backgroundColor' => 'rgba(0,0,0,0)',
+                   'pointStyle' => 'circle',
+                   'pointRadius' => 1,
+                   'pointBackgroundColor' => 'black',
+                   'pointBorderColor' => 'black',
+                   // 'label' => date('Y/m/d H:i', strtotime($update_time) + 32400)
+                  ];
+    $datasets[] = ['data' => $data,
+                   'fill' => false,
+                   'xAxisID' => 'x-axis-1',
+                   'yAxisID' => 'y-axis-0',
+                   'pointRadius' => 0,
+                   'showLine' => false,
+                   'pointStyle' => 'triangle',
+                   'pointRadius' => 12,
+                   'pointRotation' => 90,
+                   'pointBorderColor' => 'black',
+                  ];
+    
+    $json = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => $datasets,
+                       ],
+             'options' => ['legend' => ['labels' => ['fontColor' => 'black',],],
+                           'animation' => ['duration' => 0,],
+                           'hover' => ['animationDuration' => 0,],
+                           'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
+                          ],
+            ];
+    
+    $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode(json_encode($json));
+    $res = $mu_->get_contents($url);
+    
+    header('Content-Type: image/png');
+    echo $res;
+    
 }
 
 function func_20190601($mu_)
