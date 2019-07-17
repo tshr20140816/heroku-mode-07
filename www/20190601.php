@@ -51,7 +51,7 @@ function func_20190601b($mu_)
             $list_yaxes[$train['dest'] . '_' . $train['displayType'] . '_' . $train['delayMinutes']] = $train['delayMinutes'];
         }
     }
-    asort($list_yaxes, SORT_NUMERIC);
+    // asort($list_yaxes, SORT_NUMERIC);
     error_log(print_r($list_yaxes, true));
     
     $index = 0;
