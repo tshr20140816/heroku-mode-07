@@ -144,7 +144,14 @@ function func_20190601b($mu_)
     
     // $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode(json_encode($json));
     
-    $tmp = str_replace('"__CALLBACK__"', "function(value){var s; switch (value) {case 1: s = 'hoge'; break; default: s = value.toString();} return s;}", json_encode($json));
+    $case = '';
+    $index = 0;
+    foreach (array_keys($yaxes) as $item) {
+        $index++;
+        $case .= "case ${index}: s = '${item}'; break; ";
+    }
+    
+    $tmp = str_replace('"__CALLBACK__"', "function(value){var s = ''; switch (value) {${case} default: s = '';} return s;}", json_encode($json));
     $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
     
