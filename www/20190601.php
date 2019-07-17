@@ -24,7 +24,7 @@ function func_20190601b($mu_)
     $res = $mu_->get_contents($url, null, true);
     error_log(print_r(json_decode($res, true), true));
     
-    retrun;
+    return;
     
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
     $res = $mu_->get_contents($url);
