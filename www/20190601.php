@@ -122,6 +122,16 @@ function func_20190601b($mu_)
                                     'callback' => '__CALLBACK__',
                                    ],
                        ];
+    $scales->yAxes[] = ['id' => 'y-axis-1',
+                        'display' => true,
+                        'position' => 'right',
+                        'ticks' => ['fontColor' => 'black',
+                                    'stepSize' => 1,
+                                    'max' => count($yaxes),
+                                    'min' => 0,
+                                    'callback' => '__CALLBACK__',
+                                   ],
+                       ];
     
     $datasets = [];
     $datasets[] = ['data' => [],
