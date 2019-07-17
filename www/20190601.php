@@ -271,7 +271,7 @@ function func_20190601b($mu_)
     $case .= " default: s = '';";
     
     $tmp = str_replace('"__CALLBACK__"', "function(value){var s = ''; switch (value) {" . $case . "} return s;}", json_encode($json));
-    $url = 'https://quickchart.io/chart?width=1500&height=300&c=' . urlencode($tmp);
+    $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
     error_log(strlen($url));
 
