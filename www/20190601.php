@@ -229,7 +229,9 @@ function func_20190601b($mu_)
             } else if (substr($item, -2) === '_0') {
                 $case .= "case ${index}: s = '" . substr($item, 0, strlen($item) - 2) . "'; break; ";                
             } else {
-                $case .= "case ${index}: s = '${item}'; break; ";
+                $tmp = str_replace('_普通_', ' ', $item);
+                $tmp = str_replace('_', ' ', $tmp);
+                $case .= "case ${index}: s = '${tmp}'; break; ";
             }
         }
     }
