@@ -54,6 +54,13 @@ function func_20190601b($mu_)
     asort($list_yaxes, SORT_NUMERIC);
     error_log(print_r($list_yaxes, true));
     
+    $index = 0;
+    $yaxes = [];
+    $yaxes['dummy'] = $index++;
+    foreach ($list_yaxes as $item) {
+        $yaxes[$item] = $index++;
+    }
+    
     $data = [];
     foreach ($json['trains'] as $train) {
         if ($train['direction'] == '1') {
@@ -64,7 +71,7 @@ function func_20190601b($mu_)
             } else {
                 $tmp->x = (string)($stations[$pos[0]]['index'] + 1);
             }
-            $tmp->y = $train['dest'] . '_' . $train['displayType'] . '_' . $train['delayMinutes'];
+            $tmp->y = $yaxes[$train['dest'] . '_' . $train['displayType'] . '_' . $train['delayMinutes']];
             $data[] = $tmp;
         }
     }
@@ -87,10 +94,12 @@ function func_20190601b($mu_)
                         'display' => false,
                         'labels' => $labels0,
                        ];
+    /*
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => true,
                         'labels' => $list_yaxes,
                        ];
+                       */
     
     $datasets = [];
     $datasets[] = ['data' => [],
@@ -109,7 +118,7 @@ function func_20190601b($mu_)
     $datasets[] = ['data' => $data,
                    'fill' => false,
                    'xAxisID' => 'x-axis-1',
-                   'yAxisID' => 'y-axis-0',
+                   // 'yAxisID' => 'y-axis-0',
                    'pointRadius' => 0,
                    'showLine' => false,
                    'pointStyle' => 'triangle',
