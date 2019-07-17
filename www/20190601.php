@@ -48,7 +48,7 @@ function func_20190601b($mu_)
     $list_yaxes = [];
     foreach ($json['trains'] as $train) {
         if ($train['direction'] == '1') {
-            $list_yaxes[$train['dest'] . ',' . $train['displayType'] . ',' . $train['delayMinutes']] = $train['delayMinutes'];
+            $list_yaxes[$train['dest'] . '_' . $train['displayType'] . '_' . $train['delayMinutes']] = $train['delayMinutes'];
         }
     }
     asort($list_yaxes, SORT_NUMERIC);
@@ -64,7 +64,7 @@ function func_20190601b($mu_)
             } else {
                 $tmp->x = (string)($stations[$pos[0]]['index'] + 1);
             }
-            $tmp->y = $train['dest'] . ',' . $train['displayType'] . ',' . $train['delayMinutes'];
+            $tmp->y = $train['dest'] . '_' . $train['displayType'] . '_' . $train['delayMinutes'];
             $data[] = $tmp;
         }
     }
