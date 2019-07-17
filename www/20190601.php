@@ -137,8 +137,8 @@ function func_20190601b($mu_)
                    'pointBorderColor' => 'black',
                    // 'label' => date('Y/m/d H:i', strtotime($update_time) + 32400)
                   ];
-    foreach ($data as $item) {
-        $datasets[] = ['data' => $item,
+    foreach ($data as $key => $value) {
+        $datasets[] = ['data' => $value,
                        'fill' => false,
                        'xAxisID' => 'x-axis-1',
                        // 'yAxisID' => 'y-axis-0',
@@ -162,6 +162,8 @@ function func_20190601b($mu_)
                            'scales' => $scales,
                           ],
             ];
+    
+    error_log(print_r($json, true));
     
     // $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode(json_encode($json));
     
