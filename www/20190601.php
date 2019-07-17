@@ -100,6 +100,7 @@ function func_20190601b($mu_)
                         'ticks' => ['stepSize' => 1,
                                     'max' => count($yaxes),
                                     'min' => 0,
+                                    'callback' => '__CALLBACK__',
                                    ],
                        ];
     
@@ -141,7 +142,10 @@ function func_20190601b($mu_)
                           ],
             ];
     
-    $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode(json_encode($json));
+    // $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode(json_encode($json));
+    $tmp = str_replace('"__CALLBACK__"', "function(value){return switch (value) {case 1: 'hoge'; break; default: value;};}", json_encode($json));
+    
+    $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode($tmp));
     $res = $mu_->get_contents($url);
     
     header('Content-Type: image/png');
