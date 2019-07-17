@@ -148,7 +148,7 @@ function func_20190601b($mu_)
         } else {
             $pointBorderColor = 'cyan';
             $pointBorderWidth = 3;
-            $pointBackgroundColor = 'yellow';
+            $pointBackgroundColor = 'green';
         }
         $datasets[] = ['data' => $value,
                        'fill' => false,
