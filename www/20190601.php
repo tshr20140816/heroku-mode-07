@@ -115,7 +115,8 @@ function func_20190601b($mu_)
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => true,
-                        'ticks' => ['stepSize' => 1,
+                        'ticks' => ['fontColor' => 'black',
+                                    'stepSize' => 1,
                                     'max' => count($yaxes),
                                     'min' => 0,
                                     'callback' => '__CALLBACK__',
