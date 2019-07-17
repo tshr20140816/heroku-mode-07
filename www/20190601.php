@@ -138,6 +138,9 @@ function func_20190601b($mu_)
                    // 'label' => date('Y/m/d H:i', strtotime($update_time) + 32400)
                   ];
     foreach ($data as $key => $value) {
+        if (count($value) === 0) {
+            continue;
+        }
         $datasets[] = ['data' => $value,
                        'fill' => false,
                        'xAxisID' => 'x-axis-1',
