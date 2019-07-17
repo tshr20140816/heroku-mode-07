@@ -85,7 +85,7 @@ function func_20190601b($mu_)
                     $key = $train['displayType'];
                     break;
                 default:
-                    $key = 'その他'
+                    $key = 'その他';
             }
             if ((int)$train['delayMinutes'] === 0) {
                 $key .= '_' . $train['delayMinutes'];
