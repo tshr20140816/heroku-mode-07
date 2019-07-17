@@ -200,10 +200,10 @@ function func_20190601b($mu_)
                            'fill' => false,
                            'xAxisID' => 'x-axis-0',
                            'pointStyle' => 'circle',
-                           'pointRadius' => 3,
+                           'pointRadius' => 5,
                            'showLine' => false,
-                           'pointBackgroundColor' => 'black',
-                           'pointBorderColor' => 'black',
+                           'pointBackgroundColor' => 'gray',
+                           'pointBorderColor' => 'gray',
                           ];
         }
         $index++;
