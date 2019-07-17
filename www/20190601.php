@@ -191,7 +191,7 @@ function func_20190601b($mu_)
              'data' => ['labels' => $labels,
                         'datasets' => $datasets,
                        ],
-             'options' => ['legend' => ['labels' => ['fontColor' => 'black',],],
+             'options' => ['legend' => ['display' => false,],
                            'animation' => ['duration' => 0,],
                            'hover' => ['animationDuration' => 0,],
                            'responsiveAnimationDuration' => 0,
