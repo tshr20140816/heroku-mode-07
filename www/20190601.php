@@ -183,6 +183,7 @@ function func_20190601b($mu_)
                        'pointRadius' => 0,
                        'showLine' => true,
                        'borderColor' => 'black',
+                       'borderWidth' => 2,
                       ];
     }
     
