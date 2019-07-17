@@ -28,7 +28,7 @@ function func_20190601b($mu_)
     $list_yaxes = [];
     foreach ($json['trains'] as $item) {
         if ($item['direction'] == '1') {
-            $list_yaxes[$item['dest'] . ' ' . $item['displayType'] . ' ' . $item['delayMinutes']] = $item['delayMinutes'];
+            $list_yaxes[$item['dest'] . ',' . $item['displayType'] . ',' . $item['delayMinutes']] = $item['delayMinutes'];
         }
     }
     asort($list_yaxes, SORT_NUMERIC);
