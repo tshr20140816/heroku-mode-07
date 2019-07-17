@@ -176,6 +176,7 @@ function func_20190601b($mu_)
         if ($item != 'dummy') {
             $index++;
             $case .= "case ${index}: s = '${item}'; break; ";
+            error_log(mb_substr($item, -4));
         }
     }
     $case .= " default: s = '';";
