@@ -19,6 +19,12 @@ exit();
 function func_20190601b($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
+    $res = $mu_->get_contents($url, null, true);
+    error_log(print_r(json_decode($res, true), true));
+    
+    retrun;
     
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
     $res = $mu_->get_contents($url);
