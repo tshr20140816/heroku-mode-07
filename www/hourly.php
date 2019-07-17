@@ -47,8 +47,7 @@ $urls[$mu->get_env('URL_RIVER_2')] = null;
 for ($i = 1; $i < 5; $i++) {
     $urls[$mu->get_env('URL_PARKING_1') . '?park_id=' . $i . '&mode=pc'] = null;
 }
-$url = 'https://map.yahooapis.jp/weather/V1/place?interval=5&output=json&appid=' . $api_key_yahoo
-    . '&coordinates=' . $longitude . ',' . $latitude;
+$url = "https://map.yahooapis.jp/weather/V1/place?interval=5&output=json&appid=${api_key_yahoo}&coordinates=${longitude},${latitude}";
 $urls[$url] = null;
 
 if ($hour_now % 2 === 1) {
