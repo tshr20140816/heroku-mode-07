@@ -63,7 +63,7 @@ function func_20190601b($mu_)
             } else {
                 $tmp->x = (string)($stations[$pos[0]]['index'] + 1);
             }
-            $tmp-y = $train['dest'] . ',' . $train['displayType'] . ',' . $train['delayMinutes'];
+            $tmp->y = $train['dest'] . ',' . $train['displayType'] . ',' . $train['delayMinutes'];
             $data[] = $tmp;
         }
     }
