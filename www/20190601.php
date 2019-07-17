@@ -57,7 +57,7 @@ function func_20190601b($mu_)
     $index = 0;
     $yaxes = [];
     $yaxes['dummy'] = $index++;
-    foreach ($list_yaxes as $item) {
+    foreach (array_keys($list_yaxes) as $item) {
         $yaxes[$item] = $index++;
     }
     error_log(print_r($yaxes, true));
