@@ -164,6 +164,27 @@ function func_20190601b($mu_)
                        'pointBorderWidth' => $pointBorderWidth,
                       ];
     }
+    for ($i = 0; $i < count($yaxes); $i++) {
+        if ($i % 2 == 0) {
+            continue;
+        }
+        $tmp_data = [];
+        $tmp = new stdClass();
+        $tmp->x = 0;
+        $tmp->y = $i;
+        $tmp_data[] = $tmp;
+        $tmp = new stdClass();
+        $tmp->x = count($labels) - 1;
+        $tmp->y = $i;
+        $tmp_data[] = $tmp;
+        $datasets[] = ['data' => $tmp_data,
+                       'fill' => false,
+                       'xAxisID' => 'x-axis-1',
+                       'pointRadius' => 0,
+                       'showLine' => true,
+                       'borderColor' => 'black',
+                      ];
+    }
     
     $json = ['type' => 'line',
              'data' => ['labels' => $labels,
