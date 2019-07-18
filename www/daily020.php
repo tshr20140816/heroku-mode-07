@@ -23,7 +23,7 @@ $file_name_blog = tempnam("/tmp", 'blog_' .  md5(microtime(true)));
 @unlink($file_name_blog);
 
 exec('cd /app && composer update > /dev/null 2>&1 &');
-exec('curl --head ' . $mu->get_env('URL_TTRSS_1') . ' > /dev/null 2>&1 &');
+// exec('curl --head ' . $mu->get_env('URL_TTRSS_1') . ' > /dev/null 2>&1 &');
 
 // quota
 get_quota($mu, $file_name_blog);
