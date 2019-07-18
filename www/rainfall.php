@@ -39,7 +39,7 @@ if ($count !== 0) {
     exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 } else {
     $file_name_blog = '/tmp/rainfall.txt';
-    unlink($file_name_blog);
+    @unlink($file_name_blog);
     
     // Access Token
     $access_token = $mu->get_access_token();
