@@ -39,7 +39,14 @@ function func_20190716b($mu_)
     
     $rc = preg_match_all('/\s+?"raw": "\[\d+-...-\d+ \d+:\d+:\d+ UTC\] PHP .+/', $res, $matches);
     
-    error_log(print_r($matches, true));
+    $list = [];
+    foreach ($matches[0] as $item) {
+        $rc = preg_match('/\/\d+\.php /', $item);
+        if ($rc == 0) {
+            $list[] = $item;
+        }
+    }
+    error_log(print_r($list, true));
 }
 
 function func_20190716($mu_)
