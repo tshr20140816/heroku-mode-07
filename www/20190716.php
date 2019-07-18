@@ -32,7 +32,7 @@ function func_20190716b($mu_)
         urlencode('Warning -loggly tag:' . getenv('HEROKU_APP_NAME'));
     */
     $url = "https://${host}.loggly.com/apiv2/events/iterate?from=-7d&until=now&order=desc&size=1000&q=" .
-        urlencode('(Fatal OR Warning) AND (-loggly OR -"raw" OR -"unparsed" OR -"logmsg") tag:' . getenv('HEROKU_APP_NAME'));
+        urlencode('(Fatal OR Warning) AND (-loggly OR -"raw" OR -"unparsed" OR -"logmsg" OR -"level") tag:' . getenv('HEROKU_APP_NAME'));
     $res = $mu_->get_contents($url, $options);
     
     // error_log($res);
