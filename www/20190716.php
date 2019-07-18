@@ -31,7 +31,7 @@ function func_20190716b($mu_)
         urlencode('Fatal -loggly tag:' . getenv('HEROKU_APP_NAME'));
     $res = $mu_->get_contents($url, $options);
     
-    // error_log($res);
+    error_log($res);
     
     $rc = preg_match_all('/\s+?"raw": "\[\d+-...-\d+ \d+:\d+:\d+ UTC\] PHP .+/', $res, $matches);
     
