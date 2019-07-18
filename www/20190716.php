@@ -27,11 +27,11 @@ function func_20190716b($mu_)
     
     $options = [CURLOPT_HTTPHEADER => ["Authorization: Bearer ${api_token}",],];
     
-    $url = "https://${host}.loggly.com/apiv2/events/iterate?from=-7d&until=now&order=desc&size=1000&q=" .
+    $url = "https://${host}.loggly.com/apiv2/events/iterate?from=-7d&until=now&order=asc&size=1001&q=" .
         urlencode('Fatal -loggly tag:' . getenv('HEROKU_APP_NAME'));
     $res = $mu_->get_contents($url, $options);
     
-    error_log($res);
+    // error_log($res);
     
     $rc = preg_match_all('/\s+?"raw": "\[\d+-...-\d+ \d+:\d+:\d+ UTC\] PHP .+/', $res, $matches);
     
