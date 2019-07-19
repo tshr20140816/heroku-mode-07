@@ -25,8 +25,11 @@ function func_20190719($mu_)
 
     $rc = preg_match('/<IFRAME src="(.+?")/', $res, $match);
     
+    $options = [CURLOPT_REFERER => $url,
+               ];
+    
     $url = 'http://www1.river.go.jp' . $match[1];
-    $res = $mu_->get_contents($url);
+    $res = $mu_->get_contents($url, $options);
     
     error_log($res);
     
