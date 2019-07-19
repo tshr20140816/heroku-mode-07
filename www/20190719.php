@@ -67,7 +67,7 @@ function func_20190719($mu_)
                         'display' => true,
                         'labels' => array_reverse($labels),
                         'ticks' => ['fontColor' => 'black',
-                                    'fontSize' => 6,
+                                    'fontSize' => 8,
                                    ],
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-0',
