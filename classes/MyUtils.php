@@ -798,7 +798,9 @@ __HEREDOC__;
             error_log($log_prefix .
                       "HTTP STATUS CODE : ${http_code} [" .
                       substr(($time_finish - $time_start), 0, 5) . 'sec] ' .
-                      parse_url($url_, PHP_URL_HOST));
+                      parse_url($url_, PHP_URL_HOST) .
+                      ' LENGTH : ' . number_format(strlen($res))
+                     );
             curl_close($ch);
             if (apcu_exists('HTTP_STATUS') === true) {
                 $dic_http_status = apcu_fetch('HTTP_STATUS');
@@ -839,7 +841,7 @@ __HEREDOC__;
             }
         }
 
-        error_log($log_prefix . 'LENGTH : ' . number_format(strlen($res)));
+        // error_log($log_prefix . 'LENGTH : ' . number_format(strlen($res)));
         return $res;
     }
 
