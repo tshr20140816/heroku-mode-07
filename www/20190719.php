@@ -33,7 +33,7 @@ function func_20190719($mu_)
     
     // error_log($res);
     
-    $pattern = '/<TR>.+?<TD .+?<TD .+?>(.+?)<.+?<TD .+?<TD .+?<TD .+?<TD .+?><.+?>(.+?)<.+?<TD .+?><.+?>(.+?)</s';
+    $pattern = '/<TR>.+?<TD .+?<TD .+?>(.+?)<.+?<TD .+?<TD .+?<TD .+?<TD .+?><.+?>(.+?)</s';
     $rc = preg_match_all($pattern, $res, $matches);
     
     error_log(print_r($matches, true));
