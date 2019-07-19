@@ -40,7 +40,7 @@ function func_20190719($mu_)
     $data['horyuryo'] = [];
     $data['chosui_ritsu'] = [];
     $labels = [];
-    foreach (array_chunk($matches, 72)[0] as $item) {
+    foreach (array_chunk($matches, 73)[0] as $item) {
         error_log($item[1] . ' ' . $item[2] . ' ' . $item[3] . ' ' . strip_tags($item[4]));
         $labels[] = $item[1];
         $tmp = new stdClass();
