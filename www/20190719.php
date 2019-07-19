@@ -24,17 +24,14 @@ function func_20190719($mu_)
     // error_log($res);
 
     $rc = preg_match('/<IFRAME src="(.+?)"/', $res, $match);
-    
-    $options = [CURLOPT_REFERER => $url,
-               ];
-    
+
     $url = 'http://www1.river.go.jp' . $match[1];
     $res = $mu_->get_contents($url);
     
     // error_log($res);
     
-    $pattern = '/<TR>.+?<\/TR>/s';
-    $rc = preg_match_all($pattern, $res, $matches);
+    $pattern = '/<TR>.+?<TD .+?<TD .+?>(.+?)<.+?<TD .+?<TD .+?<TD .+?<TD .+?><.+?>(.+?)<.+?<TD .+?>(.+?)</s';
+    $rc = preg_match_all($pattern, $res, $matches, PREG_SET_ORDER);
     
-    error_log(print_r(array_chunk($matches[0], 100)[0], true));
+    error_log(print_r(array_chunk($matches, 100)[0], true));
 }
