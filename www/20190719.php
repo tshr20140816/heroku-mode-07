@@ -39,7 +39,7 @@ function func_20190719($mu_)
     $data['horyuryo'] = [];
     $data['chosui_ritsu'] = [];
     $labels = [];
-    foreach (array_chunk($matches, 100)[0] as $item) {
+    foreach (array_chunk($matches, 120)[0] as $item) {
         error_log($item[1] . ' ' . $item[2] . ' ' . strip_tags($item[3]));
         $labels[] = $item[1];
         $tmp = new stdClass();
@@ -71,7 +71,7 @@ function func_20190719($mu_)
                        ];
     
     $json = ['type' => 'line',
-             'data' => ['labels' => $labels,
+             'data' => ['labels' => array_reverse($labels),
                         'datasets' => [['data' => $data['horyuryo'],
                                         'fill' => false,
                                         'borderColor' => 'black',
@@ -98,7 +98,7 @@ function func_20190719($mu_)
                           ],
              ];
     
-    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . urlencode(json_encode($json));
+    $url = 'https://quickchart.io/chart?c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     
     header('Content-Type: image/png');
