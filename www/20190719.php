@@ -21,11 +21,11 @@ function func_20190719($mu_)
     $url = 'http://www1.river.go.jp/cgi-bin/DspDamData.exe?ID=1368080700010&KIND=3&PAGE=0';
     $res = $mu_->get_contents($url);
     
-    error_log($res);
+    // error_log($res);
 
     $rc = preg_match('/<IFRAME src="(.+?")/', $res, $match);
     
-    $url = $match[1];
+    $url = 'http://www1.river.go.jp' . $match[1];
     $res = $mu_->get_contents($url);
     
     error_log($res);
