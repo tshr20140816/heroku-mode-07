@@ -167,8 +167,8 @@ __HEREDOC__;
     }
 
     $multi_options = [
-        CURLMOPT_PIPELINING => 5,
-        CURLMOPT_MAX_HOST_CONNECTIONS => 5,
+        CURLMOPT_PIPELINING => 1,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 50,
     ];
 
     $pdo = $mu_->get_pdo();
@@ -181,7 +181,6 @@ __HEREDOC__;
         array_shift($tmp);
 
         $urls = [];
-        $index = 0;
         foreach ($tmp as $tour) {
             $rc = preg_match('/<h3 class="domtour-tour-list__name"><a .*?href=".+?\?(.+?)".*?>(.+?)</s', $tour, $match);
             array_shift($match);
@@ -194,8 +193,7 @@ __HEREDOC__;
             $rc = $statement_delete->execute([':b_url_base64' => base64_encode($url),]);
 
             $urls[$url] = null;
-            $index++;
-            if ($index % 30 === 0) {
+            if (count($urls) % 30 === 0) {
                 $dummy = $mu_->get_contents_multi([], $urls, $multi_options);
                 $dummy = null;
                 $urls = [];
