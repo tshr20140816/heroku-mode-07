@@ -122,7 +122,8 @@ function func_20190719($mu_)
                           ],
              ];
     
-    $url = 'https://quickchart.io/chart?width=450&hegiht=360&c=' . urlencode(json_encode($json));
+    // $url = 'https://quickchart.io/chart?width=450&hegiht=360&c=' . urlencode(json_encode($json));
+    $url = 'https://quickchart.io/chart?c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     
     header('Content-Type: image/png');
