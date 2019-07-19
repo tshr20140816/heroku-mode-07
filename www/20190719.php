@@ -30,28 +30,35 @@ function func_20190719($mu_)
     
     // error_log($res);
     
-    $pattern = '/<TR>.+?<TD .+?<TD .+?>(.+?)<.+?<TD .+?<TD .+?<TD .+?<TD .+?><.+?>(.+?)<.+?<TD .+?>(.+?)</s';
+    $pattern = '/<TR>.+?<TD .+?<TD .+?>(.+?)<.+?<TD .+?<TD .+?<TD .+?><.+?>(.+?)<.+?<TD .+?><.+?>(.+?)<.+?<TD .+?>(.+?)</s';
     $rc = preg_match_all($pattern, $res, $matches, PREG_SET_ORDER);
     
     // error_log(print_r(array_chunk($matches, 100)[0], true));
     
     $data = [];
+    $data['ryunyuryo'] = [];
     $data['horyuryo'] = [];
     $data['chosui_ritsu'] = [];
     $labels = [];
     foreach (array_chunk($matches, 120)[0] as $item) {
-        error_log($item[1] . ' ' . $item[2] . ' ' . strip_tags($item[3]));
+        error_log($item[1] . ' ' . $item[2] . ' ' . $item[3] . ' ' . strip_tags($item[4]));
         $labels[] = $item[1];
         $tmp = new stdClass();
         $tmp->x = $item[1];
         $tmp->y = $item[2];
+        $data['ryunyuryo'][] = $tmp;
+        
+        $tmp = new stdClass();
+        $tmp->x = $item[1];
+        $tmp->y = $item[3];
         $data['horyuryo'][] = $tmp;
-        if ($item[3] === '-') {
+        
+        if ($item[4] === '-') {
             continue;
         }
         $tmp = new stdClass();
         $tmp->x = $item[1];
-        $tmp->y = strip_tags($item[3]);
+        $tmp->y = strip_tags($item[4]);
         $data['chosui_ritsu'][] = $tmp;
     }
     
@@ -72,11 +79,19 @@ function func_20190719($mu_)
     
     $json = ['type' => 'line',
              'data' => ['labels' => array_reverse($labels),
-                        'datasets' => [['data' => $data['horyuryo'],
+                        'datasets' => [['data' => $data['ryunyuryo'],
                                         'fill' => false,
-                                        'borderColor' => 'black',
+                                        'borderColor' => 'green',
                                         'borderWidth' => 1,
-                                        'pointBackgroundColor' => 'black',
+                                        'pointBackgroundColor' => 'green',
+                                        'pointRadius' => 2,
+                                        'yAxisID' => 'y-axis-0',
+                                       ],
+                                       ['data' => $data['horyuryo'],
+                                        'fill' => false,
+                                        'borderColor' => 'red',
+                                        'borderWidth' => 1,
+                                        'pointBackgroundColor' => 'red',
                                         'pointRadius' => 2,
                                         'yAxisID' => 'y-axis-0',
                                        ],
@@ -98,7 +113,7 @@ function func_20190719($mu_)
                           ],
              ];
     
-    $url = 'https://quickchart.io/chart?width=500&hegiht=300c=' . urlencode(json_encode($json));
+    $url = 'https://quickchart.io/chart?width=500&hegiht=300&c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     
     header('Content-Type: image/png');
