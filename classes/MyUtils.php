@@ -799,7 +799,7 @@ __HEREDOC__;
                       "HTTP STATUS CODE : ${http_code} [" .
                       substr(($time_finish - $time_start), 0, 5) . 'sec] ' .
                       parse_url($url_, PHP_URL_HOST) .
-                      ' LENGTH : ' . number_format(strlen($res))
+                      ' [' . number_format(strlen($res)) . 'Byte]';
                      );
             curl_close($ch);
             if (apcu_exists('HTTP_STATUS') === true) {
