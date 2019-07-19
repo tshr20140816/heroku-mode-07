@@ -55,6 +55,21 @@ function func_20190719($mu_)
         $data['chosui_ritsu'][] = $tmp;
     }
     
+    
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'display' => true,
+                        'position' => 'left',
+                        'ticks' => ['beginAtZero' => true,
+                                   ],
+                       ];
+    $scales->yAxes[] = ['id' => 'y-axis-1',
+                        'display' => true,
+                        'position' => 'right',
+                        'ticks' => ['beginAtZero' => true,
+                                    'max' => 120,
+                                   ],
+                       ];
+    
     $json = ['type' => 'line',
              'data' => ['labels' => $labels,
                         'datasets' => [['data' => $data['horyuryo'],
@@ -63,6 +78,7 @@ function func_20190719($mu_)
                                         'borderWidth' => 1,
                                         'pointBackgroundColor' => 'black',
                                         'pointRadius' => 2,
+                                        'yAxisID' => 'y-axis-0',
                                        ],
                                        ['data' => $data['chosui_ritsu'],
                                         'fill' => false,
@@ -70,6 +86,7 @@ function func_20190719($mu_)
                                         'borderWidth' => 1,
                                         'pointBackgroundColor' => 'blue',
                                         'pointRadius' => 2,
+                                        'yAxisID' => 'y-axis-1',
                                        ],
                                       ],
                        ],
