@@ -55,7 +55,7 @@ function func_20190719($mu_)
         $data['chosui_ritsu'][] = $tmp;
     }
     
-    
+    $scales = new stdClass();
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => true,
                         'position' => 'left',
@@ -90,6 +90,12 @@ function func_20190719($mu_)
                                        ],
                                       ],
                        ],
+             'options' => ['legend' => ['display' => false,],
+                           'animation' => ['duration' => 0,],
+                           'hover' => ['animationDuration' => 0,],
+                           'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
+                          ],
              ];
     
     $url = 'https://quickchart.io/chart?width=600&height=320&c=' . urlencode(json_encode($json));
