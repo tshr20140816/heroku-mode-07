@@ -22,4 +22,12 @@ function func_20190719($mu_)
     $res = $mu_->get_contents($url);
     
     error_log($res);
+
+    $rc = preg_match('/<IFRAME src="(.+?")/', $res, $match);
+    
+    $url = $match[1];
+    $res = $mu_->get_contents($url);
+    
+    error_log($res);
+    
 }
