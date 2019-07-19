@@ -113,6 +113,13 @@ function func_20190601b($mu_)
                         'display' => false,
                         'labels' => $labels0,
                        ];
+    $scales->xAxes[] = ['id' => 'x-axis-2',
+                        'display' => true,
+                        'labels' => $labels,
+                        'position' => 'top',
+                        'ticks' => ['fontColor' => 'black',
+                                   ],
+                       ];
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => true,
                         'ticks' => ['fontColor' => 'black',
