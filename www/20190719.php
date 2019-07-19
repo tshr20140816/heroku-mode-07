@@ -73,13 +73,15 @@ function func_20190719($mu_)
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => true,
                         'position' => 'left',
-                        'ticks' => ['beginAtZero' => true,
+                        'ticks' => ['fontColor' => 'black',
+                                    'beginAtZero' => true,
                                    ],
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-1',
                         'display' => true,
                         'position' => 'right',
-                        'ticks' => ['beginAtZero' => true,
+                        'ticks' => ['fontColor' => 'black',
+                                    'beginAtZero' => true,
                                     'max' => 120,
                                    ],
                        ];
