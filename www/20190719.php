@@ -33,5 +33,9 @@ function func_20190719($mu_)
     $pattern = '/<TR>.+?<TD .+?<TD .+?>(.+?)<.+?<TD .+?<TD .+?<TD .+?<TD .+?><.+?>(.+?)<.+?<TD .+?>(.+?)</s';
     $rc = preg_match_all($pattern, $res, $matches, PREG_SET_ORDER);
     
-    error_log(print_r(array_chunk($matches, 100)[0], true));
+    // error_log(print_r(array_chunk($matches, 100)[0], true));
+    
+    foreach (array_chunk($matches, 100)[0] as $item) {
+        error_log($item[1] . ' ' . $item[2] . ' ' . strip_tags($item[3]));
+    }
 }
