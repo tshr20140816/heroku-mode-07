@@ -36,5 +36,5 @@ function func_20190719($mu_)
     $pattern = '/<TR>.+?<\/TR>/s';
     $rc = preg_match_all($pattern, $res, $matches);
     
-    error_log(print_r(array_chunk($matches[0], 100), true));
+    error_log(print_r(array_chunk($matches[0], 100)[0], true));
 }
