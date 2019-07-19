@@ -193,7 +193,7 @@ __HEREDOC__;
             $rc = $statement_delete->execute([':b_url_base64' => base64_encode($url),]);
 
             $urls[$url] = null;
-            if (count($urls) % 30 === 0) {
+            if (count($urls) % 50 === 0) {
                 $dummy = $mu_->get_contents_multi([], $urls, $multi_options);
                 $dummy = null;
                 $urls = [];
