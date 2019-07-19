@@ -35,7 +35,49 @@ function func_20190719($mu_)
     
     // error_log(print_r(array_chunk($matches, 100)[0], true));
     
+    $data = [];
+    $data['horyuryo'] = [];
+    $data['chosui_ritsu'] = [];
+    $labels = [];
     foreach (array_chunk($matches, 100)[0] as $item) {
         error_log($item[1] . ' ' . $item[2] . ' ' . strip_tags($item[3]));
+        $labels[] = $item[1];
+        $tmp = new stdClass();
+        $tmp->x = $item[1];
+        $tmp->y = $item[2];
+        $data['horyuryo'][] = $tmp;
+        if ($item[3] === '-') {
+            continue;
+        }
+        $tmp = new stdClass();
+        $tmp->x = $item[1];
+        $tmp->y = strip_tags($item[3]);
+        $data['chosui_ritsu'][] = $tmp;
     }
+    
+    $json = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => [['data' => $data['horyuryo'],
+                                        'fill' => false,
+                                        'borderColor' => 'black',
+                                        'borderWidth' => 1,
+                                        'pointBackgroundColor' => 'black',
+                                        'pointRadius' => 2,
+                                       ],
+                                       ['data' => $data['chosui_ritsu'],
+                                        'fill' => false,
+                                        'borderColor' => 'blue',
+                                        'borderWidth' => 1,
+                                        'pointBackgroundColor' => 'blue',
+                                        'pointRadius' => 2,
+                                       ],
+                                      ],
+                       ],
+             ];
+    
+    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . urlencode(json_encode($json));
+    $res = $mu_->get_contents($url);
+    
+    header('Content-Type: image/png');
+    echo $res;
 }
