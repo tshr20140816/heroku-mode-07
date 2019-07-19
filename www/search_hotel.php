@@ -195,7 +195,7 @@ __HEREDOC__;
 
             $urls[$url] = null;
             $index++;
-            if ($index == 5) {
+            if ($index % 10 === 0) {
                 $dummy = $mu_->get_contents_multi([], $urls, $multi_options);
                 $dummy = null;
                 $urls = [];
