@@ -167,7 +167,7 @@ __HEREDOC__;
     }
 
     $multi_options = [
-        CURLMOPT_PIPELINING => 1,
+        CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 50,
     ];
 
