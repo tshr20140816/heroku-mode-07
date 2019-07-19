@@ -63,6 +63,13 @@ function func_20190719($mu_)
     }
     
     $scales = new stdClass();
+    $scales->xAxes[] = ['id' => 'x-axis-0',
+                        'display' => true,
+                        'labels' => array_reverse($labels),
+                        'ticks' => ['fontColor' => 'black',
+                                    'fontSize' => 6,
+                                   ],
+                       ];
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => true,
                         'position' => 'left',
