@@ -9,8 +9,8 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-// $rc = func_20190601b($mu);
-$rc = func_20190601c($mu);
+$rc = func_20190601b($mu);
+// $rc = func_20190601c($mu);
 
 $time_finish = microtime(true);
 
