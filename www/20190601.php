@@ -38,6 +38,7 @@ function func_20190601c($mu_)
     
     $list_y1 = [];
     $list_y2 = [];
+    $y = 0;
     foreach ($stations as $station_code => $station_name) {
         $is_exists = false;
         foreach ($json['trains'] as $train) {
@@ -46,15 +47,16 @@ function func_20190601c($mu_)
                 if ($tmp_pos[1] === '####') {
                     if ($tmp_pos[0] == $station_code) {
                         $list_y1[] = $station_name;
-                        $list_y2[] = $train['dest'] . ' ' . $train['delayMinutes'];
+                        $list_y2[$y] = $train['dest'] . ' ' . $train['delayMinutes'];
                         $is_exists = true;
+                        $y++;
                     }
                 }
             }
         }
         if ($is_exists === false) {
             $list_y1[] = $station_name;
-            $list_y2[] = '';
+            $y++;
         }
         $is_exists = false;
         foreach ($json['trains'] as $train) {
@@ -63,15 +65,16 @@ function func_20190601c($mu_)
                 if ($tmp_pos[1] !== '####') {
                     if ($tmp_pos[0] == $station_code) {
                         $list_y1[] = '';
-                        $list_y2[] = $train['dest'] . ' ' . $train['delayMinutes'];
+                        $list_y2[$y] = $train['dest'] . ' ' . $train['delayMinutes'];
                         $is_exists = true;
+                        $y++;
                     }
                 }
             }
         }
         if ($is_exists === false) {
             $list_y1[] = '';
-            $list_y2[] = '';
+            $y++;
         }
     }
     array_pop($list_y1);
@@ -83,10 +86,10 @@ function func_20190601c($mu_)
     $labels[] = '下り';
     
     $data = [];
-    for ($i = 0; $i < count($list_y1); $i++) {
+    foreach ($list_y2 as $y -> $train_info) {
         $tmp = new stdClass();
         $tmp->x = $labels[0];
-        $tmp->y = $i;
+        $tmp->y = $y;
         $data[] = $tmp;
     }
     
