@@ -32,7 +32,7 @@ function func_20190601c($mu_)
     
     foreach ($json['trains'] as $train) {
         if ($train['direction'] == '1') {
-            $tmp = $train['dest'] . ' ' . $train['displayType'] . ' ' . $train['no'] . ' ' . $train['pos'] . ' ' .  . $train['delayMinutes'];
+            $tmp = $train['dest'] . ' ' . $train['displayType'] . ' ' . $train['no'] . ' ' . $train['pos'] . ' ' .  $train['delayMinutes'];
             error_log($tmp);
         }
     }
