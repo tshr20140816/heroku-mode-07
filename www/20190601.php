@@ -106,6 +106,7 @@ function func_20190601c($mu_)
                         'display' => true,
                         'ticks' => ['max' => count($list_y1),
                                     'min' => 0,
+                                    'fontSize' => 5,
                                     'callback' => '__CALLBACK__',
                                    ],
                        ];
