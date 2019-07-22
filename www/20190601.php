@@ -38,6 +38,13 @@ function func_20190601d($mu_)
     }
     array_shift($labels);
     
+    $labels0 = [];
+    $labels_upper = [];
+    for ($i = 0; $i < count($labels); $i++) {
+        $labels0[] = (string)$i;
+        $labels_upper[] = '';
+    }
+    
     error_log(print_r($labels, true));
     error_log(print_r($stations, true));
 
@@ -56,15 +63,19 @@ function func_20190601d($mu_)
             } else {
                 $tmp->x = (string)($stations[$pos[0]]['index'] + 1);
             }
-            if (count($data) > 0 && end($data)->x === $tmp->x) {
-                $tmp->y = end($data)->y + 1;
-            } else {
-                $tmp->y = 1;
+            $y = 1;
+            foreach ($data as $std) {
+                if ($std->x === $tmp->x) {
+                    $y++;
+                }
             }
+            $tmp->y = $y;
             $data[] = $tmp;
+            $labels_upper[(int)$tmp->x] .= $train['dest'];
         }
     }
     error_log(print_r($data, true));
+    error_log(print_r($labels_upper, true));
 }
 
 function func_20190601c($mu_)
