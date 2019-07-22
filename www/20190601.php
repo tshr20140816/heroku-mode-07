@@ -78,6 +78,34 @@ function func_20190601c($mu_)
     array_pop($list_y2);
     error_log(print_r($list_y1, true));
     error_log(print_r($list_y2, true));
+    
+    $labels = [];
+    $labels[] = '下り';
+    
+    $data = [];
+    for ($i = 0; $i < count($list_y1); $++) {
+        $tmp = new stdClass();
+        $tmp->x = $labels[0];
+        $tmp->y = $i;
+        $data[] = $tmp;
+    }
+    
+    $datasets = [];
+    $datasets[] = ['data' => $data
+                   'fill' => false,
+                   'showLine' => false,
+                  ];
+    
+    $json = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => $datasets,
+                       ],
+            ];
+    $url = 'https://quickchart.io/chart?c=' . urlencode($json);
+    $res = $mu_->get_contents($url);
+
+    header('Content-Type: image/png');
+    echo $res;
 }
 
 function func_20190601b($mu_)
