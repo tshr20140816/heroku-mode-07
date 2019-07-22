@@ -26,11 +26,11 @@ function func_20190601c($mu_)
     error_log(print_r(json_decode($res, true), true));
 
     $list_y = [];
-    $index = 0;
+    $index = 10000;
     foreach (array_reverse(json_decode($res, true)['stations'], true) as $station) {
+        $list_y[(string)$index - 1] = '__EKIKAN__';
+        $list_y[(string)$index] = $station['info']['name'];
         $index += 100;
-        $list_y[$index - 1] = '__EKIKAN__';
-        $list_y[$index] = $station['info']['name'];
     }
     array_shift($list_y);
     error_log(print_r($list_y, true));
