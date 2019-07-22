@@ -9,7 +9,8 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190716b($mu);
+func_20190716c($mu);
+// func_20190716b($mu);
 // func_20190716($mu);
 
 $time_finish = microtime(true);
@@ -17,6 +18,25 @@ $time_finish = microtime(true);
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
 
+function func_20190716c($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $user_teracloud = $mu_->get_env('TERACLOUD_USER', true);
+    $password_teracloud = $mu_->get_env('TERACLOUD_PASSWORD', true);
+    $api_key_teracloud = $mu_->get_env('TERACLOUD_API_KEY', true);
+    $node_teracloud = $mu_->get_env('TERACLOUD_NODE', true);
+
+    $url = "https://${node_teracloud}.teracloud.jp/v2/api/dataset/(property)";
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
+        CURLOPT_HTTPHEADER => ["X-TeraCLOUD-API-KEY: ${api_key_teracloud}",],
+    ];
+    $res = $mu_->get_contents($url, $options);
+
+    error_log(print_r(json_decode($res, true), true));
+}
 
 function func_20190716b($mu_)
 {
