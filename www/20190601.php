@@ -83,7 +83,7 @@ function func_20190601c($mu_)
     $labels[] = '下り';
     
     $data = [];
-    for ($i = 0; $i < count($list_y1); $++) {
+    for ($i = 0; $i < count($list_y1); $i++) {
         $tmp = new stdClass();
         $tmp->x = $labels[0];
         $tmp->y = $i;
