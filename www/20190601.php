@@ -83,7 +83,9 @@ function func_20190601c($mu_)
     error_log(print_r($list_y2, true));
     
     $labels = [];
+    $labels[] = '';
     $labels[] = '下り';
+    $labels[] = '';
     
     $data = [];
     foreach ($list_y2 as $y => $train_info) {
