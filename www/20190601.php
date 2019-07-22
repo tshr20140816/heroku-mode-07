@@ -21,10 +21,21 @@ function func_20190601c($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    /*
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
     $res = $mu_->get_contents($url, null, true);
-    */
+
+    $list_y = [];
+    $index = 0;
+    foreach (array_reserve(json_decode($res, true)['stations']) as $station) {
+        $index += 100;
+        $list_y[$index - 1] = '__EKIKAN__';
+        $list_y[$index] = $station['info']['name'];
+    }
+    array_shift($list_y);
+    error_log(print_r($list_y, true));
+    
+    return;
+    
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
     $res = $mu_->get_contents($url);
     error_log(print_r(json_decode($res, true), true));
