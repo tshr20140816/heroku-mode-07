@@ -101,7 +101,7 @@ function func_20190601c($mu_)
                         'datasets' => $datasets,
                        ],
             ];
-    $url = 'https://quickchart.io/chart?c=' . urlencode($json_encode($json));
+    $url = 'https://quickchart.io/chart?c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
 
     header('Content-Type: image/png');
