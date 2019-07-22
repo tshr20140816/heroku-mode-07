@@ -91,7 +91,7 @@ function func_20190601c($mu_)
     }
     
     $datasets = [];
-    $datasets[] = ['data' => $data
+    $datasets[] = ['data' => $data,
                    'fill' => false,
                    'showLine' => false,
                   ];
