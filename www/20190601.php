@@ -71,7 +71,7 @@ function func_20190601d($mu_)
             }
             $tmp->y = $y;
             $data[] = $tmp;
-            $labels_upper[(int)$tmp->x] .= $train['dest'];
+            $labels_upper[(int)$tmp->x] .= ' ' . $train['dest'];
         }
     }
     error_log(print_r($data, true));
