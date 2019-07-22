@@ -27,7 +27,7 @@ function func_20190716c($mu_)
     $api_key_teracloud = $mu_->get_env('TERACLOUD_API_KEY', true);
     $node_teracloud = $mu_->get_env('TERACLOUD_NODE', true);
 
-    $url = "https://${node_teracloud}.teracloud.jp/v2/api/dataset/(property)";
+    $url = "https://${node_teracloud}.teracloud.jp/v2/api/fileproperties/(property)";
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
