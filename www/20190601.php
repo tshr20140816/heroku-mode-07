@@ -72,14 +72,14 @@ function func_20190601d($mu_)
             $tmp->y = $y;
             $data[] = $tmp;
             if ($train['delayMinutes'] != '0') {
-                $labels_upper[(int)$tmp->x] .= ' ' . $train['dest'] . $train['delayMinutes'];
+                $labels['dest'][(int)$tmp->x] .= ' ' . $train['dest'] . $train['delayMinutes'];
             } else {
-                $labels_upper[(int)$tmp->x] .= ' ' . $train['dest'];
+                $labels['dest'][(int)$tmp->x] .= ' ' . $train['dest'];
             }
         }
     }
     error_log(print_r($data, true));
-    error_log(print_r($labels_upper, true));
+    error_log(print_r($labels, true));
 }
 
 function func_20190601c($mu_)
