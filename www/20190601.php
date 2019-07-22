@@ -26,7 +26,7 @@ function func_20190601c($mu_)
 
     $list_y = [];
     $index = 0;
-    foreach (array_reserve(json_decode($res, true)['stations'], true) as $station) {
+    foreach (array_reverse(json_decode($res, true)['stations'], true) as $station) {
         $index += 100;
         $list_y[$index - 1] = '__EKIKAN__';
         $list_y[$index] = $station['info']['name'];
