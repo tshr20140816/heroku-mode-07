@@ -31,20 +31,51 @@ function func_20190601c($mu_)
     }
     error_log(print_r($stations, true));
     
-    return;
-    
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
     $res = $mu_->get_contents($url);
     error_log(print_r(json_decode($res, true), true));
     $json = json_decode($res, true);
     
-    $list_y = [];
-    foreach ($json['trains'] as $train) {
-        if ($train['direction'] == '1') {
-            $tmp = $train['dest'] . ' ' . $train['displayType'] . ' ' . $train['no'] . ' ' . $train['pos'] . ' ' .  $train['delayMinutes'];
-            error_log($tmp);
+    $list_y1 = [];
+    $list_y2 = [];
+    foreach ($stations as $station_code => $station_name) {
+        $is_exists = false;
+        foreach ($json['trains'] as $train) {
+            if ($train['direction'] == '1') { // 1 : kudari
+                $tmp_pos = explode('_', $train['pos']);
+                if ($tmp_pos[1] === '####') {
+                    if ($tmp_pos[0] == $station_code) {
+                        $list_y1[] = $station_name;
+                        $list_y2[] = $train['dest'] . ' ' . $train['delayMinutes'];
+                        $is_exists = true;
+                    }
+                }
+            }
+        }
+        if ($is_exists === false) {
+            $list_y1[] = $station_name;
+            $list_y2[] = '';
+        }
+        $is_exists = false;
+        foreach ($json['trains'] as $train) {
+            if ($train['direction'] == '1') { // 1 : kudari
+                $tmp_pos = explode('_', $train['pos']);
+                if ($tmp_pos[1] !== '####') {
+                    if ($tmp_pos[0] == $station_code) {
+                        $list_y1[] = '';
+                        $list_y2[] = $train['dest'] . ' ' . $train['delayMinutes'];
+                        $is_exists = true;
+                    }
+                }
+            }
+        }
+        if ($is_exists === false) {
+            $list_y1[] = '';
+            $list_y2[] = '';
         }
     }
+    error_log(print_r($list_y1, true));
+    error_log(print_r($list_y2, true));
 }
 
 function func_20190601b($mu_)
