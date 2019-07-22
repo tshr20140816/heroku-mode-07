@@ -50,6 +50,13 @@ function func_20190716c($mu_)
     $res = $mu_->get_contents($url, $options);
     
     error_log($res);
+    
+    $rc = preg_match_all('/<lp1\:getcontentlength>(.+?)<\/lp1\:getcontentlength>/', $res, $matches);
+    $size = 0;
+    foreach ($matches[1] as $item) {
+        $size += (int)$item;
+    }
+    error_log(number_format($size));
 }
 
 function func_20190716b($mu_)
