@@ -71,7 +71,11 @@ function func_20190601d($mu_)
             }
             $tmp->y = $y;
             $data[] = $tmp;
-            $labels_upper[(int)$tmp->x] .= ' ' . $train['dest'];
+            if ($train['delayMinutes'] != '0') {
+                $labels_upper[(int)$tmp->x] .= ' ' . $train['dest'] . $train['delayMinutes'];
+            } else {
+                $labels_upper[(int)$tmp->x] .= ' ' . $train['dest'];
+            }
         }
     }
     error_log(print_r($data, true));
