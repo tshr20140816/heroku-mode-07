@@ -90,7 +90,7 @@ function func_20190601c($mu_)
     $data = [];
     foreach ($list_y2 as $y => $train_info) {
         $tmp = new stdClass();
-        $tmp->x = $labels[0];
+        $tmp->x = $labels[1];
         $tmp->y = (int)$y;
         $data[] = $tmp;
     }
