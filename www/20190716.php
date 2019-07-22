@@ -45,7 +45,7 @@ function func_20190716c($mu_)
         CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
         CURLOPT_HEADER => true,
         CURLOPT_CUSTOMREQUEST => 'PROPFIND',
-        CURLOPT_HTTPHEADER => ['Depth: 3',],
+        CURLOPT_HTTPHEADER => ['Depth: 1',],
     ];
     $res = $mu_->get_contents($url, $options);
     
