@@ -25,15 +25,11 @@ function func_20190601c($mu_)
     $res = $mu_->get_contents($url, null, true);
     error_log(print_r(json_decode($res, true), true));
 
-    $list_y = [];
-    $index = 10000;
+    $stations = [];
     foreach (array_reverse(json_decode($res, true)['stations'], true) as $station) {
-        $list_y[(string)$index - 1] = '__EKIKAN__';
-        $list_y[(string)$index] = $station['info']['name'];
-        $index += 100;
+        $stations[$station['info']['code']] = $station['info']['name'];
     }
-    array_shift($list_y);
-    error_log(print_r($list_y, true));
+    error_log(print_r($stations, true));
     
     return;
     
@@ -42,6 +38,7 @@ function func_20190601c($mu_)
     error_log(print_r(json_decode($res, true), true));
     $json = json_decode($res, true);
     
+    $list_y = [];
     foreach ($json['trains'] as $train) {
         if ($train['direction'] == '1') {
             $tmp = $train['dest'] . ' ' . $train['displayType'] . ' ' . $train['no'] . ' ' . $train['pos'] . ' ' .  $train['delayMinutes'];
