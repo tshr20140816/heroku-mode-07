@@ -27,7 +27,7 @@ function func_20190716c($mu_)
     $api_key_teracloud = $mu_->get_env('TERACLOUD_API_KEY', true);
     $node_teracloud = $mu_->get_env('TERACLOUD_NODE', true);
 
-    // $url = "https://${node_teracloud}.teracloud.jp/v2/api/fileproperties/";
+    /*
     $url = "https://${node_teracloud}.teracloud.jp/v2/api/fileproperties/*;depth=10;recursive=true";
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
@@ -37,6 +37,18 @@ function func_20190716c($mu_)
     $res = $mu_->get_contents($url, $options);
 
     error_log(print_r(json_decode($res, true), true));
+    */
+    
+    $url = "https://${node_teracloud}.teracloud.jp/dav/";
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
+        CURLOPT_HEADER => true,
+        CURLOPT_CUSTOMREQUEST => 'PROPFIND',
+    ];
+    $res = $mu_->get_contents($url, $options);
+    
+    error_log($res);
 }
 
 function func_20190716b($mu_)
