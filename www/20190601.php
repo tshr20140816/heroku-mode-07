@@ -27,27 +27,44 @@ function func_20190601d($mu_)
 
     $stations = [];
     $index = 0;
+    $labels = [];
     foreach (json_decode($res, true)['stations'] as $station) {
         $stations[$station['info']['code']]['name'] = $station['info']['name'];
         $stations[$station['info']['code']]['index'] = $index;
         $index += 2;
         
-        $tmp_labels[] = '';
-        $tmp_labels[] = $station['info']['name'];
+        $labels[] = '';
+        $labels[] = $station['info']['name'];
     }
-    array_shift($tmp_labels);
-    $labels = $tmp_labels;
+    array_shift($labels);
     
     error_log(print_r($labels, true));
     error_log(print_r($stations, true));
 
-    return;
-    
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
     $res = $mu_->get_contents($url);
     error_log(print_r(json_decode($res, true), true));
     $json = json_decode($res, true);
 
+    $data = [];
+    foreach ($json['trains'] as $train) {
+        if ($train['direction'] == '1') { // 1 : kudari
+            $tmp = new stdClass();
+            $pos = explode('_', $train['pos']);
+            if ($pos[1] === '####') {
+                $tmp->x = (string)$stations[$pos[0]]['index'];
+            } else {
+                $tmp->x = (string)($stations[$pos[0]]['index'] + 1);
+            }
+            if (count($data) > 0 && end($data)->x === $tmp->x) {
+                $tmp->y = end($data)->y + 1;
+            } else {
+                $tmp->y = 1;
+            }
+            $data[] = $tmp;
+        }
+    }
+    error_log(print_r($data, true));
 }
 
 function func_20190601c($mu_)
