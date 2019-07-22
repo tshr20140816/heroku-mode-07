@@ -106,6 +106,7 @@ function func_20190601c($mu_)
                         'display' => true,
                         'ticks' => ['max' => count($list_y1),
                                     'min' => 0,
+                                    'callback' => '__CALLBACK__',
                                    ],
                        ];
     
@@ -120,9 +121,18 @@ function func_20190601c($mu_)
                            'scales' => $scales,
                           ],
             ];
-    $url = 'https://quickchart.io/chart?c=' . urlencode(json_encode($json));
+    // $url = 'https://quickchart.io/chart?c=' . urlencode(json_encode($json));
+    // $res = $mu_->get_contents($url);
+    
+    $case = '';
+    for ($i = 0; $i < count($list_y1); $i++) {
+        $case .= "case ${i}: s = '" . $list_y1[$i] . "'; break; ";
+    }
+    
+    $tmp = str_replace('"__CALLBACK__"', "function(value){var s = ''; switch (value) {" . $case . "} return s;}", json_encode($json));
+    $url = 'https://quickchart.io/chart?c=' . urlencode(json_encode($tmp));
     $res = $mu_->get_contents($url);
-
+    
     header('Content-Type: image/png');
     echo $res;
 }
