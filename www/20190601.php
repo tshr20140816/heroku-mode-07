@@ -126,8 +126,12 @@ function func_20190601c($mu_)
     
     $case = '';
     for ($i = 0; $i < count($list_y1); $i++) {
-        $case .= "case ${i}: s = '" . $list_y1[$i] . "'; break; ";
+        if ($list_y1[$i] !== '') {
+            $case .= "case ${i}: s = '" . $list_y1[$i] . "'; break; ";
+        }
     }
+    $case .= " default: s = '';";
+    error_log($case);
     
     $tmp = str_replace('"__CALLBACK__"', "function(value){var s = ''; switch (value) {" . $case . "} return s;}", json_encode($json));
     $url = 'https://quickchart.io/chart?c=' . urlencode(json_encode($tmp));
