@@ -27,22 +27,22 @@ function func_20190601d($mu_)
 
     $stations = [];
     $index = 0;
-    $labels = [];
+    $labels['station'] = [];
     foreach (json_decode($res, true)['stations'] as $station) {
         $stations[$station['info']['code']]['name'] = $station['info']['name'];
         $stations[$station['info']['code']]['index'] = $index;
         $index += 2;
         
-        $labels[] = '';
-        $labels[] = $station['info']['name'];
+        $labels['station'][] = '';
+        $labels['station'][] = $station['info']['name'];
     }
-    array_shift($labels);
+    array_shift($labels['station']);
     
-    $labels0 = [];
-    $labels_upper = [];
-    for ($i = 0; $i < count($labels); $i++) {
-        $labels0[] = (string)$i;
-        $labels_upper[] = '';
+    $labels['real'] = [];
+    $labels['dest'] = [];
+    for ($i = 0; $i < count($labels['station']); $i++) {
+        $labels['real'][] = (string)$i;
+        $labels['dest'][] = '';
     }
     
     error_log(print_r($labels, true));
