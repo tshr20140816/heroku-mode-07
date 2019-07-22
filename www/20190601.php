@@ -23,13 +23,13 @@ function func_20190601c($mu_)
 
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
     $res = $mu_->get_contents($url, null, true);
-    error_log(print_r(json_decode($res, true), true));
+    // error_log(print_r(json_decode($res, true), true));
 
     $stations = [];
     foreach (array_reverse(json_decode($res, true)['stations'], true) as $station) {
         $stations[$station['info']['code']] = $station['info']['name'];
     }
-    error_log(print_r($stations, true));
+    // error_log(print_r($stations, true));
     
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
     $res = $mu_->get_contents($url);
@@ -74,6 +74,8 @@ function func_20190601c($mu_)
             $list_y2[] = '';
         }
     }
+    array_pop($list_y1);
+    array_pop($list_y2);
     error_log(print_r($list_y1, true));
     error_log(print_r($list_y2, true));
 }
