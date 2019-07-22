@@ -99,10 +99,24 @@ function func_20190601c($mu_)
                    'showLine' => false,
                   ];
     
+    $scales = new stdClass();
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'display' => true,
+                        'position' => 'left',
+                        'ticks' => ['max' => count($list_y1),
+                                    'min' => 0,
+                                   ],
+                       ];
+    
     $json = ['type' => 'line',
              'data' => ['labels' => $labels,
                         'datasets' => $datasets,
                        ],
+             'options' => ['legend' => ['display' => false,],
+                           'animation' => ['duration' => 0,],
+                           'hover' => ['animationDuration' => 0,],
+                           'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
             ];
     $url = 'https://quickchart.io/chart?c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
