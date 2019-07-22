@@ -29,6 +29,13 @@ function func_20190601c($mu_)
     $res = $mu_->get_contents($url);
     error_log(print_r(json_decode($res, true), true));
     $json = json_decode($res, true);
+    
+    foreach ($json['trains'] as $train) {
+        if ($train['direction'] == '1') {
+            $tmp = $train['dest'] . ' ' . $train['displayType'] . ' ' . $train['no'] . ' ' . $train['pos'] . ' ' .  . $train['delayMinutes'];
+            error_log($tmp);
+        }
+    }
 }
 
 function func_20190601b($mu_)
