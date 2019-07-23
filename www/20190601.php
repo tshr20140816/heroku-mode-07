@@ -54,6 +54,8 @@ function func_20190601d($mu_)
     $json = json_decode($res, true);
 
     $data = [];
+    $data['ontime'] = [];
+    $data['delay'] = [];
     $y_max = 0;
     foreach ($json['trains'] as $train) {
         if ($train['direction'] == '1') { // 1 : kudari
@@ -65,19 +67,25 @@ function func_20190601d($mu_)
                 $tmp->x = (string)($stations[$pos[0]]['index'] + 1);
             }
             $y = 1;
-            foreach ($data as $std) {
-                if ($std->x === $tmp->x) {
-                    $y++;
+            foreach ($data['ontime'] as $std) {
+                if ($std->x === $tmp->x && $std->y >= $y) {
+                    $y = $std->y + 1;
+                }
+            }
+            foreach ($data['delay'] as $std) {
+                if ($std->x === $tmp->x && $std->y >= $y) {
+                    $y = $std->y + 1;
                 }
             }
             $tmp->y = $y;
             if ($y > $y_max) {
                 $y_max = $y;
             }
-            $data[] = $tmp;
             if ($train['delayMinutes'] != '0') {
+                $data['delay'] = $tmp;
                 $labels['dest'][(int)$tmp->x] .= ' ' . $train['dest'] . $train['delayMinutes'];
             } else {
+                $data['ontime'] = $tmp;
                 $labels['dest'][(int)$tmp->x] .= ' ' . $train['dest'];
             }
         }
@@ -85,7 +93,7 @@ function func_20190601d($mu_)
     error_log(print_r($data, true));
     error_log(print_r($labels, true));
     
-    $datasets[] = ['data' => $data,
+    $datasets[] = ['data' => $data['ontime'],
                    'fill' => false,
                    'showLine' => false,
                    'xAxisID' => 'x-axis-0',
@@ -97,6 +105,20 @@ function func_20190601d($mu_)
                    'pointBackgroundColor' => 'green',
                    'pointBorderColor' => 'black',
                    'pointBorderWidth' => 1,
+                  ];
+    
+    $datasets[] = ['data' => $data['delay'],
+                   'fill' => false,
+                   'showLine' => false,
+                   'xAxisID' => 'x-axis-0',
+                   'pointRadius' => 0,
+                   'showLine' => false,
+                   'pointStyle' => 'triangle',
+                   'pointRadius' => 12,
+                   'pointRotation' => 90,
+                   'pointBackgroundColor' => 'green',
+                   'pointBorderColor' => 'cyan',
+                   'pointBorderWidth' => 3,
                   ];
     
     $scales = new stdClass();
