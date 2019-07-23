@@ -158,9 +158,9 @@ function func_20190601d($mu_)
                               'value' => (string)$i,
                               'borderColor' => 'rgba(0,0,0,0)',
                               'label' => ['enabled' => true,
-                                          'content' => $labels['dest'][$i],
+                                          'content' => trim($labels['dest'][$i]),
                                           'position' => 'top',
-                                          'backgroundColor' => 'white',
+                                          'backgroundColor' => 'rgba(0,0,0,0)',
                                           'fontColor' => 'black',
                                          ],
                              ];
