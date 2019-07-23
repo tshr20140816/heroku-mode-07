@@ -82,10 +82,10 @@ function func_20190601d($mu_)
                 $y_max = $y;
             }
             if ($train['delayMinutes'] != '0') {
-                $data['delay'] = $tmp;
+                $data['delay'][] = $tmp;
                 $labels['dest'][(int)$tmp->x] .= ' ' . $train['dest'] . $train['delayMinutes'];
             } else {
-                $data['ontime'] = $tmp;
+                $data['ontime'][] = $tmp;
                 $labels['dest'][(int)$tmp->x] .= ' ' . $train['dest'];
             }
         }
