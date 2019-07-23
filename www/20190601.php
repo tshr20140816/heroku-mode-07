@@ -209,13 +209,12 @@ function func_20190601d($mu_)
             ];
     $height = 150;
     if ($y_max > 2) {
-        $height = 200;
+        $height = 210;
     }
     $url = "https://quickchart.io/chart?width=1500&height=${height}&c=" . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     error_log($log_prefix . strlen($url));
     
-    /*
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
     $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
@@ -228,7 +227,6 @@ function func_20190601d($mu_)
     imagedestroy($im2);
     $res = file_get_contents($file);
     unlink($file);
-    */
     
     header('Content-Type: image/png');
     echo $res;
