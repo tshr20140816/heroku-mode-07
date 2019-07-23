@@ -218,8 +218,9 @@ function func_20190601d($mu_)
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
     $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
-    imagealphablending($im2, false);
-    imagesavealpha($im2, true);
+    // imagealphablending($im2, false);
+    // imagesavealpha($im2, true);
+    imagefill($im2, 0, 0, imagecolorallocate($im1, 255, 255, 255));
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
     imagedestroy($im1);
     $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
