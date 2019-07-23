@@ -102,7 +102,7 @@ function func_20190601d($mu_)
                    'pointStyle' => 'triangle',
                    'pointRadius' => 12,
                    'pointRotation' => 90,
-                   'pointBackgroundColor' => 'gray',
+                   'pointBackgroundColor' => 'lightgray',
                    'pointBorderColor' => 'red',
                    'pointBorderWidth' => 2,
                   ];
