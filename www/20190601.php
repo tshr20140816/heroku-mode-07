@@ -155,7 +155,7 @@ function func_20190601d($mu_)
             $annotations[] = ['type' => 'line',
                               'mode' => 'vertical',
                               'scaleID' => 'x-axis-0',
-                              'value' => $i,
+                              'value' => (string)$i,
                               'borderColor' => 'rgba(0,0,0,0)',
                               'label' => ['enabled' => true,
                                           'content' => $labels['dest'][$i],
