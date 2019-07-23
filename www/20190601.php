@@ -211,8 +211,24 @@ function func_20190601d($mu_)
     if ($y_max > 2) {
         $height = 200;
     }
-    $url = "https://quickchart.io/chart?width=1800&height=${height}&c=" . urlencode(json_encode($json));
+    $url = "https://quickchart.io/chart?width=1500&height=${height}&c=" . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
+    error_log($log_prefix . strlen($url));
+    
+    /*
+    $im1 = imagecreatefromstring($res);
+    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
+    $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
+    imagealphablending($im2, false);
+    imagesavealpha($im2, true);
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
+    imagedestroy($im1);
+    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
+    imagepng($im2, $file, 9);
+    imagedestroy($im2);
+    $res = file_get_contents($file);
+    unlink($file);
+    */
     
     header('Content-Type: image/png');
     echo $res;
