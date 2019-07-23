@@ -158,7 +158,7 @@ function func_20190601d($mu_)
                               'value' => (string)$i,
                               'borderColor' => 'rgba(0,0,0,0)',
                               'label' => ['enabled' => true,
-                                          'content' => $i === 0 ? ' ' . $tmp[0] : $tmp[0],
+                                          'content' => $i === 0 ? '　　' . $tmp[0] : $tmp[0],
                                           'position' => 'bottom',
                                           'backgroundColor' => 'rgba(0,0,0,0)',
                                           'fontColor' => 'black',
