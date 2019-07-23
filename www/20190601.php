@@ -143,8 +143,7 @@ function func_20190601d($mu_)
     */
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => false,
-                        'ticks' => ['stepSize' => 1,
-                                    'max' => $y_max + 1,
+                        'ticks' => ['max' => $y_max + ($y_max > 2 ? 2 : 1),
                                     'min' => 0,
                                    ],
                        ];
@@ -180,7 +179,7 @@ function func_20190601d($mu_)
                                            ],
                           ],
             ];
-    $url = 'https://quickchart.io/chart?width=1500&c=' . urlencode(json_encode($json));
+    $url = 'https://quickchart.io/chart?width=1500&height=300&c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     
     header('Content-Type: image/png');
