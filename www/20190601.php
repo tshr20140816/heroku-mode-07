@@ -225,6 +225,7 @@ function func_20190601d($mu_)
     $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
+    error_log(filesize($file));
     $res = file_get_contents($file);
     unlink($file);
     
