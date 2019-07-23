@@ -54,6 +54,7 @@ function func_20190601d($mu_)
     $json = json_decode($res, true);
 
     $data = [];
+    $y_max = 0;
     foreach ($json['trains'] as $train) {
         if ($train['direction'] == '1') { // 1 : kudari
             $tmp = new stdClass();
@@ -70,6 +71,9 @@ function func_20190601d($mu_)
                 }
             }
             $tmp->y = $y;
+            if ($y > $y_max) {
+                $y_max = $y;
+            }
             $data[] = $tmp;
             if ($train['delayMinutes'] != '0') {
                 $labels['dest'][(int)$tmp->x] .= ' ' . $train['dest'] . $train['delayMinutes'];
@@ -105,6 +109,13 @@ function func_20190601d($mu_)
                         'ticks' => ['fontColor' => 'black',
                                    ],
                        ];
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'display' => false,
+                        'ticks' => ['stepSize' => 1,
+                                    'max' => $y_max + 1,
+                                    'min' => 0,
+                                   ],
+                       ];
     
     $json = ['type' => 'line',
              'data' => ['labels' => $labels['real'],
@@ -117,7 +128,7 @@ function func_20190601d($mu_)
                            'scales' => $scales,
                           ],
             ];
-    $url = 'https://quickchart.io/chart?c=' . urlencode(json_encode($json));
+    $url = 'https://quickchart.io/chart?width=1500&c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     
     header('Content-Type: image/png');
