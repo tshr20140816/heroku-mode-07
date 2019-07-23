@@ -190,7 +190,7 @@ function func_20190601d($mu_)
                       'mode' => 'vertical',
                       'scaleID' => 'x-axis-1',
                       'value' => '海田市',
-                      'borderColor' => 'red',
+                      'borderColor' => 'rgba(255,100,100,200)',
                       'borderWidth' => 3,
                      ];
     
