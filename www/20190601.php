@@ -133,7 +133,7 @@ function func_20190601d($mu_)
                         'labels' => $labels['real'],
                        ];
     $scales->xAxes[] = ['id' => 'x-axis-1',
-                        'display' => true,
+                        'display' => false,
                         'labels' => $labels['station'],
                         'ticks' => ['fontColor' => 'black',
                                    ],
