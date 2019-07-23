@@ -89,6 +89,14 @@ function func_20190601d($mu_)
                    'fill' => false,
                    'showLine' => false,
                    'xAxisID' => 'x-axis-0',
+                   'pointRadius' => 0,
+                   'showLine' => false,
+                   'pointStyle' => 'triangle',
+                   'pointRadius' => 12,
+                   'pointRotation' => 90,
+                   'pointBackgroundColor' => 'green',
+                   'pointBorderColor' => 'black',
+                   'pointBorderWidth' => 1,
                   ];
     
     $scales = new stdClass();
