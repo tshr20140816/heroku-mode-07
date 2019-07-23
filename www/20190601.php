@@ -84,6 +84,8 @@ function func_20190601d($mu_)
             $dest = $train['dest'];
             if ((int)$tmp->x === 0) {
                 $dest = str_repeat('　', mb_strlen($dest)) . $dest;
+            } else if ((int)$tmp->x === (count($labels['station']) - 1)) {
+                $dest .= str_repeat('　', mb_strlen($dest));
             }
             if ($train['delayMinutes'] != '0') {
                 $data['delay'][] = $tmp;
@@ -155,7 +157,7 @@ function func_20190601d($mu_)
     $annotations = [];
     for ($i = 0; $i < count($labels['dest']); $i++) {
         if ($labels['dest'][$i] !== '') {
-            $tmp = explode("\n", trim($labels['dest'][$i]), 2);
+            $tmp = explode("\n", ltrim($labels['dest'][$i]), 2);
             $annotations[] = ['type' => 'line',
                               'mode' => 'vertical',
                               'scaleID' => 'x-axis-0',
