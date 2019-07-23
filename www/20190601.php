@@ -150,15 +150,15 @@ function func_20190601d($mu_)
                        ];
     
     $annotations = [];
-    for ($i = 0; $i < 0; $i++) {
-        if ($labels['dest'] !== '') {
+    for ($i = 0; $i < count($labels['dest']); $i++) {
+        if ($labels['dest'][$i] !== '') {
             $annotations[] = ['type' => 'line',
                               'mode' => 'vertical',
                               'scaleID' => 'x-axis-0',
                               'value' => $i,
                               'borderColor' => 'rgba(0,0,0,0)',
                               'label' => ['enabled' => true,
-                                          'content' => $labels['dest'],
+                                          'content' => $labels['dest'][$i],
                                           'position' => 'top',
                                           'backgroundColor' => 'white',
                                           'fontColor' => 'black',
