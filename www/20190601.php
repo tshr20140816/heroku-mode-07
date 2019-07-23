@@ -83,10 +83,10 @@ function func_20190601d($mu_)
             }
             if ($train['delayMinutes'] != '0') {
                 $data['delay'][] = $tmp;
-                $labels['dest'][(int)$tmp->x] .= ' ' . $train['dest'] . $train['delayMinutes'];
+                $labels['dest'][(int)$tmp->x] .= "\n" . $train['dest'] . $train['delayMinutes'];
             } else {
                 $data['ontime'][] = $tmp;
-                $labels['dest'][(int)$tmp->x] .= ' ' . $train['dest'];
+                $labels['dest'][(int)$tmp->x] .= "\n" . $train['dest'];
             }
         }
     }
