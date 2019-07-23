@@ -80,6 +80,48 @@ function func_20190601d($mu_)
     }
     error_log(print_r($data, true));
     error_log(print_r($labels, true));
+    
+    $datasets[] = ['data' => $data,
+                   'fill' => false,
+                   'showLine' => false,
+                   'xAxisID' => 'x-axis-0',
+                  ];
+    
+    $scales = new stdClass();
+    $scales->xAxes[] = ['id' => 'x-axis-0',
+                        'display' => false,
+                        'labels' => $labels['real'],
+                       ];
+    $scales->xAxes[] = ['id' => 'x-axis-1',
+                        'display' => true,
+                        'labels' => $labels['station'],
+                        'ticks' => ['fontColor' => 'black',
+                                   ],
+                       ];
+    $scales->xAxes[] = ['id' => 'x-axis-2',
+                        'display' => true,
+                        'labels' => $labels['dest'],
+                        'position' => 'top',
+                        'ticks' => ['fontColor' => 'black',
+                                   ],
+                       ];
+    
+    $json = ['type' => 'line',
+             'data' => ['labels' => $labels['real'],
+                        'datasets' => $datasets,
+                       ],
+             'options' => ['legend' => ['display' => false,],
+                           'animation' => ['duration' => 0,],
+                           'hover' => ['animationDuration' => 0,],
+                           'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
+                          ],
+            ];
+    $url = 'https://quickchart.io/chart?c=' . urlencode(json_encode($json));
+    $res = $mu_->get_contents($url);
+    
+    header('Content-Type: image/png');
+    echo $res;
 }
 
 function func_20190601c($mu_)
