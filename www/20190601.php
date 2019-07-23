@@ -102,9 +102,9 @@ function func_20190601d($mu_)
                    'pointStyle' => 'triangle',
                    'pointRadius' => 12,
                    'pointRotation' => 90,
-                   'pointBackgroundColor' => 'green',
-                   'pointBorderColor' => 'black',
-                   'pointBorderWidth' => 1,
+                   'pointBackgroundColor' => 'gray',
+                   'pointBorderColor' => 'red',
+                   'pointBorderWidth' => 2,
                   ];
     
     $datasets[] = ['data' => $data['delay'],
@@ -116,7 +116,7 @@ function func_20190601d($mu_)
                    'pointStyle' => 'triangle',
                    'pointRadius' => 12,
                    'pointRotation' => 90,
-                   'pointBackgroundColor' => 'green',
+                   'pointBackgroundColor' => 'gray',
                    'pointBorderColor' => 'cyan',
                    'pointBorderWidth' => 3,
                   ];
@@ -194,7 +194,7 @@ function func_20190601d($mu_)
                                            ],
                           ],
             ];
-    $url = 'https://quickchart.io/chart?width=1500&height=300&c=' . urlencode(json_encode($json));
+    $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     
     header('Content-Type: image/png');
