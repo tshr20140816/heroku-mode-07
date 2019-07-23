@@ -50,7 +50,7 @@ function func_20190601d($mu_)
 
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
     $res = $mu_->get_contents($url);
-    error_log(print_r(json_decode($res, true), true));
+    error_log($log_prefix . print_r(json_decode($res, true), true));
     $json = json_decode($res, true);
 
     $data = [];
@@ -96,8 +96,8 @@ function func_20190601d($mu_)
             }
         }
     }
-    error_log(print_r($data, true));
-    error_log(print_r($labels, true));
+    error_log($log_prefix . print_r($data, true));
+    error_log($log_prefix . print_r($labels, true));
     
     $datasets[] = ['data' => $data['ontime'],
                    'fill' => false,
@@ -213,7 +213,7 @@ function func_20190601d($mu_)
     }
     $url = "https://quickchart.io/chart?width=1500&height=${height}&c=" . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
-    error_log($log_prefix . strlen($url));
+    error_log($log_prefix . 'URL length : ' . number_format(strlen($url)));
     
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
@@ -226,7 +226,7 @@ function func_20190601d($mu_)
     $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
-    error_log(filesize($file));
+    error_log($log_prefix . 'file size : ' . number_format(filesize($file)));
     $res = file_get_contents($file);
     unlink($file);
     
