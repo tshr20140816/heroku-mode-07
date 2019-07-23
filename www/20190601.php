@@ -36,7 +36,7 @@ function func_20190601d($mu_)
         $labels['station'][] = '';
         $labels['station'][] = $station['info']['name'];
     }
-    // array_shift($labels['station']);
+    array_shift($labels['station']);
     
     $labels['real'] = [];
     $labels['dest'] = [];
@@ -62,9 +62,9 @@ function func_20190601d($mu_)
             $tmp = new stdClass();
             $pos = explode('_', $train['pos']);
             if ($pos[1] === '####') {
-                $tmp->x = (string)$stations[$pos[0]]['index'] + 1;
+                $tmp->x = (string)$stations[$pos[0]]['index'];
             } else {
-                $tmp->x = (string)($stations[$pos[0]]['index'] + 2);
+                $tmp->x = (string)($stations[$pos[0]]['index'] + 1);
             }
             $y = 1;
             foreach ($data['ontime'] as $std) {
