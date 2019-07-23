@@ -30,13 +30,14 @@ function func_20190601d($mu_)
     $labels['station'] = [];
     foreach (json_decode($res, true)['stations'] as $station) {
         $stations[$station['info']['code']]['name'] = $station['info']['name'];
-        $stations[$station['info']['code']]['index'] = $index;
+        $stations[$station['info']['code']]['index'] = $index + 1;
         $index += 2;
         
         $labels['station'][] = '';
         $labels['station'][] = $station['info']['name'];
     }
-    array_shift($labels['station']);
+    // array_shift($labels['station']);
+    $labels['station'][] = '';
     
     $labels['real'] = [];
     $labels['dest'] = [];
