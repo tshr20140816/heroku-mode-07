@@ -143,7 +143,7 @@ function func_20190601d($mu_)
     */
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => false,
-                        'ticks' => ['max' => $y_max + ($y_max > 2 ? 2 : 1),
+                        'ticks' => ['max' => $y_max + 1,
                                     'min' => 0,
                                    ],
                        ];
@@ -151,18 +151,33 @@ function func_20190601d($mu_)
     $annotations = [];
     for ($i = 0; $i < count($labels['dest']); $i++) {
         if ($labels['dest'][$i] !== '') {
+            $tmp = explode("\n", trim($labels['dest'][$i]), 2);
             $annotations[] = ['type' => 'line',
                               'mode' => 'vertical',
                               'scaleID' => 'x-axis-0',
                               'value' => (string)$i,
                               'borderColor' => 'rgba(0,0,0,0)',
                               'label' => ['enabled' => true,
-                                          'content' => trim($labels['dest'][$i]),
-                                          'position' => 'top',
+                                          'content' => $tmp[0],
+                                          'position' => 'bottom',
                                           'backgroundColor' => 'rgba(0,0,0,0)',
                                           'fontColor' => 'black',
                                          ],
                              ];
+            if (count($tmp) > 1) {
+                $annotations[] = ['type' => 'line',
+                                  'mode' => 'vertical',
+                                  'scaleID' => 'x-axis-0',
+                                  'value' => (string)$i,
+                                  'borderColor' => 'rgba(0,0,0,0)',
+                                  'label' => ['enabled' => true,
+                                              'content' => $tmp[1],
+                                              'position' => 'top',
+                                              'backgroundColor' => 'rgba(0,0,0,0)',
+                                              'fontColor' => 'black',
+                                             ],
+                                 ];
+            }
         }
     }
     
