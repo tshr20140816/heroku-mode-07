@@ -130,11 +130,11 @@ function func_20190601d($mu_)
     $scales = new stdClass();
     $scales->xAxes[] = ['id' => 'x-axis-0',
                         'display' => false,
-                        'labels' => $labels['real'],  // -
+                        'labels' => $labels['real'],
                        ];
     $scales->xAxes[] = ['id' => 'x-axis-1',
                         'display' => true,
-                        'labels' => $labels['station'],  // -
+                        'labels' => $labels['station'],
                         'ticks' => ['fontColor' => 'black',
                                    ],
                        ];
@@ -189,7 +189,7 @@ function func_20190601d($mu_)
     $annotations[] = ['type' => 'line',
                       'mode' => 'vertical',
                       'scaleID' => 'x-axis-1',
-                      'value' => '海田市',  // -
+                      'value' => '海田市', // -
                       'borderColor' => 'rgba(255,100,100,200)',
                       'borderWidth' => 3,
                      ];
