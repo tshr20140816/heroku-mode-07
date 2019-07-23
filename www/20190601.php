@@ -132,6 +132,7 @@ function func_20190601d($mu_)
                         'ticks' => ['fontColor' => 'black',
                                    ],
                        ];
+    /*
     $scales->xAxes[] = ['id' => 'x-axis-2',
                         'display' => true,
                         'labels' => $labels['dest'],
@@ -139,6 +140,7 @@ function func_20190601d($mu_)
                         'ticks' => ['fontColor' => 'black',
                                    ],
                        ];
+    */
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => false,
                         'ticks' => ['stepSize' => 1,
@@ -146,6 +148,24 @@ function func_20190601d($mu_)
                                     'min' => 0,
                                    ],
                        ];
+    
+    $annotations = [];
+    for ($i = 0; $i < 0; $i++) {
+        if ($labels['dest'] !== '') {
+            $annotations[] = ['type' => 'line',
+                              'mode' => 'vertical',
+                              'scaleID' => 'x-axis-0',
+                              'value' => $i,
+                              'borderColor' => 'rgba(0,0,0,0)',
+                              'label' => ['enabled' => true,
+                                          'content' => $labels['dest'],
+                                          'position' => 'top',
+                                          'backgroundColor' => 'white',
+                                          'fontColor' => 'black',
+                                         ],
+                             ];
+        }
+    }
     
     $json = ['type' => 'line',
              'data' => ['labels' => $labels['real'],
@@ -156,6 +176,8 @@ function func_20190601d($mu_)
                            'hover' => ['animationDuration' => 0,],
                            'responsiveAnimationDuration' => 0,
                            'scales' => $scales,
+                           'annotation' => ['annotations' => $annotations,
+                                           ],
                           ],
             ];
     $url = 'https://quickchart.io/chart?width=2000&c=' . urlencode(json_encode($json));
