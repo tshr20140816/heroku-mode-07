@@ -189,7 +189,7 @@ function func_20190601d($mu_)
     $annotations[] = ['type' => 'line',
                       'mode' => 'vertical',
                       'scaleID' => 'x-axis-1',
-                      'value' => '向洋',
+                      'value' => '海田市',
                       'borderColor' => 'red',
                       'borderWidth' => 3,
                      ];
