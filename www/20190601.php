@@ -206,7 +206,7 @@ function func_20190601d($mu_)
     if ($y_max > 2) {
         $height = 200;
     }
-    $url = "https://quickchart.io/chart?width=1500&height=${height}&c=" . urlencode(json_encode($json));
+    $url = "https://quickchart.io/chart?width=1800&height=${height}&c=" . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     
     header('Content-Type: image/png');
