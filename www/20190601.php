@@ -81,12 +81,16 @@ function func_20190601d($mu_)
             if ($y > $y_max) {
                 $y_max = $y;
             }
+            $dest = $train['dest'];
+            if ((int)$tmp->x === 0) {
+                $dest = str_repeat('　', mb_strlen($dest)) . $dest;
+            }
             if ($train['delayMinutes'] != '0') {
                 $data['delay'][] = $tmp;
-                $labels['dest'][(int)$tmp->x] .= "\n" . $train['dest'] . $train['delayMinutes'];
+                $labels['dest'][(int)$tmp->x] .= "\n" . $dest . $train['delayMinutes'];
             } else {
                 $data['ontime'][] = $tmp;
-                $labels['dest'][(int)$tmp->x] .= "\n" . $train['dest'];
+                $labels['dest'][(int)$tmp->x] .= "\n" . $dest;
             }
         }
     }
@@ -158,7 +162,7 @@ function func_20190601d($mu_)
                               'value' => (string)$i,
                               'borderColor' => 'rgba(0,0,0,0)',
                               'label' => ['enabled' => true,
-                                          'content' => $i === 0 ? '　　' . $tmp[0] : $tmp[0],
+                                          'content' => $i === 0 ? str_repeat('　', mb_strlen($tmp[0])) . $tmp[0] : $tmp[0],
                                           'position' => 'bottom',
                                           'backgroundColor' => 'rgba(0,0,0,0)',
                                           'fontColor' => 'black',
