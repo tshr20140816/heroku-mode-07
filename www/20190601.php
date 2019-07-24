@@ -140,8 +140,8 @@ function func_20190601e($mu_)
                         'labels' => $labels['station'],
                         'ticks' => ['fontColor' => 'black',
                                     'autoSkip' => false,
-                                    'minRotation' => 90,
-                                    'maxRotation' => 90,
+                                    'minRotation' => 45,
+                                    'maxRotation' => 45,
                                    ],
                        ];
     /*
