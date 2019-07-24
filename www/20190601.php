@@ -139,6 +139,7 @@ function func_20190601e($mu_)
                         'display' => true,
                         'labels' => $labels['station'],
                         'ticks' => ['fontColor' => 'black',
+                                    'autoSkip' => false,
                                    ],
                        ];
     /*
