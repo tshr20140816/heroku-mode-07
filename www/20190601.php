@@ -82,11 +82,9 @@ function func_20190601e($mu_)
                 $y_max = $y;
             }
             $dest = $train['dest'];
-            /*
-            if ($dest === '岩国') {
+            if ($dest === '糸崎') {
                 $dest = '★';
             }
-            */
             if ((int)$tmp->x === 0) {
                 $dest = str_repeat('　', mb_strlen($dest)) . $dest;
             } else if ((int)$tmp->x === (count($labels['station']) - 1)) {
