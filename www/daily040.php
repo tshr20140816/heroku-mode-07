@@ -59,6 +59,7 @@ if (count($urls) != 0) {
 error_log(print_r($urls, true));
 error_log($xml_text);
 
+/*
 $pdo = $mu->get_pdo();
 
 $sql = 'DELETE FROM t_rss WHERE rss_id = 1';
@@ -72,5 +73,12 @@ $rc = $statement->execute([':b_rss_data' => base64_encode(gzencode($xml_text, 9)
 error_log($pid . ' INSERT $rc : ' . $rc);
 
 $pdo = null;
+*/
+
+$file = '/tmp/' . getenv('FC2_RSS_06') . '.xml';
+file_put_contents($file, $xml_text);
+$filesize = filesize($file);
+$mu->upload_fc2($file);
+unlink($file);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
