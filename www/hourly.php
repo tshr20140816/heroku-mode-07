@@ -56,11 +56,6 @@ if ($hour_now % 2 === 1) {
 
 // cache search on url list
 
-$urls_is_cache['https://api.heroku.com/account'] =
-    [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3',
-                            'Authorization: Bearer ' . getenv('HEROKU_API_KEY'),
-                           ]];
-
 $url = 'https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?output=json&appid=' . $api_key_yahoo
     . '&lon=' . $longitude . '&lat=' . $latitude;
 $urls_is_cache[$url] = null;
@@ -208,7 +203,6 @@ if ($hour_now % 2 === 1) {
 $list_add_task = array_merge($list_add_task, get_task_amedas($mu, $list_contents));
 
 // Rainfall
-// $list_add_task = array_merge($list_add_task, get_task_rainfall($mu, $list_contents));
 $rainfall_continue_flag = false;
 foreach (get_task_rainfall($mu, $list_contents) as $task) {
     $list_add_task[] = $task;
@@ -217,14 +211,8 @@ foreach (get_task_rainfall($mu, $list_contents) as $task) {
     }
 }
 
-// Quota
-// $list_add_task = array_merge($list_add_task, get_task_quota($mu, $list_contents));
-
 // parking information
 $list_add_task = array_merge($list_add_task, get_task_parking_information($mu, $list_contents, $file_outlet_parking_information));
-
-// river
-// $list_add_task = array_merge($list_add_task, get_task_river($mu, $list_contents));
 
 // Get Tasks
 $url = 'https://api.toodledo.com/3/tasks/get.php'
@@ -377,46 +365,6 @@ error_log($pid . ' Web Access Count : ' . $mu->_count_web_access);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
 exit();
-
-function get_task_river($mu_, $list_contents_)
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-    // Get Folders
-    $folder_id_label = $mu_->get_folder_id('LABEL');
-
-    // Get Contexts
-    $list_context_id = $mu_->get_contexts();
-
-    $list_add_task = [];
-    $title = '';
-    foreach ([$mu_->get_env('URL_RIVER_1'), $mu_->get_env('URL_RIVER_2')] as $url) {
-        if (array_key_exists($url, $list_contents_)) {
-            $res = $list_contents_[$url];
-        } else {
-            $res = $mu_->get_contents($url);
-        }
-
-        $rc = preg_match('/観測所：(.+?)\(/s', $res, $matches);
-        $point_name = $matches[1];
-
-        $rc = preg_match('/雨量観測所<\/th>.+?<td.+?>.+?<td.+?>(.+?)</s', $res, $matches);
-        $river_name = trim($matches[1]);
-
-        $tmp = explode('<div id="hyou" style="width:278px; height:390px; overflow-y:auto;">', $res)[1];
-        $tmp = explode('</table>', $tmp)[0];
-        $rc = preg_match('/.+<tr.+?>.+?<td.+?>(.+?)<\/td>.+?<td.+?>(.+?)</s', $tmp, $matches);
-        $title .= ' ' . trim($matches[1]) . " ${river_name} ${point_name} " . trim($matches[2]) . 'm';
-    }
-
-    $list_add_task[] = '{"title":"' . trim($title)
-      . '","duedate":"' . mktime(0, 0, 0, 1, 3, 2018)
-      . '","context":"' . $list_context_id[date('w', mktime(0, 0, 0, 1, 3, 2018))]
-      . '","tag":"HOURLY","folder":"' . $folder_id_label . '"}';
-
-    error_log($log_prefix . 'TASKS RIVER : ' . print_r($list_add_task, true));
-    return $list_add_task;
-}
 
 function check_heroku_buildpack_php($mu_)
 {
@@ -700,73 +648,6 @@ function get_task_rainfall($mu_, $list_contents_)
       . '","tag":"HOURLY","folder":"' . $folder_id_label . '"}';
 
     error_log($log_prefix . 'TASKS RAINFALL : ' . print_r($list_add_task, true));
-    return $list_add_task;
-}
-
-function get_task_quota($mu_, $list_contents_)
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-    // Get Folders
-    $folder_id_label = $mu_->get_folder_id('LABEL');
-    // Get Contexts
-    $list_context_id = $mu_->get_contexts();
-
-    $api_key = getenv('HEROKU_API_KEY');
-    $url = 'https://api.heroku.com/account';
-    if (array_key_exists($url, $list_contents_)) {
-        $res = $list_contents_[$url];
-    } else {
-        $res = $mu_->get_contents(
-            $url,
-            [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3',
-                                    "Authorization: Bearer ${api_key}",
-                                   ]],
-            true
-        );
-    }
-
-    $data = json_decode($res, true);
-    error_log($log_prefix . '$data : ' . print_r($data, true));
-    $account = explode('@', $data['email'])[0];
-    $url = "https://api.heroku.com/accounts/${data['id']}/actions/get-quota";
-
-    $res = $mu_->get_contents(
-        $url,
-        [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3.account-quotas',
-                                "Authorization: Bearer ${api_key}",
-        ]]
-    );
-
-    $data = json_decode($res, true);
-    error_log($log_prefix . '$data : ' . print_r($data, true));
-
-    $dyno_used = (int)$data['quota_used'];
-    $dyno_quota = (int)$data['account_quota'];
-
-    error_log($log_prefix . '$dyno_used : ' . $dyno_used);
-    error_log($log_prefix . '$dyno_quota : ' . $dyno_quota);
-
-    $quota = $dyno_quota - $dyno_used;
-    $title = floor($quota / 86400) . 'd ' . ($quota / 3600 % 24) . 'h ' . ($quota / 60 % 60) . 'm ';
-
-    $last_day = (int)date('d', strtotime('last day of ' . date('Y-m')));
-    if (($quota / 3600) > ($last_day - (int)date('d') + 2) * 24) {
-        $title .= '⭕';
-    } else if (($quota / 3600) > ($last_day - (int)date('d') + 2) * 15) {
-        $title .= '❓';
-    } else {
-        $title .= '❌';
-    }
-
-    $update_marker = $mu_->to_small_size(' _' . date('Ymd Hi', strtotime('+ 9 hours')) . '_');
-
-    $list_add_task[] = '{"title":"' . $account . ' : ' . $title . $update_marker
-      . '","duedate":"' . mktime(0, 0, 0, 1, 3, 2018)
-      . '","context":"' . $list_context_id[date('w', mktime(0, 0, 0, 1, 3, 2018))]
-      . '","tag":"HOURLY","folder":"' . $folder_id_label . '"}';
-
-    error_log($log_prefix . 'TASKS QUOTA : ' . print_r($list_add_task, true));
     return $list_add_task;
 }
 
