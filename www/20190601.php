@@ -11,12 +11,233 @@ $mu = new MyUtils();
 
 // $rc = func_20190601b($mu);
 // $rc = func_20190601c($mu);
-$rc = func_20190601d($mu);
+$rc = func_20190601e($mu);
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
+
+function func_20190601e($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
+    $res = $mu_->get_contents($url, null, true);
+
+    $stations = [];
+    $index = 0;
+    $labels['station'] = [];
+    foreach (json_decode($res, true)['stations'] as $station) {
+        $stations[$station['info']['code']]['name'] = $station['info']['name'];
+        $stations[$station['info']['code']]['index'] = $index;
+        $index += 2;
+        
+        $labels['station'][] = '';
+        $labels['station'][] = $station['info']['name'];
+    }
+    array_shift($labels['station']);
+    
+    $labels['real'] = [];
+    $labels['dest'] = [];
+    for ($i = 0; $i < count($labels['station']); $i++) {
+        $labels['real'][] = (string)$i;
+        $labels['dest'][] = '';
+    }
+    
+    error_log(print_r($labels, true));
+    error_log(print_r($stations, true));
+
+    $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
+    $res = $mu_->get_contents($url);
+    error_log($log_prefix . print_r(json_decode($res, true), true));
+    $json = json_decode($res, true);
+
+    $data = [];
+    $data['ontime'] = [];
+    $data['delay'] = [];
+    $y_max = 0;
+    foreach ($json['trains'] as $train) {
+        if ($train['direction'] == '0') { // 0 : nobori // -
+            $tmp = new stdClass();
+            $pos = explode('_', $train['pos']);
+            if ($pos[1] === '####') {
+                $tmp->x = (string)$stations[$pos[0]]['index'];
+            } else {
+                $tmp->x = (string)($stations[$pos[0]]['index'] - 1); // -
+            }
+            $y = 1;
+            foreach ($data['ontime'] as $std) {
+                if ($std->x === $tmp->x && $std->y >= $y) {
+                    $y = $std->y + 1;
+                }
+            }
+            foreach ($data['delay'] as $std) {
+                if ($std->x === $tmp->x && $std->y >= $y) {
+                    $y = $std->y + 1;
+                }
+            }
+            $tmp->y = $y;
+            if ($y > $y_max) {
+                $y_max = $y;
+            }
+            $dest = $train['dest'];
+            /*
+            if ($dest === '岩国') {
+                $dest = '★';
+            }
+            */
+            if ((int)$tmp->x === 0) {
+                $dest = str_repeat('　', mb_strlen($dest)) . $dest;
+            } else if ((int)$tmp->x === (count($labels['station']) - 1)) {
+                $dest .= str_repeat('　', mb_strlen($dest));
+            }
+            if ($train['delayMinutes'] != '0') {
+                $data['delay'][] = $tmp;
+                $labels['dest'][(int)$tmp->x] .= "\n" . $dest . $train['delayMinutes'];
+            } else {
+                $data['ontime'][] = $tmp;
+                $labels['dest'][(int)$tmp->x] .= "\n" . $dest;
+            }
+        }
+    }
+    error_log($log_prefix . print_r($data, true));
+    error_log($log_prefix . print_r($labels, true));
+    
+    $datasets[] = ['data' => $data['ontime'],
+                   'fill' => false,
+                   'showLine' => false,
+                   'xAxisID' => 'x-axis-0',
+                   'pointRadius' => 0,
+                   'showLine' => false,
+                   'pointStyle' => 'triangle',
+                   'pointRadius' => 12,
+                   'pointRotation' => 90,
+                   'pointBackgroundColor' => 'lightgray',
+                   'pointBorderColor' => 'red',
+                   'pointBorderWidth' => 2,
+                  ];
+    
+    $datasets[] = ['data' => $data['delay'],
+                   'fill' => false,
+                   'showLine' => false,
+                   'xAxisID' => 'x-axis-0',
+                   'pointRadius' => 0,
+                   'showLine' => false,
+                   'pointStyle' => 'triangle',
+                   'pointRadius' => 12,
+                   'pointRotation' => 90,
+                   'pointBackgroundColor' => 'lightgray',
+                   'pointBorderColor' => 'cyan',
+                   'pointBorderWidth' => 3,
+                  ];
+    
+    $scales = new stdClass();
+    $scales->xAxes[] = ['id' => 'x-axis-0',
+                        'display' => false,
+                        'labels' => $labels['real'],
+                       ];
+    $scales->xAxes[] = ['id' => 'x-axis-1',
+                        'display' => true,
+                        'labels' => $labels['station'],
+                        'ticks' => ['fontColor' => 'black',
+                                   ],
+                       ];
+    /*
+    $scales->xAxes[] = ['id' => 'x-axis-2',
+                        'display' => true,
+                        'labels' => $labels['dest'],
+                        'position' => 'top',
+                        'ticks' => ['fontColor' => 'black',
+                                   ],
+                       ];
+    */
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'display' => false,
+                        'ticks' => ['max' => $y_max + 1,
+                                    'min' => 0,
+                                   ],
+                       ];
+    
+    $annotations = [];
+    for ($i = 0; $i < count($labels['dest']); $i++) {
+        if ($labels['dest'][$i] !== '') {
+            $tmp = explode("\n", ltrim($labels['dest'][$i]), 2);
+            $annotations[] = ['type' => 'line',
+                              'mode' => 'vertical',
+                              'scaleID' => 'x-axis-0',
+                              'value' => (string)$i,
+                              'borderColor' => 'rgba(0,0,0,0)',
+                              'label' => ['enabled' => true,
+                                          'content' => $tmp[0],
+                                          'position' => 'bottom',
+                                          'backgroundColor' => 'rgba(0,0,0,0)',
+                                          'fontColor' => 'black',
+                                         ],
+                             ];
+            if (count($tmp) > 1) {
+                $annotations[] = ['type' => 'line',
+                                  'mode' => 'vertical',
+                                  'scaleID' => 'x-axis-0',
+                                  'value' => (string)$i,
+                                  'borderColor' => 'rgba(0,0,0,0)',
+                                  'label' => ['enabled' => true,
+                                              'content' => $tmp[1],
+                                              'position' => 'top',
+                                              'backgroundColor' => 'rgba(0,0,0,0)',
+                                              'fontColor' => 'black',
+                                             ],
+                                 ];
+            }
+        }
+    }
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'vertical',
+                      'scaleID' => 'x-axis-1',
+                      'value' => '五日市', // -
+                      'borderColor' => 'rgba(255,100,100,200)',
+                      'borderWidth' => 3,
+                     ];
+    
+    $json = ['type' => 'line',
+             'data' => ['labels' => $labels['real'],
+                        'datasets' => $datasets,
+                       ],
+             'options' => ['legend' => ['display' => false,],
+                           'animation' => ['duration' => 0,],
+                           'hover' => ['animationDuration' => 0,],
+                           'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
+                           'annotation' => ['annotations' => $annotations,
+                                           ],
+                          ],
+            ];
+    $height = 150;
+    if ($y_max > 2) {
+        $height = 210;
+    }
+    $url = "https://quickchart.io/chart?width=1500&height=${height}&c=" . urlencode(json_encode($json));
+    $res = $mu_->get_contents($url);
+    error_log($log_prefix . 'URL length : ' . number_format(strlen($url)));
+    
+    $im1 = imagecreatefromstring($res);
+    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
+    $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
+    // imagealphablending($im2, false);
+    // imagesavealpha($im2, true);
+    imagefill($im2, 0, 0, imagecolorallocate($im1, 255, 255, 255));
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
+    imagedestroy($im1);
+    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
+    imagepng($im2, $file, 9);
+    imagedestroy($im2);
+    error_log($log_prefix . 'file size : ' . number_format(filesize($file)));
+    $res = file_get_contents($file);
+    unlink($file);
+    
+    header('Content-Type: image/png');
+    echo $res;
+}
 
 function func_20190601d($mu_)
 {
