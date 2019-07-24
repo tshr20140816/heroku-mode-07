@@ -127,11 +127,7 @@ function get_quota($mu_, $file_name_blog_)
 
     $urls = [];
     foreach ($list_targets as $target) {
-        if (getenv('HEROKU_API_KEY_' . $target) == '') {
-            $api_key = getenv('HEROKU_API_KEY');
-        } else {
-            $api_key = base64_decode(getenv('HEROKU_API_KEY_' . $target));
-        }
+        $api_key = base64_decode(getenv('HEROKU_API_KEY_' . $target));
         $options = [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3',
                                            "Authorization: Bearer ${api_key}",
                                           ]];
