@@ -63,12 +63,6 @@ $urls_is_cache[$url] = null;
 $url = 'https://devcenter.heroku.com/articles/php-support?' . $suffix;
 $urls_is_cache[$url] = null;
 
-$options = [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3',
-                                   'Authorization: Bearer ' . getenv('HEROKU_API_KEY'),
-                                   ]];
-$url = 'https://api.heroku.com/account';
-$urls_is_cache[$url] = $options;
-
 $url = 'https://map.yahooapis.jp/geoapi/V1/reverseGeoCoder?output=json&appid='
     . $mu->get_env('YAHOO_API_KEY', true)
     . '&lon=' . $mu->get_env('LONGITUDE') . '&lat=' . $mu->get_env('LATITUDE');
