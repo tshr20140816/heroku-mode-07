@@ -13,7 +13,7 @@ error_log("${pid} USER AGENT : ${ueragent}");
 $mu = new MyUtils();
 
 header('Content-Type: text/calendar');
-if ($ueragent != getenv('USER_AGENT_ICS')) {
+if ($ueragent != $mu->get_env('USER_AGENT_ICS')) {
     error_log("${pid} USER AGENT NG");
     echo "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nEND:VCALENDAR";
     $mu->post_blog_wordpress('/ical.php ' . substr((microtime(true) - $time_start), 0, 6) . 's', 'x ' . $_SERVER['HTTP_X_FORWARDED_FOR']);
