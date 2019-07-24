@@ -218,13 +218,13 @@ foreach (get_task_rainfall($mu, $list_contents) as $task) {
 }
 
 // Quota
-$list_add_task = array_merge($list_add_task, get_task_quota($mu, $list_contents));
+// $list_add_task = array_merge($list_add_task, get_task_quota($mu, $list_contents));
 
 // parking information
 $list_add_task = array_merge($list_add_task, get_task_parking_information($mu, $list_contents, $file_outlet_parking_information));
 
 // river
-$list_add_task = array_merge($list_add_task, get_task_river($mu, $list_contents));
+// $list_add_task = array_merge($list_add_task, get_task_river($mu, $list_contents));
 
 // Get Tasks
 $url = 'https://api.toodledo.com/3/tasks/get.php'
