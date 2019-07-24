@@ -98,7 +98,7 @@ $post_data = ['imageFile' => new CURLFile($file)];
 
 $options = [
     CURLOPT_POST => true,
-    CURLOPT_HTTPHEADER => ['Apikey: ' . $mu->get_env('CLOUDMERSIVE_API_KEY', true)),
+    CURLOPT_HTTPHEADER => ['Apikey: ' . $mu->get_env('CLOUDMERSIVE_API_KEY', true),
                            'Accept: application/json'],
     CURLOPT_POSTFIELDS => $post_data,
     CURLOPT_TIMEOUT => 20,
