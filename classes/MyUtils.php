@@ -313,7 +313,7 @@ __HEREDOC__;
         for ($i = 0; $i < 2; $i++) {
             if (apcu_exists(__METHOD__) === true && $i === 0) {
                 $list_env = apcu_fetch(__METHOD__);
-                error_log($log_prefix . '(CACHE HIT)$list_env');
+                error_log($log_prefix . '(CACHE HIT)$list_env (cache size : ' . number_format(apcu_cache_info(true)['mem_size']) . ')');
             } else {
                 $sql = <<< __HEREDOC__
 SELECT T1.key
