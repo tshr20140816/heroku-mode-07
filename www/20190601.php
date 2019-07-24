@@ -18,7 +18,7 @@ $time_finish = microtime(true);
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
 
-function func_20190601e($mu_)
+function func_20190601e($mu_, $direction_ = '0') // $direction_ : '0' nobori / '1' kudari
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -58,13 +58,17 @@ function func_20190601e($mu_)
     $data['delay'] = [];
     $y_max = 0;
     foreach ($json['trains'] as $train) {
-        if ($train['direction'] == '0') { // 0 : nobori // -
+        if ($train['direction'] == $direction_) {
             $tmp = new stdClass();
             $pos = explode('_', $train['pos']);
             if ($pos[1] === '####') {
                 $tmp->x = (string)$stations[$pos[0]]['index'];
             } else {
-                $tmp->x = (string)($stations[$pos[0]]['index'] - 1); // -
+                if ($direction_ === '0') {
+                    $tmp->x = (string)($stations[$pos[0]]['index'] - 1);
+                } else {
+                    $tmp->x = (string)($stations[$pos[0]]['index'] + 1);
+                }
             }
             $y = 1;
             foreach ($data['ontime'] as $std) {
@@ -82,7 +86,7 @@ function func_20190601e($mu_)
                 $y_max = $y;
             }
             $dest = $train['dest'];
-            if ($dest === '糸崎') {
+            if ($dest === ($direction_ === '0' ? '糸崎' : '岩国')) {
                 $dest = '★';
             }
             if ((int)$tmp->x === 0) {
@@ -102,6 +106,8 @@ function func_20190601e($mu_)
     error_log($log_prefix . print_r($data, true));
     error_log($log_prefix . print_r($labels, true));
     
+    $pointRotation = $direction_ === '0' ? 270 : 90;
+    
     $datasets[] = ['data' => $data['ontime'],
                    'fill' => false,
                    'showLine' => false,
@@ -110,7 +116,7 @@ function func_20190601e($mu_)
                    'showLine' => false,
                    'pointStyle' => 'triangle',
                    'pointRadius' => 12,
-                   'pointRotation' => 270,
+                   'pointRotation' => $pointRotation,
                    'pointBackgroundColor' => 'lightgray',
                    'pointBorderColor' => 'red',
                    'pointBorderWidth' => 2,
@@ -124,7 +130,7 @@ function func_20190601e($mu_)
                    'showLine' => false,
                    'pointStyle' => 'triangle',
                    'pointRadius' => 12,
-                   'pointRotation' => 270,
+                   'pointRotation' => $pointRotation,
                    'pointBackgroundColor' => 'lightgray',
                    'pointBorderColor' => 'cyan',
                    'pointBorderWidth' => 3,
@@ -195,7 +201,7 @@ function func_20190601e($mu_)
     $annotations[] = ['type' => 'line',
                       'mode' => 'vertical',
                       'scaleID' => 'x-axis-1',
-                      'value' => '五日市', // -
+                      'value' => $direction_ === '0' ? '五日市' : '海田市',
                       'borderColor' => 'rgba(255,100,100,200)',
                       'borderWidth' => 3,
                      ];
