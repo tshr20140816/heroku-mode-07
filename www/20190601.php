@@ -64,11 +64,7 @@ function func_20190601e($mu_, $direction_ = '0') // $direction_ : '0' nobori / '
             if ($pos[1] === '####') {
                 $tmp->x = (string)$stations[$pos[0]]['index'];
             } else {
-                if ($direction_ === '0') {
-                    $tmp->x = (string)($stations[$pos[0]]['index'] - 1);
-                } else {
-                    $tmp->x = (string)($stations[$pos[0]]['index'] + 1);
-                }
+                $tmp->x = (string)($stations[$pos[0]]['index'] + ($direction_ === '0' ? -1 : 1));
             }
             $y = 1;
             foreach ($data['ontime'] as $std) {
