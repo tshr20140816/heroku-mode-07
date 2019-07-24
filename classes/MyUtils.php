@@ -310,34 +310,39 @@ __HEREDOC__;
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-        if (apcu_exists(__METHOD__) === true) {
-            $list_env = apcu_fetch(__METHOD__);
-            error_log($log_prefix . '(CACHE HIT)$list_env');
-        } else {
-            $sql = <<< __HEREDOC__
+        for ($i = 0; $i < 2; $i++) {
+            if (apcu_exists(__METHOD__) === true && $i === 0) {
+                $list_env = apcu_fetch(__METHOD__);
+                error_log($log_prefix . '(CACHE HIT)$list_env');
+            } else {
+                $sql = <<< __HEREDOC__
 SELECT T1.key
       ,T1.value
   FROM m_env T1
  ORDER BY T1.key
 __HEREDOC__;
 
-            $pdo = $this->get_pdo();
+                $pdo = $this->get_pdo();
 
-            $list_env = [];
-            foreach ($pdo->query($sql) as $row) {
-                $list_env[$row['key']] = $row['value'];
+                $list_env = [];
+                foreach ($pdo->query($sql) as $row) {
+                    $list_env[$row['key']] = $row['value'];
+                }
+
+                error_log($log_prefix . '$list_env : ' . print_r($list_env, true));
+                $pdo = null;
+
+                apcu_store(__METHOD__, $list_env);
             }
-
-            error_log($log_prefix . '$list_env : ' . print_r($list_env, true));
-            $pdo = null;
-
-            apcu_store(__METHOD__, $list_env);
-        }
-        $value = '';
-        if (array_key_exists($key_name_, $list_env)) {
-            $value = $list_env[$key_name_];
-            if ($is_decrypt_ === true) {
-                $value = $this->get_decrypt_string($value);
+            $value = '';
+            if (array_key_exists($key_name_, $list_env)) {
+                $value = $list_env[$key_name_];
+                if ($is_decrypt_ === true) {
+                    $value = $this->get_decrypt_string($value);
+                }
+            }
+            if ($value != '') {
+                break;
             }
         }
         return $value;
