@@ -77,7 +77,7 @@ $pdo = null;
 
 $file = '/tmp/' . getenv('FC2_RSS_06') . '.xml';
 file_put_contents($file, $xml_text);
-$filesize = filesize($file);
+// $filesize = filesize($file);
 $mu->upload_fc2($file);
 unlink($file);
 
