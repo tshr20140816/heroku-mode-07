@@ -85,6 +85,9 @@ function func_20190601e($mu_, $direction_ = '0') // $direction_ : '0' nobori / '
             if ($dest === ($direction_ === '0' ? '糸崎' : '岩国')) {
                 $dest = '★';
             }
+            if ($train['$notice'] != '') {
+                $dest .= '※';
+            }
             if ((int)$tmp->x === 0) {
                 $dest = str_repeat('　', mb_strlen($dest)) . $dest;
             } else if ((int)$tmp->x === (count($labels['station']) - 1)) {
