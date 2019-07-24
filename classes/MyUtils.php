@@ -1470,7 +1470,7 @@ __HEREDOC__;
                     CURLOPT_POSTFIELDS => http_build_query($post_data),
                    ];
 
-        $res = $this->get_contents(getenv('WEB_PROXY'), $options);
+        $res = $this->get_contents($this->get_env('WEB_PROXY'), $options);
         unlink($cookie);
         return $res;
     }
@@ -1503,7 +1503,7 @@ __HEREDOC__;
 
             $ch = curl_init();
             $this->_count_web_access++;
-            $options = [CURLOPT_URL => getenv('WEB_PROXY'),
+            $options = [CURLOPT_URL => $this->get_env('WEB_PROXY'),
                         CURLOPT_USERAGENT => getenv('USER_AGENT'),
                         CURLOPT_RETURNTRANSFER => true,
                         CURLOPT_ENCODING => '',
