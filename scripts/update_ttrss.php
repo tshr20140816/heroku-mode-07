@@ -40,10 +40,9 @@ __HEREDOC__;
         CURLOPT_POST => true,
     ];
 
-    // $url = $mu_->get_env('URL_TTRSS_1') . 'api/';
     $url .= 'api/';
-    $login_user = base64_decode(getenv('TTRSS_USER'));
-    $login_password = base64_decode(getenv('TTRSS_PASSWORD'));
+    $login_user = $mu_->get_env('TTRSS_USER', true);
+    $login_password = $mu_->get_env('TTRSS_PASSWORD', true);
     $json = '{"op":"login","user":"' . $login_user .'","password":"' . $login_password . '"}';
     $res = $mu_->get_contents($url, $options + [CURLOPT_POSTFIELDS => $json,]);
     $data = json_decode($res);
