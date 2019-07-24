@@ -4,7 +4,5 @@ include(dirname(__FILE__) . '/../classes/MyUtils.php');
 
 $mu = new MyUtils();
 
-error_log(base64_decode(getenv('TTRSS_USER')));
-error_log($mu->get_encrypt_string(base64_decode(getenv('TTRSS_USER'))));
-error_log(base64_decode(getenv('TTRSS_PASSWORD')));
-error_log($mu->get_encrypt_string(base64_decode(getenv('TTRSS_PASSWORD'))));
+error_log(getenv('HEROKU_API_KEY'));
+error_log($mu->get_encrypt_string(getenv('HEROKU_API_KEY')));
