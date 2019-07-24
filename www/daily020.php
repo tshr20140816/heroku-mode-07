@@ -147,11 +147,7 @@ function get_quota($mu_, $file_name_blog_)
         error_log($log_prefix . '$data : ' . print_r($data, true));
 
         $account = explode('@', $data['email'])[0];
-        if (getenv('HEROKU_API_KEY_' . $target) == '') {
-            $api_key = getenv('HEROKU_API_KEY');
-        } else {
-            $api_key = base64_decode(getenv('HEROKU_API_KEY_' . $target));
-        }
+        $api_key = base64_decode(getenv('HEROKU_API_KEY_' . $target));
         $options = [CURLOPT_HTTPHEADER => ['Accept: application/vnd.heroku+json; version=3.account-quotas',
                                            "Authorization: Bearer ${api_key}",
                                           ]];
