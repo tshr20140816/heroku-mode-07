@@ -48,7 +48,7 @@ function func_20190601f($mu_) {
     imagecopy($im1, $im2, 0, 0, 0, 0, $x, $y1);
     imagedestroy($im2);
     
-    $im2 = imagecreatefromstring($res1);
+    $im2 = imagecreatefromstring($res2);
     imagecopy($im1, $im2, 0, $y1, 0, 0, $x, $y2);
     imagedestroy($im2);
     
