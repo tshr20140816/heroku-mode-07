@@ -36,7 +36,7 @@ function func_20190601f($mu_) {
     $y1 = imagesy($im1);
     imagedestroy($im1);
     
-    $im1 = imagecreatefromstring($res1);
+    $im1 = imagecreatefromstring($res2);
     // $x = imagesx($im1);
     $y2 = imagesy($im1);
     imagedestroy($im1);
