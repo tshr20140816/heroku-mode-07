@@ -52,7 +52,7 @@ function func_20190601f($mu_) {
     imagecopy($im1, $im2, 0, $y1, 0, 0, $x, $y2);
     imagedestroy($im2);
     
-    $im2 = imagerotate($im1, 90, imagecolorallocate($im1, 0, 0, 0));
+    $im2 = imagerotate($im1, 270, imagecolorallocate($im1, 0, 0, 0));
     imagedestroy($im1);
     
     $file = tempnam("/tmp", md5(microtime(true)));
