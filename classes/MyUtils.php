@@ -664,6 +664,9 @@ __HEREDOC__;
         $rc = ftp_put($ftp_link_id, pathinfo($file_name_)['basename'], $file_name_, FTP_ASCII);
         error_log($log_prefix . 'ftp_put : ' . $rc);
 
+        $rc = ftp_rawlist($ftp_link_id, '.');
+        error_log($log_prefix . 'ftp_rawlist : ' . print_r($rc, true));
+
         $rc = ftp_close($ftp_link_id);
         error_log($log_prefix . 'ftp_close : ' . $rc);
     }
