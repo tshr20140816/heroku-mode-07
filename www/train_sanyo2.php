@@ -28,8 +28,8 @@ function get_train_sanyo2($mu_) {
     error_log($log_prefix . print_r(json_decode($sanyo2_st, true), true));
     error_log($log_prefix . print_r(json_decode($sanyo2, true), true));
 
-    $res1 = func_20190601e($mu_, $sanyo2_st, $sanyo2, '1');
-    $res2 = func_20190601e($mu_, $sanyo2_st, $sanyo2, '0');
+    $res1 = get_train_sanyo2_image($mu_, $sanyo2_st, $sanyo2, '1');
+    $res2 = get_train_sanyo2_image($mu_, $sanyo2_st, $sanyo2, '0');
 
     $im1 = imagecreatefromstring($res1);
     $x = imagesx($im1);
