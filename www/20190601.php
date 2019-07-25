@@ -326,6 +326,7 @@ function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $dire
     $res = $mu_->get_contents($url);
     error_log($log_prefix . 'URL length : ' . number_format(strlen($url)));
     
+    /*
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
     $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
@@ -340,6 +341,7 @@ function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $dire
     error_log($log_prefix . 'file size : ' . number_format(filesize($file)));
     $res = file_get_contents($file);
     unlink($file);
+    */
     
     return $res;
 }
