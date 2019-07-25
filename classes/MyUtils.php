@@ -653,8 +653,13 @@ __HEREDOC__;
         $rc = ftp_pasv($ftp_link_id, true);
         error_log($log_prefix . 'ftp_pasv : ' . $rc);
 
+        /*
         $rc = ftp_nlist($ftp_link_id, '.');
-        error_log($log_prefix . print_r($rc, true));
+        error_log($log_prefix . 'ftp_nlist : ' . print_r($rc, true));
+        */
+
+        $rc = ftp_rawlist($ftp_link_id, '.');
+        error_log($log_prefix . 'ftp_rawlist : ' . print_r($rc, true));
 
         $rc = ftp_put($ftp_link_id, pathinfo($file_name_)['basename'], $file_name_, FTP_ASCII);
         error_log($log_prefix . 'ftp_put : ' . $rc);
