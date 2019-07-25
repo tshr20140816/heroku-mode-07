@@ -55,20 +55,35 @@ function func_20190601f($mu_) {
     $im2 = imagerotate($im1, 270, imagecolorallocate($im1, 0, 0, 0));
     imagedestroy($im1);
     
-    $file = tempnam("/tmp", md5(microtime(true)));
-    imagepng($im2, $file, 9);
-    imagedestroy($im2);
+    $x = imagesx($im2);
+    $y = imagesy($im2);
     
-    $res = file_get_contents($file);
+    $im1 = imagecreatetruecolor($x, $y / 3);
+    imagefill($im1, 0, 0, imagecolorallocate($im1, 255, 255, 255));
+    
+    imagecopy($im1, $im2, 0, 0, 0, 0, $x, $y / 3);
+    
+    $file = tempnam("/tmp", md5(microtime(true)));
+    imagepng($im1, $file, 9);
+    imagedestroy($im1);
+    $res1 = file_get_contents($file);
     unlink($file);
     
-    /*
-    header('Content-Type: image/png');
-    echo $res;
-    */
+    $im1 = imagecreatetruecolor($x, $y / 3 * 2);
+    imagefill($im1, 0, 0, imagecolorallocate($im1, 255, 255, 255));
+    
+    imagecopy($im1, $im2, 0, $y / 3, 0, 0, $x, $y / 3 * 2);
+    imagedestroy($im2);
+    
+    $file = tempnam("/tmp", md5(microtime(true)));
+    imagepng($im1, $file, 9);
+    imagedestroy($im1);
+    $res2 = file_get_contents($file);
+    unlink($file);
     
     echo '<html><body>' . date('H:i:s', strtotime(json_decode($sanyo2, true)['update']) + 60 * 60 * 9)
-        . '<br><img width="100%" src="data:image/png;base64,' . base64_encode($res)
+        . '<br><img width="100%" src="data:image/png;base64,' . base64_encode($res1)
+        . '"><br><img width="100%" src="data:image/png;base64,' . base64_encode($res2)
         . '"></body></html>';
 }
 
