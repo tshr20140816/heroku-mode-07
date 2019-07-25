@@ -252,7 +252,6 @@ function get_train_sanyo2_image($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') 
                    'pointRadius' => 3,
                    'pointBackgroundColor' => 'black',
                    'pointBorderColor' => 'black',
-                   // 'pointBorderWidth' => 3,
                   ];
 
     $scales = new stdClass();
@@ -269,15 +268,6 @@ function get_train_sanyo2_image($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') 
                                     'maxRotation' => 45,
                                    ],
                        ];
-    /*
-    $scales->xAxes[] = ['id' => 'x-axis-2',
-                        'display' => true,
-                        'labels' => $labels['dest'],
-                        'position' => 'top',
-                        'ticks' => ['fontColor' => 'black',
-                                   ],
-                       ];
-    */
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => false,
                         'ticks' => ['max' => $y_max + 1,
