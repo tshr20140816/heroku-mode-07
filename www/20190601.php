@@ -136,19 +136,24 @@ function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $dire
             if ($dest === ($direction_ === '0' ? '糸崎' : '岩国')) {
                 $dest = '★';
             }
-            if ($train['notice'] != '') {
-                $dest .= '※';
-            }
             if ((int)$tmp->x === 0) {
                 $dest = str_repeat('　', mb_strlen($dest)) . $dest;
             } else if ((int)$tmp->x === (count($labels['station']) - 1)) {
                 $dest .= str_repeat('　', mb_strlen($dest));
             }
             if ($train['delayMinutes'] != '0') {
-                $data['delay'][] = $tmp;
+                if ($train['notice'] != '' || $train['displayType'] != '普通') {
+                    $data['delay_etc'][] = $tmp;
+                } else {
+                    $data['delay'][] = $tmp;
+                }
                 $labels['dest'][(int)$tmp->x] .= "\n" . $dest . $train['delayMinutes'];
             } else {
-                $data['ontime'][] = $tmp;
+                if ($train['notice'] != '' || $train['displayType'] != '普通') {
+                    $data['ontime_etc'][] = $tmp;
+                } else {
+                    $data['ontime'][] = $tmp;
+                }
                 $labels['dest'][(int)$tmp->x] .= "\n" . $dest;
             }
         }
@@ -182,6 +187,34 @@ function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $dire
                    'pointRadius' => 12,
                    'pointRotation' => $pointRotation,
                    'pointBackgroundColor' => 'lightgray',
+                   'pointBorderColor' => 'cyan',
+                   'pointBorderWidth' => 3,
+                  ];
+    
+    $datasets[] = ['data' => $data['ontime_etc'],
+                   'fill' => false,
+                   'showLine' => false,
+                   'xAxisID' => 'x-axis-0',
+                   'pointRadius' => 0,
+                   'showLine' => false,
+                   'pointStyle' => 'triangle',
+                   'pointRadius' => 12,
+                   'pointRotation' => $pointRotation,
+                   'pointBackgroundColor' => 'yellow',
+                   'pointBorderColor' => 'red',
+                   'pointBorderWidth' => 2,
+                  ];
+    
+    $datasets[] = ['data' => $data['delay_etc'],
+                   'fill' => false,
+                   'showLine' => false,
+                   'xAxisID' => 'x-axis-0',
+                   'pointRadius' => 0,
+                   'showLine' => false,
+                   'pointStyle' => 'triangle',
+                   'pointRadius' => 12,
+                   'pointRotation' => $pointRotation,
+                   'pointBackgroundColor' => 'yellow',
                    'pointBorderColor' => 'cyan',
                    'pointBorderWidth' => 3,
                   ];
