@@ -52,9 +52,12 @@ function func_20190601f($mu_) {
     imagecopy($im1, $im2, 0, $y1, 0, 0, $x, $y2);
     imagedestroy($im2);
     
-    $file = tempnam("/tmp", md5(microtime(true)));
-    imagepng($im1, $file, 9);
+    $im2 = imagerotate($im1, 90, imagecolorallocate($im1, 0, 0, 0));
     imagedestroy($im1);
+    
+    $file = tempnam("/tmp", md5(microtime(true)));
+    imagepng($im2, $file, 9);
+    imagedestroy($im2);
     
     $res = file_get_contents($file);
     unlink($file);
@@ -65,7 +68,7 @@ function func_20190601f($mu_) {
     */
     
     echo '<html><body><img src="data:image/png;base64,' . base64_encode($res)
-        . '" style="transform: rotate(-90deg);"></body></html>';
+        . '"></body></html>';
 }
 
 function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $direction_ : '0' nobori / '1' kudari
