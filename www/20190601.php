@@ -59,8 +59,12 @@ function func_20190601f($mu_) {
     $res = file_get_contents($file);
     unlink($file);
     
+    /*
     header('Content-Type: image/png');
     echo $res;
+    */
+    
+    $html = '<html><body><img width='3000' src="data:image/png;base64,' . base64_encode($res) . '"></body></html>';
 }
 
 function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $direction_ : '0' nobori / '1' kudari
