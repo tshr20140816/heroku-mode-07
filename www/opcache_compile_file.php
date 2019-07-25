@@ -27,5 +27,8 @@ error_log("${pid} opcache_get_status : " . print_r(opcache_get_status(), true));
 
 error_log("${pid} memory_get_usage : " . number_format(memory_get_usage()) . 'byte');
 
+$res = file_get_contents('/tmp/php_error.txt');
+error_log($res);
+
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
