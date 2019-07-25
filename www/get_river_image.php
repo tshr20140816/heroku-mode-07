@@ -921,7 +921,6 @@ function get_train_sanyo2_image2($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
     $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
     imagepng($im2, $file, 9);
     imagedestroy($im2);
-    error_log($log_prefix . 'file size : ' . number_format(filesize($file)));
     $res = file_get_contents($file);
     unlink($file);
 
