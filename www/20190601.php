@@ -64,7 +64,7 @@ function func_20190601f($mu_) {
     echo $res;
     */
     
-    echo '<html><body><img width="4500" src="data:image/png;base64,' . base64_encode($res) . '"></body></html>';
+    echo '<html><body><img src="data:image/png;base64,' . base64_encode($res) . '" style="transform: scale(1.5,1.5);rotate(-90deg);transform-origin:right top;"></body></html>';
 }
 
 function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $direction_ : '0' nobori / '1' kudari
