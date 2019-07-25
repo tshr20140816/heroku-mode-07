@@ -167,7 +167,6 @@ function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $dire
                    'fill' => false,
                    'showLine' => false,
                    'xAxisID' => 'x-axis-0',
-                   'pointRadius' => 0,
                    'showLine' => false,
                    'pointStyle' => 'triangle',
                    'pointRadius' => 12,
@@ -181,7 +180,6 @@ function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $dire
                    'fill' => false,
                    'showLine' => false,
                    'xAxisID' => 'x-axis-0',
-                   'pointRadius' => 0,
                    'showLine' => false,
                    'pointStyle' => 'triangle',
                    'pointRadius' => 12,
@@ -195,7 +193,6 @@ function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $dire
                    'fill' => false,
                    'showLine' => false,
                    'xAxisID' => 'x-axis-0',
-                   'pointRadius' => 0,
                    'showLine' => false,
                    'pointStyle' => 'triangle',
                    'pointRadius' => 12,
@@ -209,7 +206,6 @@ function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $dire
                    'fill' => false,
                    'showLine' => false,
                    'xAxisID' => 'x-axis-0',
-                   'pointRadius' => 0,
                    'showLine' => false,
                    'pointStyle' => 'triangle',
                    'pointRadius' => 12,
@@ -217,6 +213,22 @@ function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $dire
                    'pointBackgroundColor' => 'yellow',
                    'pointBorderColor' => 'cyan',
                    'pointBorderWidth' => 3,
+                  ];
+    
+    $tmp = new stdClass();
+    $tmp->x = '岩国';
+    $tmp->y = 0;
+    
+    $datasets[] = ['data' => [$tmp, ],
+                   'fill' => false,
+                   'showLine' => false,
+                   'xAxisID' => 'x-axis-1',
+                   'showLine' => false,
+                   'pointStyle' => 'star',
+                   'pointRadius' => 3,
+                   'pointBackgroundColor' => 'black',
+                   'pointBorderColor' => 'black',
+                   // 'pointBorderWidth' => 3,
                   ];
     
     $scales = new stdClass();
