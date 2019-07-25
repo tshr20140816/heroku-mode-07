@@ -72,7 +72,7 @@ function func_20190601f($mu_) {
     $im1 = imagecreatetruecolor($x, $y / 3 * 2);
     imagefill($im1, 0, 0, imagecolorallocate($im1, 255, 255, 255));
     
-    imagecopy($im1, $im2, 0, $y / 3, 0, 0, $x, $y / 3 * 2);
+    imagecopy($im1, $im2, 0, 0, 0, $y / 3 * 2, $x, $y / 3 * 2);
     imagedestroy($im2);
     
     $file = tempnam("/tmp", md5(microtime(true)));
