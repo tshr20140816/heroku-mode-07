@@ -216,7 +216,7 @@ function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $dire
                   ];
     
     $tmp = new stdClass();
-    $tmp->x = '岩国';
+    $tmp->x = $direction_ === '0' ? '糸崎' : '岩国';
     $tmp->y = 0;
     
     $datasets[] = ['data' => [$tmp, ],
@@ -224,7 +224,7 @@ function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $dire
                    'showLine' => false,
                    'xAxisID' => 'x-axis-1',
                    'showLine' => false,
-                   'pointStyle' => 'star',
+                   'pointStyle' => 'circle',
                    'pointRadius' => 3,
                    'pointBackgroundColor' => 'black',
                    'pointBorderColor' => 'black',
