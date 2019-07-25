@@ -51,17 +51,17 @@ popd
 set +x
 pushd classes
 for file in $( ls . | grep .php$ ); do
-  php -l ${file}
+  php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
 done
 popd
 pushd scripts
 for file in $( ls . | grep .php$ ); do
-  php -l ${file}
+  php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
 done
 popd
 pushd www
 for file in $( ls . | grep .php$ ); do
-  php -l ${file}
+  php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
 done
 popd
 set -x
