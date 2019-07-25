@@ -95,6 +95,8 @@ function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $dire
     $data = [];
     $data['ontime'] = [];
     $data['delay'] = [];
+    $data['ontime_etc'] = [];
+    $data['delay_etc'] = [];
     $y_max = 0;
     foreach ($json['trains'] as $train) {
         if ($train['direction'] == $direction_) {
@@ -112,6 +114,16 @@ function func_20190601e($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $dire
                 }
             }
             foreach ($data['delay'] as $std) {
+                if ($std->x === $tmp->x && $std->y >= $y) {
+                    $y = $std->y + 1;
+                }
+            }
+            foreach ($data['ontime_etc'] as $std) {
+                if ($std->x === $tmp->x && $std->y >= $y) {
+                    $y = $std->y + 1;
+                }
+            }
+            foreach ($data['delay_etc'] as $std) {
                 if ($std->x === $tmp->x && $std->y >= $y) {
                     $y = $std->y + 1;
                 }
