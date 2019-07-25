@@ -67,7 +67,8 @@ function func_20190601f($mu_) {
     echo $res;
     */
     
-    echo '<html><body><img src="data:image/png;base64,' . base64_encode($res)
+    echo '<html><body>' . date('H:i:s', strtotime(json_decode($sanyo2, true)['update']) + 60 * 60 * 9)
+        . '<br><img src="data:image/png;base64,' . base64_encode($res)
         . '"></body></html>';
 }
 
