@@ -99,6 +99,50 @@ function check_train($mu_)
         }
     }
 
+    $hatena_id = $mu_->get_env('HATENA_ID', true);
+    $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
+    $hatena_api_key = $mu_->get_env('HATENA_API_KEY', true);
+
+    $url = "https://blog.hatena.ne.jp/${hatena_id}/${hatena_blog_id}/atom/entry";
+
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
+        CURLOPT_HEADER => true,
+        CURLOPT_HTTPHEADER => ['Expect:',],
+    ];
+
+    for ($i = 0; $i < 10; $i++) {
+        $res = $mu_->get_contents($url, $options);
+        // error_log($res);
+
+        $entrys = explode('<entry>', $res);
+        array_shift($entrys);
+        foreach ($entrys as $entry) {
+            $rc = preg_match('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ TRAIN</', $entry, $match);
+            error_log($log_prefix . $rc);
+
+            if ($rc === 1) {
+                $rc = preg_match('/<link rel="edit" href="(.+?)"/', $entry, $match);
+                error_log($log_prefix . $match[1]);
+                $url = $match[1];
+                
+                $options = [
+                    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                    CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
+                    CURLOPT_CUSTOMREQUEST => 'DELETE',
+                    CURLOPT_HEADER => true,
+                    CURLOPT_HTTPHEADER => ['Expect:',],
+                ];
+
+                $res = $mu_->get_contents($url, $options);
+                break 2;
+            }
+        }
+        $rc = preg_match('/<link rel="next" href="(.+?)"/', $res, $match);
+        $url = $match[1];
+    }
+    
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
     $sanyo2_st = $mu_->get_contents($url, null, true);
 
