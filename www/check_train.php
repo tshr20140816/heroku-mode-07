@@ -139,7 +139,7 @@ function check_train($mu_)
     unlink($file);
 
     $description .= "\n" . '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
-    
+
     // $mu_->post_blog_livedoor('TRAIN', $description);
     $mu_->post_blog_hatena('TRAIN', $description);
 }
