@@ -28,7 +28,7 @@ function check_train($mu_)
         $stations[$station['info']['code']] = $station['info']['name'];
     }
 
-    $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
+    $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json?' . microtime(true);
     $res = $mu_->get_contents($url);
     $json = json_decode($res, true);
 
