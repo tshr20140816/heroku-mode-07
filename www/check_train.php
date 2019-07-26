@@ -21,16 +21,16 @@ function check_train($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
-    $res = $mu_->get_contents($url, null, true);
+    $res_sanyo2_st = $mu_->get_contents($url, null, true);
 
     $stations = [];
-    foreach (json_decode($res, true)['stations'] as $station) {
+    foreach (json_decode($res_sanyo2_st, true)['stations'] as $station) {
         $stations[$station['info']['code']] = $station['info']['name'];
     }
 
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json?' . microtime(true);
-    $res = $mu_->get_contents($url);
-    $json = json_decode($res, true);
+    $res_sanyo2 = $mu_->get_contents($url);
+    $json = json_decode($res_sanyo2, true);
 
     $update_time = $json['update'];
     $delays_up = [];
@@ -143,24 +143,24 @@ function check_train($mu_)
         $url = $match[1];
     }
     
-    $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
-    $sanyo2_st = $mu_->get_contents($url, null, true);
+    // $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
+    // $sanyo2_st = $mu_->get_contents($url, null, true);
 
-    $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
-    $sanyo2 = $mu_->get_contents($url);
+    // $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
+    // $sanyo2 = $mu_->get_contents($url);
 
-    error_log($log_prefix . print_r(json_decode($sanyo2_st, true), true));
-    error_log($log_prefix . print_r(json_decode($sanyo2, true), true));
+    error_log($log_prefix . print_r(json_decode($res_sanyo2_st, true), true));
+    error_log($log_prefix . print_r(json_decode($res_sanyo2, true), true));
 
-    $res1 = get_train_sanyo2_image3($mu_, $sanyo2_st, $sanyo2, '1');
-    $res2 = get_train_sanyo2_image3($mu_, $sanyo2_st, $sanyo2, '0');
+    $res_kudari = get_train_sanyo2_image3($mu_, $res_sanyo2_st, $res_sanyo2, '1');
+    $res_nobori = get_train_sanyo2_image3($mu_, $res_sanyo2_st, $res_sanyo2, '0');
 
-    $im1 = imagecreatefromstring($res1);
+    $im1 = imagecreatefromstring($res_kudari);
     $x = imagesx($im1);
     $y1 = imagesy($im1);
     imagedestroy($im1);
 
-    $im1 = imagecreatefromstring($res2);
+    $im1 = imagecreatefromstring($res_nobori);
     // $x = imagesx($im1);
     $y2 = imagesy($im1);
     imagedestroy($im1);
@@ -168,11 +168,11 @@ function check_train($mu_)
     $im1 = imagecreatetruecolor($x, $y1 + $y2);
     imagefill($im1, 0, 0, imagecolorallocate($im1, 255, 255, 255));
 
-    $im2 = imagecreatefromstring($res1);
+    $im2 = imagecreatefromstring($res_kudari);
     imagecopy($im1, $im2, 0, 0, 0, 0, $x, $y1);
     imagedestroy($im2);
 
-    $im2 = imagecreatefromstring($res2);
+    $im2 = imagecreatefromstring($res_nobori);
     imagecopy($im1, $im2, 0, $y1, 0, 0, $x, $y2);
     imagedestroy($im2);
 
