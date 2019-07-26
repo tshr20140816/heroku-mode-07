@@ -48,7 +48,7 @@ function func_20190726($mu_)
                 $options = [
                     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                     CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
-                    CURLOPT_CUSTOMREQUEST => 'DELETE'
+                    CURLOPT_CUSTOMREQUEST => 'DELETE',
                     CURLOPT_HEADER => true,
                     CURLOPT_HTTPHEADER => ['Expect:',],
                 ];
