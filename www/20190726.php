@@ -43,6 +43,17 @@ function func_20190726($mu_)
             if ($rc === 1) {
                 $rc = preg_match('/<link rel="edit" href="(.+?)"/', $entry, $match);
                 error_log($match[1]);
+                $url = $match[1];
+                
+                $options = [
+                    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                    CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
+                    CURLOPT_CUSTOMREQUEST => 'DELETE'
+                    CURLOPT_HEADER => true,
+                    CURLOPT_HTTPHEADER => ['Expect:',],
+                ];
+
+                $res = $mu_->get_contents($url, $options);
                 break 2;
             }
         }
