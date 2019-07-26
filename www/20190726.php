@@ -30,15 +30,19 @@ function func_20190726($mu_)
         CURLOPT_HEADER => true,
         CURLOPT_HTTPHEADER => ['Expect:',],
     ];
-    
-    $res = $mu_->get_contents($url, $options);
-    
-    error_log($res);
-    
-    $rc = preg_match('/<link rel="next" href="(.+?)"/', $res, $match);
-    $url = $match[1];
-    
-    $res = $mu_->get_contents($url, $options);
-    
-    error_log($res);
+
+    for ($i = 0; $i < 10; $i++) {
+        $res = $mu_->get_contents($url, $options);
+
+        // error_log($res);
+        $entrys = explode('<entry>', $res);
+        array_shift($entrys);
+        foreach ($entrys as $entry) {
+            $rc = preg_match('/<title>(.+?)</', $entry, $match);
+            error_log($match[1]);
+        }
+
+        $rc = preg_match('/<link rel="next" href="(.+?)"/', $res, $match);
+        $url = $match[1];
+    }
 }
