@@ -276,14 +276,16 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
                 } else {
                     $data['delay'][] = $tmp;
                 }
-                $labels['dest'][(int)$tmp->x] .= "\n" . $dest . $train['delayMinutes'];
+                // $labels['dest'][(int)$tmp->x] .= "\n" . $dest . $train['delayMinutes'];
+                $labels['dest'][(int)$tmp->x] = $dest . $train['delayMinutes'] . "\n" . $labels['dest'][(int)$tmp->x];
             } else {
                 if ($train['notice'] != '' || $train['displayType'] != '普通') {
                     $data['ontime_etc'][] = $tmp;
                 } else {
                     $data['ontime'][] = $tmp;
                 }
-                $labels['dest'][(int)$tmp->x] .= "\n" . $dest;
+                // $labels['dest'][(int)$tmp->x] .= "\n" . $dest;
+                $labels['dest'][(int)$tmp->x] = $dest . "\n" . $labels['dest'][(int)$tmp->x];
             }
         }
     }
