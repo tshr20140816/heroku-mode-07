@@ -10,8 +10,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
 search_hotel($mu);
-// search_jtb_tour($mu);
-search_jtb_tour2($mu);
+search_jtb_tour($mu);
 
 $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/get_twitter_jaxa.php';
 exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
@@ -75,73 +74,6 @@ function search_hotel($mu_)
 }
 
 function search_jtb_tour($mu_)
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-    $hash_url = 'url' . hash('sha512', 'https://www.jtb.co.jp/');
-
-    $list_item = [];
-    $list_item[] = '';
-    $limit = 30000;
-
-    $urls = [];
-    for ($i = 0; $i < 10; $i++) {
-        $url = $mu_->get_env('URL_JTB_' . $i);
-        if (strlen($url) < 10) {
-            continue;
-        }
-        $urls[] = $url;
-    }
-
-    foreach ($urls as $url) {
-        $res = $mu_->get_contents($url);
-
-        $tmp = explode('<article class="', $res);
-        array_shift($tmp);
-
-        foreach ($tmp as $tour) {
-            $rc = preg_match('/<h3 class="domtour-tour-list__name"><a .*?href=".+?\?(.+?)".*?>(.+?)</s', $tour, $match);
-            array_shift($match);
-
-            $plan_name = $match[1];
-
-            $url = 'https://www.jtb.co.jp/kokunai_tour/spookserver?Command=TourShouhinListData&hotelsort=low&page=1&rating=5-4&'
-                . str_replace('&amp;', '&', $match[0]);
-            $res = $mu_->get_contents($url);
-
-            $json = json_decode($res);
-
-            $is_first = true;
-            foreach ($json->tourShouhinList as $item) {
-                // error_log($item->shisetsu_name . ' '. $item->min_price);
-                if ($limit > (int)$item->min_price) {
-                    if ($is_first) {
-                        $list_item[] = $plan_name;
-                        $list_item[] = '';
-                        $is_first = false;
-                    }
-                    $list_item[] = number_format($item->min_price) . ' ' . $item->shisetsu_name;
-                }
-            }
-            if ($is_first === false) {
-                $list_item[] = '';
-            }
-        }
-    }
-    error_log($log_prefix . print_r($list_item, true));
-
-    $info = implode("\n", $list_item);
-
-    $hash_info = hash('sha512', $info);
-    error_log($log_prefix . "info hash : ${hash_info}");
-    $res = $mu_->search_blog($hash_url);
-    if ($res != $hash_info) {
-        $description = '<div class="' . $hash_url . '">' . "${hash_info}</div>${info}";
-        $mu_->post_blog_wordpress_async($hash_url, $description);
-    }
-}
-
-function search_jtb_tour2($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
