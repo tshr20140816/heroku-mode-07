@@ -1221,14 +1221,14 @@ __HEREDOC__;
                         'display' => true,
                         'position' => 'left',
                         'ticks' => ['beginAtZero' => true,
-                                    'max' => 100,
+                                    // 'max' => 100,
                                    ],
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-1',
                         'display' => true,
                         'position' => 'right',
                         'ticks' => ['beginAtZero' => true,
-                                    'max' => 100,
+                                    // 'max' => 100,
                                    ],
                        ];
 
