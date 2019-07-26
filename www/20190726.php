@@ -38,10 +38,13 @@ function func_20190726($mu_)
         $entrys = explode('<entry>', $res);
         array_shift($entrys);
         foreach ($entrys as $entry) {
-            $rc = preg_match('/<title>(.+?)</', $entry, $match);
-            error_log($match[1]);
-            $rc = preg_match('/<link rel="edit" href="(.+?)"/', $entry, $match);
-            error_log($match[1]);
+            $rc = preg_match('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ TRAIN</', $entry, $match);
+            error_log($rc);
+            if ($rc === 1) {
+                $rc = preg_match('/<link rel="edit" href="(.+?)"/', $entry, $match);
+                error_log($match[1]);
+                break 2;
+            }
         }
 
         $rc = preg_match('/<link rel="next" href="(.+?)"/', $res, $match);
