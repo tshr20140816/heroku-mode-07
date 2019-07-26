@@ -186,6 +186,10 @@ function check_train($mu_)
 
     // $mu_->post_blog_livedoor('TRAIN', $description);
     $mu_->post_blog_hatena('TRAIN', $description);
+
+    error_log($log_prefix . 'start exec');
+    exec('php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ../scripts/update_ttrss.php >/dev/null &');
+    error_log($log_prefix . 'finish exec');
 }
     
 function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $direction_ : '0' nobori / '1' kudari
