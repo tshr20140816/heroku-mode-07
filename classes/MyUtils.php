@@ -1636,6 +1636,7 @@ __HEREDOC__;
 
         $compression_count = $match[1];
         error_log($log_prefix . 'Compression count : ' . $compression_count); // Limits 500/month
+        // upsert
         if ($is_put_blog_) {
             $this->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $compression_count . "\r\n" . 'Limits 500/month');
         }
