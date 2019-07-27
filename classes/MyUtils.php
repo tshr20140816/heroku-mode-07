@@ -1636,9 +1636,44 @@ __HEREDOC__;
 
         $compression_count = $match[1];
         error_log($log_prefix . 'Compression count : ' . $compression_count); // Limits 500/month
-        // upsert
+        
+        $sql_select = <<< __HEREDOC__
+SELECT T1.value
+  FROM t_data_log T1
+ WHERE T1.key = :b_key
+__HEREDOC__;
+        
+        $sql_upsert = <<< __HEREDOC__
+INSERT INTO t_data_log VALUES(:b_key, :b_value)
+    ON CONFLICT (key)
+    DO UPDATE SET value = :b_value
+__HEREDOC__;
+        
+        $j = (int)date('j', strtotime('+9hours'));
+        $pdo = $this->get_pdo();
+        $statement_select = $pdo->prepare($sql_select);
+        $statement_upsert = $pdo->prepare($sql_upsert);
+        
+        $quotas = [];
+        if ($j != 1) {
+            $statement_select->execute([':b_key' => 'api.tinify.com']);
+            $result = $statement_select->fetchAll();
+            if (count($result) != 0) {
+                $quotas = json_decode($result[0]['value'], true);
+            }
+            $result = null;
+        }
+        $quotas[date('Ymd', strtotime('+9 hours'))] = $compression_count;
+        $rc = $statement_upsert->execute([':b_key' => 'api.tinify.com',
+                                          ':b_value' => json_encode($quotas),
+                                         ]);
+        error_log($log_prefix . 'UPSERT $rc : ' . $rc);
+        
+        $pdo = null;
+        
         if ($is_put_blog_) {
-            $this->post_blog_wordpress('api.tinify.com', 'Compression count : ' . $compression_count . "\r\n" . 'Limits 500/month');
+            $this->post_blog_wordpress('api.tinify.com',
+                                       'Compression count : ' . $compression_count . "\r\n" . 'Limits 500/month');
         }
 
         $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
