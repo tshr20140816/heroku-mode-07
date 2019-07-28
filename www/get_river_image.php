@@ -611,8 +611,8 @@ function get_train_sanyo2_2($mu_, $file_name_rss_items_) {
     $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
     $sanyo2 = $mu_->get_contents($url);
 
-    error_log($log_prefix . print_r(json_decode($sanyo2_st, true), true));
-    error_log($log_prefix . print_r(json_decode($sanyo2, true), true));
+    // error_log($log_prefix . print_r(json_decode($sanyo2_st, true), true));
+    // error_log($log_prefix . print_r(json_decode($sanyo2, true), true));
 
     $res1 = get_train_sanyo2_image2($mu_, $sanyo2_st, $sanyo2, '1');
     $res2 = get_train_sanyo2_image2($mu_, $sanyo2_st, $sanyo2, '0');
@@ -687,8 +687,8 @@ function get_train_sanyo2_image2($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
         $labels['dest'][] = '';
     }
 
-    error_log($log_prefix . print_r($labels, true));
-    error_log($log_prefix . print_r($stations, true));
+    // error_log($log_prefix . print_r($labels, true));
+    // error_log($log_prefix . print_r($stations, true));
 
     $json = json_decode($sanyo2_, true);
 
@@ -758,8 +758,8 @@ function get_train_sanyo2_image2($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
             }
         }
     }
-    error_log($log_prefix . print_r($data, true));
-    error_log($log_prefix . print_r($labels, true));
+    // error_log($log_prefix . print_r($data, true));
+    // error_log($log_prefix . print_r($labels, true));
 
     $pointRotation = $direction_ === '0' ? 270 : 90;
 
@@ -913,7 +913,7 @@ function get_train_sanyo2_image2($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
     error_log($log_prefix . 'URL length : ' . number_format(strlen($url)));
 
     $im1 = imagecreatefromstring($res);
-    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
+    // error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
     $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
     imagefill($im2, 0, 0, imagecolorallocate($im1, 255, 255, 255));
     imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
