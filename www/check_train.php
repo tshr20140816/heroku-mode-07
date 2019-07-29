@@ -149,8 +149,8 @@ function check_train($mu_)
     // $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
     // $sanyo2 = $mu_->get_contents($url);
 
-    error_log($log_prefix . print_r(json_decode($res_sanyo2_st, true), true));
-    error_log($log_prefix . print_r(json_decode($res_sanyo2, true), true));
+    // error_log($log_prefix . print_r(json_decode($res_sanyo2_st, true), true));
+    // error_log($log_prefix . print_r(json_decode($res_sanyo2, true), true));
 
     $res_kudari = get_train_sanyo2_image3($mu_, $res_sanyo2_st, $res_sanyo2, '1');
     if ($res_kudari != '400') {
@@ -220,8 +220,8 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
         $labels['dest'][] = '';
     }
 
-    error_log($log_prefix . print_r($labels, true));
-    error_log($log_prefix . print_r($stations, true));
+    // error_log($log_prefix . print_r($labels, true));
+    // error_log($log_prefix . print_r($stations, true));
 
     $json = json_decode($sanyo2_, true);
 
@@ -293,8 +293,8 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
             }
         }
     }
-    error_log($log_prefix . print_r($data, true));
-    error_log($log_prefix . print_r($labels, true));
+    // error_log($log_prefix . print_r($data, true));
+    // error_log($log_prefix . print_r($labels, true));
 
     $pointRotation = $direction_ === '0' ? 270 : 90;
 
