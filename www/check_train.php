@@ -155,34 +155,36 @@ function check_train($mu_)
     $res_kudari = get_train_sanyo2_image3($mu_, $res_sanyo2_st, $res_sanyo2, '1');
     $res_nobori = get_train_sanyo2_image3($mu_, $res_sanyo2_st, $res_sanyo2, '0');
 
-    $im1 = imagecreatefromstring($res_kudari);
-    $x = imagesx($im1);
-    $y1 = imagesy($im1);
-    imagedestroy($im1);
+    if ($res_kudari != '400' && $res_nobori != '400') {
+        $im1 = imagecreatefromstring($res_kudari);
+        $x = imagesx($im1);
+        $y1 = imagesy($im1);
+        imagedestroy($im1);
 
-    $im1 = imagecreatefromstring($res_nobori);
-    // $x = imagesx($im1);
-    $y2 = imagesy($im1);
-    imagedestroy($im1);
+        $im1 = imagecreatefromstring($res_nobori);
+        // $x = imagesx($im1);
+        $y2 = imagesy($im1);
+        imagedestroy($im1);
 
-    $im1 = imagecreatetruecolor($x, $y1 + $y2);
-    imagefill($im1, 0, 0, imagecolorallocate($im1, 255, 255, 255));
+        $im1 = imagecreatetruecolor($x, $y1 + $y2);
+        imagefill($im1, 0, 0, imagecolorallocate($im1, 255, 255, 255));
 
-    $im2 = imagecreatefromstring($res_kudari);
-    imagecopy($im1, $im2, 0, 0, 0, 0, $x, $y1);
-    imagedestroy($im2);
+        $im2 = imagecreatefromstring($res_kudari);
+        imagecopy($im1, $im2, 0, 0, 0, 0, $x, $y1);
+        imagedestroy($im2);
 
-    $im2 = imagecreatefromstring($res_nobori);
-    imagecopy($im1, $im2, 0, $y1, 0, 0, $x, $y2);
-    imagedestroy($im2);
+        $im2 = imagecreatefromstring($res_nobori);
+        imagecopy($im1, $im2, 0, $y1, 0, 0, $x, $y2);
+        imagedestroy($im2);
 
-    $file = tempnam("/tmp", md5(microtime(true)));
-    imagepng($im1, $file, 9);
-    imagedestroy($im1);
-    $res = file_get_contents($file);
-    unlink($file);
+        $file = tempnam("/tmp", md5(microtime(true)));
+        imagepng($im1, $file, 9);
+        imagedestroy($im1);
+        $res = file_get_contents($file);
+        unlink($file);
 
-    $description .= "\n" . '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+        $description .= "\n" . '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+    }
 
     // $mu_->post_blog_livedoor('TRAIN', $description);
     $mu_->post_blog_hatena('TRAIN', $description);
@@ -443,17 +445,19 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
     $res = $mu_->get_contents($url);
     error_log($log_prefix . 'URL length : ' . number_format(strlen($url)));
 
-    $im1 = imagecreatefromstring($res);
-    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
-    $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
-    imagefill($im2, 0, 0, imagecolorallocate($im1, 255, 255, 255));
-    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
-    imagedestroy($im1);
-    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
-    imagepng($im2, $file, 9);
-    imagedestroy($im2);
-    $res = file_get_contents($file);
-    unlink($file);
+    if ($res != '400') {
+        $im1 = imagecreatefromstring($res);
+        error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
+        $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
+        imagefill($im2, 0, 0, imagecolorallocate($im1, 255, 255, 255));
+        imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
+        imagedestroy($im1);
+        $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
+        imagepng($im2, $file, 9);
+        imagedestroy($im2);
+        $res = file_get_contents($file);
+        unlink($file);
+    }
 
     return $res;
 }
