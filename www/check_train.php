@@ -153,7 +153,9 @@ function check_train($mu_)
     error_log($log_prefix . print_r(json_decode($res_sanyo2, true), true));
 
     $res_kudari = get_train_sanyo2_image3($mu_, $res_sanyo2_st, $res_sanyo2, '1');
-    $res_nobori = get_train_sanyo2_image3($mu_, $res_sanyo2_st, $res_sanyo2, '0');
+    if ($res_kudari != '400') {
+        $res_nobori = get_train_sanyo2_image3($mu_, $res_sanyo2_st, $res_sanyo2, '0');
+    }
 
     if ($res_kudari != '400' && $res_nobori != '400') {
         $im1 = imagecreatefromstring($res_kudari);
