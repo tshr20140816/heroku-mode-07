@@ -311,44 +311,50 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
                    'pointBorderWidth' => 2,
                   ];
 
-    $datasets[] = ['data' => $data['delay'],
-                   'fill' => false,
-                   'showLine' => false,
-                   'xAxisID' => 'x-axis-0',
-                   'showLine' => false,
-                   'pointStyle' => 'triangle',
-                   'pointRadius' => 12,
-                   'pointRotation' => $pointRotation,
-                   'pointBackgroundColor' => 'lightgray',
-                   'pointBorderColor' => 'cyan',
-                   'pointBorderWidth' => 3,
-                  ];
+    if (count($data['delay']) > 0) {
+        $datasets[] = ['data' => $data['delay'],
+                       'fill' => false,
+                       'showLine' => false,
+                       'xAxisID' => 'x-axis-0',
+                       'showLine' => false,
+                       'pointStyle' => 'triangle',
+                       'pointRadius' => 12,
+                       'pointRotation' => $pointRotation,
+                       'pointBackgroundColor' => 'lightgray',
+                       'pointBorderColor' => 'cyan',
+                       'pointBorderWidth' => 3,
+                      ];
+    }
 
-    $datasets[] = ['data' => $data['ontime_etc'],
-                   'fill' => false,
-                   'showLine' => false,
-                   'xAxisID' => 'x-axis-0',
-                   'showLine' => false,
-                   'pointStyle' => 'triangle',
-                   'pointRadius' => 12,
-                   'pointRotation' => $pointRotation,
-                   'pointBackgroundColor' => 'yellow',
-                   'pointBorderColor' => 'red',
-                   'pointBorderWidth' => 2,
-                  ];
+    if (count($data['ontime_etc']) > 0) {
+        $datasets[] = ['data' => $data['ontime_etc'],
+                       'fill' => false,
+                       'showLine' => false,
+                       'xAxisID' => 'x-axis-0',
+                       'showLine' => false,
+                       'pointStyle' => 'triangle',
+                       'pointRadius' => 12,
+                       'pointRotation' => $pointRotation,
+                       'pointBackgroundColor' => 'yellow',
+                       'pointBorderColor' => 'red',
+                       'pointBorderWidth' => 2,
+                      ];
+    }
 
-    $datasets[] = ['data' => $data['delay_etc'],
-                   'fill' => false,
-                   'showLine' => false,
-                   'xAxisID' => 'x-axis-0',
-                   'showLine' => false,
-                   'pointStyle' => 'triangle',
-                   'pointRadius' => 12,
-                   'pointRotation' => $pointRotation,
-                   'pointBackgroundColor' => 'yellow',
-                   'pointBorderColor' => 'cyan',
-                   'pointBorderWidth' => 3,
-                  ];
+    if (count($data['delay_etc']) > 0) {
+        $datasets[] = ['data' => $data['delay_etc'],
+                       'fill' => false,
+                       'showLine' => false,
+                       'xAxisID' => 'x-axis-0',
+                       'showLine' => false,
+                       'pointStyle' => 'triangle',
+                       'pointRadius' => 12,
+                       'pointRotation' => $pointRotation,
+                       'pointBackgroundColor' => 'yellow',
+                       'pointBorderColor' => 'cyan',
+                       'pointBorderWidth' => 3,
+                      ];
+    }
 
     $tmp = new stdClass();
     $tmp->x = $direction_ === '0' ? '糸崎' : '岩国';
@@ -371,7 +377,7 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
                         'labels' => $labels['real'],
                        ];
     $scales->xAxes[] = ['id' => 'x-axis-1',
-                        'display' => true,
+                        // 'display' => true,
                         'labels' => $labels['station'],
                         'ticks' => ['fontColor' => 'black',
                                     'autoSkip' => false,
