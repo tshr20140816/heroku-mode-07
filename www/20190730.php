@@ -6,7 +6,7 @@ $data = ['type' => 'line',
          'options' => [],
         ];
 
-exec('node ../scripts/20190730.js 800 400 ' . base64_decode(json_encode($data));
+exec('node ../scripts/20190730.js 800 400 ' . base64_encode(json_encode($data)));
 
 header('Content-Type: image/png');
 
