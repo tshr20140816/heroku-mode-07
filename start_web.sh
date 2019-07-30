@@ -48,6 +48,8 @@ mv ical.php ${ICS_ADDRESS}.php
 mv rss.php ${RSS_ADDRESS}.php
 popd
 
+fc-cache -fv &
+
 set +x
 pushd classes
 for file in $( ls . | grep .php$ ); do
@@ -68,9 +70,7 @@ set -x
 
 printenv | wc -c
 
-time fc-cache -fv
-
-ls -lang /tmp
+# ls -lang /tmp
 
 wait
 
