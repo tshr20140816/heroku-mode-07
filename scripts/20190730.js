@@ -7,7 +7,7 @@ var util = require('util');
 // var chartJsOptions = {"type":"line","data":{"datasets":[{"data":[1,2,3,3,2,1]}]},"options":{}};
 var chartJsOptions = {"type":"line","data":{"datasets":[{"data":[1,2]}]},"options":{"legend":{"display":false}}};
 
-var buffer = Buffer.from(process.argv[4], 'base64');
+// var buffer = Buffer.from(process.argv[4], 'base64');
 // var chartJsOptions = JSON.stringify(JSON.parse(buffer.toString()));
 
 console.error(process.argv[4]);
