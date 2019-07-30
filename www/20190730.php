@@ -4,7 +4,7 @@ $data = ['type' => 'line',
          'data' => ['datasets' => [['data' => [1, 2, 3, 3, 2, 1],],],
                    ],
          'options' => ['legend' => ['display' => false,],
-                       'plugins' => [],
+                       'plugins' => '',
                       ],
         ];
 
