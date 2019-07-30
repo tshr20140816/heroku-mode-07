@@ -8,7 +8,8 @@ var chartJsOptions = {type: 'line',
                       options: {}
                      };
 */
-var chartJsOptions = new Buffer(process.argv[4], 'base64');
+var buffer = new Buffer(process.argv[4], 'base64');
+var chartJsOptions = buffer.toString('ascii');
 
 return chartNode.drawChart(chartJsOptions)
 .then(() => {
