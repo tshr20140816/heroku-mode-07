@@ -64,6 +64,13 @@ fi
 
 wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar
 wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar
+wget -q https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip
+
+mkdir .fonts
+mv ipaexg00401.zip .fonts/
+unzip ipaexg00401.zip
+ls -lang .fonts/
+fc-cache -fv
 
 chmod 755 ./start_web.sh
 chmod 755 ./bin/unrar
