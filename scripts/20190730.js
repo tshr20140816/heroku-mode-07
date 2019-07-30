@@ -28,7 +28,7 @@ return chartNode.drawChart(chartJsOptions)
 .then(streamResult => {
     streamResult.stream
     streamResult.length
-    return chartNode.writeImageToFile('image/png', '/tmp/testimage.png');
+    return chartNode.writeImageToFile('image/png', process.argv[5]);
 });
 
 chartNode.destroy();
