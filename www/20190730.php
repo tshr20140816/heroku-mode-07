@@ -6,6 +6,9 @@ $data = ['type' => 'line',
          'options' => [],
         ];
 
+error_log('PHP : ' . json_encode($data));
+error_log('PHP : ' . base64_encode(json_encode($data)));
+
 exec('node ../scripts/20190730.js 800 400 ' . base64_encode(json_encode($data)));
 
 header('Content-Type: image/png');
