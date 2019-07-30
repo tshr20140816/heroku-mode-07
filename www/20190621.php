@@ -237,7 +237,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                         'datasets' => $datasets,
                        ],
              'options' => ['legend' => ['labels' => ['fontColor' => 'black',
-                                                     // 'fontFamily' => 'IPAexGothic',
+                                                     'fontFamily' => 'IPAexGothic',
                                                     ],
                                        ],
                            'animation' => ['duration' => 0,],
@@ -254,7 +254,6 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                                                              ],
                                            ],
                           ],
-             'defaults' => ['fontFamily' => 'IPAexGothic', ],
             ];
 
     /*
