@@ -68,6 +68,8 @@ set -x
 
 printenv | wc -c
 
+fc-cache -fv
+
 ls -lang /tmp
 
 wait
