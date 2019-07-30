@@ -234,6 +234,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
 
     $json = ['type' => 'line',
              'data' => ['labels' => array_reverse($labels),
+                        'fontFamily' => 'IPAexGothic',
                         'datasets' => $datasets,
                        ],
              'options' => ['legend' => ['labels' => ['fontColor' => 'black',],],
