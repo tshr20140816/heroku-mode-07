@@ -68,7 +68,7 @@ set -x
 
 printenv | wc -c
 
-fc-cache -fv
+time fc-cache -fv
 
 ls -lang /tmp
 
