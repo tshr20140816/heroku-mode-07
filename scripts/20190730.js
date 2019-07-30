@@ -12,16 +12,16 @@ var chartJsOptions = buffer.toString('ascii');
 console.log(process.argv[4]);
 console.error(process.argv[4]);
 */
-console.log(chartJsOptions);
-// console.error(chartJsOptions);
-console.log(util.inspect(chartJsOptions, false, null));
+// console.log(chartJsOptions);
+console.error(chartJsOptions);
+console.error(util.inspect(chartJsOptions, false, null));
 
 return chartNode.drawChart(chartJsOptions)
 .then(() => {
     // console.log(process.argv[4]);
     // console.error(process.argv[4]);
-    console.log(chartJsOptions);
-    // console.error(chartJsOptions);
+    // console.log(chartJsOptions);
+    console.error(chartJsOptions);
     return chartNode.getImageBuffer('image/png');
 })
 .then(buffer => {
