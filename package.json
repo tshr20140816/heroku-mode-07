@@ -1,0 +1,11 @@
+{
+  "name": "node-js-cli",
+  "engines": {
+    "node": "10.x"
+  },
+  "dependencies": {
+    "chart.js": "^2.8.0",
+    "chartjs-node": "^1.7.1",
+    "chartjs-plugin-annotation": "^0.5.7"
+  }
+}
