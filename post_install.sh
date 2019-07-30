@@ -70,6 +70,7 @@ mkdir .fonts
 mv ipaexg00401.zip .fonts/
 pushd .fonts
 unzip ipaexg00401.zip
+rm ipaexg00401.zip
 popd
 ls -lang .fonts/
 fc-cache -fv
