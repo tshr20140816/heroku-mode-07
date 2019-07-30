@@ -73,7 +73,6 @@ unzip ipaexg00401.zip
 rm ipaexg00401.zip
 popd
 ls -lang .fonts/
-fc-cache -fv
 
 chmod 755 ./start_web.sh
 chmod 755 ./bin/unrar
