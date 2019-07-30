@@ -2,7 +2,8 @@ const ChartjsNode = require('chartjs-node');
 
 var chartNode = new ChartjsNode(process.argv[2], process.argv[3]);
 
-var chartJsOptions = {"type":"line","data":{"datasets":[{"data":[1,2,3,3,2,1]}]},"options":{}};
+// var chartJsOptions = {"type":"line","data":{"datasets":[{"data":[1,2,3,3,2,1]}]},"options":{}};
+var chartJsOptions = {"type":"line","data":{"datasets":[{"data":[1,2,3,3,2,1]}]},"options":{"legend":{"display":false}}};
 /*
 var buffer = Buffer.from(process.argv[4], 'base64');
 var chartJsOptions = buffer.toString('ascii');
