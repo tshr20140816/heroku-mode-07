@@ -10,8 +10,10 @@ $data = ['type' => 'line',
 error_log('PHP : ' . json_encode($data));
 error_log('PHP : ' . base64_encode(json_encode($data)));
 
-exec('node ../scripts/20190730.js 800 400 ' . base64_encode(json_encode($data)));
+$file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
+
+exec('node ../scripts/20190730.js 800 400 ' . base64_encode(json_encode($data)), $file);
 
 header('Content-Type: image/png');
 
-echo file_get_contents('/tmp/testimage.png');
+echo file_get_contents($file);
