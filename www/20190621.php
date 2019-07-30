@@ -252,9 +252,15 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                           ],
             ];
 
+    /*
     $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     error_log($log_prefix . strlen($url));
+    */
+    $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
+    exec('node ../scripts/20190730.js 3000 420 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    $res = file_get_contents($file);
+    unlink($file);
 
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
