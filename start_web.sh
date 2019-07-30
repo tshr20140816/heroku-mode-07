@@ -70,7 +70,7 @@ set -x
 
 printenv | wc -c
 
-# ls -lang /tmp
+ls -lang /tmp
 
 wait
 
