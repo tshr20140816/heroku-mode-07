@@ -68,7 +68,9 @@ wget -q https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip
 
 mkdir .fonts
 mv ipaexg00401.zip .fonts/
+pushd .fonts
 unzip ipaexg00401.zip
+popd
 ls -lang .fonts/
 fc-cache -fv
 
