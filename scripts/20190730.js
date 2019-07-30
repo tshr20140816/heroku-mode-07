@@ -2,6 +2,10 @@ const ChartjsNode = require('chartjs-node');
 
 var chartNode = new ChartjsNode(process.argv[2], process.argv[3]);
 
+chartNode.on('beforeDraw', function (Chartjs) {
+    Chartjs.defaults.global.defaultFontFamily = 'IPAexGothic';
+});
+
 // var util = require('util');
 
 // var chartJsOptions = {"type":"line","data":{"datasets":[{"data":[1,2,3,3,2,1]}]},"options":{}};
