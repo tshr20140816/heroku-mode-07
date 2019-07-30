@@ -252,6 +252,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                                                              ],
                                            ],
                           ],
+             'defaults' => ['global' => ['defaultFontFamily' => 'IPAexGothic',], ],
             ];
 
     /*
