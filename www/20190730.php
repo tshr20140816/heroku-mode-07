@@ -1,6 +1,6 @@
 <?php
 
-exec('node ../scripts/20190730.js');
+exec('node ../scripts/20190730.js 800 400');
 
 header('Content-Type: image/png');
 
