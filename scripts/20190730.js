@@ -13,6 +13,7 @@ var chartJsOptions = buffer.toString('ascii');
 
 return chartNode.drawChart(chartJsOptions)
 .then(() => {
+    console.error(chartJsOptions);
     return chartNode.getImageBuffer('image/png');
 })
 .then(buffer => {
