@@ -8,13 +8,18 @@ var chartJsOptions = {type: 'line',
                       options: {}
                      };
 */
+
 var buffer = Buffer.from(process.argv[4], 'base64');
 var chartJsOptions = buffer.toString('ascii');
+console.log(rocess.argv[4]);
+console.error(rocess.argv[4]);
 console.log(chartJsOptions);
 console.error(chartJsOptions);
 
 return chartNode.drawChart(chartJsOptions)
 .then(() => {
+    console.log(rocess.argv[4]);
+    console.error(rocess.argv[4]);
     console.log(chartJsOptions);
     console.error(chartJsOptions);
     return chartNode.getImageBuffer('image/png');
