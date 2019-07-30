@@ -164,7 +164,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                         'display' => true,
                         'labels' => array_reverse($labels),
                         'ticks' => ['fontColor' => 'black',
-                                    'fontFamily' => 'IPAGothic',
+                                    'fontFamily' => 'IPAexGothic',
                                    ],
                        ];
     $scales->xAxes[] = ['id' => 'x-axis-1',
