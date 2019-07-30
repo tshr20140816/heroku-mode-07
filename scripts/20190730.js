@@ -9,7 +9,7 @@ var chartNode = new ChartjsNode(process.argv[2], process.argv[3]);
 
 var buffer = Buffer.from(process.argv[4], 'base64');
 // var chartJsOptions = JSON.stringify(JSON.parse(buffer.toString()));
-var chartJsOptions = JSON.parse(buffer.toString());
+var chartJsOptions = JSON.parse(buffer.toString('utf-8'));
 
 // console.error(process.argv[4]);
 
