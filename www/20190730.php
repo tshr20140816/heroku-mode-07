@@ -12,7 +12,7 @@ error_log('PHP : ' . base64_encode(json_encode($data)));
 
 $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
 
-exec('node ../scripts/20190730.js 800 400 ' . base64_encode(json_encode($data)), $file);
+exec('node ../scripts/20190730.js 800 400 ' . base64_encode(json_encode($data)) . ' ' . $file);
 
 header('Content-Type: image/png');
 
