@@ -1,6 +1,6 @@
 const ChartjsNode = require('chartjs-node');
 
-var chartNode = new ChartjsNode(600, 600);
+var chartNode = new ChartjsNode(process.argv[2], process.argv[3]);
 
 var chartJsOptions = {type: 'line',
                       data: {datasets: [{data: [1, 2]}]},
