@@ -164,7 +164,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                         'display' => true,
                         'labels' => array_reverse($labels),
                         'ticks' => ['fontColor' => 'black',
-                                    'fontFamily' => 'IPAexGothic',
+                                    // 'fontFamily' => 'IPAexGothic',
                                    ],
                        ];
     $scales->xAxes[] = ['id' => 'x-axis-1',
@@ -266,7 +266,6 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     $res = file_get_contents($file);
     unlink($file);
 
-    /*
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
     $im2 = imagecreatetruecolor(imagesx($im1) / 2 * 1.5, imagesy($im1) / 2 * 1.5);
@@ -279,7 +278,6 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     imagedestroy($im2);
     $res = file_get_contents($file);
     unlink($file);
-    */
 
     return $res;
 }
