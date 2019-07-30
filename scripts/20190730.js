@@ -8,7 +8,7 @@ var util = require('util');
 // var chartJsOptions = {"type":"line","data":{"datasets":[{"data":[1,2,3,3,2,1]}]},"options":{"legend":{"display":false}}};
 
 var buffer = Buffer.from(process.argv[4], 'base64');
-var chartJsOptions = buffer.toString());
+var chartJsOptions = buffer.toString('utf-8'));
 
 console.error(process.argv[4]);
 
