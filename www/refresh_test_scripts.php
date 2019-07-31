@@ -34,4 +34,4 @@ foreach ($matches[1] as $item) {
     }
 }
 $rc = opcache_reset();
-error_log('opcache_reset' . $rc);
+error_log('opcache_reset : ' . $rc);
