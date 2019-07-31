@@ -23,10 +23,13 @@ foreach ($matches[1] as $item) {
     $hash_new = hash('sha512', $res);
     $hash_old = hash('sha512', file_get_contents($item . '.php'));
 
+    error_log($item . '.php');
+    error_log('HASH OLD : ' . $hash_old);
+    error_log('HASH NEW : ' . $hash_new);
     if ($hash_new != $hash_old) {
         unlink($item . '.php');
         file_put_contents($item . '.php', $res);
-        error_log($item . '.php');
+        // error_log($item . '.php');
         error_log($res);
     }
 }
