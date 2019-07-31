@@ -278,6 +278,7 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
             if (count($tmp) > 1) {
                 $tmp = explode("\n", ltrim($labels['dest'][$i]));
                 array_shift($tmp);
+                array_pop($tmp);
                 $annotations[] = ['type' => 'line',
                                   'mode' => 'vertical',
                                   'scaleID' => 'x-axis-0',
