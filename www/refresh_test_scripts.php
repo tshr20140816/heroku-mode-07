@@ -36,6 +36,7 @@ foreach ($matches[1] as $item) {
 }
 */
 
+exec('cd /tmp && rm -rf repo');
 exec('cd /tmp && git clone --depth=1 https://github.com/tshr20140816/heroku-mode-07.git repo', $res);
 error_log(print_r($res, true));
 
@@ -43,6 +44,20 @@ $res = [];
 exec('cd /tmp/repo/www && ls -F *.php', $res);
 error_log(print_r($res, true));
 
+foreach ($res as $file_name) {
+    $rc = preg_match('/^\d+\.php/', $file_name);
+    if ($rc !== 1) {
+        continue;
+    }
+    $hash_old = hash('sha512', file_get_contents($file_name));
+    $hash_new = hash('sha512', file_get_contents('/tmp/repo/www/' . $file_name));
+    if ($hash_new === $hash_old) {
+        continue;
+    }
+    rename('/tmp/repo/www/' . $file_name, './' . $file_name);
+    error_log($file_name);
+    error_log(file_get_contents($file_name));
+}
 
 $rc = opcache_reset();
 error_log('opcache_reset : ' . $rc);
