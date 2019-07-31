@@ -1,5 +1,3 @@
-import annotation from 'chartjs-plugin-annotation';
-
 const ChartjsNode = require('chartjs-node');
 
 var chartNode = new ChartjsNode(process.argv[2], process.argv[3]);
@@ -17,6 +15,7 @@ var chartJsOptions = JSON.parse(Buffer.from(process.argv[4], 'base64').toString(
 
 console.error(chartJsOptions);
 console.error(util.inspect(chartJsOptions, false, null));
+console.error(Chart.plugins)
 
 return chartNode.drawChart(chartJsOptions)
 .then(() => {
