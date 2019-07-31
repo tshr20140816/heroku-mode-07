@@ -205,7 +205,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                        'borderColor' => $defines[$item]['label'] === '' ? 'rgba(0,0,0,0)' : 'black',
                        'backgroundColor' => $defines[$item]['label'] === '' ? 'rgba(0,0,0,0)' : $defines[$item]['color'],
                        'pointStyle' => 'triangle',
-                       'pointRadius' => 9,
+                       'pointRadius' => 8,
                        'pointRotation' => $pointRotation,
                        'pointBackgroundColor' => $defines[$item]['color'],
                        'pointBorderColor' => 'black',
@@ -222,11 +222,11 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                            'borderColor' => 'rgba(0,0,0,0)',
                            'backgroundColor' => 'rgba(0,0,0,0)',
                            'pointStyle' => 'triangle',
-                           'pointRadius' => 9,
+                           'pointRadius' => 8,
                            'pointRotation' => $pointRotation,
                            'pointBackgroundColor' => $defines[$item]['color'],
                            'pointBorderColor' => 'cyan',
-                           'pointBorderWidth' => 3,
+                           'pointBorderWidth' => 2,
                            'label' => '',
                           ];
         }
