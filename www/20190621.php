@@ -260,7 +260,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     error_log($log_prefix . strlen($url));
     */
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
-    exec('node ../scripts/20190730.js 1500 210 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    exec('node ../scripts/chartjs_node.js 1500 210 ' . base64_encode(json_encode($json)) . ' ' . $file);
     $res = file_get_contents($file);
     unlink($file);
 
