@@ -18,7 +18,7 @@ $res_train_location_info = $mu->get_contents_proxy($url);
 $res1 = func_20190621($mu, $res_common_ja, $res_train_location_info, 1);
 $res2 = func_20190621($mu, $res_common_ja, $res_train_location_info, 2);
 
-$im1 = imagecreatetruecolor(1000, 280);
+$im1 = imagecreatetruecolor(1000, 320);
 // imagealphablending($im1, false);
 // imagesavealpha($im1, true);
 
@@ -165,6 +165,9 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                         'labels' => array_reverse($labels),
                         'ticks' => ['fontColor' => 'black',
                                     'fontSize' => 9,
+                                    'autoSkip' => false,
+                                    'minRotation' => 45,
+                                    'maxRotation' => 45,
                                    ],
                        ];
     $scales->xAxes[] = ['id' => 'x-axis-1',
