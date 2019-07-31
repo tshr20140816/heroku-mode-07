@@ -322,23 +322,23 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
     
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
     // exec('node ../scripts/chartjs_node.js 1500 210 ' . base64_encode(json_encode($json)) . ' ' . $file);
-    exec('node ../scripts/chartjs_node.js 1500 ' . $height . ' ' . base64_encode(json_encode($json)) . ' ' . $file);
+    exec('node ../scripts/chartjs_node.js 1000 ' . $height . ' ' . base64_encode(json_encode($json)) . ' ' . $file);
     $res = file_get_contents($file);
     unlink($file);
 
-    if ($res != '400') {
-        $im1 = imagecreatefromstring($res);
-        error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
-        $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
-        imagefill($im2, 0, 0, imagecolorallocate($im1, 255, 255, 255));
-        imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
-        imagedestroy($im1);
-        $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
-        imagepng($im2, $file, 9);
-        imagedestroy($im2);
-        $res = file_get_contents($file);
-        unlink($file);
-    }
+    /*
+    $im1 = imagecreatefromstring($res);
+    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
+    $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
+    imagefill($im2, 0, 0, imagecolorallocate($im1, 255, 255, 255));
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
+    imagedestroy($im1);
+    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
+    imagepng($im2, $file, 9);
+    imagedestroy($im2);
+    $res = file_get_contents($file);
+    unlink($file);
+    */
 
     return $res;
 }
