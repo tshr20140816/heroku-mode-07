@@ -169,7 +169,7 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
                    'xAxisID' => 'x-axis-0',
                    'showLine' => false,
                    'pointStyle' => 'triangle',
-                   'pointRadius' => 12,
+                   'pointRadius' => 10,
                    'pointRotation' => $pointRotation,
                    'pointBackgroundColor' => 'lightgray',
                    'pointBorderColor' => 'red',
@@ -183,7 +183,7 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
                        'xAxisID' => 'x-axis-0',
                        'showLine' => false,
                        'pointStyle' => 'triangle',
-                       'pointRadius' => 12,
+                       'pointRadius' => 10,
                        'pointRotation' => $pointRotation,
                        'pointBackgroundColor' => 'lightgray',
                        'pointBorderColor' => 'cyan',
@@ -198,7 +198,7 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
                        'xAxisID' => 'x-axis-0',
                        'showLine' => false,
                        'pointStyle' => 'triangle',
-                       'pointRadius' => 12,
+                       'pointRadius' => 10,
                        'pointRotation' => $pointRotation,
                        'pointBackgroundColor' => 'yellow',
                        'pointBorderColor' => 'red',
@@ -213,7 +213,7 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
                        'xAxisID' => 'x-axis-0',
                        'showLine' => false,
                        'pointStyle' => 'triangle',
-                       'pointRadius' => 12,
+                       'pointRadius' => 10,
                        'pointRotation' => $pointRotation,
                        'pointBackgroundColor' => 'yellow',
                        'pointBorderColor' => 'cyan',
@@ -273,6 +273,7 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
                                           'fontColor' => 'black',
                                           'fontFamily' => 'IPAexGothic',
                                           'fontStyle' => 'normal',
+                                          'fontSize' => 10,
                                          ],
                              ];
             if (count($tmp) > 1) {
@@ -290,6 +291,7 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
                                               'fontColor' => 'black',
                                               'fontFamily' => 'IPAexGothic',
                                               'fontStyle' => 'normal',
+                                              'fontSize' => 10,
                                              ],
                                  ];
             }
