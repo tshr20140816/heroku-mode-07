@@ -15,19 +15,12 @@ var chartJsOptions = JSON.parse(Buffer.from(process.argv[4], 'base64').toString(
 
 // console.error(process.argv[4]);
 
-console.error(chartJsOptions);
+// console.error(chartJsOptions);
 console.error(util.inspect(chartJsOptions, false, null));
 
 return chartNode.drawChart(chartJsOptions)
-.then(() => {
-    console.error(chartJsOptions);
-    return chartNode.getImageBuffer('image/png');
-})
-.then(buffer => {
-    Array.isArray(buffer)
-    return chartNode.getImageStream('image/png');
-})
 .then(streamResult => {
+    console.error(chartJsOptions);
     return chartNode.writeImageToFile('image/png', process.argv[5]);
 });
 
