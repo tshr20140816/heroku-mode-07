@@ -12,11 +12,8 @@ $mu = new MyUtils();
 $file_name_rss_items = tempnam('/tmp', 'rss_' . md5(microtime(true)));
 @unlink($file_name_rss_items);
 
-get_river_image($mu, $file_name_rss_items);
-get_river_water_level($mu, $file_name_rss_items, $mu->get_env('URL_RIVER_YAHOO_1'), $mu->get_env('RIVER_POINT_1'));
-get_river_water_level($mu, $file_name_rss_items, $mu->get_env('URL_RIVER_YAHOO_2'), $mu->get_env('RIVER_POINT_2'));
 get_shinkansen_image($mu, $file_name_rss_items);
-get_train_sanyo2_2($mu, $file_name_rss_items);
+// get_train_sanyo2_2($mu, $file_name_rss_items);
 
 $xml_text = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
@@ -30,11 +27,13 @@ __ITEMS__
 </rss>
 __HEREDOC__;
 
+/*
 $file = '/tmp/' . getenv('FC2_RSS_05') . '.xml';
 file_put_contents($file, str_replace('__ITEMS__', file_get_contents($file_name_rss_items), $xml_text));
 $mu->upload_fc2($file);
 unlink($file);
 unlink($file_name_rss_items);
+*/
 
 $time_finish = microtime(true);
 
@@ -346,17 +345,17 @@ function get_shinkansen_image($mu_, $file_name_rss_items_)
     $res1 = get_shinkansen_info($mu_, $res_common_ja, $res_train_location_info, 1);
     $res2 = get_shinkansen_info($mu_, $res_common_ja, $res_train_location_info, 2);
 
-    $im1 = imagecreatetruecolor(1000, 280);
+    $im1 = imagecreatetruecolor(1000, 320);
     // imagealphablending($im1, false);
     // imagesavealpha($im1, true);
     imagefill($im1, 0, 0, imagecolorallocate($im1, 255, 255, 255));
 
     $im2 = imagecreatefromstring($res1);
-    imagecopy($im1, $im2, 0, 0, 0, 0, 1000, 140);
+    imagecopy($im1, $im2, 0, 0, 0, 0, 1000, 160);
     imagedestroy($im2);
 
     $im2 = imagecreatefromstring($res2);
-    imagecopy($im1, $im2, 0, 140, 0, 0, 1000, 140);
+    imagecopy($im1, $im2, 0, 160, 0, 0, 1000, 160);
     imagedestroy($im2);
 
     $file = tempnam("/tmp", md5(microtime(true)));
@@ -365,6 +364,11 @@ function get_shinkansen_image($mu_, $file_name_rss_items_)
 
     $res = file_get_contents($file);
     unlink($file);
+    
+    header('Content-Type: image/png');
+    echo $res;
+    return;
+    
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     $description = '<![CDATA[' . $description . ']]>';
 
@@ -502,6 +506,10 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
                         'display' => true,
                         'labels' => array_reverse($labels),
                         'ticks' => ['fontColor' => 'black',
+                                    'fontSize' => 9,
+                                    'autoSkip' => false,
+                                    'minRotation' => 45,
+                                    'maxRotation' => 45,
                                    ],
                        ];
     $scales->xAxes[] = ['id' => 'x-axis-1',
@@ -541,7 +549,7 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
                        'borderColor' => $defines[$item]['label'] === '' ? 'rgba(0,0,0,0)' : 'black',
                        'backgroundColor' => $defines[$item]['label'] === '' ? 'rgba(0,0,0,0)' : $defines[$item]['color'],
                        'pointStyle' => 'triangle',
-                       'pointRadius' => 12,
+                       'pointRadius' => 8,
                        'pointRotation' => $pointRotation,
                        'pointBackgroundColor' => $defines[$item]['color'],
                        'pointBorderColor' => 'black',
@@ -558,11 +566,11 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
                            'borderColor' => 'rgba(0,0,0,0)',
                            'backgroundColor' => 'rgba(0,0,0,0)',
                            'pointStyle' => 'triangle',
-                           'pointRadius' => 12,
+                           'pointRadius' => 8,
                            'pointRotation' => $pointRotation,
                            'pointBackgroundColor' => $defines[$item]['color'],
                            'pointBorderColor' => 'cyan',
-                           'pointBorderWidth' => 3,
+                           'pointBorderWidth' => 2,
                            'label' => '',
                           ];
         }
@@ -572,7 +580,9 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
              'data' => ['labels' => array_reverse($labels),
                         'datasets' => $datasets,
                        ],
-             'options' => ['legend' => ['labels' => ['fontColor' => 'black',],],
+             'options' => ['legend' => ['labels' => ['fontColor' => 'black',
+                                                     'fontSize' => 9,
+                                                    ],],
                            'animation' => ['duration' => 0,],
                            'hover' => ['animationDuration' => 0,],
                            'responsiveAnimationDuration' => 0,
@@ -589,6 +599,7 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
                           ],
             ];
 
+    /*
     $url = 'https://quickchart.io/chart?width=1500&height=210&c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     error_log($log_prefix . strlen($url));
@@ -605,7 +616,13 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
     imagedestroy($im2);
     $res = file_get_contents($file);
     unlink($file);
+    */
 
+    $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
+    exec('node ../scripts/chartjs_node.js 1000 160 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    $res = file_get_contents($file);
+    unlink($file);
+    
     return $res;
 }
 
