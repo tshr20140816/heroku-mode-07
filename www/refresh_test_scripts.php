@@ -36,8 +36,11 @@ foreach ($matches[1] as $item) {
 }
 */
 
+exec('cd /tmp && git clone --depth=1 https://github.com/tshr20140816/heroku-mode-07.git repo', $res);
+error_log(print_r($res, true));
+
 $res = [];
-exec('ls -lang /tmp/', $res);
+exec('ls -lang /tmp/repo', $res);
 error_log(print_r($res, true));
 
 
