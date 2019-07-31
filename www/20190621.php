@@ -164,7 +164,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                         'display' => true,
                         'labels' => array_reverse($labels),
                         'ticks' => ['fontColor' => 'black',
-                                    'fontSize' => 10,
+                                    'fontSize' => 9,
                                    ],
                        ];
     $scales->xAxes[] = ['id' => 'x-axis-1',
@@ -237,7 +237,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                         'datasets' => $datasets,
                        ],
              'options' => ['legend' => ['labels' => ['fontColor' => 'black',
-                                                     'fontSize' => 10,
+                                                     'fontSize' => 9,
                                                     ],
                                        ],
                            'animation' => ['duration' => 0,],
