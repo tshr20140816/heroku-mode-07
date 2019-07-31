@@ -48,7 +48,7 @@ mv ical.php ${ICS_ADDRESS}.php
 mv rss.php ${RSS_ADDRESS}.php
 popd
 
-fc-cache -fv &
+fc-cache -fv > /dev/null 2>&1 &
 
 set +x
 pushd classes
