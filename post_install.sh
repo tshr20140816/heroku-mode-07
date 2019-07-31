@@ -19,7 +19,12 @@ fi
 # wget https://github.com/pyrus/Pyrus/blob/master/pyrus.phar
 # php pyrus.phar install pear/XML_RPC2
 
-wget https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz -O heroku.tar.gz &
+wget https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz -O heroku.tar.gz
+mkdir heroku
+mv heroku.tar.gz ./heroku/heroku.tar.gz
+pushd heroku
+tar xf heroku.tar.gz --strip-components=1
+popd
 
 # ***** phppgadmin *****
 
