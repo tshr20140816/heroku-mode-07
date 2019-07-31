@@ -276,13 +276,15 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
                                          ],
                              ];
             if (count($tmp) > 1) {
+                $tmp = explode("\n", ltrim($labels['dest'][$i]));
+                array_shift($tmp);
                 $annotations[] = ['type' => 'line',
                                   'mode' => 'vertical',
                                   'scaleID' => 'x-axis-0',
                                   'value' => (string)$i,
                                   'borderColor' => 'rgba(0,0,0,0)',
                                   'label' => ['enabled' => true,
-                                              'content' => $tmp[1],
+                                              'content' => $tmp,
                                               'position' => 'top',
                                               'backgroundColor' => 'rgba(0,0,0,0)',
                                               'fontColor' => 'black',
