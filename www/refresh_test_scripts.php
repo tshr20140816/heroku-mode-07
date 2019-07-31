@@ -17,4 +17,11 @@ $res = $mu->get_contents($url);
 
 $rc = preg_match_all('/<a .+? title="(\d+?)\.php"/', $res, $matches);
 
-error_log(print_r($matches, ture));
+error_log(print_r($matches, true));
+
+foreach ($matches[1] as $item) {
+    $url = 'https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/' . $item . '.php';
+    $res = $mu->get_contents($url);
+    unlink($item . '.php');
+    file_put_contents($item . '.php', $res);
+}
