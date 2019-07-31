@@ -1,4 +1,4 @@
-import * as annotation from 'chartjs-plugin-annotation';
+import annotation from 'chartjs-plugin-annotation';
 
 const ChartjsNode = require('chartjs-node');
 
