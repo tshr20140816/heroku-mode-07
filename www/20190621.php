@@ -25,11 +25,11 @@ $im1 = imagecreatetruecolor(1000, 280);
 imagefill($im1, 0, 0, imagecolorallocate($im1, 255, 255, 255));
 
 $im2 = imagecreatefromstring($res1);
-imagecopy($im1, $im2, 0, 0, 0, 0, 1000, 140);
+imagecopy($im1, $im2, 0, 0, 0, 0, 1000, 160);
 imagedestroy($im2);
 
 $im2 = imagecreatefromstring($res2);
-imagecopy($im1, $im2, 0, 140, 0, 0, 1000, 140);
+imagecopy($im1, $im2, 0, 160, 0, 0, 1000, 160);
 imagedestroy($im2);
 
 $file = tempnam("/tmp", md5(microtime(true)));
@@ -263,7 +263,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     */
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
     // exec('node ../scripts/chartjs_node.js 1500 210 ' . base64_encode(json_encode($json)) . ' ' . $file);
-    exec('node ../scripts/chartjs_node.js 1000 140 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    exec('node ../scripts/chartjs_node.js 1000 160 ' . base64_encode(json_encode($json)) . ' ' . $file);
     $res = file_get_contents($file);
     unlink($file);
 
