@@ -13,8 +13,6 @@ $url = 'https://github.com/tshr20140816/heroku-mode-07/tree/master/www';
 
 $res = $mu->get_contents($url);
 
-// error_log($res);
-
 $rc = preg_match_all('/<a .+? title="(\d+?)\.php"/', $res, $matches);
 
 error_log(print_r($matches, true));
@@ -22,6 +20,13 @@ error_log(print_r($matches, true));
 foreach ($matches[1] as $item) {
     $url = 'https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/www/' . $item . '.php';
     $res = $mu->get_contents($url);
-    unlink($item . '.php');
-    file_put_contents($item . '.php', $res);
+    $hash_new = hash('sha512', $res);
+    $hash_old = hash('sha512', file_get_contents($item . '.php'));
+
+    if ($hash_new != $hash_old) {
+        unlink($item . '.php');
+        file_put_contents($item . '.php', $res);
+        error_log($item . '.php');
+        error_log($res);
+    }
 }
