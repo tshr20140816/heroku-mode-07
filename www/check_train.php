@@ -158,36 +158,34 @@ function check_train($mu_)
         $res_nobori = get_train_sanyo2_image3($mu_, $res_sanyo2_st, $res_sanyo2, '0');
     }
 
-    if ($res_kudari != '400' && $res_nobori != '400') {
-        $im1 = imagecreatefromstring($res_kudari);
-        $x = imagesx($im1);
-        $y1 = imagesy($im1);
-        imagedestroy($im1);
+    $im1 = imagecreatefromstring($res_kudari);
+    $x = imagesx($im1);
+    $y1 = imagesy($im1);
+    imagedestroy($im1);
 
-        $im1 = imagecreatefromstring($res_nobori);
-        // $x = imagesx($im1);
-        $y2 = imagesy($im1);
-        imagedestroy($im1);
+    $im1 = imagecreatefromstring($res_nobori);
+    // $x = imagesx($im1);
+    $y2 = imagesy($im1);
+    imagedestroy($im1);
 
-        $im1 = imagecreatetruecolor($x, $y1 + $y2);
-        imagefill($im1, 0, 0, imagecolorallocate($im1, 255, 255, 255));
+    $im1 = imagecreatetruecolor($x, $y1 + $y2);
+    imagefill($im1, 0, 0, imagecolorallocate($im1, 255, 255, 255));
 
-        $im2 = imagecreatefromstring($res_kudari);
-        imagecopy($im1, $im2, 0, 0, 0, 0, $x, $y1);
-        imagedestroy($im2);
+    $im2 = imagecreatefromstring($res_kudari);
+    imagecopy($im1, $im2, 0, 0, 0, 0, $x, $y1);
+    imagedestroy($im2);
 
-        $im2 = imagecreatefromstring($res_nobori);
-        imagecopy($im1, $im2, 0, $y1, 0, 0, $x, $y2);
-        imagedestroy($im2);
+    $im2 = imagecreatefromstring($res_nobori);
+    imagecopy($im1, $im2, 0, $y1, 0, 0, $x, $y2);
+    imagedestroy($im2);
 
-        $file = tempnam("/tmp", md5(microtime(true)));
-        imagepng($im1, $file, 9);
-        imagedestroy($im1);
-        $res = file_get_contents($file);
-        unlink($file);
+    $file = tempnam("/tmp", md5(microtime(true)));
+    imagepng($im1, $file, 9);
+    imagedestroy($im1);
+    $res = file_get_contents($file);
+    unlink($file);
 
-        $description .= "\n" . '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
-    }
+    $description .= "\n" . '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
     // $mu_->post_blog_livedoor('TRAIN', $description);
     $mu_->post_blog_hatena('TRAIN', $description);
@@ -305,7 +303,7 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
                    'xAxisID' => 'x-axis-0',
                    'showLine' => false,
                    'pointStyle' => 'triangle',
-                   'pointRadius' => 12,
+                   'pointRadius' => 8,
                    'pointRotation' => $pointRotation,
                    'pointBackgroundColor' => 'lightgray',
                    'pointBorderColor' => 'red',
@@ -319,11 +317,11 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
                        'xAxisID' => 'x-axis-0',
                        'showLine' => false,
                        'pointStyle' => 'triangle',
-                       'pointRadius' => 12,
+                       'pointRadius' => 8,
                        'pointRotation' => $pointRotation,
                        'pointBackgroundColor' => 'lightgray',
                        'pointBorderColor' => 'cyan',
-                       'pointBorderWidth' => 3,
+                       'pointBorderWidth' => 2,
                       ];
     }
 
@@ -334,7 +332,7 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
                        'xAxisID' => 'x-axis-0',
                        'showLine' => false,
                        'pointStyle' => 'triangle',
-                       'pointRadius' => 12,
+                       'pointRadius' => 8,
                        'pointRotation' => $pointRotation,
                        'pointBackgroundColor' => 'yellow',
                        'pointBorderColor' => 'red',
@@ -349,11 +347,11 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
                        'xAxisID' => 'x-axis-0',
                        'showLine' => false,
                        'pointStyle' => 'triangle',
-                       'pointRadius' => 12,
+                       'pointRadius' => 8,
                        'pointRotation' => $pointRotation,
                        'pointBackgroundColor' => 'yellow',
                        'pointBorderColor' => 'cyan',
-                       'pointBorderWidth' => 3,
+                       'pointBorderWidth' => 2,
                       ];
     }
 
@@ -381,6 +379,7 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
                         // 'display' => true,
                         'labels' => $labels['station'],
                         'ticks' => ['fontColor' => 'black',
+                                    'fontSize' => 10,
                                     'autoSkip' => false,
                                     'minRotation' => 45,
                                     'maxRotation' => 45,
@@ -396,7 +395,7 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
     $annotations = [];
     for ($i = 0; $i < count($labels['dest']); $i++) {
         if ($labels['dest'][$i] !== '') {
-            $tmp = explode("\n", ltrim($labels['dest'][$i]), 2);
+            $tmp = explode("\n", trim($labels['dest'][$i], "\n"), 2);
             $annotations[] = ['type' => 'line',
                               'mode' => 'vertical',
                               'scaleID' => 'x-axis-0',
@@ -407,19 +406,27 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
                                           'position' => 'bottom',
                                           'backgroundColor' => 'rgba(0,0,0,0)',
                                           'fontColor' => 'black',
+                                          'fontFamily' => 'IPAexGothic',
+                                          'fontStyle' => 'normal',
+                                          'fontSize' => 10,
                                          ],
                              ];
             if (count($tmp) > 1) {
+                $tmp = explode("\n", trim($labels['dest'][$i], "\n"));
+                array_shift($tmp);
                 $annotations[] = ['type' => 'line',
                                   'mode' => 'vertical',
                                   'scaleID' => 'x-axis-0',
                                   'value' => (string)$i,
                                   'borderColor' => 'rgba(0,0,0,0)',
                                   'label' => ['enabled' => true,
-                                              'content' => $tmp[1],
+                                              'content' => $tmp,
                                               'position' => 'top',
                                               'backgroundColor' => 'rgba(0,0,0,0)',
                                               'fontColor' => 'black',
+                                              'fontFamily' => 'IPAexGothic',
+                                              'fontStyle' => 'normal',
+                                              'fontSize' => 10,
                                              ],
                                  ];
             }
@@ -450,10 +457,19 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
     if ($y_max > 2) {
         $height = 210;
     }
+
+    /*
     $url = "https://quickchart.io/chart?width=1500&height=${height}&c=" . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     error_log($log_prefix . 'URL length : ' . number_format(strlen($url)));
+    */
 
+    $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
+    exec('node ../scripts/chartjs_node.js 1000 ' . $height . ' ' . base64_encode(json_encode($json)) . ' ' . $file);
+    $res = file_get_contents($file);
+    unlink($file);
+
+    /*
     if ($res != '400') {
         $im1 = imagecreatefromstring($res);
         error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
@@ -467,6 +483,7 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
         $res = file_get_contents($file);
         unlink($file);
     }
+    */
 
     return $res;
 }
