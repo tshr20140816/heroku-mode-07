@@ -15,7 +15,7 @@ var chartJsOptions = JSON.parse(Buffer.from(process.argv[4], 'base64').toString(
 
 console.error(chartJsOptions);
 console.error(util.inspect(chartJsOptions, false, null));
-console.error(Chart.plugins)
+console.error(Chartjs.plugins)
 
 return chartNode.drawChart(chartJsOptions)
 .then(() => {
