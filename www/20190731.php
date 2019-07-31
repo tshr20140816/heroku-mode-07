@@ -271,6 +271,7 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
                                           'position' => 'bottom',
                                           'backgroundColor' => 'rgba(0,0,0,0)',
                                           'fontColor' => 'black',
+                                          'fontFamily' => 'IPAexGothic',
                                          ],
                              ];
             if (count($tmp) > 1) {
@@ -284,6 +285,7 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
                                               'position' => 'top',
                                               'backgroundColor' => 'rgba(0,0,0,0)',
                                               'fontColor' => 'black',
+                                              'fontFamily' => 'IPAexGothic',
                                              ],
                                  ];
             }
