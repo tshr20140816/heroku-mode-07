@@ -289,24 +289,31 @@ function get_river_water_level($mu_, $file_name_rss_items_, $url_, $point_)
                         'display' => false,
                        ];
 
-    $chart_data = ['type' => 'line',
-                   'data' => ['datasets' => $datasets,
-                             ],
-                   'options' => ['legend' => ['display' => false,
-                                             ],
-                                 'scales' => $scales,
-                                 'title' => ['display' => true,
-                                             'text' => $title,
-                                             'fontColor' => 'black',
-                                            ],
-                                 'annotation' => ['annotations' => $annotations,
-                                                 ],
-                                ],
-                  ];
+    $json = ['type' => 'line',
+             'data' => ['datasets' => $datasets,
+                       ],
+             'options' => ['legend' => ['display' => false,
+                                       ],
+                           'scales' => $scales,
+                           'title' => ['display' => true,
+                                       'text' => $title,
+                                       'fontColor' => 'black',
+                                      ],
+                           'annotation' => ['annotations' => $annotations,
+                                           ],
+                          ],
+            ];
 
-    $url = 'https://quickchart.io/chart?width=300&height=160&c=' . urlencode(json_encode($chart_data));
-
+    /*
+    $url = 'https://quickchart.io/chart?width=300&height=160&c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
+    */
+
+    $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
+    exec('node ../scripts/chartjs_node.js 300 160 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    $res = file_get_contents($file);
+    unlink($file);
+    
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     $description = '<![CDATA[' . $description . ']]>';
 
