@@ -40,7 +40,7 @@ exec('cd /tmp && git clone --depth=1 https://github.com/tshr20140816/heroku-mode
 error_log(print_r($res, true));
 
 $res = [];
-exec('cd /tmp/repo/www && ls -l *.php', $res);
+exec('cd /tmp/repo/www && ls -F *.php', $res);
 error_log(print_r($res, true));
 
 
