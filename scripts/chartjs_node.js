@@ -18,9 +18,9 @@ var chartJsOptions = JSON.parse(Buffer.from(process.argv[4], 'base64').toString(
 // console.error(util.inspect(chartJsOptions, false, null));
 
 return chartNode.drawChart(chartJsOptions)
-.then(streamResult => {
+.then(() => {
     // console.error(chartJsOptions);
     return chartNode.writeImageToFile('image/png', process.argv[5]);
 });
 
-chartNode.destroy();
+// chartNode.destroy();
