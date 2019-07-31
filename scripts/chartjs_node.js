@@ -4,7 +4,7 @@ var chartNode = new ChartjsNode(process.argv[2], process.argv[3]);
 
 chartNode.on('beforeDraw', function (Chartjs) {
     Chartjs.defaults.global.defaultFontFamily = 'IPAexGothic';
-    Chartjs.pluginService.register(annotation);
+    // Chartjs.pluginService.register(annotation);
 });
 
 var util = require('util');
