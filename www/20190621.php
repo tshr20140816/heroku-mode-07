@@ -164,6 +164,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                         'display' => true,
                         'labels' => array_reverse($labels),
                         'ticks' => ['fontColor' => 'black',
+                                    'fontSize' => 10,
                                    ],
                        ];
     $scales->xAxes[] = ['id' => 'x-axis-1',
@@ -236,6 +237,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
                         'datasets' => $datasets,
                        ],
              'options' => ['legend' => ['labels' => ['fontColor' => 'black',
+                                                     'fontSize' => 10,
                                                     ],
                                        ],
                            'animation' => ['duration' => 0,],
@@ -260,10 +262,12 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     error_log($log_prefix . strlen($url));
     */
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
-    exec('node ../scripts/chartjs_node.js 1500 210 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    // exec('node ../scripts/chartjs_node.js 1500 210 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    exec('node ../scripts/chartjs_node.js 1000 140 ' . base64_encode(json_encode($json)) . ' ' . $file);
     $res = file_get_contents($file);
     unlink($file);
 
+    /*
     $im1 = imagecreatefromstring($res);
     error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
     $im2 = imagecreatetruecolor(imagesx($im1) / 2 * 1.5, imagesy($im1) / 2 * 1.5);
@@ -276,6 +280,7 @@ function func_20190621($mu_, $common_ja_, $train_location_info_, $bound_ = 2)
     imagedestroy($im2);
     $res = file_get_contents($file);
     unlink($file);
+    */
 
     return $res;
 }
