@@ -9,6 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
+/*
 $url = 'https://github.com/tshr20140816/heroku-mode-07/tree/master/www';
 
 $res = $mu->get_contents($url);
@@ -33,5 +34,12 @@ foreach ($matches[1] as $item) {
         error_log($res);
     }
 }
+*/
+
+$res = [];
+exec('ls -lang /tmp/', $res);
+error_log(print_r($res, true));
+
+
 $rc = opcache_reset();
 error_log('opcache_reset : ' . $rc);
