@@ -13,4 +13,8 @@ $url = 'https://github.com/tshr20140816/heroku-mode-07/tree/master/www';
 
 $res = $mu->get_contents($url);
 
-error_log($res);
+// error_log($res);
+
+$rc = preg_match_all('/<a .+? title="(\d+?)\.php"/', $res, $matches);
+
+error_log(print_r($matches, ture));
