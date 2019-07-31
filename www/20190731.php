@@ -9,7 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$rc = func20190731($mu);
+// $rc = func20190731($mu);
 $rc = func20190731_2($mu, $file_name_rss_items, $mu->get_env('URL_RIVER_YAHOO_1'), $mu->get_env('RIVER_POINT_1'));
 
 $time_finish = microtime(true);
