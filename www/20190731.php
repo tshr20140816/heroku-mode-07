@@ -169,7 +169,7 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
                    'xAxisID' => 'x-axis-0',
                    'showLine' => false,
                    'pointStyle' => 'triangle',
-                   'pointRadius' => 10,
+                   'pointRadius' => 8,
                    'pointRotation' => $pointRotation,
                    'pointBackgroundColor' => 'lightgray',
                    'pointBorderColor' => 'red',
@@ -183,11 +183,11 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
                        'xAxisID' => 'x-axis-0',
                        'showLine' => false,
                        'pointStyle' => 'triangle',
-                       'pointRadius' => 10,
+                       'pointRadius' => 8,
                        'pointRotation' => $pointRotation,
                        'pointBackgroundColor' => 'lightgray',
                        'pointBorderColor' => 'cyan',
-                       'pointBorderWidth' => 3,
+                       'pointBorderWidth' => 2,
                       ];
     }
 
@@ -198,7 +198,7 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
                        'xAxisID' => 'x-axis-0',
                        'showLine' => false,
                        'pointStyle' => 'triangle',
-                       'pointRadius' => 10,
+                       'pointRadius' => 8,
                        'pointRotation' => $pointRotation,
                        'pointBackgroundColor' => 'yellow',
                        'pointBorderColor' => 'red',
@@ -213,11 +213,11 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
                        'xAxisID' => 'x-axis-0',
                        'showLine' => false,
                        'pointStyle' => 'triangle',
-                       'pointRadius' => 10,
+                       'pointRadius' => 8,
                        'pointRotation' => $pointRotation,
                        'pointBackgroundColor' => 'yellow',
                        'pointBorderColor' => 'cyan',
-                       'pointBorderWidth' => 3,
+                       'pointBorderWidth' => 2,
                       ];
     }
 
