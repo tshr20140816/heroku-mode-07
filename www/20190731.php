@@ -245,6 +245,7 @@ function get_train_sanyo2_image3x($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0'
                         // 'display' => true,
                         'labels' => $labels['station'],
                         'ticks' => ['fontColor' => 'black',
+                                    'fontSize' => 10,
                                     'autoSkip' => false,
                                     'minRotation' => 45,
                                     'maxRotation' => 45,
