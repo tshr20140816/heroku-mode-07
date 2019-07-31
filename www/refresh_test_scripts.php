@@ -11,6 +11,6 @@ $mu = new MyUtils();
 
 $url = 'https://github.com/tshr20140816/heroku-mode-07/tree/master/www';
 
-$res = $mu->get_contents_proxy($url);
+$res = $mu->get_contents($url);
 
 error_log($res);
