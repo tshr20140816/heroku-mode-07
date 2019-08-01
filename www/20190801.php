@@ -31,7 +31,7 @@ function func_20190801($mu_)
         error_log(date('Ymd', $header->udate));
         
         if (date('Ym', $header->udate) == '201902') {
-            $rc = imap_mail_move($imap, $i, '{imap.mail.yahoo.co.jp:993/ssl}2019');
+            $rc = imap_mail_move($imap, $i, '2019');
             error_log('imap_mail_move : ' . $rc);
         }
     }
