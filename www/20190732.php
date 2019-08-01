@@ -70,8 +70,6 @@ __HEREDOC__;
              'data' => ['labels' => $labels,
                         'datasets' => $datasets,
                        ],
-             'options' => ['legend' => ['display' => false,],]
-             /*
              'options' => ['legend' => ['display' => false,
                                        ],
                            'animation' => ['duration' => 0,
@@ -94,10 +92,9 @@ __HEREDOC__;
                                            ],
                            'scales' => $scales,
                           ],
-                          */
             ];
 
-    $json = str_replace('"__CALLBACK__"', "function(value){return value.toLocaleString();}", json_encode($json));
+    // $json = str_replace('"__CALLBACK__"', "function(value){return value.toLocaleString();}", json_encode($json));
     error_log($json);
 
     /*
