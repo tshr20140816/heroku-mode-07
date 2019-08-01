@@ -68,8 +68,10 @@ __HEREDOC__;
 
     $json = ['type' => 'line',
              'data' => ['labels' => $labels,
-                        // 'datasets' => $datasets,
+                        'datasets' => $datasets,
                        ],
+             'options' => ['legend' => ['display' => false,],]
+             /*
              'options' => ['legend' => ['display' => false,
                                        ],
                            'animation' => ['duration' => 0,
@@ -92,6 +94,7 @@ __HEREDOC__;
                                            ],
                            'scales' => $scales,
                           ],
+                          */
             ];
 
     $json = str_replace('"__CALLBACK__"', "function(value){return value.toLocaleString();}", json_encode($json));
