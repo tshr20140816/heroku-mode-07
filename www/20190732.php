@@ -75,6 +75,7 @@ __HEREDOC__;
                                        ],
                                        ['data' => $data1,
                                         'fill' => false,
+                                        'lineTension' => 0,
                                         'borderColor' => 'black',
                                         'borderWidth' => 1,
                                         'pointBackgroundColor' => 'black',
