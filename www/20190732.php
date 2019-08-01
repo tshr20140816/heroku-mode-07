@@ -73,6 +73,11 @@ function func_20190732b($mu_, $file_name_rss_items_)
                                     'fontColor' => 'black',
                                    ],
                        ];
+    $scales->xAxes[] = ['id' => 'x-axis-0',
+                        'ticks' => ['fontColor' => 'black',
+                                    'autoSkip' => false,
+                                   ],
+                       ];
 
     $json = ['type' => 'line',
              'data' => ['labels' => $labels,
