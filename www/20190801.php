@@ -25,7 +25,7 @@ function func_20190801($mu_)
     // $list = imap_list($imap, '{imap.mail.yahoo.co.jp:993/ssl}', '*');
     // error_log(print_r($list, true));
     
-    for ($i = 1; $i > 0; $i--) {
+    for ($i = 10; $i > 0; $i--) {
         $header = imap_headerinfo($imap, $i);
         error_log(print_r($header, true));
         error_log(date('Ymd', $header->udate));
