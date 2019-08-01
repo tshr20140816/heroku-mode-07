@@ -93,6 +93,8 @@ __HEREDOC__;
             ];
 
     $json = str_replace('"__CALLBACK__"', "function(value){return value.toLocaleString();}", json_encode($json));
+    error_log(print_r($json, true));
+    error_log($json);
 
     /*
     $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
