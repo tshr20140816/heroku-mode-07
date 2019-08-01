@@ -9,9 +9,9 @@ chartNode.on('beforeDraw', function (Chartjs) {
     // console.error(Chartjs.plugins)
 });
 
-function reciever (k, v) {
+function reciever(k, v) {
     if (typeof v === "string" && v.match(/^function/)){
-        return Function.call(this, "return "+ v  )();
+        return Function.call(this, "return " + v)();
     }
     return v;
 }
