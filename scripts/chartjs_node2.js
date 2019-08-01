@@ -9,9 +9,16 @@ chartNode.on('beforeDraw', function (Chartjs) {
     // console.error(Chartjs.plugins)
 });
 
+function reciever (k, v) {
+    if (typeof v === "string" && v.match(/^function/)){
+        return Function.call(this, "return "+ v  )();
+    }
+    return v;
+}
+
 var util = require('util');
 
-var chartJsOptions = Buffer.from(process.argv[4], 'base64').toString('utf-8');
+var chartJsOptions = JSON.parse(Buffer.from(process.argv[4], 'base64').toString('utf-8'), reciever);
 
 // console.error(process.argv[4]);
 // console.error(chartJsOptions);
