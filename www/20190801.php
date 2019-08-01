@@ -25,13 +25,13 @@ function func_20190801($mu_)
     // $list = imap_list($imap, '{imap.mail.yahoo.co.jp:993/ssl}', '*');
     // error_log(print_r($list, true));
     
-    for ($i = 500; $i > 0; $i--) {
+    for ($i = 20; $i > 0; $i-=5) {
         $header = imap_headerinfo($imap, $i);
         error_log(print_r($header, true));
         error_log(date('Ymd', $header->udate));
         
         if (date('Ym', $header->udate) == '201903' || date('Ym', $header->udate) == '201904') {
-            $rc = imap_mail_move($imap, $i, '2019');
+            $rc = imap_mail_move($imap, ($i - 5) . '-' . $i, '2019');
             error_log('imap_mail_move : ' . $rc);
             $rc = imap_expunge($imap);
             error_log('imap_expunge : ' . $rc);
