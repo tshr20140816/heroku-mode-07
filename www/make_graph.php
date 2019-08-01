@@ -1369,15 +1369,24 @@ function make_github_contributions($mu_, $file_name_rss_items_)
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => true,
                         'position' => 'left',
-                        'ticks' => ['beginAtZero' => true,],
+                        'ticks' => ['beginAtZero' => true,
+                                    'fontColor' => 'black',
+                                   ],
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-1',
                         'display' => true,
                         'position' => 'right',
-                        'ticks' => ['beginAtZero' => true,],
+                        'ticks' => ['beginAtZero' => true,
+                                    'fontColor' => 'black',
+                                   ],
+                       ];
+    $scales->xAxes[] = ['id' => 'x-axis-0',
+                        'ticks' => ['fontColor' => 'black',
+                                    'autoSkip' => false,
+                                   ],
                        ];
 
-    $data = ['type' => 'line',
+    $json = ['type' => 'line',
              'data' => ['labels' => $labels,
                         'datasets' => [['data' => $data2,
                                         'fill' => false,
@@ -1393,6 +1402,7 @@ function make_github_contributions($mu_, $file_name_rss_items_)
                                        ],
                                        ['data' => $data1,
                                         'fill' => false,
+                                        'lineTension' => 0,
                                         'borderColor' => 'black',
                                         'borderWidth' => 1,
                                         'pointBackgroundColor' => 'black',
@@ -1401,8 +1411,7 @@ function make_github_contributions($mu_, $file_name_rss_items_)
                                        ],
                                        ['data' => $data4,
                                         'fill' => false,
-                                        'pointBackgroundColor' => 'black',
-                                        'pointRadius' => 2,
+                                        'pointRadius' => 0,
                                         'yAxisID' => 'y-axis-1',
                                        ],
                                       ],
@@ -1415,7 +1424,8 @@ function make_github_contributions($mu_, $file_name_rss_items_)
                           ],
             ];
 
-    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . urlencode(json_encode($data));
+    /*
+    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     $url_length = strlen($url);
 
@@ -1432,6 +1442,12 @@ function make_github_contributions($mu_, $file_name_rss_items_)
 
     $res = $mu_->shrink_image($file);
 
+    unlink($file);
+    */
+
+    $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
+    exec('node ../scripts/chartjs_node.js 600 320 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    $res = file_get_contents($file);
     unlink($file);
 
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
@@ -1454,7 +1470,7 @@ __HEREDOC__;
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
-    return $url_length;
+    return 0;
 }
 
 function make_storage_usage($mu_, $file_name_rss_items_)
