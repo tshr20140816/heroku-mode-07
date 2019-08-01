@@ -9,12 +9,121 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190732d($mu, '/tmp/dummy20190732');
+func_20190732e($mu, '/tmp/dummy20190732');
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
+
+function func_20190732e($mu_, $file_name_rss_items_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $sql = <<< __HEREDOC__
+SELECT to_char(T1.check_time, 'YYYY/MM/DD') check_date
+      ,MIN(T1.balance) balance
+  FROM t_waon_history T1
+ GROUP BY to_char(T1.check_time, 'YYYY/MM/DD')
+ ORDER BY to_char(T1.check_time, 'YYYY/MM/DD') DESC
+ LIMIT 20
+;
+__HEREDOC__;
+
+    $pdo = $mu_->get_pdo();
+
+    $labels = [];
+    $data1 = [];
+    foreach ($pdo->query($sql) as $row) {
+        $labels[$row['check_date']] = date('m/d', strtotime($row['check_date']));
+        $tmp = new stdClass();
+        $tmp->x = date('m/d', strtotime($row['check_date']));
+        $tmp->y = $row['balance'];
+        $data1[] = $tmp;
+    }
+    $pdo = null;
+
+    ksort($labels);
+    $labels = array_values($labels);
+
+    $datasets = [];
+
+    $datasets[] = ['data' => $data1,
+                   'fill' => false,
+                   'lineTension' => 0,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'deepskyblue',
+                   'borderColor' => 'deepskyblue',
+                   'borderWidth' => 3,
+                   'pointRadius' => 4,
+                   'pointBorderWidth' => 0,
+                  ];
+
+    $scales = new stdClass();
+    $scales->yAxes[] = ['display' => true,
+                        'ticks' => ['callback' => '__CALLBACK__',],
+                       ];
+
+    $json = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => $datasets,
+                       ],
+             'options' => ['legend' => ['display' => false,
+                                       ],
+                           'animation' => ['duration' => 0,
+                                          ],
+                           'hover' => ['animationDuration' => 0,
+                                      ],
+                           'responsiveAnimationDuration' => 0,
+                           'annotation' => ['annotations' => [['type' => 'line',
+                                                               'mode' => 'horizontal',
+                                                               'scaleID' => 'y-axis-0',
+                                                               'value' => $data1[0]->y,
+                                                               'borderColor' => 'rgba(0,0,0,0)',
+                                                               'borderWidth' => 1,
+                                                               'label' => ['enabled' => true,
+                                                                           'content' => number_format($data1[0]->y),
+                                                                           'position' => 'left',
+                                                                          ],
+                                                              ],
+                                                             ],
+                                           ],
+                           'scales' => $scales,
+                          ],
+            ];
+
+    $json = str_replace('"__CALLBACK__"', "function(value){return value.toLocaleString();}", json_encode($json));
+
+    /*
+    $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
+    $res = $mu_->get_contents($url);
+    $url_length = strlen($url);
+
+    $im1 = imagecreatefromstring($res);
+    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
+    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
+    imagealphablending($im2, false);
+    imagesavealpha($im2, true);
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
+    imagedestroy($im1);
+
+    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
+    imagepng($im2, $file, 9);
+    imagedestroy($im2);
+
+    $res = $mu_->shrink_image($file);
+
+    unlink($file);
+    */
+
+    $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
+    exec('node ../scripts/chartjs_node.js 600 320 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    $res = file_get_contents($file);
+    unlink($file);
+    
+    header('Content-Type: image/png');
+    echo $res;
+}
 
 function func_20190732d($mu_, $file_name_rss_items_)
 {
