@@ -61,7 +61,7 @@ __HEREDOC__;
 
     $scales = new stdClass();
     $scales->yAxes[] = ['display' => true,
-                        'ticks' => ['callback' => '__CALLBACK__',],
+                        'ticks' => ['callback' => 'function(value){return value.toLocaleString();}',],
                        ];
 
     $json = ['type' => 'line',
@@ -92,8 +92,8 @@ __HEREDOC__;
                           ],
             ];
 
-    $json = str_replace('"__CALLBACK__"', '"function(value){return value.toLocaleString();}"', json_encode($json));
-    error_log($json);
+    // $json = str_replace('"__CALLBACK__"', '"function(value){return value.toLocaleString();}"', json_encode($json));
+    // error_log($json);
 
     /*
     $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
@@ -118,8 +118,7 @@ __HEREDOC__;
     */
 
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
-    // exec('node ../scripts/chartjs_node.js 600 320 ' . base64_encode(json_encode($json)) . ' ' . $file);
-    exec('node ../scripts/chartjs_node.js 600 320 ' . base64_encode($json) . ' ' . $file);
+    exec('node ../scripts/chartjs_node.js 600 320 ' . base64_encode(json_encode($json)) . ' ' . $file);
     $res = file_get_contents($file);
     unlink($file);
     
