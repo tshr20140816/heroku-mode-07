@@ -61,7 +61,7 @@ __HEREDOC__;
 
     $scales = new stdClass();
     $scales->yAxes[] = ['display' => true,
-                        'ticks' => ['callback' => '__CALLBACK__',],
+                        // 'ticks' => ['callback' => '__CALLBACK__',],
                        ];
 
     $json = ['type' => 'line',
