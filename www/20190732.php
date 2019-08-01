@@ -94,7 +94,7 @@ __HEREDOC__;
                           ],
             ];
 
-    $json = str_replace('"__CALLBACK__"', "function(value){return value.toLocaleString();}", json_encode($json));
+    $json = str_replace('"__CALLBACK__"', '"function(value){return value.toLocaleString();}"', json_encode($json));
     error_log($json);
 
     /*
