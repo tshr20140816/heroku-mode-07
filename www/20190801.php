@@ -30,8 +30,10 @@ function func_20190801($mu_)
         error_log(print_r($header, true));
         error_log(date('Ymd', $header->udate));
         
-        // $rc = imap_mail_move($imap, $i, '{imap.mail.yahoo.co.jp:993/ssl}2019');
-        error_log('imap_mail_move : ' . $rc);
+        if (date('Ymd', $header->udate) == '201902') {
+            $rc = imap_mail_move($imap, $i, '{imap.mail.yahoo.co.jp:993/ssl}2019');
+            error_log('imap_mail_move : ' . $rc);
+        }
     }
     
     imap_close($imap);
