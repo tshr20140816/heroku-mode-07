@@ -35,11 +35,9 @@ __HEREDOC__;
     $labels = [];
     $data1 = [];
     foreach ($pdo->query($sql) as $row) {
-        // $labels[$row['check_date']] = date('m/d', strtotime($row['check_date']));
-        $labels[$row['check_date']] = date('md', strtotime($row['check_date']));
+        $labels[$row['check_date']] = date('m/d', strtotime($row['check_date']));
         $tmp = new stdClass();
-        // $tmp->x = date('m/d', strtotime($row['check_date']));
-        $tmp->x = date('md', strtotime($row['check_date']));
+        $tmp->x = date('m/d', strtotime($row['check_date']));
         $tmp->y = $row['balance'];
         $data1[] = $tmp;
     }
