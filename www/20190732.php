@@ -9,12 +9,115 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190732b($mu, '/tmp/dummy20190732');
+func_20190732c($mu, '/tmp/dummy20190732');
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
+
+function func_20190732c($mu_, $file_name_rss_items_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $url = 'https://' . $mu_->get_env('WORDPRESS_USERNAME', true) . '.wordpress.com/?s=daily020.php';
+    $res = $mu_->get_contents($url);
+
+    $rc = preg_match_all('/rel="bookmark">.+?\/(.+?) .+? \/daily020\.php&nbsp;\[(.+?)s\]/', $res, $matches, PREG_SET_ORDER);
+    // error_log(print_r($matches, true));
+
+    $labels = [];
+    $data = [];
+    foreach ($matches as $match) {
+        $labels[] = $match[1];
+        $tmp = new stdClass();
+        $tmp->x = $match[1];
+        $tmp->y = $match[2];
+        $data[] = $tmp;
+    }
+    $labels = array_reverse($labels);
+
+    $datasets[] = ['data' => $data,
+                   'fill' => false,
+                   'lineTension' => 0,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'black',
+                   'borderColor' => 'black',
+                   'borderWidth' => 3,
+                   'pointRadius' => 4,
+                   'pointBorderWidth' => 0,
+                   'label' => 'daily020',
+                  ];
+
+    $url = 'https://' . $mu_->get_env('WORDPRESS_USERNAME', true) . '.wordpress.com/?s=make_graph.php';
+    $res = $mu_->get_contents($url);
+
+    $rc = preg_match_all('/rel="bookmark">.+?\/(.+?) .+? \/make_graph\.php&nbsp;\[(.+?)s\]/', $res, $matches, PREG_SET_ORDER);
+
+    $data = [];
+    foreach ($matches as $match) {
+        $tmp = new stdClass();
+        $tmp->x = $match[1];
+        if (in_array($tmp->x, $labels)) {
+            $tmp->y = $match[2];
+            $data[] = $tmp;
+        }
+    }
+
+    $datasets[] = ['data' => $data,
+                   'fill' => false,
+                   'lineTension' => 0,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'red',
+                   'borderColor' => 'red',
+                   'borderWidth' => 3,
+                   'pointRadius' => 4,
+                   'pointBorderWidth' => 0,
+                   'label' => 'make_graph',
+                  ];
+
+    $json = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => $datasets,
+                       ],
+             'options' => ['animation' => ['duration' => 0,
+                                          ],
+                           'hover' => ['animationDuration' => 0,
+                                      ],
+                           'responsiveAnimationDuration' => 0,
+                          ],
+            ];
+
+    /*
+    $url = 'https://quickchart.io/chart?w=600&h=360&c=' . urlencode(json_encode($chart_data));
+    $res = $mu_->get_contents($url);
+    $url_length = strlen($url);
+
+    $im1 = imagecreatefromstring($res);
+    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
+    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
+    imagealphablending($im2, false);
+    imagesavealpha($im2, true);
+    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
+    imagedestroy($im1);
+
+    $file = tempnam("/tmp", md5(microtime(true)));
+    imagepng($im2, $file, 9);
+    imagedestroy($im2);
+
+    $res = $mu_->shrink_image($file);
+
+    unlink($file);
+    */
+
+    $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
+    exec('node ../scripts/chartjs_node.js 600 360 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    $res = file_get_contents($file);
+    unlink($file);
+    
+    header('Content-Type: image/png');
+    echo $res;
+}
 
 function func_20190732b($mu_, $file_name_rss_items_)
 {
