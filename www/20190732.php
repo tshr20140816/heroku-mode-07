@@ -63,7 +63,7 @@ __HEREDOC__;
 
     $scales = new stdClass();
     $scales->yAxes[] = ['display' => true,
-                        // 'ticks' => ['callback' => '__CALLBACK__',],
+                        'ticks' => ['callback' => '__CALLBACK__',],
                        ];
 
     $json = ['type' => 'line',
@@ -94,7 +94,7 @@ __HEREDOC__;
                           ],
             ];
 
-    // $json = str_replace('"__CALLBACK__"', "function(value){return value.toLocaleString();}", json_encode($json));
+    $json = str_replace('"__CALLBACK__"', "function(value){return value.toLocaleString();}", json_encode($json));
     error_log($json);
 
     /*
@@ -120,7 +120,8 @@ __HEREDOC__;
     */
 
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
-    exec('node ../scripts/chartjs_node.js 600 320 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    // exec('node ../scripts/chartjs_node.js 600 320 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    exec('node ../scripts/chartjs_node.js 600 320 ' . base64_encode($json) . ' ' . $file);
     $res = file_get_contents($file);
     unlink($file);
     
