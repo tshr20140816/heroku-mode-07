@@ -33,6 +33,8 @@ function func_20190801($mu_)
         if (date('Ym', $header->udate) == '201902') {
             $rc = imap_mail_move($imap, $i, '2019');
             error_log('imap_mail_move : ' . $rc);
+            $rc = imap_expunge($imap);
+            error_log('imap_expunge : ' . $rc);
         }
     }
     
