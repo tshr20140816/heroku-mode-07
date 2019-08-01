@@ -37,7 +37,8 @@ __HEREDOC__;
     foreach ($pdo->query($sql) as $row) {
         $labels[$row['check_date']] = date('m/d', strtotime($row['check_date']));
         $tmp = new stdClass();
-        $tmp->x = date('m/d', strtotime($row['check_date']));
+        // $tmp->x = date('m/d', strtotime($row['check_date']));
+        $tmp->x = date('md', strtotime($row['check_date']));
         $tmp->y = $row['balance'];
         $data1[] = $tmp;
     }
@@ -93,7 +94,6 @@ __HEREDOC__;
             ];
 
     $json = str_replace('"__CALLBACK__"', "function(value){return value.toLocaleString();}", json_encode($json));
-    error_log(print_r($json, true));
     error_log($json);
 
     /*
