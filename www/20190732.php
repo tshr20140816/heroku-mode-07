@@ -67,8 +67,8 @@ __HEREDOC__;
                        ];
 
     $json = ['type' => 'line',
-             'data' => [// 'labels' => $labels,
-                        'datasets' => $datasets,
+             'data' => ['labels' => $labels,
+                        // 'datasets' => $datasets,
                        ],
              'options' => ['legend' => ['display' => false,
                                        ],
