@@ -9,47 +9,9 @@ chartNode.on('beforeDraw', function (Chartjs) {
     // console.error(Chartjs.plugins)
 });
 
-var config = {
-    type: 'line',
-    data: {
-        labels: ["0", "1", "2", "3", "4", "5"],
-        datasets: [{
-            label: "sample",
-            data: [
-                Math.random(),
-                Math.random(),
-                Math.random(),
-                Math.random(),
-                Math.random(),
-                Math.random()
-            ]
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true,
-                    suggestedMin: 0.0,
-                    suggestedMax: 1.0,
-                    stepSize: 0.1,
-                    callback: function(value, index, values) {
-                        if (index % 2 === 1) {
-                            return "";
-                        }
-                        return value;
-                    }
-                }
-            }]
-        }
-    }
-};
-
-console.error(JSON.stringify(config));
-
 var util = require('util');
 
-var chartJsOptions = JSON.parse(Buffer.from(process.argv[4], 'base64').toString('utf-8'));
+var chartJsOptions = Buffer.from(process.argv[4], 'base64').toString('utf-8');
 
 // console.error(process.argv[4]);
 // console.error(chartJsOptions);
