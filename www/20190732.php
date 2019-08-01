@@ -9,7 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190732d($mu, '/tmp/dummy20190732');
+func_20190732e($mu, '/tmp/dummy20190732');
 
 $time_finish = microtime(true);
 
