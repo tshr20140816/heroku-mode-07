@@ -27,7 +27,7 @@ function func_20190801($mu_)
     
     $header = imap_headerinfo($imap, 1);
     error_log(print_r($header, true));
-    error_log(date('Ymd', $header['udate']));
+    error_log(date('Ymd', $header->udate));
     
     imap_close($imap);
 }
