@@ -9,7 +9,7 @@ chartNode.on('beforeDraw', function (Chartjs) {
     // console.error(Chartjs.plugins)
 });
 
-function reciever(k, v) {
+function reviver(k, v) {
     if (typeof v === "string" && v.match(/^function/)){
         return Function.call(this, "return " + v)();
     }
@@ -18,11 +18,11 @@ function reciever(k, v) {
 
 var util = require('util');
 
-var chartJsOptions = JSON.parse(Buffer.from(process.argv[4], 'base64').toString('utf-8'), reciever);
+var chartJsOptions = JSON.parse(Buffer.from(process.argv[4], 'base64').toString('utf-8'), reviver);
 
 // console.error(process.argv[4]);
 // console.error(chartJsOptions);
-console.error(util.inspect(chartJsOptions, false, null));
+// console.error(util.inspect(chartJsOptions, false, null));
 
 return chartNode.drawChart(chartJsOptions)
 .then(() => {
