@@ -90,6 +90,7 @@ function func_20190732a($mu_, $file_name_rss_items_)
              'data' => ['labels' => $labels,
                         'datasets' => [['data' => $data,
                                         'fill' => false,
+                                        'lineTension' => 0,
                                         'borderColor' => 'black',
                                         'borderWidth' => 1,
                                         'pointBackgroundColor' => 'black',
