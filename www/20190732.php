@@ -86,6 +86,12 @@ function func_20190732a($mu_, $file_name_rss_items_)
         $data[] = round($item[1] / 1024 / 1024);
     }
 
+    $scales = new stdClass();
+    $scales->xAxes[] = ['id' => 'x-axis-0',
+                        'ticks' => ['fontColor' => 'black',
+                                    'autoSkip' => false,
+                                   ],
+                       ];
     $json = ['type' => 'line',
              'data' => ['labels' => $labels,
                         'datasets' => [['data' => $data,
@@ -111,6 +117,7 @@ function func_20190732a($mu_, $file_name_rss_items_)
                                                               ],
                                                              ],
                                            ],
+                           'scales' => $scales,
                           ],
             ];
 
