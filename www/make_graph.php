@@ -777,6 +777,7 @@ __HEREDOC__;
 
     $datasets[] = ['data' => $data1,
                    'fill' => false,
+                   'lineTension' => 0,
                    'pointStyle' => 'circle',
                    'backgroundColor' => 'deepskyblue',
                    'borderColor' => 'deepskyblue',
@@ -787,39 +788,40 @@ __HEREDOC__;
 
     $scales = new stdClass();
     $scales->yAxes[] = ['display' => true,
-                        'ticks' => ['callback' => '__CALLBACK__',],
+                        'ticks' => ['callback' => 'function(value){return value.toLocaleString();}',],
                        ];
 
-    $chart_data = ['type' => 'line',
-                   'data' => ['labels' => $labels,
-                              'datasets' => $datasets,
-                             ],
-                   'options' => ['legend' => ['display' => false,
-                                             ],
-                                 'animation' => ['duration' => 0,
-                                                ],
-                                 'hover' => ['animationDuration' => 0,
-                                            ],
-                                 'responsiveAnimationDuration' => 0,
-                                 'annotation' => ['annotations' => [['type' => 'line',
-                                                                     'mode' => 'horizontal',
-                                                                     'scaleID' => 'y-axis-0',
-                                                                     'value' => $data1[0]->y,
-                                                                     'borderColor' => 'rgba(0,0,0,0)',
-                                                                     'borderWidth' => 1,
-                                                                     'label' => ['enabled' => true,
-                                                                                 'content' => number_format($data1[0]->y),
-                                                                                 'position' => 'left',
-                                                                                ],
-                                                                    ],
-                                                                   ],
-                                                 ],
-                                 'scales' => $scales,
-                                ],
-                  ];
+    $json = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => $datasets,
+                       ],
+             'options' => ['legend' => ['display' => false,
+                                       ],
+                           'animation' => ['duration' => 0,
+                                          ],
+                           'hover' => ['animationDuration' => 0,
+                                      ],
+                           'responsiveAnimationDuration' => 0,
+                           'annotation' => ['annotations' => [['type' => 'line',
+                                                               'mode' => 'horizontal',
+                                                               'scaleID' => 'y-axis-0',
+                                                               'value' => $data1[0]->y,
+                                                               'borderColor' => 'rgba(0,0,0,0)',
+                                                               'borderWidth' => 1,
+                                                               'label' => ['enabled' => true,
+                                                                           'content' => number_format($data1[0]->y),
+                                                                           'position' => 'left',
+                                                                          ],
+                                                              ],
+                                                             ],
+                                           ],
+                           'scales' => $scales,
+                          ],
+            ];
 
-    $tmp = str_replace('"__CALLBACK__"', "function(value){return value.toLocaleString();}", json_encode($chart_data));
+    // $json = str_replace('"__CALLBACK__"', '"function(value){return value.toLocaleString();}"', json_encode($json));
 
+    /*
     $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
     $res = $mu_->get_contents($url);
     $url_length = strlen($url);
@@ -839,7 +841,13 @@ __HEREDOC__;
     $res = $mu_->shrink_image($file);
 
     unlink($file);
+    */
 
+    $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
+    exec('node ../scripts/chartjs_node.js 600 320 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    $res = file_get_contents($file);
+    unlink($file);
+    
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     $mu_->post_blog_hatena('waon balance', $description);
     $mu_->post_blog_fc2_async('waon balance', $description);
