@@ -16,4 +16,15 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 function func_20190801($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $user = getenv('TEST_USER');
+    $password = getenv('TEST_PASSWORD');
+    
+    $imap = imap_open('{imap.mail.yahoo.co.jp:993/ssl}', $user, $password);
+    
+    $list = imap_list($mbox, '{imap.mail.yahoo.co.jp:993/ssl}', '*');
+    
+    error_log(print_r($list, true));
+    
+    imap_close($imap);
 }
