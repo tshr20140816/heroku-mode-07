@@ -46,7 +46,7 @@ var config = {
         }
     }
 };
-console.error(util.inspect(config, false, null));
+console.error(util.inspect(JSON.parse(config), false, null));
 
 var chartJsOptions = JSON.parse(Buffer.from(process.argv[4], 'base64').toString('utf-8'));
 
