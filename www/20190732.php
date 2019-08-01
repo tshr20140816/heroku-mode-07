@@ -92,6 +92,11 @@ function func_20190732a($mu_, $file_name_rss_items_)
                                     'autoSkip' => false,
                                    ],
                        ];
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'ticks' => ['fontColor' => 'black',
+                                   ],
+                       ];
+    
     $json = ['type' => 'line',
              'data' => ['labels' => $labels,
                         'datasets' => [['data' => $data,
