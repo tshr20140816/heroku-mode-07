@@ -22,7 +22,7 @@ function func_20190801($mu_)
     
     $imap = imap_open('{imap.mail.yahoo.co.jp:993/ssl}', $user, $password);
     
-    $list = imap_list($mbox, '{imap.mail.yahoo.co.jp:993/ssl}', '*');
+    $list = imap_list($imap, '{imap.mail.yahoo.co.jp:993/ssl}', '*');
     
     error_log(print_r($list, true));
     
