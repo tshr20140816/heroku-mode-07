@@ -81,7 +81,7 @@ __HEREDOC__;
                                                                'mode' => 'horizontal',
                                                                'scaleID' => 'y-axis-0',
                                                                'value' => $data1[0]->y,
-                                                               'borderColor' => 'rgba(0,0,0,0)',
+                                                               // 'borderColor' => 'rgba(0,0,0,0)',
                                                                'borderWidth' => 1,
                                                                'label' => ['enabled' => true,
                                                                            'content' => number_format($data1[0]->y),
