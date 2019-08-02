@@ -1224,7 +1224,8 @@ __HEREDOC__;
                 CURLOPT_HTTPHEADER => ['Expect:',],
                 CURLOPT_HEADER => true,
             ];
-            $res = $this->get_contents($url, $options);
+            // $res = $this->get_contents($url, $options);
+            exec('curl -X PUT -m 20 -T ' . $file_name_ . ' ' . $url);
 
             $url = 'https://webdav.pcloud.com/' . $base_name;
             $options = [
