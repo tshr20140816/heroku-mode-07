@@ -1225,10 +1225,10 @@ __HEREDOC__;
                 CURLOPT_HEADER => true,
             ];
             // $res = $this->get_contents($url, $options);
-            $line = 'curl --verbose -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
-            error_log($line);
+            $line = 'curl -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
+            error_log($log_prefix . $line);
             exec($line, $res);
-            error_log(print_r($res, true));
+            error_log($log_prefix . print_r($res, true));
 
             $url = 'https://webdav.pcloud.com/' . $base_name;
             $options = [
@@ -1240,7 +1240,11 @@ __HEREDOC__;
                 CURLOPT_HTTPHEADER => ['Expect:',],
                 CURLOPT_HEADER => true,
             ];
-            $res = $this->get_contents($url, $options);
+            // $res = $this->get_contents($url, $options);
+            $line = 'curl -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_pcloud}:${password_pcloud} " . $url;
+            error_log($log_prefix . $line);
+            exec($line, $res);
+            error_log($log_prefix . print_r($res, true));
 
             $url = "https://${node_teracloud}.teracloud.jp/dav/${base_name}";
             $options = [
@@ -1252,7 +1256,11 @@ __HEREDOC__;
                 CURLOPT_HTTPHEADER => ['Expect:',],
                 CURLOPT_HEADER => true,
             ];
-            $res = $this->get_contents($url, $options);
+            // $res = $this->get_contents($url, $options);
+            $line = 'curl -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_teracloud}:${password_teracloud} " . $url;
+            error_log($log_prefix . $line);
+            exec($line, $res);
+            error_log($log_prefix . print_r($res, true));
 
             /*
             $url = 'https://webdav.opendrive.com/' . $base_name;
@@ -1277,7 +1285,11 @@ __HEREDOC__;
                 CURLOPT_HTTPHEADER => ['Expect:',],
                 CURLOPT_HEADER => true,
             ];
-            $res = $this->get_contents($url, $options);
+            // $res = $this->get_contents($url, $options);
+            $line = 'curl -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_cloudme}:${password_cloudme} " . $url;
+            error_log($log_prefix . $line);
+            exec($line, $res);
+            error_log($log_prefix . print_r($res, true));
 
             $url = 'https://webdav.4shared.com/' . $base_name;
             $options = [
@@ -1289,7 +1301,11 @@ __HEREDOC__;
                 CURLOPT_HTTPHEADER => ['Expect:',],
                 CURLOPT_HEADER => true,
             ];
-            $res = $this->get_contents($url, $options);
+            // $res = $this->get_contents($url, $options);
+            $line = 'curl -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_4shared}:${password_4shared} " . $url;
+            error_log($log_prefix . $line);
+            exec($line, $res);
+            error_log($log_prefix . print_r($res, true));
 
             fclose($fh);
 
