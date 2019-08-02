@@ -1040,7 +1040,7 @@ __HEREDOC__;
         
         error_log($log_prefix . 'START memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
         error_log($log_prefix . "file : ${file_name_}");
-        error_log($log_prefix . 'file size : ' . filesize($file_name_));
+        error_log($log_prefix . 'file size : ' . number_format(filesize($file_name_)));
 
         $base_name = pathinfo($file_name_)['basename'];
 
