@@ -152,6 +152,10 @@ function func_20190732f($mu_, $file_name_rss_items_, $pattern_ = 1)
                         'position' => 'right',
                         'ticks' => ['callback' => "function(value){return value.toLocaleString() + 'MB';}",],
                        ];
+    $scales->xAxes[] = ['id' => 'x-axis-0',
+                        'ticks' => ['autoSkip' => false,
+                                   ],
+                       ];
 
     $annotations[] = ['type' => 'line',
                       'mode' => 'horizontal',
@@ -182,7 +186,8 @@ function func_20190732f($mu_, $file_name_rss_items_, $pattern_ = 1)
              'data' => ['labels' => $labels,
                         'datasets' => $datasets,
                        ],
-             'options' => ['legend' => ['labels' => ['usePointStyle' => true
+             'options' => ['legend' => ['labels' => ['usePointStyle' => true,
+                                                     'fontColor' => 'black',
                                                     ],
                                        ],
                            'animation' => ['duration' => 0,
