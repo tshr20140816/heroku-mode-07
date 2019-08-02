@@ -74,6 +74,9 @@ function backup_opendrive($mu_)
         ];
         // $res = $mu_->get_contents($url, $options);
         $line = 'curl -v -m 600 -X PUT -T ' . "/tmp/${base_name}" . ' -u ' . "${user_opendrive}:${password_opendrive} " . $url;
+        if ($file_size > 10000000) {
+            $line .= ' &';
+        }
         error_log($log_prefix . $line);
         exec($line, $res);
         error_log($log_prefix . print_r($res, true));
