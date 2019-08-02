@@ -68,7 +68,7 @@ done
 popd
 set -x
 
-export WEB_CONCURRENCY=2
+export WEB_CONCURRENCY=3
 
 printenv | wc -c
 
