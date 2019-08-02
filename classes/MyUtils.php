@@ -1225,7 +1225,7 @@ __HEREDOC__;
                 CURLOPT_HEADER => true,
             ];
             // $res = $this->get_contents($url, $options);
-            $line = 'curl -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
+            $line = 'curl -v -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
             error_log($log_prefix . $line);
             exec($line, $res);
             error_log($log_prefix . print_r($res, true));
@@ -1242,7 +1242,7 @@ __HEREDOC__;
                 CURLOPT_HEADER => true,
             ];
             // $res = $this->get_contents($url, $options);
-            $line = 'curl -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_pcloud}:${password_pcloud} " . $url;
+            $line = 'curl -v -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_pcloud}:${password_pcloud} " . $url;
             error_log($log_prefix . $line);
             exec($line, $res);
             error_log($log_prefix . print_r($res, true));
@@ -1259,7 +1259,7 @@ __HEREDOC__;
                 CURLOPT_HEADER => true,
             ];
             // $res = $this->get_contents($url, $options);
-            $line = 'curl -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_teracloud}:${password_teracloud} " . $url;
+            $line = 'curl -v -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_teracloud}:${password_teracloud} " . $url;
             error_log($log_prefix . $line);
             exec($line, $res);
             error_log($log_prefix . print_r($res, true));
@@ -1289,7 +1289,7 @@ __HEREDOC__;
                 CURLOPT_HEADER => true,
             ];
             // $res = $this->get_contents($url, $options);
-            $line = 'curl -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_cloudme}:${password_cloudme} " . $url;
+            $line = 'curl -v -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_cloudme}:${password_cloudme} " . $url;
             error_log($log_prefix . $line);
             exec($line, $res);
             error_log($log_prefix . print_r($res, true));
@@ -1306,7 +1306,7 @@ __HEREDOC__;
                 CURLOPT_HEADER => true,
             ];
             // $res = $this->get_contents($url, $options);
-            $line = 'curl -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_4shared}:${password_4shared} " . $url;
+            $line = 'curl -v -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_4shared}:${password_4shared} " . $url;
             error_log($log_prefix . $line);
             exec($line, $res);
             error_log($log_prefix . print_r($res, true));
