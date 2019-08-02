@@ -76,7 +76,7 @@ function backup_opendrive($mu_)
         // $line = 'curl -v -m 600 -X PUT -T ' . "/tmp/${base_name}" . ' -u ' . "${user_opendrive}:${password_opendrive} " . $url;
         $line = 'curl -v -X PUT -T ' . "/tmp/${base_name}" . ' -u ' . "${user_opendrive}:${password_opendrive} " . $url;
         if ($file_size > 10000000) {
-            $line = 'curl -X PUT -T ' . "/tmp/${base_name}" . ' -u ' . "${user_opendrive}:${password_opendrive} " . $url . '  > /dev/null 2>&1 &';
+            $line = 'curl -X PUT -T ' . "/tmp/${base_name}" . ' -u ' . "${user_opendrive}:${password_opendrive} " . $url . ' > /dev/null 2>&1 &';
         }
         error_log($log_prefix . $line);
         exec($line, $res);
