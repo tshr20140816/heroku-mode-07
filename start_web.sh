@@ -68,6 +68,8 @@ done
 popd
 set -x
 
+export WEB_CONCURRENCY=2
+
 printenv | wc -c
 
 ls -lang /tmp
