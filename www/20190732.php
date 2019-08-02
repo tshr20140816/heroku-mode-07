@@ -9,12 +9,197 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190732e($mu, '/tmp/dummy20190732');
+func_20190732f($mu, '/tmp/dummy20190732');
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
+
+function func_20190732f($mu_, $file_name_rss_items_, $pattern_ = 1)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    for ($i = 0; $i < (int)date('t'); $i++) {
+        $labels[] = $i + 1;
+    }
+
+    $datasets = [];
+
+    switch ($pattern_) {
+        case 1:
+            $list = [['target' => 'toodledo',
+                      'color' => 'green',
+                      'size_color' => 'red',
+                     ],
+                     ['target' => 'redmine',
+                      'color' => 'blue',
+                      'size_color' => 'yellow',
+                     ],
+                    ];
+            break;
+        case 2:
+            $list = [['target' => 'ttrss',
+                      'color' => 'deepskyblue',
+                      'size_color' => 'orange',
+                     ],
+                    ];
+            break;
+    }
+
+    $annotations = [];
+    $level = 10000;
+    foreach ($list as $one_data) {
+        error_log(print_r($one_data, true));
+        $keyword = strtolower($one_data['target']);
+        for ($i = 0; $i < strlen($keyword); $i++) {
+            $keyword[$i] = chr(ord($keyword[$i]) + 1);
+        }
+
+        $res = $mu_->search_blog($keyword . 'sfdpsedpvou');
+
+        $data2 = [];
+        foreach (explode(' ', $res) as $item) {
+            $tmp1 = explode(',', $item);
+            $tmp2 = new stdClass();
+            $tmp2->x = (int)$tmp1[0];
+            $tmp2->y = (int)$tmp1[1];
+            $data2[] = $tmp2;
+        }
+
+        if (count($data2) < 2) {
+            return 0;
+        }
+
+        $level -= 1000;
+        $annotations[] = ['type' => 'line',
+                          'mode' => 'horizontal',
+                          'scaleID' => 'y-axis-0',
+                          'value' => $level,
+                          'borderColor' => 'rgba(0,0,0,0)',
+                          // 'borderWidth' => 1,
+                          'label' => ['enabled' => true,
+                                      'content' => number_format(end($data2)->y),
+                                      'position' => 'left',
+                                      'backgroundColor' => $one_data['color'],
+                                     ],
+                         ];
+
+        $datasets[] = ['data' => $data2,
+                       'fill' => false,
+                       'lineTension' => 0,
+                       'pointStyle' => 'circle',
+                       'backgroundColor' => $one_data['color'],
+                       'borderColor' => $one_data['color'],
+                       'borderWidth' => 3,
+                       'pointRadius' => 4,
+                       'pointBorderWidth' => 0,
+                       'label' => $one_data['target'] . ' record',
+                       'yAxisID' => 'y-axis-0',
+                      ];
+
+        $res = $mu_->search_blog($keyword . 'ebubcbtftjaf');
+
+        $data3 = [];
+        foreach (explode(' ', $res) as $item) {
+            $tmp1 = explode(',', $item);
+            $tmp2 = new stdClass();
+            $tmp2->x = (int)$tmp1[0];
+            $tmp2->y = ceil((int)$tmp1[1] / 1024 / 1024);
+            $data3[] = $tmp2;
+        }
+
+        $annotations[] = ['type' => 'line',
+                          'mode' => 'horizontal',
+                          'scaleID' => 'y-axis-0',
+                          'value' => $level,
+                          'borderColor' => 'rgba(0,0,0,0)',
+                          // 'borderWidth' => 1,
+                          'label' => ['enabled' => true,
+                                      'content' => number_format(end($data3)->y),
+                                      'position' => 'right',
+                                      'backgroundColor' => $one_data['size_color'],
+                                      'fontColor' => 'black',
+                                     ],
+                         ];
+
+        $datasets[] = ['data' => $data3,
+                       'fill' => false,
+                       'lineTension' => 0,
+                       'pointStyle' => 'star',
+                       'backgroundColor' => $one_data['size_color'],
+                       'borderColor' => $one_data['size_color'],
+                       'borderWidth' => 2,
+                       'pointRadius' => 3,
+                       'pointBorderWidth' => 0,
+                       'label' => 'size',
+                       'yAxisID' => 'y-axis-1',
+                      ];
+    }
+
+    $scales = new stdClass();
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'display' => true,
+                        'position' => 'left',
+                        'ticks' => ['callback' => '"function(value){return value.toLocaleString();}"',],
+                       ];
+    $scales->yAxes[] = ['id' => 'y-axis-1',
+                        'display' => true,
+                        'position' => 'right',
+                        'ticks' => ['callback' => '"function(value){return value.toLocaleString() + \'MB\';}"',],
+                       ];
+
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-0',
+                      'value' => 0,
+                      'borderColor' => 'rgba(0,0,0,0)',
+                     ];
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-0',
+                      'value' => 10000,
+                      'borderColor' => 'red',
+                     ];
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-1',
+                      'value' => 0,
+                      'borderColor' => 'rgba(0,0,0,0)',
+                     ];
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-1',
+                      'value' => 1000,
+                      'borderColor' => 'rgba(0,0,0,0)',
+                     ];
+
+    $json = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => $datasets,
+                       ],
+             'options' => ['legend' => ['labels' => ['usePointStyle' => true
+                                                    ],
+                                       ],
+                           'animation' => ['duration' => 0,
+                                          ],
+                           'hover' => ['animationDuration' => 0,
+                                      ],
+                           'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
+                           'annotation' => ['annotations' => $annotations,
+                                           ],
+                          ],
+            ];
+
+    $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
+    exec('node ../scripts/chartjs_node.js 600 360 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    $res = file_get_contents($file);
+    unlink($file);
+    
+    header('Content-Type: image/png');
+    echo $res;
+}
 
 function func_20190732e($mu_, $file_name_rss_items_)
 {
