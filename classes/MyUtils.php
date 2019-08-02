@@ -779,6 +779,7 @@ __HEREDOC__;
             CURLOPT_TCP_FASTOPEN => true,
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2TLS,
+            CURLOPT_TIMEOUT => 25,
         ];
 
         if (is_null($options_) === false && array_key_exists(CURLOPT_USERAGENT, $options_)) {
