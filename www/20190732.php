@@ -36,6 +36,10 @@ function func_20190732f($mu_, $file_name_rss_items_, $pattern_ = 1)
                       'color' => 'blue',
                       'size_color' => 'yellow',
                      ],
+                     ['target' => 'ttrss',
+                      'color' => 'deepskyblue',
+                      'size_color' => 'orange',
+                     ],
                     ];
             break;
         case 2:
