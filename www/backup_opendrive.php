@@ -72,7 +72,12 @@ function backup_opendrive($mu_)
             CURLOPT_INFILESIZE => $file_size,
             CURLOPT_HEADER => true,
         ];
-        $res = $mu_->get_contents($url, $options);
+        // $res = $mu_->get_contents($url, $options);
+        $line = 'curl -v -m 20 -X PUT -T ' . $file . ' -u ' . "${user_opendrive}:${password_opendrive} " . $url;
+        error_log($log_prefix . $line);
+        exec($line, $res);
+        error_log($log_prefix . print_r($res, true));
+        $res = null;
 
         fclose($fh);
         unlink("/tmp/${base_name}");
