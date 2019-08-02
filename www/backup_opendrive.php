@@ -73,7 +73,8 @@ function backup_opendrive($mu_)
             CURLOPT_HEADER => true,
         ];
         // $res = $mu_->get_contents($url, $options);
-        $line = 'curl -v -m 600 -X PUT -T ' . "/tmp/${base_name}" . ' -u ' . "${user_opendrive}:${password_opendrive} " . $url;
+        // $line = 'curl -v -m 600 -X PUT -T ' . "/tmp/${base_name}" . ' -u ' . "${user_opendrive}:${password_opendrive} " . $url;
+        $line = 'curl -v -X PUT -T ' . "/tmp/${base_name}" . ' -u ' . "${user_opendrive}:${password_opendrive} " . $url;
         if ($file_size > 10000000) {
             $line .= ' &';
         }
