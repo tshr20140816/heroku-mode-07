@@ -141,12 +141,12 @@ function func_20190732f($mu_, $file_name_rss_items_, $pattern_ = 1)
     $scales->yAxes[] = ['id' => 'y-axis-0',
                         'display' => true,
                         'position' => 'left',
-                        'ticks' => ['callback' => '"function(value){return value.toLocaleString();}"',],
+                        'ticks' => ['callback' => 'function(value){return value.toLocaleString();}',],
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-1',
                         'display' => true,
                         'position' => 'right',
-                        'ticks' => ['callback' => '"function(value){return value.toLocaleString() + \'MB\';}"',],
+                        'ticks' => ['callback' => "function(value){return value.toLocaleString() + 'MB';}",],
                        ];
 
     $annotations[] = ['type' => 'line',
