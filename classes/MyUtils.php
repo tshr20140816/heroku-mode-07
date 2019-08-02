@@ -923,7 +923,8 @@ __HEREDOC__;
                         CURLOPT_PATH_AS_IS => true,
                         CURLOPT_TCP_FASTOPEN => true,
                         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2TLS,
-            ];
+                        CURLOPT_TIMEOUT => 25,
+                       ];
 
             if (is_null($options_add) === false && array_key_exists(CURLOPT_USERAGENT, $options_add)) {
                 unset($options[CURLOPT_USERAGENT]);
@@ -1232,6 +1233,7 @@ __HEREDOC__;
                 CURLOPT_PUT => true,
                 CURLOPT_INFILE => $fh,
                 CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HTTPHEADER => ['Expect:',],
                 CURLOPT_HEADER => true,
             ];
             $res = $this->get_contents($url, $options);
@@ -1243,6 +1245,7 @@ __HEREDOC__;
                 CURLOPT_PUT => true,
                 CURLOPT_INFILE => $fh,
                 CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HTTPHEADER => ['Expect:',],
                 CURLOPT_HEADER => true,
             ];
             $res = $this->get_contents($url, $options);
@@ -1267,6 +1270,7 @@ __HEREDOC__;
                 CURLOPT_PUT => true,
                 CURLOPT_INFILE => $fh,
                 CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HTTPHEADER => ['Expect:',],
                 CURLOPT_HEADER => true,
             ];
             $res = $this->get_contents($url, $options);
@@ -1278,6 +1282,7 @@ __HEREDOC__;
                 CURLOPT_PUT => true,
                 CURLOPT_INFILE => $fh,
                 CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HTTPHEADER => ['Expect:',],
                 CURLOPT_HEADER => true,
             ];
             $res = $this->get_contents($url, $options);
@@ -1308,6 +1313,7 @@ __HEREDOC__;
                 CURLOPT_PUT => true,
                 CURLOPT_INFILE => end($list_fh),
                 CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HTTPHEADER => ['Expect:',],
                 CURLOPT_HEADER => true,
             ];
             $urls[$url] = $options;
@@ -1323,6 +1329,7 @@ __HEREDOC__;
                 CURLOPT_PUT => true,
                 CURLOPT_INFILE => end($list_fh),
                 CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HTTPHEADER => ['Expect:',],
                 CURLOPT_HEADER => true,
             ];
             $urls[$url] = $options;
@@ -1338,6 +1345,7 @@ __HEREDOC__;
                 CURLOPT_PUT => true,
                 CURLOPT_INFILE => end($list_fh),
                 CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HTTPHEADER => ['Expect:',],
                 CURLOPT_HEADER => true,
             ];
             $urls[$url] = $options;
@@ -1370,6 +1378,7 @@ __HEREDOC__;
                 CURLOPT_PUT => true,
                 CURLOPT_INFILE => end($list_fh),
                 CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HTTPHEADER => ['Expect:',],
                 CURLOPT_HEADER => true,
             ];
             $urls[$url] = $options;
@@ -1385,6 +1394,7 @@ __HEREDOC__;
                 CURLOPT_PUT => true,
                 CURLOPT_INFILE => end($list_fh),
                 CURLOPT_INFILESIZE => $file_size,
+                CURLOPT_HTTPHEADER => ['Expect:',],
                 CURLOPT_HEADER => true,
             ];
             $urls[$url] = $options;
