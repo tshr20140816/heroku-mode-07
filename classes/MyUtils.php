@@ -1225,7 +1225,7 @@ __HEREDOC__;
                 CURLOPT_HEADER => true,
             ];
             // $res = $this->get_contents($url, $options);
-            $line = 'curl --verbose -X PUT -T ' . $file_name_ . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
+            $line = 'curl --verbose -m 20 -X PUT -T ' . $file_name_ . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
             error_log($line);
             exec($line, $res);
             error_log(print_r($res, true));
