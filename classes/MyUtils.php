@@ -1068,6 +1068,7 @@ __HEREDOC__;
         $authtoken_zoho = $this->get_env('ZOHO_AUTHTOKEN', true);
 
         $res = bzcompress($data_, 9);
+        $data_ = null;
         $method = 'aes-256-cbc';
         $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
         $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
