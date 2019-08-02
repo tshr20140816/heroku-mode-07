@@ -1208,7 +1208,8 @@ __HEREDOC__;
 
         $urls = [];
         $file_size = filesize($file_name_);
-        if ($file_size > (1024 ** 2 * 2)) {
+        // if ($file_size > (1024 ** 2 * 2)) {
+        if ($file_size > 0) {
             $fh = fopen($file_name_, 'rb');
 
             $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
