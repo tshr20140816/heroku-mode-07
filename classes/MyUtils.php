@@ -1226,7 +1226,7 @@ __HEREDOC__;
             ];
             // $res = $this->get_contents($url, $options);
             $line = 'curl -X PUT -T ' . $file_name_ . ' ' . $url;
-            error_log($line)
+            error_log($line);
             exec($line, $res);
             error_log(print_r($res, true));
 
