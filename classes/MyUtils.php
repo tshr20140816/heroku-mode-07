@@ -1229,6 +1229,7 @@ __HEREDOC__;
             error_log($log_prefix . $line);
             exec($line, $res);
             error_log($log_prefix . print_r($res, true));
+            $res = null;
 
             $url = 'https://webdav.pcloud.com/' . $base_name;
             $options = [
@@ -1245,6 +1246,7 @@ __HEREDOC__;
             error_log($log_prefix . $line);
             exec($line, $res);
             error_log($log_prefix . print_r($res, true));
+            $res = null;
 
             $url = "https://${node_teracloud}.teracloud.jp/dav/${base_name}";
             $options = [
@@ -1261,6 +1263,7 @@ __HEREDOC__;
             error_log($log_prefix . $line);
             exec($line, $res);
             error_log($log_prefix . print_r($res, true));
+            $res = null;
 
             /*
             $url = 'https://webdav.opendrive.com/' . $base_name;
@@ -1290,6 +1293,7 @@ __HEREDOC__;
             error_log($log_prefix . $line);
             exec($line, $res);
             error_log($log_prefix . print_r($res, true));
+            $res = null;
 
             $url = 'https://webdav.4shared.com/' . $base_name;
             $options = [
@@ -1306,6 +1310,7 @@ __HEREDOC__;
             error_log($log_prefix . $line);
             exec($line, $res);
             error_log($log_prefix . print_r($res, true));
+            $res = null;
 
             fclose($fh);
 
