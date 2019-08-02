@@ -1037,6 +1037,10 @@ __HEREDOC__;
     public function backup_data($data_, $file_name_)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        
+        error_log($log_prefix . 'START memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
+        error_log($log_prefix . "file : ${file_name_}");
+        error_log($log_prefix . 'file size : ' . filesize($file_name_));
 
         $base_name = pathinfo($file_name_)['basename'];
 
@@ -1069,14 +1073,17 @@ __HEREDOC__;
 
         $res = bzcompress($data_, 9);
         $data_ = null;
+        error_log($log_prefix . 'bzcompress memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
         $method = 'aes-256-cbc';
         $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
         $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
         $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $iv);
+        error_log($log_prefix . 'openssl_encrypt memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
 
         $res = base64_encode($res);
         error_log($log_prefix . $base_name . ' size : ' . number_format(strlen($res)));
         file_put_contents($file_name_, $res);
+        $res = null;
 
         $urls = [];
 
@@ -1452,6 +1459,8 @@ __HEREDOC__;
         error_log($log_prefix . 'finish exec');
         */
         unlink($file_name_);
+
+        error_log($log_prefix . 'FINISH memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
 
         return $file_size;
     }
