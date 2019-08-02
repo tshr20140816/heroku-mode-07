@@ -844,7 +844,7 @@ __HEREDOC__;
             error_log($log_prefix . '$res : ' . $res);
             $res = $http_code;
 
-            if ($http_code == '429' || $http_code == '502' || $http_code == '503') {
+            if ($http_code == '100' || $http_code == '429' || $http_code == '502' || $http_code == '503') {
                 // 429 quickchart
                 // 502 my.cl (CloudApp)
                 // 503 feed43
