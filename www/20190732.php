@@ -9,12 +9,19 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190732f($mu, '/tmp/dummy20190732');
+func_20190732g($mu, '/tmp/dummy20190732');
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
+
+function func_20190732g($mu_, $file_name_rss_items_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $url = '';
+}
 
 function func_20190732f($mu_, $file_name_rss_items_, $pattern_ = 1)
 {
