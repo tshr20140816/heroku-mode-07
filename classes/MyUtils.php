@@ -1079,7 +1079,7 @@ __HEREDOC__;
         $rc = file_put_contents($file_name, $data_);
         $data_ = null;
         $res = null;
-        exec('bazip2 -v ' . $file_name, $res);
+        exec('bzip2 -v ' . $file_name, $res);
         error_log(print_r($res, true));
         $res = file_get_contents($file_name . '.bz2');
         unlink($file_name . '.bz2');
