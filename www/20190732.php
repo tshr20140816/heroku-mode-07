@@ -85,7 +85,7 @@ function func_20190732g($mu_, $file_name_rss_items_)
     $central['ヤクルト'] = 'green';
     
     foreach ($central as $key => $value) {
-    $datasets[] = ['data' => $key,
+    $datasets[] = ['data' => $data[$key],
                    'fill' => false,
                    'lineTension' => 0,
                    'pointStyle' => 'circle',
