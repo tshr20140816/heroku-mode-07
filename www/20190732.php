@@ -32,6 +32,7 @@ function func_20190732g($mu_, $file_name_rss_items_)
             $rc = preg_match('/<div class="team1">(.+?)<.+?<div class="score1">(\d+)<.+?<div class="score2">(\d+)<.+?<div class="team2">(.+?)</s', $item, $match);
             // error_log(print_r($match, true));
             if ($rc === 1) {
+                $ymd = '2019' . substr($item, 0, 4);
                 $results[] = substr($item, 0, 4) . ' ' . $match[1] . ' ' . $match[2] . ' - ' . $match[3] . ' ' . $match[4];
                 if (array_key_exists($match[1], $dic_results) === false) {
                     $dic_results[$match[1]]['win'] = 0;
