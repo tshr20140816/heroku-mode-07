@@ -20,18 +20,20 @@ function func_20190732g($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $url = 'http://npb.jp/games/2019/schedule_03_detail.html';
-    $res = $mu_->get_contents($url);
-    // error_log($res);
-    
-    $tmp = explode('<tr id="date', $res);
-    // error_log(print_r($tmp, true));
-    
-    foreach ($tmp as $item) {
-        error_log(substr($item, 0, 4));
-        $rc = preg_match('/<div class="team1">(.+?)<.+?<div class="score1">(\d+)<.+?<div class="score2">(\d+)<.+?<div class="team2">(.+?)</s', $item, $match);
-        error_log(print_r($match, true));
+    $results = [];
+    for ($i = 3; $i < 11; $i++) {
+        $url = 'http://npb.jp/games/2019/schedule_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_detail.html';
+        $res = $mu_->get_contents($url);
+
+        $tmp = explode('<tr id="date', $res);
+        foreach ($tmp as $item) {
+            error_log(substr($item, 0, 4));
+            $rc = preg_match('/<div class="team1">(.+?)<.+?<div class="score1">(\d+)<.+?<div class="score2">(\d+)<.+?<div class="team2">(.+?)</s', $item, $match);
+            // error_log(print_r($match, true));
+            $results[] = $match[1] . ' ' . $match[2] . ' - ' . $match[3] . ' ' . $match[4];
+        }
     }
+    error_log(print_r($results, true));
 }
 
 function func_20190732f($mu_, $file_name_rss_items_, $pattern_ = 1)
