@@ -26,7 +26,7 @@ function func_20190732g($mu_, $file_name_rss_items_)
     
     $tmp = explode('" rowspan="6">', $res);
     foreach ($tmp as $item) {
-        if (preg_match('\d', substr($item, 0, 1)) === 1) {
+        if (preg_match('/\d/', substr($item, 0, 1)) === 1) {
             error_log(substr($item, 0, 20));
         }
     }
