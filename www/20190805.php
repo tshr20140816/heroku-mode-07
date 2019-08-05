@@ -28,7 +28,7 @@ function func_20190805($mu_)
     error_log($log_prefix . print_r($res, true));
     
     $res = hash_file('sha256', $file_name);
-    error_log($log_prefix . 'sha256 start : ' . $res);
+    // error_log($log_prefix . 'sha256 start : ' . $res);
     
     $file_name_ = $file_name;
     
@@ -38,6 +38,9 @@ function func_20190805($mu_)
 function func_20190805b($mu_, $file_name_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    @unlink($file_name_ . '.bz2');
+    @unlink($file_name_ . '.enc');
     
     $base_name = pathinfo($file_name_)['basename'];
     
@@ -53,5 +56,13 @@ function func_20190805b($mu_, $file_name_)
     $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
     $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $iv);
     
-    $line = 'openssl ' . $method . ' -e base64 -iv ' . $iv . '';
+    $line = 'openssl ' . $method . ' -e base64 -iv ' . $iv . ' -pass ' . $password . ' -in ' . $file_name_ . '.bz2 -out ' . $file_name_ . '.enc';
+    error_log($log_prefix . $line);
+    
+    $res = null;
+    exec($line, $res);
+    error_log($log_prefix . print_r($res, true));
+    
+    $res = hash_file('sha256', $file_name_ . '.enc');
+    error_log($log_prefix . $res);
 }
