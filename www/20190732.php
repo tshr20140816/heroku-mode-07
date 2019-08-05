@@ -22,7 +22,7 @@ function func_20190732g($mu_, $file_name_rss_items_)
     
     $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=20190329';
     $res = $mu_->get_contents($url);
-    error_log($url);
+    error_log($res);
 }
 
 function func_20190732f($mu_, $file_name_rss_items_, $pattern_ = 1)
