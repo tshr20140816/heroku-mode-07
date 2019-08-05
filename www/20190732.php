@@ -72,9 +72,48 @@ function func_20190732g($mu_, $file_name_rss_items_)
             }
         }
     }
-    error_log(print_r($results, true));
-    error_log(print_r($dic_results, true));
-    error_log(print_r($data, true));
+    // error_log(print_r($results, true));
+    // error_log(print_r($dic_results, true));
+    // error_log(print_r($data, true));
+
+    $datasets[] = ['data' => $data['広島'],
+                   'fill' => false,
+                   'lineTension' => 0,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'red',
+                   'borderColor' => 'red',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                   'pointBorderWidth' => 0,
+                   'yAxisID' => 'y-axis-0',
+                  ];
+    
+    $json = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => $datasets,
+                       ],
+             'options' => ['legend' => ['labels' => ['usePointStyle' => true,
+                                                     'fontColor' => 'black',
+                                                    ],
+                                       ],
+                           'animation' => ['duration' => 0,
+                                          ],
+                           'hover' => ['animationDuration' => 0,
+                                      ],
+                           'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
+                           'annotation' => ['annotations' => $annotations,
+                                           ],
+                          ],
+            ];
+
+    $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
+    exec('node ../scripts/chartjs_node.js 1200 600 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    $res = file_get_contents($file);
+    unlink($file);
+    
+    header('Content-Type: image/png');
+    echo $res;
 }
 
 function func_20190732f($mu_, $file_name_rss_items_, $pattern_ = 1)
