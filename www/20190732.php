@@ -106,6 +106,7 @@ function func_20190732g($mu_, $file_name_rss_items_)
                                    ],
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'position' => 'right',
                         'ticks' => ['stepSize' => 2,
                                    ],
                        ];
