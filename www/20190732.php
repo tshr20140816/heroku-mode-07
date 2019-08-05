@@ -22,7 +22,9 @@ function func_20190732g($mu_, $file_name_rss_items_)
     
     $results = [];
     $dic_results = [];
-    $ymd = '';
+    $md = '';
+    $labels = [];
+    $data = [];
     for ($i = 3; $i < 11; $i++) {
         $url = 'http://npb.jp/games/2019/schedule_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_detail.html';
         $res = $mu_->get_contents($url, null, true);
@@ -33,7 +35,10 @@ function func_20190732g($mu_, $file_name_rss_items_)
             $rc = preg_match('/<div class="team1">(.+?)<.+?<div class="score1">(\d+)<.+?<div class="score2">(\d+)<.+?<div class="team2">(.+?)</s', $item, $match);
             // error_log(print_r($match, true));
             if ($rc === 1) {
-                $ymd = '2019' . substr($item, 0, 4);
+                $md = substr($item, 0, 4);
+                if (in_array($md, $labels, true) !== true) {
+                    $labels[] = $md;
+                }
                 $results[] = substr($item, 0, 4) . ' ' . $match[1] . ' ' . $match[2] . ' - ' . $match[3] . ' ' . $match[4];
                 if (array_key_exists($match[1], $dic_results) === false) {
                     $dic_results[$match[1]]['win'] = 0;
@@ -55,11 +60,21 @@ function func_20190732g($mu_, $file_name_rss_items_)
                     $dic_results[$match[1]]['draw']++;
                     $dic_results[$match[4]]['draw']++;
                 }
+                $tmp1 = new stdClass();
+                $tmp1=>x = $md;
+                $tmp1->y = $dic_results[$match[1]]['win'] - $dic_results[$match[1]]['lose'];
+                $data[$match[1]][] = $tmp1;
+                
+                $tmp1 = new stdClass();
+                $tmp1=>x = $md;
+                $tmp1->y = $dic_results[$match[4]]['win'] - $dic_results[$match[4]]['lose'];
+                $data[$match[4]][] = $tmp1;
             }
         }
     }
     error_log(print_r($results, true));
     error_log(print_r($dic_results, true));
+    error_log(print_r($data, true));
 }
 
 function func_20190732f($mu_, $file_name_rss_items_, $pattern_ = 1)
