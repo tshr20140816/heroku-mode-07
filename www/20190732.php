@@ -124,7 +124,7 @@ function func_20190732g($mu_, $file_name_rss_items_)
                    'yAxisID' => 'y-axis-0',
                   ];
 
-    $datasets[] = ['data' => $data['横浜'],
+    $datasets[] = ['data' => $data['DeNA'],
                    'fill' => false,
                    'lineTension' => 0,
                    'pointStyle' => 'circle',
