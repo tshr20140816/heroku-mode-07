@@ -74,7 +74,7 @@ function func_20190732g($mu_, $file_name_rss_items_)
     }
     // error_log(print_r($results, true));
     // error_log(print_r($dic_results, true));
-    error_log(print_r($data, true));
+    // error_log(print_r($data, true));
 
     $datasets[] = ['data' => $data['広島'],
                    'fill' => false,
@@ -150,6 +150,7 @@ function func_20190732g($mu_, $file_name_rss_items_)
     $scales = new stdClass();
     $scales->xAxes[] = ['id' => 'x-axis-0',
                         'ticks' => ['autoSkip' => false,
+                                    'fontSize' => 4,
                                    ],
                        ];
     
