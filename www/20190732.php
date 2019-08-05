@@ -150,7 +150,7 @@ function func_20190732g($mu_, $file_name_rss_items_)
     $scales = new stdClass();
     $scales->xAxes[] = ['id' => 'x-axis-0',
                         'ticks' => ['autoSkip' => false,
-                                    'fontSize' => 4,
+                                    'fontSize' => 8,
                                    ],
                        ];
     
