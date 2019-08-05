@@ -22,14 +22,10 @@ function func_20190732g($mu_, $file_name_rss_items_)
     
     $url = 'http://npb.jp/games/2019/schedule_03_detail.html';
     $res = $mu_->get_contents($url);
-    error_log($res);
+    // error_log($res);
     
-    $tmp = explode('" rowspan="6">', $res);
-    foreach ($tmp as $item) {
-        if (preg_match('/\d/', substr($item, 0, 1)) === 1) {
-            error_log(substr($item, 0, 20));
-        }
-    }
+    $tmp = explode('<tr id="date', $res);
+    error_log(print_r($tmp, true));
     
     // $rc = preg_match_all('//s', $res, $matches);
     // error_log(print_r($matches, true));
