@@ -61,12 +61,12 @@ function func_20190732g($mu_, $file_name_rss_items_)
                     $dic_results[$match[4]]['draw']++;
                 }
                 $tmp1 = new stdClass();
-                $tmp1=>x = $md;
+                $tmp1->x = $md;
                 $tmp1->y = $dic_results[$match[1]]['win'] - $dic_results[$match[1]]['lose'];
                 $data[$match[1]][] = $tmp1;
                 
                 $tmp1 = new stdClass();
-                $tmp1=>x = $md;
+                $tmp1->x = $md;
                 $tmp1->y = $dic_results[$match[4]]['win'] - $dic_results[$match[4]]['lose'];
                 $data[$match[4]][] = $tmp1;
             }
