@@ -87,6 +87,18 @@ function func_20190732g($mu_, $file_name_rss_items_)
                    'pointBorderWidth' => 0,
                    'yAxisID' => 'y-axis-0',
                   ];
+
+    $datasets[] = ['data' => $data['巨人'],
+                   'fill' => false,
+                   'lineTension' => 0,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'orange',
+                   'borderColor' => 'orange',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                   'pointBorderWidth' => 0,
+                   'yAxisID' => 'y-axis-0',
+                  ];
     
     $json = ['type' => 'line',
              'data' => ['labels' => $labels,
