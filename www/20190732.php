@@ -23,6 +23,14 @@ function func_20190732g($mu_, $file_name_rss_items_)
     $url = 'http://npb.jp/games/2019/schedule_03_detail.html';
     $res = $mu_->get_contents($url);
     error_log($res);
+    
+    $tmp = explode('" rowspan="6">', $tmp);
+    foreach ($tmp as $item) {
+        error_log(substr($item, 0, 20));
+    }
+    
+    // $rc = preg_match_all('//s', $res, $matches);
+    // error_log(print_r($matches, true));
 }
 
 function func_20190732f($mu_, $file_name_rss_items_, $pattern_ = 1)
