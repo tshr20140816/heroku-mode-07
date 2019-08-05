@@ -25,10 +25,13 @@ function func_20190732g($mu_, $file_name_rss_items_)
     // error_log($res);
     
     $tmp = explode('<tr id="date', $res);
-    error_log(print_r($tmp, true));
+    // error_log(print_r($tmp, true));
     
-    // $rc = preg_match_all('//s', $res, $matches);
-    // error_log(print_r($matches, true));
+    foreach ($tmp as $item) {
+        error_log(substr($item, 0, 4));
+        $rc = preg_match('/<div class="team1">(.+?)<.+?<div class="score1">(\d+)<.+?<div class="score2">(\d+)<.+?<div class="team2">(.+?)</', $item, $match);
+        error_log(print_r($match, true));
+    }
 }
 
 function func_20190732f($mu_, $file_name_rss_items_, $pattern_ = 1)
