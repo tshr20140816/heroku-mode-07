@@ -1075,8 +1075,15 @@ __HEREDOC__;
 
         // debug_print_backtrace();
         // $res = bzcompress($data_, 9);
-        $res = bzcompress($data_);
+        $file_name = tempnam("/tmp", 'bz_' .  md5(microtime(true)));
+        $rc = file_put_contents($file_name, $data_);
         $data_ = null;
+        $res = null;
+        exec('bazip2 -v ' . $file_name, $res);
+        error_log(print_r($res, true));
+        $res = file_get_contents($file_name . '.bz2');
+        unlink($file_name . '.bz2');
+        
         error_log($log_prefix . 'bzcompress memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
         $method = 'aes-256-cbc';
         $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
