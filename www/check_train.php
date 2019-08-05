@@ -268,11 +268,13 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
             if ($dest === ($direction_ === '0' ? '糸崎' : '岩国')) {
                 $dest = '★';
             }
+            /*
             if ((int)$tmp->x === 0) {
                 $dest = str_repeat('　', mb_strlen($dest)) . $dest;
             } else if ((int)$tmp->x === (count($labels['station']) - 1)) {
                 $dest .= str_repeat('　', mb_strlen($dest));
             }
+            */
             if ($train['delayMinutes'] != '0') {
                 if ($train['notice'] != '' || $train['displayType'] != '普通') {
                     $data['delay_etc'][] = $tmp;
