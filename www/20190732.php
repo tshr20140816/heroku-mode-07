@@ -21,6 +21,7 @@ function func_20190732g($mu_, $file_name_rss_items_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
     $results = [];
+    $dic_results = [];
     for ($i = 3; $i < 11; $i++) {
         $url = 'http://npb.jp/games/2019/schedule_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_detail.html';
         $res = $mu_->get_contents($url, null, true);
@@ -32,10 +33,31 @@ function func_20190732g($mu_, $file_name_rss_items_)
             // error_log(print_r($match, true));
             if ($rc === 1) {
                 $results[] = substr($item, 0, 4) . ' ' . $match[1] . ' ' . $match[2] . ' - ' . $match[3] . ' ' . $match[4];
+                if (array_key_exists($dic_results, $match[1]) === false) {
+                    $dic_results[$match[1]]['win'] = 0;
+                    $dic_results[$match[1]]['lose'] = 0;
+                    $dic_results[$match[1]]['draw'] = 0;
+                }
+                if (array_key_exists($dic_results, $match[4]) === false) {
+                    $dic_results[$match[4]]['win'] = 0;
+                    $dic_results[$match[4]]['lose'] = 0;
+                    $dic_results[$match[4]]['draw'] = 0;
+                }
+                if ((int)$match[2] > (int)$match[3]) {
+                    $dic_results[$match[1]]['win']++;
+                    $dic_results[$match[4]]['lose']++;
+                } else if ((int)$match[2] < (int)$match[3]) {
+                    $dic_results[$match[1]]['lose']++;
+                    $dic_results[$match[4]]['win']++;
+                } else {
+                    $dic_results[$match[1]]['draw']++;
+                    $dic_results[$match[4]]['draw']++;
+                }
             }
         }
     }
     error_log(print_r($results, true));
+    error_log(print_r($dic_results, true));
 }
 
 function func_20190732f($mu_, $file_name_rss_items_, $pattern_ = 1)
