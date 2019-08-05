@@ -26,7 +26,8 @@ function func_20190732g($mu_, $file_name_rss_items_)
     $labels = [];
     $data = [];
     for ($i = 3; $i < 11; $i++) {
-        $url = 'http://npb.jp/games/2019/schedule_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_detail.html';
+        // $url = 'http://npb.jp/games/2019/schedule_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_detail.html';
+        $url = 'http://npb.jp/games/2018/schedule_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_detail.html';
         $res = $mu_->get_contents($url, null, true);
 
         $tmp = explode('<tr id="date', $res);
