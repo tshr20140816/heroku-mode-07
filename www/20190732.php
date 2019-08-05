@@ -76,77 +76,29 @@ function func_20190732g($mu_, $file_name_rss_items_)
     // error_log(print_r($dic_results, true));
     // error_log(print_r($data, true));
 
-    $datasets[] = ['data' => $data['広島'],
+    $central = [];
+    $central['広島'] = 'red';
+    $central['巨人'] = 'orange';
+    $central['阪神'] = 'yellow';
+    $central['中日'] = 'blue';
+    $central['DeNA'] = 'navy';
+    $central['ヤクルト'] = 'green';
+    
+    foreach ($central as $key => $value) {
+    $datasets[] = ['data' => $key,
                    'fill' => false,
                    'lineTension' => 0,
                    'pointStyle' => 'circle',
-                   'backgroundColor' => 'red',
-                   'borderColor' => 'red',
+                   'backgroundColor' => $value,
+                   'borderColor' => $value,
                    'borderWidth' => 1,
                    'pointRadius' => 0,
                    'pointBorderWidth' => 0,
                    'yAxisID' => 'y-axis-0',
+                   'label' => $key,
                   ];
+    }
 
-    $datasets[] = ['data' => $data['巨人'],
-                   'fill' => false,
-                   'lineTension' => 0,
-                   'pointStyle' => 'circle',
-                   'backgroundColor' => 'orange',
-                   'borderColor' => 'orange',
-                   'borderWidth' => 1,
-                   'pointRadius' => 0,
-                   'pointBorderWidth' => 0,
-                   'yAxisID' => 'y-axis-0',
-                  ];
-
-    $datasets[] = ['data' => $data['阪神'],
-                   'fill' => false,
-                   'lineTension' => 0,
-                   'pointStyle' => 'circle',
-                   'backgroundColor' => 'yellow',
-                   'borderColor' => 'yellow',
-                   'borderWidth' => 1,
-                   'pointRadius' => 0,
-                   'pointBorderWidth' => 0,
-                   'yAxisID' => 'y-axis-0',
-                  ];
-
-    $datasets[] = ['data' => $data['中日'],
-                   'fill' => false,
-                   'lineTension' => 0,
-                   'pointStyle' => 'circle',
-                   'backgroundColor' => 'blue',
-                   'borderColor' => 'blue',
-                   'borderWidth' => 1,
-                   'pointRadius' => 0,
-                   'pointBorderWidth' => 0,
-                   'yAxisID' => 'y-axis-0',
-                  ];
-
-    $datasets[] = ['data' => $data['DeNA'],
-                   'fill' => false,
-                   'lineTension' => 0,
-                   'pointStyle' => 'circle',
-                   'backgroundColor' => 'navy',
-                   'borderColor' => 'navy',
-                   'borderWidth' => 1,
-                   'pointRadius' => 0,
-                   'pointBorderWidth' => 0,
-                   'yAxisID' => 'y-axis-0',
-                  ];
-
-    $datasets[] = ['data' => $data['ヤクルト'],
-                   'fill' => false,
-                   'lineTension' => 0,
-                   'pointStyle' => 'circle',
-                   'backgroundColor' => 'green',
-                   'borderColor' => 'green',
-                   'borderWidth' => 1,
-                   'pointRadius' => 0,
-                   'pointBorderWidth' => 0,
-                   'yAxisID' => 'y-axis-0',
-                  ];
     $scales = new stdClass();
     $scales->xAxes[] = ['id' => 'x-axis-0',
                         'ticks' => ['autoSkip' => false,
