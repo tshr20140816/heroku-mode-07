@@ -21,8 +21,16 @@ function get_twitter_jaxa($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $url = 'http://twitrss.me/twitter_user_to_rss/?user=JAXA_JP';
-    $res = $mu_->get_contents($url);
+    for ($i = 0; $i < 3; $i++) {
+        $url = 'http://twitrss.me/twitter_user_to_rss/?user=JAXA_JP';
+        $res = $mu_->get_contents($url);
+        if (strlen($res) > 3) {
+            break;
+        }
+    }
+    if (strlen($res) === 3) {
+        return;
+    }
     $res = simplexml_load_string($res, 'SimpleXMLElement', LIBXML_NOCDATA);
     // error_log(print_r($res, true));
 
