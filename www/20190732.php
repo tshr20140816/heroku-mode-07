@@ -147,6 +147,11 @@ function func_20190732g($mu_, $file_name_rss_items_)
                    'pointBorderWidth' => 0,
                    'yAxisID' => 'y-axis-0',
                   ];
+    $scales = new stdClass();
+    $scales->xAxes[] = ['id' => 'x-axis-0',
+                        'ticks' => ['autoSkip' => false,
+                                   ],
+                       ];
     
     $json = ['type' => 'line',
              'data' => ['labels' => $labels,
@@ -161,8 +166,8 @@ function func_20190732g($mu_, $file_name_rss_items_)
                            'hover' => ['animationDuration' => 0,
                                       ],
                            'responsiveAnimationDuration' => 0,
-                           /*
                            'scales' => $scales,
+                           /*
                            'annotation' => ['annotations' => $annotations,
                                            ],
                                            */
