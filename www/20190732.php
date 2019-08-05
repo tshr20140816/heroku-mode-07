@@ -20,7 +20,9 @@ function func_20190732g($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $url = '';
+    $url = 'https://baseball.yahoo.co.jp/npb/schedule/?date=20190329';
+    $res = $mu_->get_contents($url);
+    error_log($url);
 }
 
 function func_20190732f($mu_, $file_name_rss_items_, $pattern_ = 1)
