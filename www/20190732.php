@@ -31,7 +31,7 @@ function func_20190732g($mu_, $file_name_rss_items_)
             $rc = preg_match('/<div class="team1">(.+?)<.+?<div class="score1">(\d+)<.+?<div class="score2">(\d+)<.+?<div class="team2">(.+?)</s', $item, $match);
             // error_log(print_r($match, true));
             if ($rc === 1) {
-                $results[] = $match[1] . ' ' . $match[2] . ' - ' . $match[3] . ' ' . $match[4];
+                $results[] = substr($item, 0, 4) . ' ' . $match[1] . ' ' . $match[2] . ' - ' . $match[3] . ' ' . $match[4];
             }
         }
     }
