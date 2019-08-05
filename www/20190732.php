@@ -99,6 +99,54 @@ function func_20190732g($mu_, $file_name_rss_items_)
                    'pointBorderWidth' => 0,
                    'yAxisID' => 'y-axis-0',
                   ];
+
+    $datasets[] = ['data' => $data['阪神'],
+                   'fill' => false,
+                   'lineTension' => 0,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'yellow',
+                   'borderColor' => 'yellow',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                   'pointBorderWidth' => 0,
+                   'yAxisID' => 'y-axis-0',
+                  ];
+
+    $datasets[] = ['data' => $data['中日'],
+                   'fill' => false,
+                   'lineTension' => 0,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'blue',
+                   'borderColor' => 'blue',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                   'pointBorderWidth' => 0,
+                   'yAxisID' => 'y-axis-0',
+                  ];
+
+    $datasets[] = ['data' => $data['横浜'],
+                   'fill' => false,
+                   'lineTension' => 0,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'navy',
+                   'borderColor' => 'navy',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                   'pointBorderWidth' => 0,
+                   'yAxisID' => 'y-axis-0',
+                  ];
+
+    $datasets[] = ['data' => $data['ヤクルト'],
+                   'fill' => false,
+                   'lineTension' => 0,
+                   'pointStyle' => 'circle',
+                   'backgroundColor' => 'green',
+                   'borderColor' => 'green',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                   'pointBorderWidth' => 0,
+                   'yAxisID' => 'y-axis-0',
+                  ];
     
     $json = ['type' => 'line',
              'data' => ['labels' => $labels,
