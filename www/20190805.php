@@ -23,7 +23,7 @@ function func_20190805($mu_)
     $file_name = "/tmp/${heroku_app_name}_" .  date('d', strtotime('+9 hours')) . '_pg_dump.txt';
     error_log($log_prefix . $file_name);
     $cmd = "pg_dump --format=plain --dbname=${database_url} >${file_name}";
-    $res = nu;;
+    $res = null;
     exec($cmd, $res);
     error_log($log_prefix . print_r($res, true));
     
