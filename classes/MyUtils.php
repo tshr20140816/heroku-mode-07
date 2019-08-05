@@ -1073,6 +1073,7 @@ __HEREDOC__;
 
         $authtoken_zoho = $this->get_env('ZOHO_AUTHTOKEN', true);
 
+        debug_print_backtrace();
         $res = bzcompress($data_, 9);
         $data_ = null;
         error_log($log_prefix . 'bzcompress memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
