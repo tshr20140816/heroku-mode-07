@@ -24,7 +24,7 @@ function func_20190732g($mu_, $file_name_rss_items_)
     $res = $mu_->get_contents($url);
     error_log($res);
     
-    $tmp = explode('" rowspan="6">', $tmp);
+    $tmp = explode('" rowspan="6">', $res);
     foreach ($tmp as $item) {
         error_log(substr($item, 0, 20));
     }
