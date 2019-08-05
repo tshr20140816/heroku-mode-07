@@ -101,9 +101,11 @@ function func_20190732g($mu_, $file_name_rss_items_)
                            'hover' => ['animationDuration' => 0,
                                       ],
                            'responsiveAnimationDuration' => 0,
+                           /*
                            'scales' => $scales,
                            'annotation' => ['annotations' => $annotations,
                                            ],
+                                           */
                           ],
             ];
 
