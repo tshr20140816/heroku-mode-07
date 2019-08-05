@@ -33,12 +33,12 @@ function func_20190732g($mu_, $file_name_rss_items_)
             // error_log(print_r($match, true));
             if ($rc === 1) {
                 $results[] = substr($item, 0, 4) . ' ' . $match[1] . ' ' . $match[2] . ' - ' . $match[3] . ' ' . $match[4];
-                if (array_key_exists($dic_results, $match[1]) === false) {
+                if (array_key_exists($match[1], $dic_results) === false) {
                     $dic_results[$match[1]]['win'] = 0;
                     $dic_results[$match[1]]['lose'] = 0;
                     $dic_results[$match[1]]['draw'] = 0;
                 }
-                if (array_key_exists($dic_results, $match[4]) === false) {
+                if (array_key_exists($match[4], $dic_results) === false) {
                     $dic_results[$match[4]]['win'] = 0;
                     $dic_results[$match[4]]['lose'] = 0;
                     $dic_results[$match[4]]['draw'] = 0;
