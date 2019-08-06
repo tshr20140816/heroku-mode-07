@@ -67,7 +67,7 @@ function func_20190805b($mu_, $file_name_)
     
     exec('tr -d "\n" < ' . $file_name_ . '.enc' . ' > ' . $file_name_ . '.enc2');
     
-    error_log($log_prefix . substr(file_get_contents($file_name_ . '.enc2'), 0, 200);
+    error_log($log_prefix . substr(file_get_contents($file_name_ . '.enc2'), 0, 200));
               
     error_log($log_prefix . 'size : ' . number_format(filesize($file_name_ . '.enc2')));
     error_log($log_prefix . 'hash : ' . hash_file('sha256', $file_name_ . '.enc2'));
