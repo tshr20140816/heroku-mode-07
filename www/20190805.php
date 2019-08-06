@@ -33,7 +33,7 @@ function func_20190805($mu_)
     copy($file_name, $file_name . 'a');
     copy($file_name, $file_name . 'b');
     
-    func_20190805c($mu_, file_get_contents($file_name . 'a'), $file_name . 'a');
+    func_20190805c($mu_, file_get_contents($file_name . 'a'), $file_name . 'c');
     func_20190805b($mu_, $file_name . 'b');
 }
 
@@ -85,7 +85,7 @@ function func_20190805c($mu_, $data_, $file_name_)
     $rc = file_put_contents($file_name, $data_);
     $data_ = null;
     $res = null;
-    exec('bzip2 -v ' . $file_name_, $res);
+    exec('bzip2 -v ' . $file_name, $res);
     error_log($log_prefix . print_r($res, true));
     $res = file_get_contents($file_name . '.bz2');
     unlink($file_name . '.bz2');
