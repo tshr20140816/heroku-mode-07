@@ -65,4 +65,7 @@ function func_20190805b($mu_, $file_name_)
     
     $res = hash_file('sha256', $file_name_ . '.enc');
     error_log($log_prefix . $res);
+    
+    error_log($log_prefix . 'size : ' . filesize($file_name_ . '.enc'));
+    error_log($log_prefix . 'hash : ' . hash_file('sha256', $file_name_ . '.enc'));
 }
