@@ -65,8 +65,10 @@ function func_20190805b($mu_, $file_name_)
     exec($line, $res);
     error_log($log_prefix . print_r($res, true));
     
-    error_log($log_prefix . 'size : ' . number_format(filesize($file_name_ . '.enc')));
-    error_log($log_prefix . 'hash : ' . hash_file('sha256', $file_name_ . '.enc'));
+    exec('tr -d "\n" < ' . $file_name_ . '.enc' . ' > ' . $file_name_ . '.enc2');
+    
+    error_log($log_prefix . 'size : ' . number_format(filesize($file_name_ . '.enc2')));
+    error_log($log_prefix . 'hash : ' . hash_file('sha256', $file_name_ . '.enc2'));
 }
 
 function func_20190805c($mu_, $data_, $file_name_)
