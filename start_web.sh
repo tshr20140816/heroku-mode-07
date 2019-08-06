@@ -60,6 +60,9 @@ pushd scripts
 for file in $( ls . | grep .php$ ); do
   php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
 done
+for file in $( ls . | grep .js$ ); do
+  node -c ${file} 2>&1 | tee -a /tmp/php_error.txt
+done
 popd
 pushd www
 for file in $( ls . | grep .php$ ); do
