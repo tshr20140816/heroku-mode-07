@@ -30,11 +30,11 @@ function func_20190805($mu_)
     $res = hash_file('sha256', $file_name);
     // error_log($log_prefix . 'sha256 start : ' . $res);
     
-    copy($file_name, $file_name . 'a');
-    copy($file_name, $file_name . 'b');
+    // copy($file_name, $file_name . 'a');
+    // copy($file_name, $file_name . 'b');
     
-    func_20190805c($mu_, file_get_contents($file_name . 'a'), $file_name . 'c');
-    func_20190805b($mu_, $file_name . 'b');
+    // func_20190805c($mu_, file_get_contents($file_name . 'a'), $file_name . 'c');
+    func_20190805b($mu_, $file_name);
 }
 
 function func_20190805b($mu_, $file_name_)
@@ -55,8 +55,7 @@ function func_20190805b($mu_, $file_name_)
     
     $method = 'aes-256-cbc';
     $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
-    $iv = substr(sha1('hoge'), 0, openssl_cipher_iv_length($method));
-    // $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $iv);
+    $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
     
     $line = 'openssl ' . $method . ' -base64 -iv ' . $iv . ' -pass pass:' . $password . ' -in ' . $file_name_ . '.bz2 -out ' . $file_name_ . '.enc';
     error_log($log_prefix . $line);
@@ -64,13 +63,13 @@ function func_20190805b($mu_, $file_name_)
     $res = null;
     exec($line, $res);
     error_log($log_prefix . print_r($res, true));
+    unlink($file_name_ . '.bz2');
     
-    exec('tr -d "\n" < ' . $file_name_ . '.enc' . ' > ' . $file_name_ . '.enc2');
+    exec('tr -d "\n" < ' . $file_name_ . '.enc' . ' > ' . $file_name_);
+    unlink($file_name_ . '.enc');
     
-    error_log($log_prefix . substr(file_get_contents($file_name_ . '.enc2'), 0, 200));
-              
-    error_log($log_prefix . 'size : ' . number_format(filesize($file_name_ . '.enc2')));
-    error_log($log_prefix . 'hash : ' . hash_file('sha256', $file_name_ . '.enc2'));
+    error_log($log_prefix . 'size : ' . number_format(filesize($file_name_)));
+    error_log($log_prefix . 'hash : ' . hash_file('sha256', $file_name_));
 }
 
 function func_20190805c($mu_, $data_, $file_name_)
