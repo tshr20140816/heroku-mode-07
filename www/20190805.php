@@ -83,6 +83,7 @@ function func_20190805c($mu_, $data_, $file_name_)
     
     $file_name = tempnam("/tmp", 'bz_' .  md5(microtime(true)));
     $rc = file_put_contents($file_name, $data_);
+    $data_ = null;
     $res = null;
     exec('bzip2 -v ' . $file_name_, $res);
     error_log($log_prefix . print_r($res, true));
