@@ -52,20 +52,20 @@ fc-cache -fv > /dev/null 2>&1 &
 
 set +x
 pushd classes
-for file in $( ls . | grep .php$ ); do
+for file in $(ls . | grep .php$); do
   php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
 done
 popd
 pushd scripts
-for file in $( ls . | grep .php$ ); do
+for file in $(ls . | grep .php$); do
   php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
 done
-for file in $( ls . | grep .js$ ); do
+for file in $(ls . | grep .js$); do
   node -c ${file} 2>&1 | tee -a /tmp/php_error.txt
 done
 popd
 pushd www
-for file in $( ls . | grep .php$ ); do
+for file in $(ls . | grep .php$); do
   php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
 done
 popd
