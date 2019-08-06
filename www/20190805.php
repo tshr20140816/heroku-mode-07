@@ -96,6 +96,7 @@ function func_20190805c($mu_, $data_, $file_name_)
     $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $iv);
     
     $res = base64_encode($res);
+    error_log($log_prefix. $res);
     file_put_contents($file_name_, $res);
     $res = null;
     
