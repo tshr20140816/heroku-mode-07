@@ -32,6 +32,7 @@ function func_20190805($mu_)
     
     $file_name_ = $file_name;
     
+    func_20190805c($mu_, $file_name);
     func_20190805b($mu_, $file_name);
 }
 
@@ -63,6 +64,34 @@ function func_20190805b($mu_, $file_name_)
     exec($line, $res);
     error_log($log_prefix . print_r($res, true));
     
-    error_log($log_prefix . 'size : ' . filesize($file_name_ . '.enc'));
+    error_log($log_prefix . 'size : ' . number_format(filesize($file_name_ . '.enc')));
     error_log($log_prefix . 'hash : ' . hash_file('sha256', $file_name_ . '.enc'));
+}
+
+function func_20190805c($mu_, $file_name_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $base_name = pathinfo($file_name_)['basename'];
+    
+    $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
+    $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
+    
+    $res = null;
+    exec('bzip2 -v ' . $file_name_, $res);
+    error_log($log_prefix . print_r($res, true));
+    $res = file_get_contents($file_name . '.bz2');
+    unlink($file_name . '.bz2');
+    
+    $method = 'aes-256-cbc';
+    $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
+    $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
+    $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $iv);
+    
+    $res = base64_encode($res);
+    file_put_contents($file_name_, $res);
+    $res = null;
+    
+    error_log($log_prefix . 'size : ' . number_format(filesize($file_name_)));
+    error_log($log_prefix . 'hash : ' . hash_file('sha256', $file_name_));
 }
