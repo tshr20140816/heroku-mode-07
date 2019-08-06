@@ -57,7 +57,7 @@ function func_20190805b($mu_, $file_name_)
     $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
     $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
     
-    $line = 'openssl ' . $method . ' -base64 -iv ' . $iv . ' -pass pass:' . $password . ' -in ' . $file_name_ . '.bz2 -out ' . $file_name_ . '.enc';
+    $line = 'openssl ' . $method . ' -base64 -A -iv ' . $iv . ' -pass pass:' . $password . ' -in ' . $file_name_ . '.bz2 -out ' . $file_name_;
     error_log($log_prefix . $line);
     
     $res = null;
@@ -65,8 +65,10 @@ function func_20190805b($mu_, $file_name_)
     error_log($log_prefix . print_r($res, true));
     unlink($file_name_ . '.bz2');
     
+    /*
     exec('tr -d "\n" < ' . $file_name_ . '.enc' . ' > ' . $file_name_);
     unlink($file_name_ . '.enc');
+    */
     
     error_log($log_prefix . 'size : ' . number_format(filesize($file_name_)));
     error_log($log_prefix . 'hash : ' . hash_file('sha256', $file_name_));
