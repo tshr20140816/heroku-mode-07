@@ -1,7 +1,7 @@
 {
   "name": "node-js-cli",
   "engines": {
-    "node": "10.x"
+    "node": "12.x"
   },
   "dependencies": {
     "chart.js": "^2.8.0",
