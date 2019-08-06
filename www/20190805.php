@@ -55,7 +55,7 @@ function func_20190805b($mu_, $file_name_)
     
     $method = 'aes-256-cbc';
     $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
-    $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
+    $iv = substr(sha1('hoge'), 0, openssl_cipher_iv_length($method));
     // $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $iv);
     
     $line = 'openssl ' . $method . ' -base64 -iv ' . $iv . ' -pass pass:' . $password . ' -in ' . $file_name_ . '.bz2 -out ' . $file_name_ . '.enc';
@@ -96,7 +96,7 @@ function func_20190805c($mu_, $data_, $file_name_)
     
     $method = 'aes-256-cbc';
     $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
-    $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
+    $iv = substr(sha1('hoge'), 0, openssl_cipher_iv_length($method));
     $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $iv);
     
     $res = base64_encode($res);
