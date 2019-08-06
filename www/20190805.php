@@ -36,9 +36,10 @@ function func_20190805($mu_)
     func_20190805c($mu_, $file_name);
     clearstatcache();
     
-    $res = hash_file('sha256', $file_name);
-    error_log($log_prefix . 'sha256 finish : ' . hash_file('sha256', $file_name));
-    error_log($log_prefix . 'filesize finish : ' . number_format(filesize($file_name)));
+    copy($file_name, $file_name . 'a');
+    
+    error_log($log_prefix . 'sha256 finish : ' . hash_file('sha256', $file_name . 'a'));
+    error_log($log_prefix . 'filesize finish : ' . number_format(filesize($file_name . 'a')));
 }
 
 function func_20190805b($mu_, $file_name_)
