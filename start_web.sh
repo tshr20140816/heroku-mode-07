@@ -75,13 +75,13 @@ done
 popd
 set -x
 
+ncu 2>&1 | tee /tmp/ncu_result.txt
+
 export WEB_CONCURRENCY=3
 
 printenv | wc -c
 
 ls -lang /tmp
-
-ncu 2>&1 | tee /tmp/ncu_result.txt
 
 wait
 
