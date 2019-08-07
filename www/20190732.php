@@ -136,7 +136,7 @@ __HEREDOC__;
                         'datasets' => $datasets,
                        ],
              'options' => ['legend' => ['display' => true,
-                                        'labels' => ['boxWidth' => 10,
+                                        'labels' => ['boxWidth' => 6,
                                                      'fontColor' => 'black',
                                                     ],
                                        ],
