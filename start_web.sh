@@ -66,11 +66,14 @@ for file in $(ls . | grep .php$); do
   php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
 done
 popd
+pushd scripts
+for file in $(ls . | grep .js$); do
+  eslint ${file} 2>&1 | tee -a /tmp/php_error.txt
+  rc=$?
+  echo ${rc} ${file}
+done
+popd
 set -x
-
-eslint scripts/chartjs_node.js
-rc=$?
-echo scripts/chartjs_node.js ${rc} >> /tmp/php_error.txt
 
 export WEB_CONCURRENCY=3
 
