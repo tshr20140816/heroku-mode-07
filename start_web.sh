@@ -69,8 +69,6 @@ popd
 pushd scripts
 for file in $(ls . | grep .js$); do
   eslint ${file} 2>&1 | tee -a /tmp/php_error.txt
-  rc=$?
-  echo ${rc} ${file} >> /tmp/php_error.txt
 done
 popd
 set -x
