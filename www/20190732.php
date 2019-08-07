@@ -130,7 +130,6 @@ __HEREDOC__;
                        ],
              'options' => ['legend' => ['display' => true,
                                         'labels' => ['boxWidth' => 10,
-                                                     'fontSize' => 10,
                                                      'fontColor' => 'black',
                                                     ],
                                        ],
