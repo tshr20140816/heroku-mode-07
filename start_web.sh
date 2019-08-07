@@ -68,6 +68,8 @@ done
 popd
 set -x
 
+eslint scripts/chartjs_node.js
+
 export WEB_CONCURRENCY=3
 
 printenv | wc -c
