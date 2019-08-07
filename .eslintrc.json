@@ -8,5 +8,8 @@
         "ecmaFeatures": {
             "globalReturn": true
         }
+    },
+    "rules": {
+        "semi": ["error", "never"]
     }
 }
