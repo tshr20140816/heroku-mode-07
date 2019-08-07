@@ -124,6 +124,13 @@ __HEREDOC__;
 
     $pdo = null;
 
+    $scales = new stdClass();
+    $scales->xAxes[] = ['id' => 'x-axis-0',
+                        'ticks' => ['autoSkip' => false,
+                                    'fontSize' => 10,
+                                   ],
+                       ];
+    
     $json = ['type' => 'line',
              'data' => ['labels' => $labels,
                         'datasets' => $datasets,
@@ -145,6 +152,7 @@ __HEREDOC__;
                                                               ],
                                                              ],
                                            ],
+                           'scales' => $scales,
                           ],
             ];
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
