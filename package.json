@@ -10,7 +10,6 @@
     "chartjs-plugin-annotation": "^0.5.7"
   },
   "scripts": {
-    "heroku-prebuild": "bash check_point.sh 300",
-    "heroku-postbuild": "bash check_point.sh 400"
+    "heroku-prebuild": "bash check_point.sh 300"
   }
 }
