@@ -51,7 +51,9 @@ popd
 fc-cache -fv > /dev/null 2>&1 &
 
 eslint scripts/chartjs_node.js
+echo $?
 eslint scripts/test.js
+echo $?
 
 set +x
 pushd classes
