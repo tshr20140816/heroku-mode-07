@@ -14,6 +14,8 @@ if [ ! -v BASIC_PASSWORD ]; then
   exit
 fi
 
+npm update > /dev/null 2>&1 &
+
 grep -c -e processor /proc/cpuinfo
 cat /proc/cpuinfo | head -n $(($(cat /proc/cpuinfo | wc -l) / $(grep -c -e processor /proc/cpuinfo)))
 
@@ -79,8 +81,7 @@ printenv | wc -c
 
 ls -lang /tmp
 
-time npm outdated
-time ncu
+ncu 2>&1 | tee /tmp/ncu_result.txt
 
 wait
 
