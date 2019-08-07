@@ -3,6 +3,8 @@
 set -x
 
 export TZ=JST-9
+export WEB_CONCURRENCY=3
+export USER_AGENT=$(curl https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/useragent.txt)
 
 if [ ! -v BASIC_USER ]; then
   echo "Error : BASIC_USER not defined."
@@ -39,8 +41,6 @@ echo "$(curl -V | head -n 1)" > /tmp/curl_current_version
 #   composer update > /dev/null 2>&1 &
 # fi
 
-export USER_AGENT=$(curl https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/useragent.txt)
-
 htpasswd -c -b .htpasswd ${BASIC_USER} ${BASIC_PASSWORD}
 
 dig -t txt _netblocks.google.com | grep ^[^\;] > /tmp/_netblocks.google.com.txt
@@ -76,8 +76,6 @@ popd
 set -x
 
 ncu 2>&1 | tee /tmp/ncu_result.txt
-
-export WEB_CONCURRENCY=3
 
 printenv | wc -c
 
