@@ -79,6 +79,8 @@ printenv | wc -c
 
 ls -lang /tmp
 
+ncu
+
 wait
 
 curl -s -m 1 --basic -u ${BASIC_USER}:${BASIC_PASSWORD} https://${HEROKU_APP_NAME}.herokuapp.com/opcache_compile_file.php
