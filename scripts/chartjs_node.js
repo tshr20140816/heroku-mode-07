@@ -16,7 +16,7 @@ function reviver(k, v) {
     return v;
 }
 
-var util = require('util');
+// var util = require('util');
 
 var chartJsOptions = JSON.parse(Buffer.from(process.argv[4], 'base64').toString('utf-8'), reviver);
 
