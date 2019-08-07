@@ -50,11 +50,6 @@ popd
 
 fc-cache -fv > /dev/null 2>&1 &
 
-eslint scripts/chartjs_node.js
-echo $?
-eslint scripts/test.js
-echo $?
-
 set +x
 pushd classes
 for file in $(ls . | grep .php$); do
@@ -72,6 +67,10 @@ for file in $(ls . | grep .php$); do
 done
 popd
 set -x
+
+eslint scripts/chartjs_node.js
+rc=$?
+echo scripts/chartjs_node.js ${rc} >> /tmp/php_error.txt
 
 export WEB_CONCURRENCY=3
 
