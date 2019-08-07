@@ -79,7 +79,8 @@ printenv | wc -c
 
 ls -lang /tmp
 
-ncu
+time npm outdated
+time ncu
 
 wait
 
