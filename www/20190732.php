@@ -93,7 +93,7 @@ function func_20190732g($mu_, $file_name_rss_items_)
                    'backgroundColor' => $value,
                    'borderColor' => $value,
                    'borderWidth' => 1,
-                   'pointRadius' => 0,
+                   'pointRadius' => 2,
                    'pointBorderWidth' => 0,
                    'yAxisID' => 'y-axis-0',
                    'label' => $key,
