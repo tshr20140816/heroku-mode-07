@@ -41,23 +41,18 @@ function func_20190732h($mu_, $file_name_rss_items_)
 
     $list = [['target' => 'toodledo',
               'color' => 'green',
-              'planColor' => 'green',
              ],
              ['target' => 'ttrss',
               'color' => 'deepskyblue',
-              'planColor' => 'deepskyblue',
              ],
              ['target' => 'redmine',
               'color' => 'blue',
-              'planColor' => 'blue',
              ],
              ['target' => 'first',
               'color' => 'red',
-              'planColor' => 'red',
              ],
              ['target' => 'kyoto',
               'color' => 'orange',
-              'planColor' => 'orange',
              ],
             ];
     
@@ -101,8 +96,8 @@ __HEREDOC__;
                        'pointStyle' => 'circle',
                        'backgroundColor' => $one_data['color'],
                        'borderColor' => $one_data['color'],
-                       'borderWidth' => 3,
-                       'pointRadius' => 4,
+                       'borderWidth' => 2,
+                       'pointRadius' => 3,
                        'pointBorderWidth' => 0,
                        'label' => $one_data['target'],
                       ];
@@ -119,11 +114,11 @@ __HEREDOC__;
 
         $datasets[] = ['data' => $data3,
                        'fill' => false,
-                       'backgroundColor' => $one_data['planColor'],
-                       'borderWidth' => 3,
-                       'borderColor' => $one_data['planColor'],
+                       'backgroundColor' => $one_data['color'],
+                       'borderWidth' => 1,
+                       'borderColor' => $one_data['color'],
                        'pointRadius' => 0,
-                       'label' => $one_data['target'] . ' plan',
+                       'label' => 'plan',
                       ];
     }
 
