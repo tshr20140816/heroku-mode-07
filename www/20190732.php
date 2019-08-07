@@ -51,8 +51,16 @@ function func_20190732h($mu_, $file_name_rss_items_)
               'color' => 'blue',
               'planColor' => 'yellow',
              ],
+             ['target' => 'first',
+              'color' => 'green',
+              'planColor' => 'red',
+             ],
+             ['target' => 'kyoto',
+              'color' => 'deepskyblue',
+              'planColor' => 'orange',
+             ],
             ];
-
+    
     $sql = <<< __HEREDOC__
 SELECT T1.value
   FROM t_data_log T1
