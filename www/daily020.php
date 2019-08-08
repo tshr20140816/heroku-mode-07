@@ -124,6 +124,7 @@ function get_quota($mu_, $file_name_blog_)
     $list_targets[] = 'REDMINE';
     $list_targets[] = 'FIRST';
     $list_targets[] = 'KYOTO';
+    $list_targets[] = 'TOODLEDO2';
 
     $urls = [];
     foreach ($list_targets as $target) {
