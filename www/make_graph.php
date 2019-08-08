@@ -1779,7 +1779,7 @@ function make_database3($mu_, $file_name_rss_items_)
     $annotations = [];
     $level = 10000;
     foreach ($list as $one_data) {
-        error_log(print_r($one_data, true));
+        error_log($log_prefix . print_r($one_data, true));
         $keyword = strtolower($one_data['target']);
         for ($i = 0; $i < strlen($keyword); $i++) {
             $keyword[$i] = chr(ord($keyword[$i]) + 1);
