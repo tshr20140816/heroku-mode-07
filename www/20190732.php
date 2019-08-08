@@ -31,6 +31,7 @@ function func_20190732h($mu_, $file_name_rss_items_)
     $datasets = [];
     $datasets[] = ['data' => $data1,
                    'fill' => false,
+                   'lineTension' => 0,
                    'pointStyle' => 'line',
                    'backgroundColor' => 'black',
                    'borderColor' => 'black',
@@ -93,6 +94,7 @@ __HEREDOC__;
 
         $datasets[] = ['data' => $data2,
                        'fill' => false,
+                       'lineTension' => 0,
                        'pointStyle' => 'circle',
                        'backgroundColor' => $one_data['color'],
                        'borderColor' => $one_data['color'],
@@ -114,12 +116,13 @@ __HEREDOC__;
 
         $datasets[] = ['data' => $data3,
                        'fill' => false,
+                       'lineTension' => 0,
                        'backgroundColor' => $one_data['color'],
                        'borderWidth' => 1,
                        'borderColor' => $one_data['color'],
-                       'pointBorderColor' => 'rgba(0,0,0,0)',
                        'pointRadius' => 0,
-                       'label' => 'plan',
+                       // 'label' => 'plan',
+                       'label' => '',
                       ];
     }
 
