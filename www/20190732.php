@@ -117,6 +117,7 @@ __HEREDOC__;
                        'backgroundColor' => $one_data['color'],
                        'borderWidth' => 1,
                        'borderColor' => $one_data['color'],
+                       'pointBorderColor' => 'rgba(0,0,0,0)',
                        'pointRadius' => 0,
                        'label' => 'plan',
                       ];
