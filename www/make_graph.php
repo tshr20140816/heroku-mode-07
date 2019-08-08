@@ -16,10 +16,12 @@ $url_length = [];
 
 $url_length['make_waon_balance'] = make_waon_balance($mu, $file_name_rss_items);
 $url_length['make_score_map'] = make_score_map($mu, $file_name_rss_items);
-$url_length['make_heroku_dyno_usage_graph'] = make_heroku_dyno_usage_graph($mu, $file_name_rss_items);
-$url_length['make_heroku_dyno_usage_graph2'] = make_heroku_dyno_usage_graph2($mu, $file_name_rss_items);
-$url_length['make_database1'] = make_database($mu, $file_name_rss_items, 1);
-$url_length['make_database2'] = make_database($mu, $file_name_rss_items, 2);
+// $url_length['make_heroku_dyno_usage_graph'] = make_heroku_dyno_usage_graph($mu, $file_name_rss_items);
+// $url_length['make_heroku_dyno_usage_graph2'] = make_heroku_dyno_usage_graph2($mu, $file_name_rss_items);
+$url_length['make_heroku_dyno_usage_graph3'] = make_heroku_dyno_usage_graph3($mu, $file_name_rss_items);
+// $url_length['make_database1'] = make_database($mu, $file_name_rss_items, 1);
+// $url_length['make_database2'] = make_database($mu, $file_name_rss_items, 2);
+$url_length['make_database3'] = make_database3($mu, $file_name_rss_items);
 $url_length['make_process_time'] = make_process_time($mu, $file_name_rss_items);
 $url_length['make_post_count'] = make_post_count($mu, $file_name_rss_items);
 $url_length['make_github_contributions'] = make_github_contributions($mu, $file_name_rss_items);
@@ -219,7 +221,7 @@ function make_score_map($mu_, $file_name_rss_items_)
     $res = $mu_->shrink_image($file);
 
     unlink($file);
-    
+
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
     $mu_->post_blog_hatena('Score Map', $description);
@@ -847,7 +849,7 @@ __HEREDOC__;
     exec('node ../scripts/chartjs_node.js 600 320 ' . base64_encode(json_encode($json)) . ' ' . $file);
     $res = file_get_contents($file);
     unlink($file);
-    
+
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     $mu_->post_blog_hatena('waon balance', $description);
     $mu_->post_blog_fc2_async('waon balance', $description);
@@ -1110,7 +1112,6 @@ function make_process_time($mu_, $file_name_rss_items_)
     $res = $mu_->get_contents($url);
 
     $rc = preg_match_all('/rel="bookmark">.+?\/(.+?) .+? \/daily020\.php&nbsp;\[(.+?)s\]/', $res, $matches, PREG_SET_ORDER);
-    // error_log(print_r($matches, true));
 
     $labels = [];
     $data = [];
@@ -1528,17 +1529,17 @@ function make_storage_usage($mu_, $file_name_rss_items_)
                    'label' => 'hidrive',
                   ];
 
-    $chart_data = ['type' => 'line',
-                   'data' => ['labels' => $labels,
-                              'datasets' => $datasets,
-                             ],
-                   'options' => ['legend' => ['labels' => ['usePointStyle' => true
-                                                          ],
-                                             ],
-                                ],
-                  ];
+    $json = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => $datasets,
+                       ],
+             'options' => ['legend' => ['labels' => ['usePointStyle' => true
+                                                    ],
+                                       ],
+                          ],
+            ];
 
-    $url = 'https://quickchart.io/chart?w=600&h=360&c=' . urlencode(json_encode($chart_data));
+    $url = 'https://quickchart.io/chart?w=600&h=360&c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     $url_length = strlen($url);
 
@@ -1579,4 +1580,372 @@ __HEREDOC__;
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
     return $url_length;
+}
+
+function make_heroku_dyno_usage_graph3($mu_, $file_name_rss_items_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    for ($i = 0; $i < (int)date('t'); $i++) {
+        $labels[] = $i + 1;
+        $tmp = new stdClass();
+        $tmp->x = $i + 1;
+        $tmp->y = ((int)date('t') - $i) * 24;
+        $data1[] = $tmp;
+    }
+
+    $datasets = [];
+    $datasets[] = ['data' => $data1,
+                   'fill' => false,
+                   'lineTension' => 0,
+                   'pointStyle' => 'line',
+                   'backgroundColor' => 'black',
+                   'borderColor' => 'black',
+                   'borderWidth' => 1,
+                   'pointRadius' => 0,
+                   'label' => 'max',
+                  ];
+
+    $list = [['target' => 'toodledo',
+              'color' => 'green',
+             ],
+             ['target' => 'ttrss',
+              'color' => 'deepskyblue',
+             ],
+             ['target' => 'redmine',
+              'color' => 'blue',
+             ],
+             ['target' => 'first',
+              'color' => 'red',
+             ],
+             ['target' => 'kyoto',
+              'color' => 'orange',
+             ],
+            ];
+
+    $sql = <<< __HEREDOC__
+SELECT T1.value
+  FROM t_data_log T1
+ WHERE T1.key = :b_key
+__HEREDOC__;
+
+    $pdo = $mu_->get_pdo();
+    $statement = $pdo->prepare($sql);
+
+    foreach ($list as $one_data) {
+        error_log(print_r($one_data, true));
+        $statement->execute([':b_key' => strtoupper($one_data['target'])]);
+        $result = $statement->fetchAll();
+        $quotas = json_decode($result[0]['value'], true);
+        error_log(print_r($quotas, true));
+
+        $data2 = [];
+        foreach ($quotas as $key => $value) {
+            $tmp = new stdClass();
+            $tmp->x = (int)substr($key, -2) - 1;
+            $tmp->y = (int)($value / 3600);
+            $data2[] = $tmp;
+        }
+
+        if (count($data2) < 3) {
+            return 0;
+        }
+        if ($data2[0]->x == 0) {
+            array_shift($data2);
+            $tmp = new stdClass();
+            $tmp->x = 1;
+            $tmp->y = 550;
+            $data2[0] = $tmp;
+        }
+
+        $datasets[] = ['data' => $data2,
+                       'fill' => false,
+                       'lineTension' => 0,
+                       'pointStyle' => 'circle',
+                       'backgroundColor' => $one_data['color'],
+                       'borderColor' => $one_data['color'],
+                       'borderWidth' => 2,
+                       'pointRadius' => 3,
+                       'pointBorderWidth' => 0,
+                       'label' => $one_data['target'],
+                      ];
+
+        $data3 = [];
+        $tmp = new stdClass();
+        $tmp->x = 1;
+        $tmp->y = 550;
+        $data3[] = $tmp;
+        $tmp = new stdClass();
+        $tmp->x = (int)date('t');
+        $tmp->y = 550 - (int)((550 - end($data2)->y) / end($data2)->x + 1) * (int)date('t');
+        $data3[] = $tmp;
+
+        $datasets[] = ['data' => $data3,
+                       'fill' => false,
+                       'lineTension' => 0,
+                       'backgroundColor' => $one_data['color'],
+                       'borderWidth' => 1,
+                       'borderColor' => $one_data['color'],
+                       'pointRadius' => 0,
+                       // 'label' => 'plan',
+                       'label' => '',
+                      ];
+    }
+
+    $pdo = null;
+
+    $scales = new stdClass();
+    $scales->xAxes[] = ['id' => 'x-axis-0',
+                        'ticks' => ['autoSkip' => false,
+                                    'fontSize' => 10,
+                                   ],
+                       ];
+
+    $json = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => $datasets,
+                       ],
+             'options' => ['legend' => ['display' => true,
+                                        'labels' => ['boxWidth' => 6,
+                                                     'fontColor' => 'black',
+                                                    ],
+                                       ],
+                           'animation' => ['duration' => 0,
+                                          ],
+                           'hover' => ['animationDuration' => 0,
+                                      ],
+                           'responsiveAnimationDuration' => 0,
+                           'annotation' => ['annotations' => [['type' => 'line',
+                                                               'mode' => 'vertical',
+                                                               'scaleID' => 'x-axis-0',
+                                                               'value' => count($datasets[1]['data']),
+                                                              ],
+                                                             ],
+                                           ],
+                           'scales' => $scales,
+                          ],
+            ];
+    $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
+    exec('node ../scripts/chartjs_node.js 600 320 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    $res = file_get_contents($file);
+    unlink($file);
+
+    $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+    // $mu_->post_blog_hatena('github contributions', $description);
+    // $mu_->post_blog_fc2_async('github contributions', $description);
+    $description = '<![CDATA[' . $description . ']]>';
+
+    $rss_item_text = <<< __HEREDOC__
+<item>
+<guid isPermaLink="false">__HASH__</guid>
+<pubDate>__PUBDATE__</pubDate>
+<title>github contributions</title>
+<link>http://dummy.local/</link>
+<description>__DESCRIPTION__</description>
+</item>
+__HEREDOC__;
+
+    $rss_item_text = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', strtotime('+9 hours')), $rss_item_text);
+    $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
+    $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
+    file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
+
+    return 0;
+}
+
+function make_database3($mu_, $file_name_rss_items_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    for ($i = 0; $i < (int)date('t'); $i++) {
+        $labels[] = $i + 1;
+    }
+
+    $datasets = [];
+    $list = [['target' => 'toodledo',
+                'color' => 'green',
+                'size_color' => 'red',
+                ],
+                ['target' => 'redmine',
+                'color' => 'blue',
+                'size_color' => 'yellow',
+                ],
+                ['target' => 'ttrss',
+                'color' => 'deepskyblue',
+                'size_color' => 'orange',
+                ],
+            ];
+
+    $annotations = [];
+    $level = 10000;
+    foreach ($list as $one_data) {
+        error_log(print_r($one_data, true));
+        $keyword = strtolower($one_data['target']);
+        for ($i = 0; $i < strlen($keyword); $i++) {
+            $keyword[$i] = chr(ord($keyword[$i]) + 1);
+        }
+
+        $res = $mu_->search_blog($keyword . 'sfdpsedpvou');
+
+        $data2 = [];
+        foreach (explode(' ', $res) as $item) {
+            $tmp1 = explode(',', $item);
+            $tmp2 = new stdClass();
+            $tmp2->x = (int)$tmp1[0];
+            $tmp2->y = (int)$tmp1[1];
+            $data2[] = $tmp2;
+        }
+
+        if (count($data2) < 2) {
+            return 0;
+        }
+
+        $level -= 1000;
+        $annotations[] = ['type' => 'line',
+                          'mode' => 'horizontal',
+                          'scaleID' => 'y-axis-0',
+                          'value' => $level,
+                          'borderColor' => 'rgba(0,0,0,0)',
+                          'label' => ['enabled' => true,
+                                      'content' => number_format(end($data2)->y),
+                                      'position' => 'left',
+                                      'backgroundColor' => $one_data['color'],
+                                     ],
+                         ];
+
+        $datasets[] = ['data' => $data2,
+                       'fill' => false,
+                       'lineTension' => 0,
+                       'pointStyle' => 'circle',
+                       'backgroundColor' => $one_data['color'],
+                       'borderColor' => $one_data['color'],
+                       'borderWidth' => 3,
+                       'pointRadius' => 4,
+                       'pointBorderWidth' => 0,
+                       'label' => $one_data['target'] . ' record',
+                       'yAxisID' => 'y-axis-0',
+                      ];
+
+        $res = $mu_->search_blog($keyword . 'ebubcbtftjaf');
+
+        $data3 = [];
+        foreach (explode(' ', $res) as $item) {
+            $tmp1 = explode(',', $item);
+            $tmp2 = new stdClass();
+            $tmp2->x = (int)$tmp1[0];
+            $tmp2->y = ceil((int)$tmp1[1] / 1024 / 1024);
+            $data3[] = $tmp2;
+        }
+
+        $annotations[] = ['type' => 'line',
+                          'mode' => 'horizontal',
+                          'scaleID' => 'y-axis-0',
+                          'value' => $level,
+                          'borderColor' => 'rgba(0,0,0,0)',
+                          'label' => ['enabled' => true,
+                                      'content' => number_format(end($data3)->y),
+                                      'position' => 'right',
+                                      'backgroundColor' => $one_data['size_color'],
+                                      'fontColor' => 'black',
+                                     ],
+                         ];
+
+        $datasets[] = ['data' => $data3,
+                       'fill' => false,
+                       'lineTension' => 0,
+                       'pointStyle' => 'star',
+                       'backgroundColor' => $one_data['size_color'],
+                       'borderColor' => $one_data['size_color'],
+                       'borderWidth' => 2,
+                       'pointRadius' => 3,
+                       'pointBorderWidth' => 0,
+                       'label' => 'size',
+                       'yAxisID' => 'y-axis-1',
+                      ];
+    }
+
+    $scales = new stdClass();
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'display' => true,
+                        'position' => 'left',
+                        'ticks' => ['callback' => 'function(value){return value.toLocaleString();}',],
+                       ];
+    $scales->yAxes[] = ['id' => 'y-axis-1',
+                        'display' => true,
+                        'position' => 'right',
+                        'ticks' => ['callback' => "function(value){return value.toLocaleString() + 'MB';}",],
+                       ];
+    $scales->xAxes[] = ['id' => 'x-axis-0',
+                        'ticks' => ['autoSkip' => false,
+                                   ],
+                       ];
+
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-0',
+                      'value' => 0,
+                      'borderColor' => 'rgba(0,0,0,0)',
+                     ];
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-0',
+                      'value' => 10000,
+                      'borderColor' => 'red',
+                     ];
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-1',
+                      'value' => 0,
+                      'borderColor' => 'rgba(0,0,0,0)',
+                     ];
+    $annotations[] = ['type' => 'line',
+                      'mode' => 'horizontal',
+                      'scaleID' => 'y-axis-1',
+                      'value' => 1000,
+                      'borderColor' => 'rgba(0,0,0,0)',
+                     ];
+
+    $json = ['type' => 'line',
+             'data' => ['labels' => $labels,
+                        'datasets' => $datasets,
+                       ],
+             'options' => ['legend' => ['labels' => ['usePointStyle' => true,
+                                                     'fontColor' => 'black',
+                                                    ],
+                                       ],
+                           'animation' => ['duration' => 0,
+                                          ],
+                           'hover' => ['animationDuration' => 0,
+                                      ],
+                           'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
+                           'annotation' => ['annotations' => $annotations,
+                                           ],
+                          ],
+            ];
+
+    $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
+    exec('node ../scripts/chartjs_node.js 600 360 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    $res = file_get_contents($file);
+    unlink($file);
+
+    $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+    $description = '<![CDATA[' . $description . ']]>';
+
+    $rss_item_text = <<< __HEREDOC__
+<item>
+<guid isPermaLink="false">__HASH__</guid>
+<pubDate>__PUBDATE__</pubDate>
+<title>github contributions</title>
+<link>http://dummy.local/</link>
+<description>__DESCRIPTION__</description>
+</item>
+__HEREDOC__;
+
+    $rss_item_text = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', strtotime('+9 hours')), $rss_item_text);
+    $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
+    $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
+    file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
+
+    return 0;
 }
