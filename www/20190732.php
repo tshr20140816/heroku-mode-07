@@ -180,7 +180,7 @@ function func_20190732g($mu_, $file_name_rss_items_)
         CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 10,
     ];
-    $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
+    $list_contents = $mu_->get_contents_multi([], $urls, $multi_options);
     
     $results = [];
     $dic_results = [];
@@ -249,18 +249,18 @@ function func_20190732g($mu_, $file_name_rss_items_)
     $central['ヤクルト'] = 'green';
     
     foreach ($central as $key => $value) {
-    $datasets[] = ['data' => $data[$key],
-                   'fill' => false,
-                   'lineTension' => 0,
-                   'pointStyle' => 'circle',
-                   'backgroundColor' => $value,
-                   'borderColor' => $value,
-                   'borderWidth' => 1,
-                   'pointRadius' => 2,
-                   'pointBorderWidth' => 0,
-                   'yAxisID' => 'y-axis-0',
-                   'label' => $key,
-                  ];
+        $datasets[] = ['data' => $data[$key],
+                       'fill' => false,
+                       'lineTension' => 0,
+                       'pointStyle' => 'circle',
+                       'backgroundColor' => $value,
+                       'borderColor' => $value,
+                       'borderWidth' => 1,
+                       'pointRadius' => 2,
+                       'pointBorderWidth' => 0,
+                       'yAxisID' => 'y-axis-0',
+                       'label' => $key,
+                      ];
     }
 
     $scales = new stdClass();
@@ -275,8 +275,24 @@ function func_20190732g($mu_, $file_name_rss_items_)
                                    ],
                        ];
     
+    $labels_new = [];
+    foreach ($labels as $label) {
+        $is_exists = false;
+        foreach ($central as $key => $value) {
+            foreach ($data[$key] as $point) {
+                if ($point->x === $label) {
+                    $is_exists = true;
+                    break 2;
+                }
+            }
+        }
+        if ($is_exists === true) {
+            $labels_new[] = $label;
+        }
+    }
+    
     $json = ['type' => 'line',
-             'data' => ['labels' => $labels,
+             'data' => ['labels' => $labels_new,
                         'datasets' => $datasets,
                        ],
              'options' => ['legend' => ['labels' => ['usePointStyle' => true,
