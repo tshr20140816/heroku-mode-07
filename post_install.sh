@@ -21,7 +21,8 @@ fi
 # wget https://github.com/pyrus/Pyrus/blob/master/pyrus.phar
 # php pyrus.phar install pear/XML_RPC2
 
-time wget -q https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz -O heroku.tar.gz
+# time wget -q https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz -O heroku.tar.gz
+time curl -sS -o heroku.tar.gz https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz
 mkdir heroku
 mv heroku.tar.gz ./heroku/heroku.tar.gz
 pushd heroku
@@ -72,9 +73,12 @@ if [ ${is_succeeded} = '0' ]; then
     popd
 fi
 
-wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar
-wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar
-wget -q https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip
+# wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar
+# wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar
+# wget -q https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip
+curl -sS -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar \
+         -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar \
+         -O https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip          
 
 mkdir .fonts
 mv ipaexg00401.zip .fonts/
