@@ -172,6 +172,16 @@ function func_20190732g($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
+    $urls = [];
+    for ($i = 3; $i < 11; $i++) {
+        $urls['http://npb.jp/games/2019/schedule_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_detail.html'] = null;
+    }
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 10,
+    ];
+    $list_contents = $mu->get_contents_multi($urls, null, $multi_options);
+    
     $results = [];
     $dic_results = [];
     $md = '';
@@ -180,7 +190,8 @@ function func_20190732g($mu_, $file_name_rss_items_)
     for ($i = 3; $i < 11; $i++) {
         $url = 'http://npb.jp/games/2019/schedule_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_detail.html';
         // $url = 'http://npb.jp/games/2018/schedule_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_detail.html';
-        $res = $mu_->get_contents($url, null, true);
+        // $res = $mu_->get_contents($url, null, true);
+        $res = $list_contents[$url];
 
         $tmp = explode('<tr id="date', $res);
         foreach ($tmp as $item) {
