@@ -180,7 +180,7 @@ function func_20190732g($mu_, $file_name_rss_items_)
         CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 10,
     ];
-    $list_contents = $mu->get_contents_multi($urls, null, $multi_options);
+    $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
     
     $results = [];
     $dic_results = [];
