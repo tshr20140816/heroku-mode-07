@@ -15,7 +15,6 @@ $file_name_rss_items = tempnam('/tmp', 'rss_' . md5(microtime(true)));
 $url_length = [];
 
 $url_length['make_waon_balance'] = make_waon_balance($mu, $file_name_rss_items);
-$url_length['make_score_map'] = make_score_map($mu, $file_name_rss_items);
 // $url_length['make_heroku_dyno_usage_graph'] = make_heroku_dyno_usage_graph($mu, $file_name_rss_items);
 // $url_length['make_heroku_dyno_usage_graph2'] = make_heroku_dyno_usage_graph2($mu, $file_name_rss_items);
 $url_length['make_heroku_dyno_usage_graph3'] = make_heroku_dyno_usage_graph3($mu, $file_name_rss_items);
@@ -27,6 +26,8 @@ $url_length['make_post_count'] = make_post_count($mu, $file_name_rss_items);
 $url_length['make_github_contributions'] = make_github_contributions($mu, $file_name_rss_items);
 $url_length['make_storage_usage'] = make_storage_usage($mu, $file_name_rss_items);
 $url_length['make_loggly_usage'] = make_loggly_usage($mu, $file_name_rss_items);
+$url_length['make_score_map'] = make_score_map($mu, $file_name_rss_items);
+$url_length['npb_team_ranking'] = npb_team_ranking($mu, $file_name_rss_items);
 
 $xml_text = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
@@ -1937,6 +1938,164 @@ function make_database3($mu_, $file_name_rss_items_)
 <guid isPermaLink="false">__HASH__</guid>
 <pubDate>__PUBDATE__</pubDate>
 <title>database</title>
+<link>http://dummy.local/</link>
+<description>__DESCRIPTION__</description>
+</item>
+__HEREDOC__;
+
+    $rss_item_text = str_replace('__PUBDATE__', date('D, j M Y G:i:s +0900', strtotime('+9 hours')), $rss_item_text);
+    $rss_item_text = str_replace('__DESCRIPTION__', $description, $rss_item_text);
+    $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
+    file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
+
+    return 0;
+}
+
+function npb_team_ranking($mu_, $file_name_rss_items_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $urls = [];
+    for ($i = 3; $i < 11; $i++) {
+        $urls['http://npb.jp/games/' . date('Y') . '/schedule_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_detail.html'] = null;
+    }
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 10,
+    ];
+    $list_contents = $mu_->get_contents_multi([], $urls, $multi_options);
+
+    $results = [];
+    $dic_results = [];
+    $md = '';
+    $labels = [];
+    $data = [];
+    foreach ($urls as $url) {
+        $res = $list_contents[$url];
+
+        $tmp = explode('<tr id="date', $res);
+        foreach ($tmp as $item) {
+            $rc = preg_match('/<div class="team1">(.+?)<.+?<div class="score1">(\d+)<.+?<div class="score2">(\d+)<.+?<div class="team2">(.+?)</s', $item, $match);
+            if ($rc === 1) {
+                $md = substr($item, 0, 4);
+                if (in_array($md, $labels, true) !== true) {
+                    $labels[] = $md;
+                }
+                $results[] = substr($item, 0, 4) . ' ' . $match[1] . ' ' . $match[2] . ' - ' . $match[3] . ' ' . $match[4];
+                if (array_key_exists($match[1], $dic_results) === false) {
+                    $dic_results[$match[1]]['win'] = 0;
+                    $dic_results[$match[1]]['lose'] = 0;
+                    $dic_results[$match[1]]['draw'] = 0;
+                }
+                if (array_key_exists($match[4], $dic_results) === false) {
+                    $dic_results[$match[4]]['win'] = 0;
+                    $dic_results[$match[4]]['lose'] = 0;
+                    $dic_results[$match[4]]['draw'] = 0;
+                }
+                if ((int)$match[2] > (int)$match[3]) {
+                    $dic_results[$match[1]]['win']++;
+                    $dic_results[$match[4]]['lose']++;
+                } else if ((int)$match[2] < (int)$match[3]) {
+                    $dic_results[$match[1]]['lose']++;
+                    $dic_results[$match[4]]['win']++;
+                } else {
+                    $dic_results[$match[1]]['draw']++;
+                    $dic_results[$match[4]]['draw']++;
+                }
+                $tmp1 = new stdClass();
+                $tmp1->x = $md;
+                $tmp1->y = $dic_results[$match[1]]['win'] - $dic_results[$match[1]]['lose'];
+                $data[$match[1]][] = $tmp1;
+
+                $tmp1 = new stdClass();
+                $tmp1->x = $md;
+                $tmp1->y = $dic_results[$match[4]]['win'] - $dic_results[$match[4]]['lose'];
+                $data[$match[4]][] = $tmp1;
+            }
+        }
+    }
+
+    $central = [];
+    $central['広島'] = 'red';
+    $central['巨人'] = 'orange';
+    $central['阪神'] = 'yellow';
+    $central['中日'] = 'blue';
+    $central['DeNA'] = 'navy';
+    $central['ヤクルト'] = 'green';
+
+    foreach ($central as $key => $value) {
+        $datasets[] = ['data' => $data[$key],
+                       'fill' => false,
+                       'lineTension' => 0,
+                       'pointStyle' => 'circle',
+                       'backgroundColor' => $value,
+                       'borderColor' => $value,
+                       'borderWidth' => 1,
+                       'pointRadius' => 2,
+                       'pointBorderWidth' => 0,
+                       'yAxisID' => 'y-axis-0',
+                       'label' => $key,
+                      ];
+    }
+
+    $scales = new stdClass();
+    $scales->xAxes[] = ['id' => 'x-axis-0',
+                        'ticks' => ['autoSkip' => false,
+                                    'fontSize' => 8,
+                                   ],
+                       ];
+    $scales->yAxes[] = ['id' => 'y-axis-0',
+                        'position' => 'right',
+                        'ticks' => ['stepSize' => 2,
+                                   ],
+                       ];
+
+    $labels_new = [];
+    foreach ($labels as $label) {
+        $is_exists = false;
+        foreach ($central as $key => $value) {
+            foreach ($data[$key] as $point) {
+                if ($point->x === $label) {
+                    $is_exists = true;
+                    break 2;
+                }
+            }
+        }
+        if ($is_exists === true) {
+            $labels_new[] = $label;
+        }
+    }
+
+    $json = ['type' => 'line',
+             'data' => ['labels' => $labels_new,
+                        'datasets' => $datasets,
+                       ],
+             'options' => ['legend' => ['labels' => ['usePointStyle' => true,
+                                                     'fontColor' => 'black',
+                                                    ],
+                                       ],
+                           'animation' => ['duration' => 0,
+                                          ],
+                           'hover' => ['animationDuration' => 0,
+                                      ],
+                           'responsiveAnimationDuration' => 0,
+                           'scales' => $scales,
+                          ],
+            ];
+
+    $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
+    exec('node ../scripts/chartjs_node.js 1200 600 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    $res = $mu_->shrink_image($file);
+    unlink($file);
+
+    $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+    $description = '<![CDATA[' . $description . ']]>';
+
+    $rss_item_text = <<< __HEREDOC__
+<item>
+<guid isPermaLink="false">__HASH__</guid>
+<pubDate>__PUBDATE__</pubDate>
+<title>central league</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
