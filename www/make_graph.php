@@ -1739,7 +1739,7 @@ __HEREDOC__;
 <item>
 <guid isPermaLink="false">__HASH__</guid>
 <pubDate>__PUBDATE__</pubDate>
-<title>github contributions</title>
+<title>dyno usage</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
@@ -1936,7 +1936,7 @@ function make_database3($mu_, $file_name_rss_items_)
 <item>
 <guid isPermaLink="false">__HASH__</guid>
 <pubDate>__PUBDATE__</pubDate>
-<title>github contributions</title>
+<title>database</title>
 <link>http://dummy.local/</link>
 <description>__DESCRIPTION__</description>
 </item>
