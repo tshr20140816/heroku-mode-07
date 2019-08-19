@@ -1996,7 +1996,7 @@ function npb_team_ranking($mu_, $file_name_rss_items_)
     $md = '';
     $labels = [];
     $data = [];
-    foreach ($urls as $url) {
+    foreach ($urls as $url => $options) {
         $res = $list_contents[$url];
 
         $tmp = explode('<tr id="date', $res);
