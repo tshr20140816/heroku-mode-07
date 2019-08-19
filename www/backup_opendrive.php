@@ -56,14 +56,22 @@ function backup_opendrive($mu_)
             CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
             CURLOPT_CUSTOMREQUEST => 'GET',
         ];
-        $res = $mu_->get_contents($url, $options);
+        // $res = $mu_->get_contents($url, $options);
         @unlink("/tmp/${base_name}");
-        file_put_contents("/tmp/${base_name}", $res);
+        // file_put_contents("/tmp/${base_name}", $res);
+        
+        $line = 'curl -v -m 60 -o ' . "/tmp/${base_name}" . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
+        error_log($log_prefix . $line);
+        $res = null;
+        exec($line, $res);
+        error_log($log_prefix . print_r($res, true));
+        $res = null;
 
         $file_size = filesize("/tmp/${base_name}");
-        $fh = fopen("/tmp/${base_name}", 'rb');
+        // $fh = fopen("/tmp/${base_name}", 'rb');
 
         $url = 'https://webdav.opendrive.com/' . $base_name;
+        /*
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
@@ -72,18 +80,24 @@ function backup_opendrive($mu_)
             CURLOPT_INFILESIZE => $file_size,
             CURLOPT_HEADER => true,
         ];
+        */
         // $res = $mu_->get_contents($url, $options);
         // $line = 'curl -v -m 600 -X PUT -T ' . "/tmp/${base_name}" . ' -u ' . "${user_opendrive}:${password_opendrive} " . $url;
         $line = 'curl -v -X PUT -T ' . "/tmp/${base_name}" . ' -u ' . "${user_opendrive}:${password_opendrive} " . $url;
         if ($file_size > 10000000) {
             $line = 'curl -X PUT -T ' . "/tmp/${base_name}" . ' -u ' . "${user_opendrive}:${password_opendrive} " . $url . ' > /dev/null 2>&1 &';
-        }
-        error_log($log_prefix . $line);
-        exec($line, $res);
-        error_log($log_prefix . print_r($res, true));
-        $res = null;
+            $res = null;
+            exec($line, $res);
+            $res = null;
+        } else {
+            error_log($log_prefix . $line);
+            $res = null;
+            exec($line, $res);
+            error_log($log_prefix . print_r($res, true));
+            $res = null;
 
-        fclose($fh);
-        unlink("/tmp/${base_name}");
+            // fclose($fh);
+            unlink("/tmp/${base_name}");
+        }
     }
 }
