@@ -1541,6 +1541,7 @@ function make_storage_usage($mu_, $file_name_rss_items_)
 
     $datasets[] = ['data' => $data1,
                    'fill' => false,
+                   'lineTension' => 0,
                    'pointStyle' => 'circle',
                    'backgroundColor' => 'black',
                    'borderColor' => 'black',
@@ -1557,9 +1558,13 @@ function make_storage_usage($mu_, $file_name_rss_items_)
              'options' => ['legend' => ['labels' => ['usePointStyle' => true
                                                     ],
                                        ],
+                           'animation' => ['duration' => 0,],
+                           'hover' => ['animationDuration' => 0,],
+                           'responsiveAnimationDuration' => 0,
                           ],
             ];
 
+    /*
     $url = 'https://quickchart.io/chart?w=600&h=360&c=' . urlencode(json_encode($json));
     $res = $mu_->get_contents($url);
     $url_length = strlen($url);
@@ -1578,6 +1583,12 @@ function make_storage_usage($mu_, $file_name_rss_items_)
 
     $res = $mu_->shrink_image($file);
 
+    unlink($file);
+    */
+    
+    $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
+    exec('node ../scripts/chartjs_node.js 600 360 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    $res = file_get_contents($file);
     unlink($file);
 
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
@@ -1601,7 +1612,8 @@ __HEREDOC__;
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
     error_log($log_prefix . 'END');
-    return $url_length;
+    // return $url_length;
+    return 0;
 }
 
 function make_heroku_dyno_usage_graph3($mu_, $file_name_rss_items_)
