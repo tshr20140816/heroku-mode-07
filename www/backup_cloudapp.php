@@ -37,7 +37,7 @@ function backup_cloudapp($mu_)
     ];
 
     $res = $mu_->get_contents($url, $options);
-
+    
     $files = [];
     foreach (explode('</D:response>', $res) as $item) {
         $rc = preg_match('/<D:href>(.+?)<.+?<lp1:creationdate>(.+?)<.+?<lp1:getcontentlength>/s', $item, $match);
@@ -132,9 +132,16 @@ __HEREDOC__;
             CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
             CURLOPT_CUSTOMREQUEST => 'GET',
         ];
-        $res = $mu_->get_contents($url, $options);
+        // $res = $mu_->get_contents($url, $options);
         @unlink("/tmp/${base_name}");
-        file_put_contents("/tmp/${base_name}", $res);
+        // file_put_contents("/tmp/${base_name}", $res);
+        
+        $line = 'curl -v -m 60 -o ' . "/tmp/${base_name}" . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
+        error_log($log_prefix . $line);
+        $res = null;
+        exec($line, $res);
+        error_log($log_prefix . print_r($res, true));
+        $res = null;
 
         $url = 'http://my.cl.ly/items/new';
         $options = [
