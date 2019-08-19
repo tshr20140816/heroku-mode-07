@@ -457,7 +457,7 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
             ];
     $height = 120;
     if ($y_max > 2) {
-        $height = 180;
+        $height = 160;
     }
 
     /*
