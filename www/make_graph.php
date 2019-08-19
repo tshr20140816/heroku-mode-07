@@ -67,6 +67,7 @@ exit();
 function make_score_map($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
 
     $color_index['広島'] = 'red,red';
     $color_index['ヤクルト'] = 'cyan,yellowgreen';
@@ -245,12 +246,14 @@ __HEREDOC__;
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
+    error_log($log_prefix . 'END');
     return $url_length;
 }
 
 function make_loggly_usage($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
 
     $cookie = tempnam('/tmp', md5(microtime(true)));
 
@@ -407,12 +410,14 @@ __HEREDOC__;
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
     // return $url_length;
+    error_log($log_prefix . 'END');
     return 0;
 }
 
 function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
 
     for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
@@ -577,12 +582,14 @@ __HEREDOC__;
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
+    error_log($log_prefix . 'END');
     return $url_length;
 }
 
 function make_heroku_dyno_usage_graph2($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
 
     for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
@@ -743,12 +750,14 @@ __HEREDOC__;
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
+    error_log($log_prefix . 'END');
     return $url_length;
 }
 
 function make_waon_balance($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
 
     $sql = <<< __HEREDOC__
 SELECT to_char(T1.check_time, 'YYYY/MM/DD') check_date
@@ -871,12 +880,14 @@ __HEREDOC__;
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
+    error_log($log_prefix . 'END');
     return $url_length;
 }
 
 function make_database($mu_, $file_name_rss_items_, $pattern_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
 
     for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
@@ -1102,12 +1113,14 @@ __HEREDOC__;
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
+    error_log($log_prefix . 'END');
     return $url_length;
 }
 
 function make_process_time($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
 
     $url = 'https://' . $mu_->get_env('WORDPRESS_USERNAME', true) . '.wordpress.com/?s=daily020.php';
     $res = $mu_->get_contents($url);
@@ -1222,12 +1235,14 @@ __HEREDOC__;
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
+    error_log($log_prefix . 'END');
     return 0;
 }
 
 function make_post_count($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
 
     $sql = <<< __HEREDOC__
 SELECT T1.yyyymmdd
@@ -1347,12 +1362,14 @@ __HEREDOC__;
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
+    error_log($log_prefix . 'END');
     return 0;
 }
 
 function make_github_contributions($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
 
     $res = $mu_->get_contents('https://github.com/tshr20140816');
 
@@ -1497,12 +1514,14 @@ __HEREDOC__;
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
+    error_log($log_prefix . 'END');
     return 0;
 }
 
 function make_storage_usage($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
 
     $keyword = 'ijesjwfvtbhf';
 
@@ -1580,12 +1599,14 @@ __HEREDOC__;
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
+    error_log($log_prefix . 'END');
     return $url_length;
 }
 
 function make_heroku_dyno_usage_graph3($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
 
     for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
@@ -1751,12 +1772,14 @@ __HEREDOC__;
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
+    error_log($log_prefix . 'END');
     return 0;
 }
 
 function make_database3($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
 
     for ($i = 0; $i < (int)date('t'); $i++) {
         $labels[] = $i + 1;
@@ -1948,12 +1971,14 @@ __HEREDOC__;
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
+    error_log($log_prefix . 'END');
     return 0;
 }
 
 function npb_team_ranking($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
 
     $urls = [];
     for ($i = 3; $i < 11; $i++) {
@@ -2106,5 +2131,6 @@ __HEREDOC__;
     $rss_item_text = str_replace('__HASH__', hash('sha256', $description), $rss_item_text);
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
+    error_log($log_prefix . 'END');
     return 0;
 }
