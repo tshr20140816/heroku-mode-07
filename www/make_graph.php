@@ -881,7 +881,8 @@ __HEREDOC__;
     file_put_contents($file_name_rss_items_, $rss_item_text, FILE_APPEND);
 
     error_log($log_prefix . 'END');
-    return $url_length;
+    // return $url_length;
+    return 0;
 }
 
 function make_database($mu_, $file_name_rss_items_, $pattern_)
