@@ -1,2 +1,3 @@
 libcrypto++-dev
 libsqlite3-dev
+libc-ares-dev
