@@ -99,7 +99,7 @@ ls -lang
 pushd megatools-1.10.2
 ls -lang
 ./configure --help
-time ./configure --prefix=/tmp/usr
+time ./configure --prefix=/tmp/usr --disable-docs
 time make -j2
 popd
 popd
