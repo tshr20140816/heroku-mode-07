@@ -98,6 +98,9 @@ time tar xf megatools-1.10.2.tar.gz
 ls -lang
 pushd megatools-1.10.2
 ls -lang
+./configure --help
+time ./configure --prefix=/tmp/usr
+time make -j2
 popd
 popd
 
