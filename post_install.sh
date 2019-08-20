@@ -9,7 +9,7 @@ curl --version
 pushd /tmp
 git clone https://github.com/curl/curl.git
 pushd curl
-time ./buidconf
+time ./buildconf
 ./configure --help
 ./configure --with-ssl
 popd
