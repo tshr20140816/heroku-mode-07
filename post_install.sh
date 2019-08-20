@@ -91,6 +91,13 @@ ls -lang .fonts/
 chmod 755 ./start_web.sh
 chmod 755 ./bin/unrar
 
+pushd /tmp
+curl -O https://megatools.megous.com/builds/megatools-1.10.2.tar.gz
+ls -lang
+tar xf megatools-1.10.2.tar.gz
+ls -lang
+popd
+
 curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_100 > /dev/null 2>&1
 
 wait
