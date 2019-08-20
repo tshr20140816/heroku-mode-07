@@ -4,8 +4,6 @@ set -x
 
 date
 
-curl --version
-
 pushd /tmp
 git clone https://github.com/curl/curl.git
 pushd curl
@@ -18,6 +16,9 @@ ls -lang /tmp/usr
 ls -lang /tmp/usr/bin
 popd
 popd
+
+curl --version
+/tmp/usr/bin/curl --version
 
 cp /tmp/usr/bin/curl ./bin/
 
