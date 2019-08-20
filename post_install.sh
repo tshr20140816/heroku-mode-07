@@ -4,6 +4,8 @@ set -x
 
 date
 
+curl --version
+
 pushd /tmp
 
 time git clone https://github.com/meganz/MEGAcmd.git
