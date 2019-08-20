@@ -30,9 +30,7 @@ pushd /tmp
 time git clone https://github.com/meganz/MEGAcmd.git
 pushd MEGAcmd
 time git submodule update --init --recursive
-ls -lang
 time sh autogen.sh
-ls -lang
 ./configure --help
 time ./configure --prefix=/tmp/usr --disable-curl-checks --enable-static=yes --enable-shared=no
 time make -j2
