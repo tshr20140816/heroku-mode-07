@@ -9,3 +9,4 @@ libsodium-dev
 libc-ares-dev
 libfreeimage-dev
 libnghttp2-dev
+libbrotli-dev
