@@ -7,16 +7,24 @@ date
 curl --version
 
 pushd /tmp
+git clone https://github.com/curl/curl.git
+pushd curl
+time sh autogen.sh
+./configure --help
+popd
+popd
+
+pushd /tmp
 
 time git clone https://github.com/meganz/MEGAcmd.git
 pushd MEGAcmd
 time git submodule update --init --recursive
-ls -lang
+# ls -lang
 time sh autogen.sh
-ls -lang
+# ls -lang
 ./configure --help
-time ./configure --prefix=/tmp/usr --disable-curl-checks --enable-static=yes --enable-shared=no
-time make -j2
+# time ./configure --prefix=/tmp/usr --disable-curl-checks --enable-static=yes --enable-shared=no
+# time make -j2
 popd
 popd
 
