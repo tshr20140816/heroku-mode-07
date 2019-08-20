@@ -92,23 +92,15 @@ chmod 755 ./start_web.sh
 chmod 755 ./bin/unrar
 
 pushd /tmp
-time curl -O https://megatools.megous.com/builds/megatools-1.10.2.tar.gz
-ls -lang
-time tar xf megatools-1.10.2.tar.gz
-ls -lang
-pushd megatools-1.10.2
-ls -lang
-./configure --help
-time ./configure --prefix=/tmp/usr --disable-docs
-time make -j2
-make install
-ls -lang /tmp/usr/bin
-ls -lang /tmp/usr/share
-popd
-popd
-mv /tmp/usr/bin/m* ./bin/
 
-ls -lang ./bin
+time git clone https://github.com/meganz/MEGAcmd.git
+pushd MEGAcmd
+time git submodule update --init --recursive
+ls -lang
+time sh autogen.sh
+ls -lang
+popd
+popd
 
 curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_100 > /dev/null 2>&1
 
