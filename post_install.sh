@@ -6,7 +6,7 @@ date
 
 pushd /tmp
 
-time git clone https://github.com/meganz/MEGAcmd.git
+time git clone -b 1.1.0_Linux https://github.com/meganz/MEGAcmd.git
 pushd MEGAcmd
 time git submodule update --init --recursive
 ls -lang
