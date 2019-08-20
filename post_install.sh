@@ -9,11 +9,12 @@ git clone --depth=1 -b curl-7_65_3 https://github.com/curl/curl.git
 pushd curl
 time ./buildconf
 ./configure --help
-time ./configure --prefix=/tmp/usr --disable-curl-checks --enable-static=yes --enable-shared=no --with-ssl --with-nghttp2 --with-brotli
+time ./configure --prefix=/tmp/usr --enable-static=yes --enable-shared=yes --with-ssl --with-nghttp2 --with-brotli
 time make -j2
 make install
 ls -lang /tmp/usr
 ls -lang /tmp/usr/bin
+ls -lang /tmp/usr/lib
 popd
 popd
 
@@ -33,7 +34,7 @@ ls -lang
 time sh autogen.sh
 ls -lang
 ./configure --help
-time ./configure --prefix=/tmp/usr --enable-static=yes --enable-shared=no
+time ./configure --prefix=/tmp/usr --disable-curl-checks --enable-static=yes --enable-shared=no
 time make -j2
 popd
 popd
