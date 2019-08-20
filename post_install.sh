@@ -4,38 +4,38 @@ set -x
 
 date
 
-pushd /tmp
-git clone --depth=1 -b curl-7_65_3 https://github.com/curl/curl.git
-pushd curl
-time ./buildconf
-./configure --help
-time ./configure --prefix=/tmp/usr --enable-static=yes --enable-shared=yes --with-ssl --with-nghttp2 --with-brotli
-time make -j2
-make install
-ls -lang /tmp/usr
-ls -lang /tmp/usr/bin
-ls -lang /tmp/usr/lib
-popd
-popd
-
-curl --version
-/tmp/usr/bin/curl --version
-
-cp /tmp/usr/bin/curl ./bin/
-
-export PATH=./bin:${PATH}
-curl --version
-
-pushd /tmp
-time git clone https://github.com/meganz/MEGAcmd.git
-pushd MEGAcmd
-time git submodule update --init --recursive
-time sh autogen.sh
-./configure --help
-time ./configure --prefix=/tmp/usr --disable-curl-checks --enable-static=yes --enable-shared=no
-time make -j2
-popd
-popd
+# pushd /tmp
+# git clone --depth=1 -b curl-7_65_3 https://github.com/curl/curl.git
+# pushd curl
+# time ./buildconf
+# ./configure --help
+# time ./configure --prefix=/tmp/usr --enable-static=yes --enable-shared=yes --with-ssl --with-nghttp2 --with-brotli
+# time make -j2
+# make install
+# ls -lang /tmp/usr
+# ls -lang /tmp/usr/bin
+# ls -lang /tmp/usr/lib
+# popd
+# popd
+# 
+# curl --version
+# /tmp/usr/bin/curl --version
+# 
+# cp /tmp/usr/bin/curl ./bin/
+# 
+# export PATH=./bin:${PATH}
+# curl --version
+# 
+# pushd /tmp
+# time git clone https://github.com/meganz/MEGAcmd.git
+# pushd MEGAcmd
+# time git submodule update --init --recursive
+# time sh autogen.sh
+# ./configure --help
+# time ./configure --prefix=/tmp/usr --disable-curl-checks --enable-static=yes --enable-shared=no
+# time make -j2
+# popd
+# popd
 
 curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_000 > /dev/null 2>&1 &
 
