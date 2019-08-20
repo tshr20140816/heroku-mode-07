@@ -5,7 +5,7 @@ set -x
 date
 
 pushd /tmp
-git clone --depth=1 -b 7.65.3 https://github.com/curl/curl.git
+git clone --depth=1 -b curl-7_65_3 https://github.com/curl/curl.git
 pushd curl
 time ./buildconf
 ./configure --help
