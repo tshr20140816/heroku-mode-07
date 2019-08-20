@@ -101,6 +101,8 @@ ls -lang
 ./configure --help
 time ./configure --prefix=/tmp/usr --disable-docs
 time make -j2
+make install
+ls -lang /tmp/usr
 popd
 popd
 
