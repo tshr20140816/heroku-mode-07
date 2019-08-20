@@ -19,6 +19,8 @@ ls -lang /tmp/usr/bin
 popd
 popd
 
+cp /tmp/usr/bin/curl ./bin/
+
 pushd /tmp
 # time git clone https://github.com/meganz/MEGAcmd.git
 # pushd MEGAcmd
