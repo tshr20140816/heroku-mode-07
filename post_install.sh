@@ -99,6 +99,9 @@ time git submodule update --init --recursive
 ls -lang
 time sh autogen.sh
 ls -lang
+./configure --help
+time ./configure --prefix=/tmp/usr
+time make -j2
 popd
 popd
 
