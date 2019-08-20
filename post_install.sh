@@ -11,7 +11,11 @@ git clone https://github.com/curl/curl.git
 pushd curl
 time ./buildconf
 ./configure --help
-./configure --with-ssl
+time ./configure --prefix=/tmp/usr --disable-curl-checks --enable-static=yes --enable-shared=no --with-ssl
+time make -j2
+make install
+ls -lang /tmp/usr
+ls -lang /tmp/usr/bin
 popd
 popd
 
