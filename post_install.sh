@@ -6,15 +6,14 @@ date
 
 pushd /tmp
 
-# time git clone -b 1.1.0_Linux https://github.com/meganz/MEGAcmd.git
-time git clone -b 0.9.9 https://github.com/meganz/MEGAcmd.git
+time git clone https://github.com/meganz/MEGAcmd.git
 pushd MEGAcmd
 time git submodule update --init --recursive
 ls -lang
 time sh autogen.sh
 ls -lang
 ./configure --help
-time ./configure --prefix=/tmp/usr --enable-static=yes --enable-shared=no
+time ./configure --prefix=/tmp/usr
 time make -j2
 popd
 popd
