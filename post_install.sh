@@ -15,7 +15,7 @@ ls -lang
 time sh autogen.sh
 ls -lang
 ./configure --help
-time ./configure --prefix=/tmp/usr
+time ./configure --prefix=/tmp/usr --disable-curl-checks --enable-static=yes --enable-shared=no
 time make -j2
 popd
 popd
