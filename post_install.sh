@@ -16,17 +16,16 @@ popd
 popd
 
 pushd /tmp
-
-time git clone https://github.com/meganz/MEGAcmd.git
-pushd MEGAcmd
-time git submodule update --init --recursive
+# time git clone https://github.com/meganz/MEGAcmd.git
+# pushd MEGAcmd
+# time git submodule update --init --recursive
 # ls -lang
-time sh autogen.sh
+# time sh autogen.sh
 # ls -lang
-./configure --help
+# ./configure --help
 # time ./configure --prefix=/tmp/usr --disable-curl-checks --enable-static=yes --enable-shared=no
 # time make -j2
-popd
+# popd
 popd
 
 curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_000 > /dev/null 2>&1 &
