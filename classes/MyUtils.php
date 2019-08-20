@@ -1042,7 +1042,8 @@ __HEREDOC__;
 
         error_log($log_prefix . 'START memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
         error_log($log_prefix . "file : ${file_name_}");
-        error_log($log_prefix . 'file size : ' . number_format(filesize($file_name_)));
+        // error_log($log_prefix . 'file size : ' . number_format(filesize($file_name_)));
+        @unlink($file_name_);
 
         $base_name = pathinfo($file_name_)['basename'];
 
@@ -1075,12 +1076,12 @@ __HEREDOC__;
 
         // debug_print_backtrace();
         // $res = bzcompress($data_, 9);
-        $file_name = tempnam("/tmp", 'bz_' .  md5(microtime(true)));
+        $file_name = tempnam('/tmp', 'bz_' .  md5(microtime(true)));
         $rc = file_put_contents($file_name, $data_);
         $data_ = null;
         $res = null;
         exec('bzip2 -v ' . $file_name, $res);
-        error_log(print_r($res, true));
+        error_log($log_prefix . print_r($res, true));
         $res = file_get_contents($file_name . '.bz2');
         unlink($file_name . '.bz2');
 
