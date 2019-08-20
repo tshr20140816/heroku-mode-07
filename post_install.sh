@@ -9,8 +9,9 @@ curl --version
 pushd /tmp
 git clone https://github.com/curl/curl.git
 pushd curl
-time sh autogen.sh
+time ./buidconf
 ./configure --help
+./configure --with-ssl
 popd
 popd
 
