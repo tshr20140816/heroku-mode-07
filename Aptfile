@@ -8,3 +8,4 @@ libpcre++-dev
 libsodium-dev
 libc-ares-dev
 libfreeimage-dev
+libnghttp2-dev
