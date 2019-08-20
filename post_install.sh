@@ -6,6 +6,8 @@ date
 
 curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_000 > /dev/null 2>&1 &
 
+apt install libcrypto++-dev
+
 grep -c -e processor /proc/cpuinfo
 cat /proc/cpuinfo | head -n $(($(cat /proc/cpuinfo | wc -l) / $(grep -c -e processor /proc/cpuinfo)))
 
@@ -90,20 +92,6 @@ ls -lang .fonts/
 
 chmod 755 ./start_web.sh
 chmod 755 ./bin/unrar
-
-pushd /tmp
-
-time git clone https://github.com/meganz/MEGAcmd.git
-pushd MEGAcmd
-time git submodule update --init --recursive
-ls -lang
-time sh autogen.sh
-ls -lang
-./configure --help
-time ./configure --prefix=/tmp/usr
-time make -j2
-popd
-popd
 
 curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_100 > /dev/null 2>&1
 
