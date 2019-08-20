@@ -30,6 +30,8 @@ php --version
 cat /proc/version
 curl --version
 
+git --version
+
 getconf ARG_MAX
 
 echo "$(httpd -v)" > /tmp/apache_current_version
