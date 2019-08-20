@@ -22,7 +22,7 @@ curl --version
 
 cp /tmp/usr/bin/curl ./bin/
 
-export PATH=./bin/:${PATH}
+export PATH=./bin:${PATH}
 
 pushd /tmp
 time git clone https://github.com/meganz/MEGAcmd.git
