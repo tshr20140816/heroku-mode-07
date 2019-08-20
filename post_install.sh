@@ -5,7 +5,7 @@ set -x
 date
 
 pushd /tmp
-git clone https://github.com/curl/curl.git
+git clone --depth=1 -b 7.65.3 https://github.com/curl/curl.git
 pushd curl
 time ./buildconf
 ./configure --help
@@ -22,17 +22,19 @@ curl --version
 
 cp /tmp/usr/bin/curl ./bin/
 
+export PATH=./bin/:${PATH}
+
 pushd /tmp
-# time git clone https://github.com/meganz/MEGAcmd.git
-# pushd MEGAcmd
-# time git submodule update --init --recursive
-# ls -lang
-# time sh autogen.sh
-# ls -lang
-# ./configure --help
-# time ./configure --prefix=/tmp/usr --disable-curl-checks --enable-static=yes --enable-shared=no
-# time make -j2
-# popd
+time git clone https://github.com/meganz/MEGAcmd.git
+pushd MEGAcmd
+time git submodule update --init --recursive
+ls -lang
+time sh autogen.sh
+ls -lang
+./configure --help
+time ./configure --prefix=/tmp/usr --enable-static=yes --enable-shared=no
+time make -j2
+popd
 popd
 
 curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_000 > /dev/null 2>&1 &
