@@ -9,6 +9,8 @@ curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_000 > /dev/nul
 grep -c -e processor /proc/cpuinfo
 cat /proc/cpuinfo | head -n $(($(cat /proc/cpuinfo | wc -l) / $(grep -c -e processor /proc/cpuinfo)))
 
+# ***** XML_RPC2 *****
+
 pear config-show
 pear list-channels
 
@@ -72,6 +74,8 @@ if [ ${is_succeeded} = '0' ]; then
     ls -lang
     popd
 fi
+
+# ***** font etc *****
 
 # wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar
 # wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar
