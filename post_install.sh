@@ -4,39 +4,6 @@ set -x
 
 date
 
-# pushd /tmp
-# git clone --depth=1 -b curl-7_65_3 https://github.com/curl/curl.git
-# pushd curl
-# time ./buildconf
-# ./configure --help
-# time ./configure --prefix=/tmp/usr --enable-static=yes --enable-shared=yes --with-ssl --with-nghttp2 --with-brotli
-# time make -j2
-# make install
-# ls -lang /tmp/usr
-# ls -lang /tmp/usr/bin
-# ls -lang /tmp/usr/lib
-# popd
-# popd
-# 
-# curl --version
-# /tmp/usr/bin/curl --version
-# 
-# cp /tmp/usr/bin/curl ./bin/
-# 
-# export PATH=./bin:${PATH}
-# curl --version
-# 
-# pushd /tmp
-# time git clone https://github.com/meganz/MEGAcmd.git
-# pushd MEGAcmd
-# time git submodule update --init --recursive
-# time sh autogen.sh
-# ./configure --help
-# time ./configure --prefix=/tmp/usr --disable-curl-checks --enable-static=yes --enable-shared=no
-# time make -j2
-# popd
-# popd
-
 curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_000 > /dev/null 2>&1 &
 
 grep -c -e processor /proc/cpuinfo
@@ -54,7 +21,8 @@ fi
 # wget https://github.com/pyrus/Pyrus/blob/master/pyrus.phar
 # php pyrus.phar install pear/XML_RPC2
 
-# time wget -q https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz -O heroku.tar.gz
+# ***** heroku cli *****
+
 time curl -sS -o heroku.tar.gz https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz
 mkdir heroku
 mv heroku.tar.gz ./heroku/heroku.tar.gz
@@ -66,7 +34,6 @@ popd
 # ***** phppgadmin *****
 
 pushd www
-# git clone --depth 1 https://github.com/phppgadmin/phppgadmin.git phppgadmin
 time git clone --depth=1 -b REL_5-6-0  https://github.com/phppgadmin/phppgadmin.git phppgadmin
 cp ../config.inc.php phppgadmin/conf/
 ls -lang phppgadmin
