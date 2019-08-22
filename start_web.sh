@@ -33,6 +33,7 @@ curl --version
 git --version
 
 megals --version
+pbzip2 -V
 
 getconf ARG_MAX
 
