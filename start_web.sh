@@ -32,6 +32,8 @@ curl --version
 
 git --version
 
+megals --version | head -n 1
+
 getconf ARG_MAX
 
 echo "$(httpd -v)" > /tmp/apache_current_version
