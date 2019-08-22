@@ -1080,7 +1080,8 @@ __HEREDOC__;
         $rc = file_put_contents($file_name, $data_);
         $data_ = null;
         $res = null;
-        exec('bzip2 -v ' . $file_name, $res);
+        // exec('bzip2 -v ' . $file_name, $res);
+        exec('pbzip2 -v ' . $file_name, $res);
         error_log($log_prefix . print_r($res, true));
         $res = file_get_contents($file_name . '.bz2');
         unlink($file_name . '.bz2');
@@ -1551,7 +1552,8 @@ __HEREDOC__;
         $authtoken_zoho = $this->get_env('ZOHO_AUTHTOKEN', true);
 
         $res = null;
-        exec("bzip2 -v ${file_name_}", $res);
+        // exec("bzip2 -v ${file_name_}", $res);
+        exec("pbzip2 -v ${file_name_}", $res);
         error_log($log_prefix . print_r($res, true));
 
         $method = 'aes-256-cbc';
