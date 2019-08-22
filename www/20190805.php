@@ -21,7 +21,9 @@ function func_20190805($mu_)
     $password_mega = $mu_->get_env('MEGA_PASSWORD', true);
     
     $res = null;
-    exec("megadf -u ${user_mega} -p ${password_mega}", $res);
+    $line = "megadf -u ${user_mega} -p ${password_mega}";
+    error_log($line);
+    exec($line, $res);
     error_log($log_prefix . print_r($res, true));
     
     return;
