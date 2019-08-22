@@ -16,29 +16,7 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 function func_20190805($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-        
-    $user_mega = $mu_->get_env('MEGA_USER', true);
-    $password_mega = $mu_->get_env('MEGA_PASSWORD', true);
-    
-    $res = null;
-    $line = "megadf -u ${user_mega} -p ${password_mega}";
-    error_log($line);
-    exec($line, $res);
-    // error_log($log_prefix . print_r($res, true));
-    
-    foreach ($res as $line) {
-        error_log($line);
-        if (substr($line, 0, 5) === 'Total') {
-            $total_size = (int)trim(explode(':', $line)[1]);
-        } else if (substr($line, 0, 4) === 'Used') {
-            $used_size = (int)trim(explode(':', $line)[1]);
-        }
-    }
-    error_log(substr($used_size / $total_size * 100, 0, 5));
-    error_log(number_format($used_size));
-    
-    return;
-    
+
     $heroku_app_name = $mu_->get_env('HEROKU_APP_NAME_TTRSS');
     $database_url = $mu_->get_env('DATABASE_URL_TTRSS', true);
     
