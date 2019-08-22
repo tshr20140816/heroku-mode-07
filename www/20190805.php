@@ -28,7 +28,7 @@ function func_20190805($mu_)
     error_log($log_prefix . print_r($res, true));
     
     $res = null;
-    exec('bzip2 -v ' . $file_name, $res);
+    exec('pbzip2 -v ' . $file_name, $res);
     error_log($log_prefix . print_r($res, true));
     
     /*
