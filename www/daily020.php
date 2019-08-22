@@ -677,8 +677,8 @@ function check_mega_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $user_mega = $me_->get_env('MEGA_USER', true);
-    $password_mega = $me_->get_env('MEGA_PASSWORD', true);
+    $user_mega = $mu_->get_env('MEGA_USER', true);
+    $password_mega = $mu_->get_env('MEGA_PASSWORD', true);
 
     $res = null;
     $line = "megadf -u ${user_mega} -p ${password_mega}";
