@@ -1036,7 +1036,7 @@ __HEREDOC__;
         return $results;
     }
 
-    public function backup_data($data_, $file_name_)
+    public function backup_data2($data_, $file_name_)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -1514,7 +1514,7 @@ __HEREDOC__;
         return $file_size;
     }
 
-    public function backup_data2($file_name_)
+    public function backup_data($file_name_)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -1543,6 +1543,9 @@ __HEREDOC__;
 
         $user_4shared = $this->get_env('4SHARED_USER', true);
         $password_4shared = $this->get_env('4SHARED_PASSWORD', true);
+
+        $user_mega = $this->get_env('MEGA_USER', true);
+        $password_mega = $this->get_env('MEGA_PASSWORD', true);
 
         /*
         $user_cloudapp = $this->get_env('CLOUDAPP_USER', true);
@@ -1589,6 +1592,12 @@ __HEREDOC__;
             }
         }
 
+        // MEGA
+
+        $res = null;
+        exec("megarm -u ${user_mega} -p ${password_mega} /Root/${base_name}", $res);
+        error_log($log_prefix . print_r($res, true));
+
         // HiDrive
 
         $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
@@ -1600,6 +1609,8 @@ __HEREDOC__;
         ];
         $urls[$url] = $options;
 
+        // pCloud
+
         $url = 'https://webdav.pcloud.com/' . $base_name;
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
@@ -1608,6 +1619,8 @@ __HEREDOC__;
             CURLOPT_HEADER => true,
         ];
         $urls[$url] = $options;
+
+        // TeraCLOUD
 
         $url = "https://${node_teracloud}.teracloud.jp/dav/${base_name}";
         $options = [
@@ -1618,6 +1631,8 @@ __HEREDOC__;
         ];
         $urls[$url] = $options;
 
+        // OpenDrive
+
         $url = 'https://webdav.opendrive.com/' . $base_name;
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
@@ -1627,6 +1642,8 @@ __HEREDOC__;
         ];
         $urls[$url] = $options;
 
+        // CloudMe
+
         $url = "https://webdav.cloudme.com/${user_cloudme}/xios/${base_name}";
         $options = [
             CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
@@ -1635,6 +1652,8 @@ __HEREDOC__;
             CURLOPT_HEADER => true,
         ];
         $urls[$url] = $options;
+
+        // 4shared
 
         $url = 'https://webdav.4shared.com/' . $base_name;
         $options = [
@@ -1653,20 +1672,34 @@ __HEREDOC__;
 
         $lines = [];
 
+        // HiDrive
+
         $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
         $lines[] = "curl -v -m 120 -X PUT -T ${file_name_} -u ${user_hidrive}:${password_hidrive} ${url}";
+
+        // pCloud
 
         $url = "https://webdav.pcloud.com/${base_name}";
         $lines[] = "curl -v -m 120 -X PUT -T ${file_name_} -u ${user_pcloud}:${password_pcloud} ${url}";
 
+        // TeraCLOUD
+
         $url = "https://${node_teracloud}.teracloud.jp/dav/${base_name}";
         $lines[] = "curl -v -m 120 -X PUT -T ${file_name_} -u ${user_teracloud}:${password_teracloud} ${url}";
+
+        // CloudMe
 
         $url = "https://webdav.cloudme.com/${user_cloudme}/xios/${base_name}";
         $lines[] = "curl -v -m 120 -X PUT -T ${file_name_} --digest -u ${user_cloudme}:${password_cloudme} ${url}";
 
+        // 4shared
+
         $url = "https://webdav.4shared.com/${base_name}";
         $lines[] = "curl -v -m 120 -X PUT -T ${file_name_} -u ${user_4shared}:${password_4shared} ${url}";
+
+        // MEGA
+
+        $lines[] = "megaput -u ${user_mega} -p ${password_mega} --path /Root/${base_name} ${file_name_}";
 
         foreach ($lines as $line) {
             $res = null;
@@ -1675,6 +1708,8 @@ __HEREDOC__;
             error_log($log_prefix . print_r($res, true));
             $res = null;
         }
+
+        // Zoho
 
         $url = "https://apidocs.zoho.com/files/v1/upload?authtoken=${authtoken_zoho}&scope=docsapi";
         $post_data = ['filename' => $base_name,
