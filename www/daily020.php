@@ -73,6 +73,9 @@ check_4shared_usage($mu, $file_name_blog);
 // Zoho usage
 // check_zoho_usage($mu, $file_name_blog);
 
+// MEGA usage
+check_mega_usage($mu, $file_name_blog);
+
 // github contribution count
 count_github_contribution($mu, $file_name_blog);
 
@@ -669,6 +672,33 @@ function backup_opml2($mu_, $file_name_blog_)
     file_put_contents($file_name_blog_, "\nOPML2 backup size : ${file_size}Byte\nFeed count : ${feed_count}\n", FILE_APPEND);
 }
 
+function check_mega_usage($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $user_mega = $me_->get_env('MEGA_USER', true);
+    $password_mega = $me_->get_env('MEGA_PASSWORD', true);
+
+    $res = null;
+    $line = "megadf -u ${user_mega} -p ${password_mega}";
+    exec($line, $res);
+
+    foreach ($res as $line) {
+        error_log($log_prefix . $line);
+        if (substr($line, 0, 5) === 'Total') {
+            $total_size = (int)trim(explode(':', $line)[1]);
+        } else if (substr($line, 0, 4) === 'Used') {
+            $used_size = (int)trim(explode(':', $line)[1]);
+        }
+    }
+
+    $percentage = substr($used_size / $total_size * 100, 0, 5);
+    $size = number_format($used_size);
+
+    error_log($log_prefix . "Mega usage : ${size}Byte ${percentage}%");
+    file_put_contents($file_name_blog_, "\nMega usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
+}
+
 function check_zoho_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
@@ -1206,7 +1236,7 @@ __ITEMS__
 </channel>
 </rss>
 __HEREDOC__;
-    
+
     $file = '/tmp/' . getenv('FC2_RSS_02') . '.xml';
     file_put_contents($file, str_replace('__ITEMS__', implode('', $rss_items), $xml_text));
     $mu_->upload_fc2($file);
