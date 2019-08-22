@@ -16,7 +16,16 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 function func_20190805($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
+    
+    $user_mega = $me_->get_env('MEGA_USER', true);
+    $password_mega = $me_->get_env('MEGA_PASSWORD', true);
+    
+    $res = null;
+    exec("megadf -u ${user_mega} -p ${password_mega}", $res);
+    error_log($log_prefix . print_r($res, true));
+    
+    return;
+    
     $heroku_app_name = $mu_->get_env('HEROKU_APP_NAME_TTRSS');
     $database_url = $mu_->get_env('DATABASE_URL_TTRSS', true);
     
