@@ -30,7 +30,7 @@ function func_20190805($mu_)
         error_log($line);
         if (substr($line, 0, 5) === 'Total') {
             $total_size = (int)trim(explode(':', $line)[1]);
-        } eles if (substr($line, 0, 4) === 'Used') {
+        } else if (substr($line, 0, 4) === 'Used') {
             $used_size = (int)trim(explode(':', $line)[1]);
         }
     }
