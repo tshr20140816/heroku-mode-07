@@ -28,7 +28,14 @@ function func_20190805($mu_)
     
     foreach ($res as $line) {
         error_log($line);
+        if (substr($line, 0, 5) === 'Total') {
+            $total_size = (int)trim(explode(':', $line)[1]);
+        } eles if (substr($line, 0, 4) === 'Used') {
+            $used_size = (int)trim(explode(':', $line)[1]);
+        }
     }
+    error_log(substr($used_size / $total_size * 100, 0, 5));
+    error_log(number_format($used_size));
     
     return;
     
