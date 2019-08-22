@@ -27,6 +27,11 @@ function func_20190805($mu_)
     exec($cmd, $res);
     error_log($log_prefix . print_r($res, true));
     
+    $res = null;
+    exec('bzip2 -v ' . $file_name, $res);
+    error_log($log_prefix . print_r($res, true));
+    
+    /*
     error_log($log_prefix . 'sha256 start : ' . hash_file('sha256', $file_name));
     error_log($log_prefix . 'filesize start : ' . number_format(filesize($file_name)));
     
@@ -40,6 +45,7 @@ function func_20190805($mu_)
     
     error_log($log_prefix . 'sha256 finish : ' . hash_file('sha256', $file_name . 'a'));
     error_log($log_prefix . 'filesize finish : ' . number_format(filesize($file_name . 'a')));
+    */
 }
 
 function func_20190805b($mu_, $file_name_)
