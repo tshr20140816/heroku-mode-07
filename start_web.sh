@@ -32,13 +32,14 @@ curl --version
 
 git --version
 
-megals --version | head -n 1
+megals --version
 
 getconf ARG_MAX
 
 echo "$(httpd -v)" > /tmp/apache_current_version
 echo "$(php -v | head -n 1)" > /tmp/php_current_version
 echo "$(curl -V | head -n 1)" > /tmp/curl_current_version
+echo "$(megals --version | head -n 1)" > /tmp/megatools_current_version
 
 # if [ $(date +%-M) -lt 10 ]; then
   # heroku-buildpack-php
