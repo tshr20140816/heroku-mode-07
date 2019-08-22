@@ -1514,12 +1514,17 @@ __HEREDOC__;
         return $file_size;
     }
 
-    public function backup_data($file_name_)
+    public function backup_data($data_, $file_name_)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
         error_log($log_prefix . 'START memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
         error_log($log_prefix . "file : ${file_name_}");
+        
+        if ($data_ !== null) {
+            $rc = file_put_contents($file_name_, $data_);
+        }
+        
         error_log($log_prefix . 'file size : ' . number_format(filesize($file_name_)));
 
         $base_name = pathinfo($file_name_)['basename'];
