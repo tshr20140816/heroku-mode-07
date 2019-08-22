@@ -16,14 +16,7 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 function func_20190805($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
-    $user_mega = base64_decode($mu_->get_env('MEGA_USER'));
-    $password_mega = base64_decode($mu_->get_env('MEGA_PASSWORD'));
-    
-    error_log($mu_->get_encrypt_string($user_mega));
-    error_log($mu_->get_encrypt_string($password_mega));
-    return;
-    
+        
     $user_mega = $mu_->get_env('MEGA_USER', true);
     $password_mega = $mu_->get_env('MEGA_PASSWORD', true);
     
