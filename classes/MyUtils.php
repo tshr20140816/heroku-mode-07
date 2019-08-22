@@ -1727,11 +1727,12 @@ __HEREDOC__;
                     ];
         $res = $this->get_contents($url, $options);
 
+        $filesize = filesize($file_name_);
         unlink($file_name_);
 
         error_log($log_prefix . 'FINISH memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
 
-        return filesize($file_name_);
+        return $filesize;
     }
 
     public function get_contents_proxy($url_)
