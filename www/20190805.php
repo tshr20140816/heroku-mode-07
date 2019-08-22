@@ -24,7 +24,11 @@ function func_20190805($mu_)
     $line = "megadf -u ${user_mega} -p ${password_mega}";
     error_log($line);
     exec($line, $res);
-    error_log($log_prefix . print_r($res, true));
+    // error_log($log_prefix . print_r($res, true));
+    
+    foreach ($res as $line) {
+        error_log($line);
+    }
     
     return;
     
