@@ -1523,6 +1523,7 @@ __HEREDOC__;
         
         if ($data_ !== null) {
             $rc = file_put_contents($file_name_, $data_);
+            $data_ = null;
         }
         
         error_log($log_prefix . 'file size : ' . number_format(filesize($file_name_)));
