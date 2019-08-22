@@ -55,7 +55,7 @@ function func_20190805b($mu_, $file_name_)
     $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
     
     $res = null;
-    exec('bzip2 -v ' . $file_name_, $res);
+    exec('pbzip2 -v ' . $file_name_, $res);
     error_log($log_prefix . print_r($res, true));
     
     $method = 'aes-256-cbc';
@@ -92,6 +92,6 @@ function func_20190805c($mu_, $file_name_)
     unlink($file_name_);
     
     $res = null;
-    exec('bunzip2 -v ' . $file_name_ . '.bz2', $res);
+    exec('pbzip2 -v -d ' . $file_name_ . '.bz2', $res);
     error_log($log_prefix . print_r($res, true));
 }
