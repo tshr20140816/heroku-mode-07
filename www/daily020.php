@@ -233,7 +233,7 @@ function check_waon_balance($mu_, $file_name_blog_)
     $url = 'https://www.waon.com/wmUseHistoryInq/mInit.do';
 
     $options1 = [
-        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_ENCODING => 'gzip, deflate',
         CURLOPT_HTTPHEADER => [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
@@ -280,7 +280,7 @@ __HEREDOC__;
     $url = 'https://www.waon.com/wmUseHistoryInq/mLogin.do';
 
     $options2 = [
-        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_ENCODING => 'gzip, deflate',
         CURLOPT_HTTPHEADER => [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
@@ -473,7 +473,7 @@ function backup_task($mu_, $file_name_blog_)
     $url = 'https://www.toodledo.com/signin.php?redirect=/tools/backup.php';
 
     $options = [
-        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_ENCODING => 'gzip, deflate',
         CURLOPT_HTTPHEADER => [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
@@ -503,7 +503,7 @@ function backup_task($mu_, $file_name_blog_)
     ];
 
     $options = [
-        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_ENCODING => 'gzip, deflate',
         CURLOPT_HTTPHEADER => [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
@@ -554,7 +554,7 @@ function backup_opml($mu_, $file_name_blog_)
     ];
 
     $options = [
-        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_ENCODING => 'gzip, deflate',
         CURLOPT_HTTPHEADER => [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
@@ -575,7 +575,7 @@ function backup_opml($mu_, $file_name_blog_)
     $url = 'https://www.inoreader.com/reader/subscriptions/export?download=1';
 
     $options = [
-        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_ENCODING => 'gzip, deflate',
         CURLOPT_HTTPHEADER => [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
@@ -612,7 +612,7 @@ function backup_opml2($mu_, $file_name_blog_)
     $url = 'https://theoldreader.com/users/sign_in';
 
     $options1 = [
-        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_ENCODING => 'gzip, deflate',
         CURLOPT_HTTPHEADER => [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
@@ -638,7 +638,7 @@ function backup_opml2($mu_, $file_name_blog_)
                  ];
 
     $options2 = [
-        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_ENCODING => 'gzip, deflate',
         CURLOPT_HTTPHEADER => [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
