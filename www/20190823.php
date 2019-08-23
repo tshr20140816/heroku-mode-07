@@ -32,7 +32,7 @@ function func_20190823($mu_)
     error_log($log_prefix . print_r($res, true));
     $res = null;
     
-    $line = 'curl -v -X PUT -T ' . "/tmp/${base_name}" . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
+    $line = "curl -v -X PUT -T /tmp/${base_name} -u ${user_hidrive}:${password_hidrive} --compressed ${url}";
     error_log($log_prefix . $line);
     $res = null;
     exec($line, $res);
