@@ -15,4 +15,26 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 function func_20190823($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
+    $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
+    
+    $base_name = 'composer.lock';
+    copy("../${base_name}", "/tmp/${base_name}");
+    
+    $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
+        
+    $line = 'curl -v -X DELETE -u ' . "${user_opendrive}:${password_opendrive} " . $url;
+    error_log($log_prefix . $line);
+    $res = null;
+    exec($line, $res);
+    error_log($log_prefix . print_r($res, true));
+    $res = null;
+    
+    $line = 'curl -v -X PUT -T ' . "/tmp/${base_name}" . ' -u ' . "${user_opendrive}:${password_opendrive} " . $url;
+    error_log($log_prefix . $line);
+    $res = null;
+    exec($line, $res);
+    error_log($log_prefix . print_r($res, true));
+    $res = null;
 }
