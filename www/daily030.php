@@ -117,8 +117,8 @@ $options = [
         'Connection: keep-alive',
         'DNT: 1',
         'Upgrade-Insecure-Requests: 1',
-        ],
-    ];
+    ],
+];
 
 for ($i = 0; $i < 8; $i++) {
     $url = $mu->get_env('URL_BUS_0' . ($i + 1)) . '&' . $suffix;
@@ -149,7 +149,7 @@ for ($yyyy = (int)date('Y'); $yyyy < (int)date('Y') + 2; $yyyy++) {
     $options = [
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => http_build_query($post_data),
-        ];
+    ];
     $res = $mu->get_contents('http://www.calc-site.com/calendars/solar_year', $options, true);
 }
 
