@@ -38,4 +38,11 @@ function func_20190823($mu_)
     exec($line, $res);
     error_log($log_prefix . print_r($res, true));
     $res = null;
+    
+    $line = "curl -v -u ${user_hidrive}:${password_hidrive} --compressed -O ${url}";
+    error_log($log_prefix . $line);
+    $res = null;
+    exec($line, $res);
+    error_log($log_prefix . print_r($res, true));
+    $res = null;
 }
