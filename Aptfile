@@ -3,3 +3,4 @@ megatools
 
 # -- curl --
 libssh2-1
+libbrotli1
