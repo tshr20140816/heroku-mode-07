@@ -1747,7 +1747,7 @@ __HEREDOC__;
                       'terms-agreed' => '1',
                      ];
 
-        $options = [CURLOPT_ENCODING => 'gzip, deflate, br',
+        $options = [CURLOPT_ENCODING => 'gzip, deflate',
                     CURLOPT_HTTPHEADER => [
                         'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                         'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
@@ -1807,7 +1807,7 @@ __HEREDOC__;
                         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2TLS,
                         CURLOPT_COOKIEJAR => end($cookie),
                         CURLOPT_COOKIEFILE => end($cookie),
-                        CURLOPT_ENCODING => 'gzip, deflate, br',
+                        CURLOPT_ENCODING => 'gzip, deflate',
                         CURLOPT_HTTPHEADER => [
                             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                             'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
