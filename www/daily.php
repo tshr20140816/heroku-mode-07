@@ -546,7 +546,7 @@ function get_task_bus($mu_, $file_name_blog_) {
     $timestamp = mktime(0, 0, 0, 1, 1, 2019);
 
     $options = [
-        CURLOPT_ENCODING => 'gzip, deflate, br',
+        CURLOPT_ENCODING => 'gzip, deflate',
         CURLOPT_HTTPHEADER => [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
