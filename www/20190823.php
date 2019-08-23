@@ -25,14 +25,22 @@ function func_20190823($mu_)
     
     $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
         
-    $line = '../bin/curl -v -X DELETE -u ' . "${user_hidrive}:${password_hidrive} " . $url;
+    $line = 'curl -v -X DELETE -u ' . "${user_hidrive}:${password_hidrive} " . $url;
     error_log($log_prefix . $line);
     $res = null;
     exec($line, $res);
     error_log($log_prefix . print_r($res, true));
     $res = null;
     
-    $line = '../bin/curl -v -X PUT -T ' . "/tmp/${base_name}" . ' -u ' . "${user_hidrive}:${password_hidrive} --compressed " . $url;
+    $line = "gzip -f /tmp/${base_name}";
+    error_log($log_prefix . $line);
+    $res = null;
+    exec($line, $res);
+    error_log($log_prefix . print_r($res, true));
+    $res = null;
+    
+    // $line = 'curl -v -X PUT -T ' . "/tmp/${base_name}" . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
+    $line = "curl -v -X PUT -H 'Content-Encoding:gzip' -T " . "/tmp/${base_name}.gz" . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
     error_log($log_prefix . $line);
     $res = null;
     exec($line, $res);
