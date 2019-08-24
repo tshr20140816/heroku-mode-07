@@ -20,6 +20,7 @@ function func_20190823($mu_)
     $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
     
     $base_name = 'composer.json';
+    $file_name_ = '/tmp/composer.json';
     copy("../${base_name}", "/tmp/${base_name}");
     
     $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
@@ -40,7 +41,7 @@ function func_20190823($mu_)
     // return;
     
     $jobs = <<< __HEREDOC__
-curl -v -m 120 -X POST --compressed -F filename={$base_name} -F content={$file_name_} https://apidocs.zoho.com/files/v1/upload?authtoken={$authtoken_zoho}&scope=docsapi
+curl -v -m 120 -X POST --compressed -F filename={$base_name} -F content=@{$file_name_} https://apidocs.zoho.com/files/v1/upload?authtoken={$authtoken_zoho}&scope=docsapi
 __HEREDOC__;
 
     file_put_contents('/tmp/jobs.txt', $jobs);
