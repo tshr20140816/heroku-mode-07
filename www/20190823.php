@@ -51,14 +51,17 @@ __HEREDOC__;
     $line = 'cat /tmp/jobs.txt | parallel -j6 --joblog /tmp/joblog.txt 2>&1';
     $res = null;
     error_log($log_prefix . $line);
+    $time_start = microtime(true);
     exec($line, $res);
+    $time_finish = microtime(true);
     foreach ($res as $one_line) {
         error_log($log_prefix . $one_line);
     }
     $res = null;
     error_log(file_get_contents('/tmp/joblog.txt'));
+    error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
     
-    // return;
+    return;
     
     $jobs = <<< __HEREDOC__
 curl -v -m 120 -X PUT --compressed -T {$file_name_} -u {$user_hidrive}:{$password_hidrive} https://webdav.hidrive.strato.com/users/{$user_hidrive}/{$base_name}
