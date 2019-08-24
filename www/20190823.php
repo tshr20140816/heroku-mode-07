@@ -27,6 +27,7 @@ function func_20190823($mu_)
     $res = $mu_->get_contents($url);
     foreach (json_decode($res)->FILES as $item) {
         if ($item->DOCNAME == $base_name) {
+            error_log(print_r($item, true))
             $url = "https://apidocs.zoho.com/files/v1/delete?authtoken=${authtoken_zoho}&scope=docsapi";
             $post_data = ['docid' => $item->DOCID,];
             $options = [CURLOPT_POST => true,
@@ -41,6 +42,7 @@ function func_20190823($mu_)
     // return;
     
     $jobs = <<< __HEREDOC__
+curl -v --compressed -o /dev/null https://www.yahoo.co.jp/ 2>&1
 curl -v -m 120 -X POST --compressed -F filename={$base_name} -F content=@{$file_name_} https://apidocs.zoho.com/files/v1/upload?authtoken={$authtoken_zoho}&scope=docsapi 2>&1
 cat /tmp/composer.json
 __HEREDOC__;
