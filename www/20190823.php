@@ -58,7 +58,7 @@ __HEREDOC__;
     $res = null;
     error_log(file_get_contents('/tmp/joblog.txt'));
     
-    return;
+    // return;
     
     $jobs = <<< __HEREDOC__
 curl -v -m 120 -X PUT --compressed -T {$file_name_} -u {$user_hidrive}:{$password_hidrive} https://webdav.hidrive.strato.com/users/{$user_hidrive}/{$base_name}
