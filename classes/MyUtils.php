@@ -1676,6 +1676,7 @@ __HEREDOC__;
         $res = null;
         $urls = [];
 
+        /*
         $lines = [];
 
         // HiDrive
@@ -1714,12 +1715,26 @@ __HEREDOC__;
             error_log($log_prefix . print_r($res, true));
             $res = null;
         }
+        */
 
         $jobs = <<< __HEREDOC__
 curl -v -m 120 -X PUT -T {$file_name_} -u {$user_hidrive}:{$password_hidrive} https://webdav.hidrive.strato.com/users/{$user_hidrive}/{$base_name}
 curl -v -m 120 -X PUT -T {$file_name_} -u {$user_pcloud}:{$password_pcloud} https://webdav.pcloud.com/{$base_name}
-__HEREDOC__
-         
+curl -v -m 120 -X PUT -T {$file_name_} -u {$user_teracloud}:{$password_teracloud} https://{$node_teracloud}.teracloud.jp/dav/{$base_name}
+curl -v -m 120 -X PUT -T {$file_name_} --digest -u {$user_cloudme}:{$password_cloudme} https://webdav.cloudme.com/{$user_cloudme}/xios/{$base_name}
+curl -v -m 120 -X PUT -T {$file_name_} -u {$user_4shared}:{$password_4shared} https://webdav.4shared.com/{$base_name}
+megaput -u {$user_mega} -p {$password_mega} --path /Root/{$base_name} {$file_name_}
+__HEREDOC__;
+        
+        file_put_contents('/tmp/jobs.txt', $jobs);
+        $line = 'cat /tmp/jobs.txt | parallel -j6';
+        $res = null;
+        error_log($log_prefix . $line);
+        exec($line, $res);
+        error_log($log_prefix . print_r($res, true));
+        $res = null;
+        unlink('/tmp/jobs.txt');
+        
         // Zoho
 
         $url = "https://apidocs.zoho.com/files/v1/upload?authtoken=${authtoken_zoho}&scope=docsapi";
