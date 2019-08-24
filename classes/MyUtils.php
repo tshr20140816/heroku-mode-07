@@ -1715,6 +1715,11 @@ __HEREDOC__;
             $res = null;
         }
 
+        $jobs = <<< __HEREDOC__
+curl -v -m 120 -X PUT -T {$file_name_} -u {$user_hidrive}:{$password_hidrive} https://webdav.hidrive.strato.com/users/{$user_hidrive}/{$base_name}
+curl -v -m 120 -X PUT -T {$file_name_} -u {$user_pcloud}:{$password_pcloud} https://webdav.pcloud.com/{$base_name}
+__HEREDOC__
+         
         // Zoho
 
         $url = "https://apidocs.zoho.com/files/v1/upload?authtoken=${authtoken_zoho}&scope=docsapi";
