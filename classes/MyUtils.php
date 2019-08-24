@@ -1538,7 +1538,7 @@ __HEREDOC__;
 
         $user_teracloud = $this->get_env('TERACLOUD_USER', true);
         $password_teracloud = $this->get_env('TERACLOUD_PASSWORD', true);
-        $api_key_teracloud = $this->get_env('TERACLOUD_API_KEY', true);
+        // $api_key_teracloud = $this->get_env('TERACLOUD_API_KEY', true);
         $node_teracloud = $this->get_env('TERACLOUD_NODE', true);
 
         $user_opendrive = $this->get_env('OPENDRIVE_USER', true);
