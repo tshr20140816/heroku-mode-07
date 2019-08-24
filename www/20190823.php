@@ -67,11 +67,12 @@ curl -v -m 120 -X PUT --compressed -T {$file_name_} -u {$user_teracloud}:{$passw
 curl -v -m 120 -X PUT --compressed -T {$file_name_} --digest -u {$user_cloudme}:{$password_cloudme} https://webdav.cloudme.com/{$user_cloudme}/xios/{$base_name}
 curl -v -m 120 -X PUT --compressed -T {$file_name_} -u {$user_4shared}:{$password_4shared} https://webdav.4shared.com/{$base_name}
 megaput -u {$user_mega} -p {$password_mega} --path /Root/{$base_name} {$file_name_}
-curl -v -m 120 -X POST --compressed -F filename={$base_name} -F content={$file_name_} https://apidocs.zoho.com/files/v1/upload?authtoken={{authtoken_zoho}&scope=docsapi
 __HEREDOC__;
     
+    // curl -v -m 120 -X POST --compressed -F filename={$base_name} -F content={$file_name_} https://apidocs.zoho.com/files/v1/upload?authtoken={{authtoken_zoho}&scope=docsapi
+
     file_put_contents('/tmp/jobs.txt', $jobs);
-    $line = 'cat /tmp/jobs.txt | parallel -j6 2>&1';
+    $line = 'cat /tmp/jobs.txt | parallel -j6 --joblog /tmp/joblog.txt 2>&1';
     $res = null;
     error_log($log_prefix . $line);
     exec($line, $res);
@@ -80,4 +81,5 @@ __HEREDOC__;
     }
     $res = null;
     unlink('/tmp/jobs.txt');
+    error_log(file_get_contents('/tmp/joblog.txt'));
 }
