@@ -21,7 +21,7 @@ function func_20190823($mu_)
     $password = $mu_->get_env('OPENDRIVE_PASSWORD', true);
     
     $base_name = 'MEGAcmd.tar.bz2';
-    copy("../${base_name}", "/tmp/${base_name}");
+    // copy("../${base_name}", "/tmp/${base_name}");
     
     $url = 'https://webdav.opendrive.com/' . $base_name;
         
@@ -29,7 +29,9 @@ function func_20190823($mu_)
     error_log($log_prefix . $line);
     $res = null;
     exec($line, $res);
-    error_log($log_prefix . print_r($res, true));
+    foreach ($res as $one_line) {
+        error_log($log_prefix . $one_line);
+    }
     $res = null;
     
     return;
