@@ -25,7 +25,7 @@ function func_20190823($mu_)
     
     $url = 'https://webdav.opendrive.com/' . $base_name;
         
-    $line = 'curl -v -X DELETE -u ' . "${user}:${password} " . $url;
+    $line = 'curl -v -X DELETE -u ' . "${user}:${password} " . $url . ' 2>&1';
     error_log($log_prefix . $line);
     $res = null;
     exec($line, $res);
