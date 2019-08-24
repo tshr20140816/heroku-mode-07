@@ -1755,16 +1755,20 @@ curl -v -m 120 -X POST --compressed -F filename={$base_name} -F content={$file_n
 __HEREDOC__;
         
         file_put_contents('/tmp/jobs.txt', $jobs);
-        $line = 'cat /tmp/jobs.txt | parallel -j6 2>&1';
+        $line = 'cat /tmp/jobs.txt | parallel -j6 --joblog /tmp/joblog.txt 2>&1';
         $res = null;
         error_log($log_prefix . $line);
+        $time_start = microtime(true);
         exec($line, $res);
-        // error_log($log_prefix . print_r($res, true));
+        $time_finish = microtime(true);
         foreach ($res as $one_line) {
             error_log($log_prefix . $one_line);
         }
         $res = null;
+        error_log(file_get_contents('/tmp/joblog.txt'));
+        error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
         unlink('/tmp/jobs.txt');
+        unlink('/tmp/joblog.txt');
 
         $filesize = filesize($file_name_);
         unlink($file_name_);
