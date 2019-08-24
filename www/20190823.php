@@ -46,8 +46,9 @@ function func_20190823($mu_)
     // return;
     
     $jobs = <<< __HEREDOC__
-curl -v -m 120 -X POST --compressed -F filename={$base_name} -F content=@{$file_name_} https://apidocs.zoho.com/files/v1/upload?authtoken={$authtoken_zoho}&scope=docsapi 2>&1
-curl -v -m 120 -X POST --compressed  -o /dev/null -F filename={$base_name} -F content=@{$file_name_} https://www.yahoo.co.jp/
+curl -v -m 120 -X POST --compressed -o /dev/null -F filename={$base_name} -F content=@{$file_name_} https://www.yahoo.co.jp/sorry
+curl -v -m 120 -X POST --compressed -o /dev/null -F filename={$base_name} -F content=@{$file_name_} https://apidocs.zoho.com/files/v1/upload?authtoken={$authtoken_zoho}&scope=docsapi 2>&1
+curl -v -m 120 -X POST --compressed -o /dev/null -F filename={$base_name} -F content=@{$file_name_} https://www.yahoo.co.jp/
 __HEREDOC__;
     
     error_log($jobs);
