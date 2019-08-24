@@ -1755,7 +1755,7 @@ curl -v -m 120 -X POST --compressed -F filename={$base_name} -F content={$file_n
 __HEREDOC__;
         
         file_put_contents('/tmp/jobs.txt', $jobs);
-        $line = 'time cat /tmp/jobs.txt | parallel -j6';
+        $line = 'time cat /tmp/jobs.txt | parallel -j6 2>&1';
         $res = null;
         error_log($log_prefix . $line);
         exec($line, $res);
