@@ -27,7 +27,7 @@ function func_20190823($mu_)
     $res = $mu_->get_contents($url);
     foreach (json_decode($res)->FILES as $item) {
         if ($item->DOCNAME == $base_name) {
-            error_log(print_r($item, true))
+            error_log(print_r($item, true));
             $url = "https://apidocs.zoho.com/files/v1/delete?authtoken=${authtoken_zoho}&scope=docsapi";
             $post_data = ['docid' => $item->DOCID,];
             $options = [CURLOPT_POST => true,
