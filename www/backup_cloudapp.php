@@ -136,11 +136,14 @@ __HEREDOC__;
         @unlink("/tmp/${base_name}");
         // file_put_contents("/tmp/${base_name}", $res);
         
-        $line = 'curl -v -m 60 -o ' . "/tmp/${base_name}" . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
+        $line = 'curl -v -m 120 --compressed -o ' . "/tmp/${base_name}" . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
         error_log($log_prefix . $line);
         $res = null;
         exec($line, $res);
-        error_log($log_prefix . print_r($res, true));
+        // error_log($log_prefix . print_r($res, true));
+        foreach ($res as $one_line) {
+            error_log($log_prefix . $one_line);
+        }
         $res = null;
 
         $url = 'http://my.cl.ly/items/new';
