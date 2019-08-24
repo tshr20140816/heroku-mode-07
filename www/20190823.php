@@ -43,7 +43,7 @@ function func_20190823($mu_)
         }
     }
     
-    // return;
+    return;
     
     $jobs = <<< __HEREDOC__
 curl -v -m 120 -X POST --compressed -o /dev/null -F filename={$base_name} -F content=@{$file_name_} https://www.yahoo.co.jp/sorry 2>&1
