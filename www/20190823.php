@@ -48,7 +48,7 @@ megarm -u {$user_mega} -p {$password_mega} /Root/{$base_name}
 __HEREDOC__;
     
     file_put_contents('/tmp/jobs.txt', $jobs);
-    $line = 'cat /tmp/jobs.txt | parallel -j6 --progress --joblog /tmp/joblog.txt 2>&1';
+    $line = 'cat /tmp/jobs.txt | parallel -j6 --joblog /tmp/joblog.txt 2>&1';
     $res = null;
     error_log($log_prefix . $line);
     exec($line, $res);
