@@ -1560,10 +1560,14 @@ __HEREDOC__;
 
         $authtoken_zoho = $this->get_env('ZOHO_AUTHTOKEN', true);
 
+        $line = "pbzip2 -v ${file_name_}";
+        error_log($log_prefix . $line);
         $res = null;
-        // exec("bzip2 -v ${file_name_}", $res);
-        exec("pbzip2 -v ${file_name_}", $res);
-        error_log($log_prefix . print_r($res, true));
+        exec($line, $res);
+        // error_log($log_prefix . print_r($res, true));
+        foreach ($res as $one_line) {
+            error_log($log_prefix . $one_line);
+        }
 
         $method = 'aes-256-cbc';
         $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
@@ -1572,7 +1576,10 @@ __HEREDOC__;
         error_log($log_prefix . $line);
         $res = null;
         exec($line, $res);
-        error_log($log_prefix . print_r($res, true));
+        // error_log($log_prefix . print_r($res, true));
+        foreach ($res as $one_line) {
+            error_log($log_prefix . $one_line);
+        }
         unlink($file_name_ . '.bz2');
 
         error_log($log_prefix . 'size : ' . number_format(filesize($file_name_)));
@@ -1600,9 +1607,14 @@ __HEREDOC__;
 
         // MEGA
 
+        $line = "megarm -u ${user_mega} -p ${password_mega} /Root/${base_name}";
+        error_log($log_prefix . $line);
         $res = null;
-        exec("megarm -u ${user_mega} -p ${password_mega} /Root/${base_name}", $res);
-        error_log($log_prefix . print_r($res, true));
+        exec($line, $res);
+        // error_log($log_prefix . print_r($res, true));
+        foreach ($res as $one_line) {
+            error_log($log_prefix . $one_line);
+        }
 
         // HiDrive
 
@@ -1672,7 +1684,10 @@ __HEREDOC__;
 
         $res = $this->get_contents_multi($urls);
         error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
-        error_log($log_prefix . print_r($res, true));
+        // error_log($log_prefix . print_r($res, true));
+        foreach ($res as $one_line) {
+            error_log($log_prefix . $one_line);
+        }
         $res = null;
         $urls = [];
 
@@ -1731,7 +1746,10 @@ __HEREDOC__;
         $res = null;
         error_log($log_prefix . $line);
         exec($line, $res);
-        error_log($log_prefix . print_r($res, true));
+        // error_log($log_prefix . print_r($res, true));
+        foreach ($res as $one_line) {
+            error_log($log_prefix . $one_line);
+        }
         $res = null;
         unlink('/tmp/jobs.txt');
         
