@@ -96,7 +96,10 @@ function backup_opendrive($mu_)
             error_log($log_prefix . $line);
             $res = null;
             exec($line, $res);
-            error_log($log_prefix . print_r($res, true));
+            // error_log($log_prefix . print_r($res, true));
+            foreach ($res as $one_line) {
+                error_log($log_prefix . $one_line);
+            }
             $res = null;
 
             // fclose($fh);
