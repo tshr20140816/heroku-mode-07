@@ -1730,6 +1730,18 @@ __HEREDOC__;
             error_log($log_prefix . print_r($res, true));
             $res = null;
         }
+        
+        // Zoho
+
+        $url = "https://apidocs.zoho.com/files/v1/upload?authtoken=${authtoken_zoho}&scope=docsapi";
+        $post_data = ['filename' => $base_name,
+                      'content' => new CURLFile($file_name_, 'text/plain'),
+                     ];
+        $options = [CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => $post_data,
+                    CURLOPT_HEADER => true,
+                    ];
+        $res = $this->get_contents($url, $options);
         */
 
         $jobs = <<< __HEREDOC__
@@ -1739,6 +1751,7 @@ curl -v -m 120 -X PUT -T {$file_name_} -u {$user_teracloud}:{$password_teracloud
 curl -v -m 120 -X PUT -T {$file_name_} --digest -u {$user_cloudme}:{$password_cloudme} https://webdav.cloudme.com/{$user_cloudme}/xios/{$base_name}
 curl -v -m 120 -X PUT -T {$file_name_} -u {$user_4shared}:{$password_4shared} https://webdav.4shared.com/{$base_name}
 megaput -u {$user_mega} -p {$password_mega} --path /Root/{$base_name} {$file_name_}
+curl -v -m 120 -X POST -F filename={$base_name} -F content={$file_name_}
 __HEREDOC__;
         
         file_put_contents('/tmp/jobs.txt', $jobs);
@@ -1752,18 +1765,6 @@ __HEREDOC__;
         }
         $res = null;
         unlink('/tmp/jobs.txt');
-        
-        // Zoho
-
-        $url = "https://apidocs.zoho.com/files/v1/upload?authtoken=${authtoken_zoho}&scope=docsapi";
-        $post_data = ['filename' => $base_name,
-                      'content' => new CURLFile($file_name_, 'text/plain'),
-                     ];
-        $options = [CURLOPT_POST => true,
-                    CURLOPT_POSTFIELDS => $post_data,
-                    CURLOPT_HEADER => true,
-                    ];
-        $res = $this->get_contents($url, $options);
 
         $filesize = filesize($file_name_);
         unlink($file_name_);
