@@ -43,16 +43,21 @@ function func_20190823($mu_)
     $jobs = <<< __HEREDOC__
 curl -v -m 120 -X POST --compressed -F filename={$base_name} -F content=@{$file_name_} https://apidocs.zoho.com/files/v1/upload?authtoken={$authtoken_zoho}&scope=docsapi
 __HEREDOC__;
+    
+    error_log($jobs);
 
     file_put_contents('/tmp/jobs.txt', $jobs);
     $line = 'cat /tmp/jobs.txt | parallel -j6 --joblog /tmp/joblog.txt 2>&1';
     $res = null;
     error_log($log_prefix . $line);
+    $time_start = microtime(true);
     exec($line, $res);
+    $time_finish = microtime(true);
     foreach ($res as $one_line) {
         error_log($log_prefix . $one_line);
     }
     $res = null;
     unlink('/tmp/jobs.txt');
     error_log(file_get_contents('/tmp/joblog.txt'));
+    error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
 }
