@@ -22,13 +22,16 @@ function func_20190823b($mu_)
     $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
     $res = $mu_->get_contents($url);
 
-    $urls = [];
+    $jobs = [];
     foreach (json_decode($res)->FILES as $item) {
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
-        $urls[$url] = null;
+        // $urls[$url] = null;
+        $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
+        $jobs_all[] = "curl -I -o /dev/null ${url}";
     }
 
+    /*
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 10,
@@ -41,12 +44,31 @@ function func_20190823b($mu_)
         }
         $list_contents = null;
     }
+    */
+    file_put_contents('/tmp/jobs.txt', implode("\n", array_keys($jobs)));
 
+    $line = 'cat /tmp/jobs.txt | parallel -j5 --joblog /tmp/joblog.txt 2>&1';
+    $res = null;
+    error_log($log_prefix . $line);
+    $time_start = microtime(true);
+    exec($line, $res);
+    $time_finish = microtime(true);
+    foreach ($res as $one_line) {
+        error_log($log_prefix . $one_line);
+    }
+    $res = null;
+    error_log(file_get_contents('/tmp/joblog.txt'));
+    error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
+    unlink('/tmp/jobs.txt');
+    unlink('/tmp/joblog.txt');
+    
+    /*
     $percentage = substr($size / (5 * 1024 * 1024 * 1024) * 100, 0, 5);
     $size = number_format($size);
 
     error_log($log_prefix . "Zoho usage : ${size}Byte ${percentage}%");
     // file_put_contents($file_name_blog_, "\nZoho usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
+    */
 }
 
 function func_20190823($mu_)
