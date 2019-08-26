@@ -27,7 +27,7 @@ function func_20190823d($mu_)
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
         $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
-        $jobs[$file_name] = "curl -sS -m 120 -w @/tmp/curl_write_out_option -D ${file_name} -o /dev/null ${url}";
+        $jobs[$file_name] = " -sS -m 120 -w @/tmp/curl_write_out_option -D ${file_name} -o /dev/null ${url}";
     }
     $curl_write_out_option = <<< __HEREDOC__
 (%{time_total}s %{size_download}b) 
@@ -39,7 +39,7 @@ __HEREDOC__;
     error_log($log_prefix . 'total count : ' . count($jobs));
     file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
 
-    $line = "cat /tmp/jobs.txt | xargs -L 1 -P 2 -I{} {} 2>/tmp/xargs_log.txt";
+    $line = "cat /tmp/jobs.txt | xargs -L 1 -P 2 -I{} curl {} 2>/tmp/xargs_log.txt";
     $res = null;
     error_log($log_prefix . $line);
     $time_start = microtime(true);
