@@ -9,9 +9,45 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823($mu);
+func_20190823b($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190823b($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
+
+    $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
+    $res = $mu_->get_contents($url);
+
+    $urls = [];
+    foreach (json_decode($res)->FILES as $item) {
+        $docid = $item->DOCID;
+        $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
+        $urls[$url] = null;
+    }
+
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 10,
+    ];
+    $size = 0;
+    foreach (array_chunk($urls, 10, true) as $urls_chunk) {
+        $list_contents = $mu_->get_contents_multi($urls_chunk, null, $multi_options);
+        foreach ($list_contents as $res) {
+            $size += strlen($res);
+        }
+        $list_contents = null;
+    }
+
+    $percentage = substr($size / (5 * 1024 * 1024 * 1024) * 100, 0, 5);
+    $size = number_format($size);
+
+    error_log($log_prefix . "Zoho usage : ${size}Byte ${percentage}%");
+    // file_put_contents($file_name_blog_, "\nZoho usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
+}
 
 function func_20190823($mu_)
 {
