@@ -32,7 +32,7 @@ function func_20190823c($mu_)
         $jobs[$file_name] = "'curl -sS -D ${file_name} -o /dev/null --compressed ${url}'";
     }
     
-    // $jobs = array_chunk($jobs, 3, true)[0];
+    $jobs = array_chunk($jobs, 3, true)[0];
     
     // error_log(print_r($jobs, true));
     
@@ -57,7 +57,7 @@ function func_20190823c($mu_)
         if (!file_exists($key) || filesize($key) === 0) {
             error_log('File None');
         } else {
-            // error_log(file_get_contents($key));
+            error_log(file_get_contents($key));
             $res = file_get_contents($key);
             $rc = preg_match('/Content-Length: (\d+)/', $res, $match);
             error_log($match[1]);
