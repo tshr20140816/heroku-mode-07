@@ -841,7 +841,12 @@ __HEREDOC__;
                     break 2;
             }
 
-            error_log($log_prefix . '$res : ' . $res);
+            // error_log($log_prefix . '$res : ' . $res);
+            $tmp = explode("\n", $res);
+            foreach ($tmp as $one_line) {
+                error_log($log_prefix . $one_line);
+            }
+            $tmp = null;
             $res = $http_code;
 
             if ($http_code == '100' || $http_code == '429' || $http_code == '502' || $http_code == '503') {
