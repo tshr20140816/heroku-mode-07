@@ -33,6 +33,7 @@ function func_20190823c($mu_)
     }
     $curl_write_out_option = <<< __HEREDOC__
 %{time_total}\n
+
 __HEREDOC__;
     file_put_contents('/tmp/curl_write_out_option', $curl_write_out_option);
     
