@@ -32,7 +32,7 @@ function func_20190823c($mu_)
         $jobs[$file_name] = "curl -D ${file_name} -o /dev/null ${url}";
     }
     
-    $jobs = array_chunk($jobs, 3, true);
+    $jobs = array_chunk($jobs, 3, true)[0];
     
     error_log(print_r($jobs, true));
 }
