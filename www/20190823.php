@@ -32,13 +32,13 @@ function func_20190823c($mu_)
         $jobs[$file_name] = "'curl -sS -D ${file_name} -o /dev/null ${url}'";
     }
     
-    // $jobs = array_chunk($jobs, 3, true)[0];
+    $jobs = array_chunk($jobs, 3, true)[0];
     
     // error_log(print_r($jobs, true));
     
     file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
     
-    $line = "cat /tmp/jobs.txt | xargs -L 1 -P 6 -I{} bash -c {}";
+    $line = "cat /tmp/jobs.txt | xargs -L 1 -P 6 -I{} bash -c {} >/tmp/xargs_log.txt";
     $res = null;
     error_log($log_prefix . $line);
     $time_start = microtime(true);
@@ -48,7 +48,9 @@ function func_20190823c($mu_)
         error_log($log_prefix . $one_line);
     }
     $res = null;
+    error_log(file_get_contents('/tmp/xargs_log.txt'));
     unlink('/tmp/jobs.txt');
+    unlink('/tmp/xargs_log.txt');
     
     $size = 0;
     foreach ($jobs as $key => $value) {
