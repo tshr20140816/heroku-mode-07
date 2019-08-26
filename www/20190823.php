@@ -56,7 +56,7 @@ function func_20190823b($mu_)
             } else {
                 $res = file_get_contents($key);
                 error_log($log_prefix . $res);
-                $rc = preg_match('/Content-Length: \d+/', $res, $match);
+                $rc = preg_match('/Content-Length: (\d+)/', $res, $match);
                 error_log($match[1]);
                 unlink($key);
             }
