@@ -39,7 +39,7 @@ __HEREDOC__;
     error_log($log_prefix . 'total count : ' . count($jobs));
     file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
 
-    $line = "cat /tmp/jobs.txt | xargs -L 1 -P 2 -I{} curl {} 2>/tmp/xargs_log.txt";
+    $line = "cat /tmp/jobs.txt | xargs -t -L 1 -P 2 -I{} curl {} 2>/tmp/xargs_log.txt";
     $res = null;
     error_log($log_prefix . $line);
     $time_start = microtime(true);
