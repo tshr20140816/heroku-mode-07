@@ -34,7 +34,7 @@ function func_20190823b($mu_)
     file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
 
     for ($i = 0; $i < 3; $i++) {
-        $jobs = [];
+        $jobs_new = [];
         $line = 'cat /tmp/jobs.txt | parallel -j2 --joblog /tmp/joblog.txt 2>&1';
         $res = null;
         error_log($log_prefix . $line);
@@ -52,7 +52,7 @@ function func_20190823b($mu_)
 
         foreach ($jobs as $key => $value) {
             if (!file_exists($key) || filesize($key) === 0) {
-                $jobs[$key] = $value;
+                $jobs_new[$key] = $value;
             } else {
                 $res = file_get_contents($key);
                 error_log($log_prefix . $res);
@@ -61,6 +61,8 @@ function func_20190823b($mu_)
                 unlink($key);
             }
         }
+        $jobs = $jobs_new;
+        break;
     }
     /*
     $percentage = substr($size / (5 * 1024 * 1024 * 1024) * 100, 0, 5);
