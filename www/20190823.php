@@ -38,7 +38,7 @@ function func_20190823c($mu_)
     
     file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
     
-    $line = "cat /tmp/jobs.txt | xargs -I{} bash {}";
+    $line = "cat /tmp/jobs.txt | xargs -I{} bash -c {}";
     $res = null;
     error_log($log_prefix . $line);
     $time_start = microtime(true);
