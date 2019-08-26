@@ -9,10 +9,71 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823c($mu);
+func_20190823d($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
+function func_20190823d($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
+
+    $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
+    $res = $mu_->get_contents($url);
+
+    $jobs = [];
+    foreach (json_decode($res)->FILES as $item) {
+        $docid = $item->DOCID;
+        $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
+        $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
+        $jobs[$file_name] = "'curl -sS -m 120 -w @/tmp/curl_write_out_option -D ${file_name} -o /dev/null ${url}'";
+    }
+    $curl_write_out_option = <<< __HEREDOC__
+(%{time_total}s %{size_download}b) 
+__HEREDOC__;
+    file_put_contents('/tmp/curl_write_out_option', $curl_write_out_option);
+    
+    $jobs = array_chunk($jobs, 2)[0];
+
+    error_log($log_prefix . 'total count : ' . count($jobs));
+    file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
+
+    $line = "cat /tmp/jobs.txt | xargs -L 1 -P 2 -I{} {} 2>/tmp/xargs_log.txt";
+    $res = null;
+    error_log($log_prefix . $line);
+    $time_start = microtime(true);
+    exec($line, $res);
+    $time_finish = microtime(true);
+    foreach ($res as $one_line) {
+        error_log($log_prefix . $one_line);
+    }
+    $res = null;
+    error_log($log_prefix . file_get_contents('/tmp/xargs_log.txt'));
+    error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
+    unlink('/tmp/jobs.txt');
+    unlink('/tmp/xargs_log.txt');
+    unlink('/tmp/curl_write_out_option');
+
+    $size = 0;
+    foreach ($jobs as $key => $value) {
+        if (!file_exists($key) || filesize($key) === 0) {
+            error_log('File None : ' . $value);
+        } else {
+            $res = file_get_contents($key);
+            $rc = preg_match('/Content-Length: (\d+)/', $res, $match);
+            error_log($log_prefix . $match[1] . ' : ' . trim($value, "'"));
+            $size += (int)$match[1];
+            unlink($key);
+        }
+    }
+
+    $percentage = substr($size / (5 * 1024 * 1024 * 1024) * 100, 0, 5);
+    $size = number_format($size);
+
+    error_log($log_prefix . "Zoho usage : ${size}Byte ${percentage}%");
+    // file_put_contents($file_name_blog_, "\nZoho usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
+}
 
 function func_20190823c($mu_)
 {
@@ -24,7 +85,6 @@ function func_20190823c($mu_)
     $res = $mu_->get_contents($url);
 
     $jobs = [];
-    $job = null;
     foreach (json_decode($res)->FILES as $item) {
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
