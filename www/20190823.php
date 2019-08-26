@@ -48,6 +48,11 @@ function func_20190823c($mu_)
         error_log($log_prefix . $one_line);
     }
     $res = null;
+    
+    foreach ($jobs as $key => $value) {
+        error_log(file_get_contents($key));
+        unlink($key);
+    }
 }
 
 function func_20190823b($mu_)
