@@ -23,13 +23,19 @@ function func_20190823b($mu_)
     $res = $mu_->get_contents($url);
 
     $jobs = [];
+    $job = null;
     foreach (json_decode($res)->FILES as $item) {
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
         // $urls[$url] = null;
         $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
         $jobs[] = "curl -I -o /dev/null ${url}";
+        $job = "curl -v -o /dev/null ${url}";
+        exec($job, $res);
+        error_log($log_prefix . print_r($res, true));
+        return;
     }
+    
 
     /*
     $multi_options = [
