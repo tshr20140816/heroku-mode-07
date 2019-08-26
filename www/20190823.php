@@ -30,9 +30,8 @@ function func_20190823d($mu_)
         $file_name = '/tmp/zoho_' . $docid;
         $jobs[$file_name] = $docid;
     }
-    file_put_contents('/tmp/curl_write_out_option', $curl_write_out_option);
     
-    $jobs = array_chunk($jobs, 2, true)[0];
+    // $jobs = array_chunk($jobs, 2, true)[0];
 
     error_log($log_prefix . 'total count : ' . count($jobs));
     file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
