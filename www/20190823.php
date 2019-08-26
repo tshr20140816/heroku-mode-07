@@ -35,6 +35,19 @@ function func_20190823c($mu_)
     $jobs = array_chunk($jobs, 3, true)[0];
     
     error_log(print_r($jobs, true));
+    
+    file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
+    
+    $line = "cat /tmp/jobs.txt | xargs -d\\n echo";
+    $res = null;
+    error_log($log_prefix . $line);
+    $time_start = microtime(true);
+    exec($line, $res);
+    $time_finish = microtime(true);
+    foreach ($res as $one_line) {
+        error_log($log_prefix . $one_line);
+    }
+    $res = null;
 }
 
 function func_20190823b($mu_)
