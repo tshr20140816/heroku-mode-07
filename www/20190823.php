@@ -68,7 +68,7 @@ function func_20190823b($mu_)
         if (count($jobs_new) === 0) {
             break;
         }
-        error_log(print_r($jobs_new, true));
+        // error_log(print_r($jobs_new, true));
         $jobs = $jobs_new;
         file_put_contents('/tmp/jobs.txt', implode("\n", $jobs_new));
     }
