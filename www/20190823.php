@@ -31,9 +31,10 @@ function func_20190823c($mu_)
         $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
         $jobs[$file_name] = "'curl -v -sS -m 120 -w @/tmp/curl_write_out_option -D ${file_name} -o /dev/null ${url}'";
     }
-    $tmp = <<< __HEREDOC__ >/tmp/curl_write_out_option
+    $curl_write_out_option = <<< __HEREDOC__
 "time_total\n"
 __HEREDOC__;
+    file_put_contents('/tmp/curl_write_out_option', $curl_write_out_option);
     
     $jobs = array_chunk($jobs, 3, true)[0];
     
