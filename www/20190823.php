@@ -29,8 +29,11 @@ function func_20190823c($mu_)
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
         $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
-        $jobs[$file_name] = "'curl -v -sS -m 120 -D ${file_name} -o /dev/null ${url}'";
+        $jobs[$file_name] = "'curl -v -sS -m 120 -w @/tmp/curl_write_out_option -D ${file_name} -o /dev/null ${url}'";
     }
+    $tmp = <<< __HEREDOC__ >/tmp/curl_write_out_option
+"time_total\n"
+__HEREDOC__;
     
     $jobs = array_chunk($jobs, 3, true)[0];
     
