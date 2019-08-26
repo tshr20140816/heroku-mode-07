@@ -27,54 +27,40 @@ function func_20190823b($mu_)
     foreach (json_decode($res)->FILES as $item) {
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
-        // $urls[$url] = null;
         $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
         $jobs[$file_name] = "curl -D ${file_name} -o /dev/null ${url}";
-        /*
-        $job = "curl -D - -o /dev/null ${url}";
-        exec($job, $res);
-        error_log($log_prefix . print_r($res, true));
-        return;
-        */
     }
     
-
-    /*
-    $multi_options = [
-        CURLMOPT_PIPELINING => 3,
-        CURLMOPT_MAX_HOST_CONNECTIONS => 10,
-    ];
-    $size = 0;
-    foreach (array_chunk($urls, 10, true) as $urls_chunk) {
-        $list_contents = $mu_->get_contents_multi($urls_chunk, null, $multi_options);
-        foreach ($list_contents as $res) {
-            $size += strlen($res);
-        }
-        $list_contents = null;
-    }
-    */
     file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
-    // error_log(file_get_contents('/tmp/jobs.txt'));
 
-    $line = 'cat /tmp/jobs.txt | parallel -j2 --joblog /tmp/joblog.txt 2>&1';
-    $res = null;
-    error_log($log_prefix . $line);
-    $time_start = microtime(true);
-    exec($line, $res);
-    $time_finish = microtime(true);
-    foreach ($res as $one_line) {
-        error_log($log_prefix . $one_line);
-    }
-    $res = null;
-    error_log(file_get_contents('/tmp/joblog.txt'));
-    error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
-    unlink('/tmp/jobs.txt');
-    unlink('/tmp/joblog.txt');
-    
-    foreach ($jobs as $key => $value) {
-        $res = file_get_contents($key);
-        error_log($log_prefix . $res);
-        unlink($key);
+    for ($i = 0; $i < 3; $i++) {
+        $jobs = [];
+        $line = 'cat /tmp/jobs.txt | parallel -j2 --joblog /tmp/joblog.txt 2>&1';
+        $res = null;
+        error_log($log_prefix . $line);
+        $time_start = microtime(true);
+        exec($line, $res);
+        $time_finish = microtime(true);
+        foreach ($res as $one_line) {
+            error_log($log_prefix . $one_line);
+        }
+        $res = null;
+        error_log(file_get_contents('/tmp/joblog.txt'));
+        error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
+        unlink('/tmp/jobs.txt');
+        unlink('/tmp/joblog.txt');
+
+        foreach ($jobs as $key => $value) {
+            if (!file_exists($key) || filesize($key) === 0) {
+                $jobs[$key] = $value;
+            } else {
+                $res = file_get_contents($key);
+                error_log($log_prefix . $res);
+                $rc = preg_match('/Content-Length: \d+/', $res, $match);
+                error_log($match[1]);
+                unlink($key);
+            }
+        }
     }
     /*
     $percentage = substr($size / (5 * 1024 * 1024 * 1024) * 100, 0, 5);
