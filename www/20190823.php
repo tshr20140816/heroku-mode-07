@@ -32,8 +32,7 @@ function func_20190823c($mu_)
         $jobs[$file_name] = "'curl -sS -m 120 -w @/tmp/curl_write_out_option -D ${file_name} -o /dev/null ${url}'";
     }
     $curl_write_out_option = <<< __HEREDOC__
-%{time_total}\n
-
+%{time_total}s 
 __HEREDOC__;
     file_put_contents('/tmp/curl_write_out_option', $curl_write_out_option);
     
