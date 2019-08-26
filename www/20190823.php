@@ -32,9 +32,9 @@ function func_20190823c($mu_)
         $jobs[$file_name] = "'curl -D ${file_name} -o /dev/null ${url}'";
     }
     
-    $jobs = array_chunk($jobs, 3, true)[0];
+    // $jobs = array_chunk($jobs, 3, true)[0];
     
-    error_log(print_r($jobs, true));
+    // error_log(print_r($jobs, true));
     
     file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
     
@@ -48,10 +48,19 @@ function func_20190823c($mu_)
         error_log($log_prefix . $one_line);
     }
     $res = null;
+    unlink('/tmp/jobs.txt');
     
+    $size = 0;
     foreach ($jobs as $key => $value) {
-        error_log(file_get_contents($key));
-        unlink($key);
+        if (!file_exists($key) || filesize($key) === 0) {
+            error_log('File None');
+        } else {
+            // error_log(file_get_contents($key));
+            $rc = preg_match('/Content-Length: (\d+)/', $res, $match);
+            error_log($match[1]);
+            $size += (int)$match[1];
+            unlink($key);
+        }
     }
 }
 
