@@ -31,7 +31,7 @@ function func_20190823b($mu_)
         $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
         $jobs[] = "curl -I -o /dev/null ${url}";
         // $job = "curl -v -o /dev/null ${url}";
-        $job = "curl --head -o /dev/null ${url}";
+        $job = "curl --head -o /dev/null ${url} 2>&1";
         exec($job, $res);
         error_log($log_prefix . print_r($res, true));
         return;
