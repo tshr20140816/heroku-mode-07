@@ -35,6 +35,7 @@ function func_20190823b($mu_)
 
     $size = 0;
     for ($i = 0; $i < 5; $i++) {
+        clearstatcache();
         $jobs_new = [];
         $line = 'cat /tmp/jobs.txt | parallel -j2 --joblog /tmp/joblog.txt 2>&1';
         $res = null;
@@ -63,9 +64,11 @@ function func_20190823b($mu_)
                 unlink($key);
             }
         }
+        error_log('jobs_new count : ' . count($jobs_new));
         if (count($jobs_new) === 0) {
             break;
         }
+        error_log(print_r($jobs_new, true));
         $jobs = $jobs_new;
         file_put_contents('/tmp/jobs.txt', implode("\n", $jobs_new));
     }
