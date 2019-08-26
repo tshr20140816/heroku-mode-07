@@ -28,11 +28,8 @@ function func_20190823d($mu_)
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
         // $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
         $file_name = '/tmp/zoho_' . $docid;
-        $jobs[$file_name] = "$docid";
+        $jobs[$file_name] = $docid;
     }
-    $curl_write_out_option = <<< __HEREDOC__
-(%{time_total}s %{size_download}b) 
-__HEREDOC__;
     file_put_contents('/tmp/curl_write_out_option', $curl_write_out_option);
     
     $jobs = array_chunk($jobs, 2)[0];
@@ -56,12 +53,11 @@ __HEREDOC__;
     error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
     unlink('/tmp/jobs.txt');
     unlink('/tmp/xargs_log.txt');
-    unlink('/tmp/curl_write_out_option');
 
     $size = 0;
     foreach ($jobs as $key => $value) {
         if (!file_exists($key) || filesize($key) === 0) {
-            error_log('File None : ' . $value);
+            error_log('File None : ' . $key);
         } else {
             $res = file_get_contents($key);
             $rc = preg_match('/Content-Length: (\d+)/', $res, $match);
