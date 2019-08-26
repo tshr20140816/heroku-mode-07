@@ -45,7 +45,7 @@ function func_20190823b($mu_)
         $list_contents = null;
     }
     */
-    file_put_contents('/tmp/jobs.txt', implode("\n", array_keys($jobs)));
+    file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
 
     $line = 'cat /tmp/jobs.txt | parallel -j5 --joblog /tmp/joblog.txt 2>&1';
     $res = null;
