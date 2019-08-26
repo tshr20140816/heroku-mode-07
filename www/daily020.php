@@ -383,8 +383,16 @@ function backup_db($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
     }
     $file_name = "/tmp/${heroku_app_name}_" .  date('d', strtotime('+9 hours')) . '_pg_dump.txt';
     error_log($log_prefix . $file_name);
-    $cmd = "pg_dump --format=plain --dbname=${database_url} >${file_name}";
-    exec($cmd);
+    $line = "pg_dump --format=plain --dbname=${database_url} >${file_name}";
+    $res = null;
+    error_log($log_prefix . $line);
+    $time_start = microtime(true);
+    exec($line, $res);
+    $time_finish = microtime(true);
+    foreach ($res as $one_line) {
+        error_log($log_prefix . $one_line);
+    }
+    $res = null;
 
     // $file_size = $mu_->backup_data(file_get_contents($file_name), $file_name);
     $file_size = $mu_->backup_data(null, $file_name);
