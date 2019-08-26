@@ -28,7 +28,7 @@ function func_20190823b($mu_)
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
         // $urls[$url] = null;
         $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
-        $jobs_all[] = "curl -I -o /dev/null ${url}";
+        $jobs[] = "curl -I -o /dev/null ${url}";
     }
 
     /*
@@ -46,7 +46,7 @@ function func_20190823b($mu_)
     }
     */
     file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
-    error_log(file_get_contents('/tmp/jobs.txt'));
+    // error_log(file_get_contents('/tmp/jobs.txt'));
 
     $line = 'cat /tmp/jobs.txt | parallel -j5 --joblog /tmp/joblog.txt 2>&1';
     $res = null;
