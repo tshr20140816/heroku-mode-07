@@ -56,6 +56,7 @@ function func_20190823c($mu_)
             error_log('File None');
         } else {
             // error_log(file_get_contents($key));
+            $res = file_get_contents($key);
             $rc = preg_match('/Content-Length: (\d+)/', $res, $match);
             error_log($match[1]);
             $size += (int)$match[1];
