@@ -35,14 +35,10 @@ function func_20190823c($mu_)
 %{time_total}s %{size_download}b 
 __HEREDOC__;
     file_put_contents('/tmp/curl_write_out_option', $curl_write_out_option);
-    
-    // $jobs = array_chunk($jobs, 3, true)[0];
-    // error_log(print_r($jobs, true));
-    
+
     error_log($log_prefix . 'total count : ' . count($jobs));
-    
     file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
-    
+
     $line = "cat /tmp/jobs.txt | xargs -L 1 -P 6 -I{} bash -c {} 2>/tmp/xargs_log.txt";
     $res = null;
     error_log($log_prefix . $line);
@@ -53,16 +49,17 @@ __HEREDOC__;
         error_log($log_prefix . $one_line);
     }
     $res = null;
-    error_log(file_get_contents('/tmp/xargs_log.txt'));
+    error_log($log_prefix . file_get_contents('/tmp/xargs_log.txt'));
+    error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
     unlink('/tmp/jobs.txt');
     unlink('/tmp/xargs_log.txt');
-    
+    unlink('/tmp/curl_write_out_option');
+
     $size = 0;
     foreach ($jobs as $key => $value) {
         if (!file_exists($key) || filesize($key) === 0) {
             error_log('File None : ' . $value);
         } else {
-            // error_log(file_get_contents($key));
             $res = file_get_contents($key);
             $rc = preg_match('/Content-Length: (\d+)/', $res, $match);
             error_log($log_prefix . $match[1] . ' : ' . trim($value, "'"));
@@ -70,7 +67,7 @@ __HEREDOC__;
             unlink($key);
         }
     }
-    
+
     $percentage = substr($size / (5 * 1024 * 1024 * 1024) * 100, 0, 5);
     $size = number_format($size);
 
