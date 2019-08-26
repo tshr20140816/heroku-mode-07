@@ -9,9 +9,33 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823b($mu);
+func_20190823c($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+
+function func_20190823c($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
+
+    $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
+    $res = $mu_->get_contents($url);
+
+    $jobs = [];
+    $job = null;
+    foreach (json_decode($res)->FILES as $item) {
+        $docid = $item->DOCID;
+        $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
+        $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
+        $jobs[$file_name] = "curl -D ${file_name} -o /dev/null ${url}";
+    }
+    
+    $jobs = array_chunk($jobs, 3, true);
+    
+    error_log(print_r($jobs, true));
+}
 
 function func_20190823b($mu_)
 {
