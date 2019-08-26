@@ -35,6 +35,17 @@ __HEREDOC__;
 
     error_log($log_prefix . 'total count : ' . count($jobs));
     file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
+    
+    $line = 'rm -f /tmp/zoho_*';
+    $res = null;
+    error_log($log_prefix . $line);
+    $time_start = microtime(true);
+    exec($line, $res);
+    $time_finish = microtime(true);
+    foreach ($res as $one_line) {
+        error_log($log_prefix . $one_line);
+    }
+    $res = null;
 
     $line = 'cat /tmp/jobs.txt | xargs -L 1 -P 2 -I{} bash -c {} 2>/tmp/xargs_log.txt';
     $res = null;
