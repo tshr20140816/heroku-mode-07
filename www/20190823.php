@@ -32,7 +32,7 @@ function func_20190823c($mu_)
         $jobs[$file_name] = "'curl -sS -m 120 -w @/tmp/curl_write_out_option -D ${file_name} -o /dev/null ${url}'";
     }
     $curl_write_out_option = <<< __HEREDOC__
-%{time_total}s 
+%{time_total}s %{size_download}b
 __HEREDOC__;
     file_put_contents('/tmp/curl_write_out_option', $curl_write_out_option);
     
@@ -62,10 +62,10 @@ __HEREDOC__;
         if (!file_exists($key) || filesize($key) === 0) {
             error_log('File None : ' . $value);
         } else {
-            error_log(file_get_contents($key));
+            // error_log(file_get_contents($key));
             $res = file_get_contents($key);
             $rc = preg_match('/Content-Length: (\d+)/', $res, $match);
-            error_log($log_prefix . $match[1] . ':' . $value);
+            error_log($log_prefix . $match[1] . ' : ' . trim($value, "'"));
             $size += (int)$match[1];
             unlink($key);
         }
