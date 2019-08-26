@@ -33,7 +33,8 @@ function func_20190823b($mu_)
     
     file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
 
-    for ($i = 0; $i < 3; $i++) {
+    $size = 0;
+    for ($i = 0; $i < 5; $i++) {
         $jobs_new = [];
         $line = 'cat /tmp/jobs.txt | parallel -j2 --joblog /tmp/joblog.txt 2>&1';
         $res = null;
@@ -55,22 +56,24 @@ function func_20190823b($mu_)
                 $jobs_new[$key] = $value;
             } else {
                 $res = file_get_contents($key);
-                error_log($log_prefix . $res);
+                // error_log($log_prefix . $res);
                 $rc = preg_match('/Content-Length: (\d+)/', $res, $match);
                 error_log($match[1]);
+                $size += (int)$match[1];
                 unlink($key);
             }
         }
-        $jobs = $jobs_new;
-        break;
+        if (count($jobs_new) === 0) {
+            break;
+        }
+        file_put_contents('/tmp/jobs.txt', implode("\n", $jobs_new));
     }
-    /*
+
     $percentage = substr($size / (5 * 1024 * 1024 * 1024) * 100, 0, 5);
     $size = number_format($size);
 
     error_log($log_prefix . "Zoho usage : ${size}Byte ${percentage}%");
     // file_put_contents($file_name_blog_, "\nZoho usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
-    */
 }
 
 function func_20190823($mu_)
