@@ -32,7 +32,7 @@ function func_20190823d($mu_)
     }
     file_put_contents('/tmp/curl_write_out_option', $curl_write_out_option);
     
-    $jobs = array_chunk($jobs, 2)[0];
+    $jobs = array_chunk($jobs, 2, true)[0];
 
     error_log($log_prefix . 'total count : ' . count($jobs));
     file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
@@ -57,7 +57,7 @@ function func_20190823d($mu_)
     $size = 0;
     foreach ($jobs as $key => $value) {
         if (!file_exists($key) || filesize($key) === 0) {
-            error_log('File None : ' . $key);
+            error_log('File None : ' . $value);
         } else {
             $res = file_get_contents($key);
             $rc = preg_match('/Content-Length: (\d+)/', $res, $match);
