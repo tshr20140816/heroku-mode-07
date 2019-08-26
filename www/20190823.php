@@ -40,7 +40,9 @@ __HEREDOC__;
     error_log($log_prefix . 'total count : ' . count($jobs));
     file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
 
-    $line = "cat /tmp/jobs.txt | xargs -t -L 1 -P 2 -I{} curl -sS -m 120 -w @/tmp/curl_write_out_option -D /tmp/zoho_{} -o /dev/null https://apidocs.zoho.com/files/v1/content/{}?authtoken=${authtoken_zoho}&scope=docsapi 2>/tmp/xargs_log.txt";
+    $line = 'cat /tmp/jobs.txt | xargs -t -L 1 -P 2 -I{} ' \
+        . 'curl -sS -m 120 -w "(%{time_total}s %{size_download}b) " -D /tmp/zoho_{} -o /dev/null ' \
+        . "https://apidocs.zoho.com/files/v1/content/{}?authtoken=${authtoken_zoho}&scope=docsapi 2>/tmp/xargs_log.txt";
     $res = null;
     error_log($log_prefix . $line);
     $time_start = microtime(true);
@@ -56,8 +58,6 @@ __HEREDOC__;
     unlink('/tmp/xargs_log.txt');
     unlink('/tmp/curl_write_out_option');
 
-    return;
-    
     $size = 0;
     foreach ($jobs as $key => $value) {
         if (!file_exists($key) || filesize($key) === 0) {
