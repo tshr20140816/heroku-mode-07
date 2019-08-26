@@ -35,6 +35,7 @@ git --version
 megals --version
 pbzip2 -V
 
+ulimit -u
 getconf ARG_MAX
 
 echo "$(httpd -v)" > /tmp/apache_current_version
