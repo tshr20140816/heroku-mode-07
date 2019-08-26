@@ -28,8 +28,8 @@ function func_20190823b($mu_)
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
         // $urls[$url] = null;
-        // $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
-        $jobs[] = "curl -D - -o /dev/null ${url}";
+        $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
+        $jobs[$file_name] = "curl -D ${file_name} -o /dev/null ${url}";
         /*
         $job = "curl -D - -o /dev/null ${url}";
         exec($job, $res);
@@ -56,7 +56,7 @@ function func_20190823b($mu_)
     file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
     // error_log(file_get_contents('/tmp/jobs.txt'));
 
-    $line = 'cat /tmp/jobs.txt | parallel -j5 --joblog /tmp/joblog.txt 2>&1';
+    $line = 'cat /tmp/jobs.txt | parallel -j2 --joblog /tmp/joblog.txt 2>&1';
     $res = null;
     error_log($log_prefix . $line);
     $time_start = microtime(true);
@@ -71,6 +71,11 @@ function func_20190823b($mu_)
     unlink('/tmp/jobs.txt');
     unlink('/tmp/joblog.txt');
     
+    foreach ($jobs as $key => $value) {
+        $res = file_get_contents($key);
+        error_log($log_prefix . $res);
+        unlink($key);
+    }
     /*
     $percentage = substr($size / (5 * 1024 * 1024 * 1024) * 100, 0, 5);
     $size = number_format($size);
