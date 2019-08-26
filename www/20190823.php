@@ -29,7 +29,7 @@ function func_20190823c($mu_)
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
         $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
-        $jobs[$file_name] = "'curl -sS -D ${file_name} -o /dev/null ${url}'";
+        $jobs[$file_name] = "'curl -sS -m 120 -D ${file_name} -o /dev/null ${url}'";
     }
     
     $jobs = array_chunk($jobs, 3, true)[0];
@@ -65,6 +65,12 @@ function func_20190823c($mu_)
             unlink($key);
         }
     }
+    
+    $percentage = substr($size / (5 * 1024 * 1024 * 1024) * 100, 0, 5);
+    $size = number_format($size);
+
+    error_log($log_prefix . "Zoho usage : ${size}Byte ${percentage}%");
+    // file_put_contents($file_name_blog_, "\nZoho usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
 }
 
 function func_20190823b($mu_)
