@@ -377,7 +377,7 @@ __HEREDOC__;
         return $target_;
     }
 
-    public function post_blog_wordpress_async($title_, $description_ = null)
+    public function post_blog_wordpress_async($title_, $description_ = null, $category_ = null)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -393,7 +393,7 @@ __HEREDOC__;
         error_log($log_prefix . 'finish exec');
     }
 
-    public function post_blog_wordpress($title_, $description_ = null, $is_only_ = false)
+    public function post_blog_wordpress($title_, $description_ = null, $is_only_ = false, $category_ = null)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -495,8 +495,8 @@ __HEREDOC__;
         */
 
         if ($is_only_ === false) {
-            $this->post_blog_hatena($title_, $description_);
-            $this->post_blog_livedoor($title_, $description_);
+            $this->post_blog_hatena($title_, $description_, $category_);
+            $this->post_blog_livedoor($title_, $description_, $category_);
         }
     }
 
