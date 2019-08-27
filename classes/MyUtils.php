@@ -389,11 +389,12 @@ __HEREDOC__;
         // exec('php -d apc.enable_cli=1 ../scripts/put_blog.php ' . base64_encode($title_) . ' ' . base64_encode($description_) . ' >/dev/null &');
         exec('php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ../scripts/put_blog.php ' .
              base64_encode($title_) . ' ' .
-             base64_encode($description_) . ' >/dev/null &');
+             base64_encode($description_) .
+             base64_encode($category_) . ' >/dev/null &');
         error_log($log_prefix . 'finish exec');
     }
 
-    public function post_blog_wordpress($title_, $description_ = null, $is_only_ = false, $category_ = null)
+    public function post_blog_wordpress($title_, $description_ = null, $category_ = null, $is_only_ = false)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
