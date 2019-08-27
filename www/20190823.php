@@ -26,7 +26,7 @@ function func_20190823e($mu_)
         CURLOPT_HTTPHEADER => ['Accept: application/json',],
     ];
 
-    copy('/app/composer.json', '/tmp/composer.json')
+    copy('/app/composer.json', '/tmp/composer.json');
     $file = '/tmp/composer.json';
     
     $urls = [];
