@@ -29,8 +29,8 @@ function func_20190823d($mu_)
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
         $jobs["/tmp/zoho_${docid}"] = $docid;
         $docids[$docid] = ['DOCNAME' => $item->DOCNAME,
-                           'CREATED_TIME_IN_MILLISECONDS' => $item->CREATED_TIME_IN_MILLISECONDS
-                           'FILE_SIZE' => 0
+                           'CREATED_TIME_IN_MILLISECONDS' => $item->CREATED_TIME_IN_MILLISECONDS,
+                           'FILE_SIZE' => 0,
                           ];
         
         error_log(print_r($item, true));
