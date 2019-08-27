@@ -93,8 +93,8 @@ function func_20190823e($mu_)
         CURLOPT_POSTFIELDS => $post_data,
         CURLOPT_HEADER => true,
         // CURLOPT_FOLLOWLOCATION => false,
-        // CURLOPT_COOKIEJAR => $cookie,
-        // CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
     ];
     $res = $mu_->get_contents($json->url, $options);
     error_log(print_r($res, true));
