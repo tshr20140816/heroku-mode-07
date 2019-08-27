@@ -28,13 +28,19 @@ function func_20190823e($mu_)
 
     copy('/app/composer.json', '/tmp/composer.json');
     $file = '/tmp/composer.json';
+
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+        CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
+        CURLOPT_HTTPHEADER => ['Accept: application/json',],
+    ];
     
     $urls = [];
     $page = 0;
     for (;;) {
         $page++;
         $url = 'http://my.cl.ly/items?per_page=100&page=' . $page;
-        $res = $mu_->get_contents($url, null);
+        $res = $mu_->get_contents($url, $options);
         $json = json_decode($res);
         if (count($json) === 0) {
             break;
@@ -48,6 +54,8 @@ function func_20190823e($mu_)
     
     error_log($log_prefix . print_r($urls, true));
     
+    $cookie = tempnam("/tmp", 'cookie_' . md5(microtime(true)));
+    
     $base_name = pathinfo($file)['basename'];
     
     $url = 'http://my.cl.ly/items/new';
@@ -55,6 +63,8 @@ function func_20190823e($mu_)
         CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
         CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
         CURLOPT_HTTPHEADER => ['Accept: application/json',],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
     ];
     $res = $mu_->get_contents($url, $options);
     error_log(print_r($res, true));
@@ -74,6 +84,8 @@ function func_20190823e($mu_)
         CURLOPT_POSTFIELDS => $post_data,
         CURLOPT_HEADER => true,
         CURLOPT_FOLLOWLOCATION => false,
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
     ];
     $res = $mu_->get_contents($json->url, $options);
     error_log(print_r($res, true));
@@ -84,10 +96,15 @@ function func_20190823e($mu_)
         CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
         CURLOPT_HTTPHEADER => ['Accept: application/json',],
         CURLOPT_HEADER => true,
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
     ];
     $res = $mu_->get_contents(trim($match[1]), $options);
     error_log(print_r($res, true));
     unlink($file);
+    
+    error_log(file_get_contents($cookie));
+    unlink($cookie);
 }
 
 function func_20190823d($mu_)
