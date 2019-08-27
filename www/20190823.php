@@ -23,18 +23,20 @@ function func_20190823d($mu_)
     $res = $mu_->get_contents($url);
 
     $jobs = [];
+    $docids = [];
     foreach (json_decode($res)->FILES as $item) {
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
         // $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
         $file_name = '/tmp/zoho_' . $docid;
         $jobs[$file_name] = $docid;
+        $docids[$docid] = [$item->DOCNAME, $item->CREATED_TIME_IN_MILLISECONDS];
         
         error_log(print_r($item, true));
         break;
     }
     
-    error_log(print_r($jobs, true));
+    error_log(print_r($docids, true));
     
     return;
     
