@@ -27,7 +27,9 @@ function check_zoho_usage_pre($mu_)
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
         $file_name = "/tmp/zoho_${docid}";
-        $jobs[$file_name] = "'curl -sS -m 60 -w @/tmp/curl_write_out_option -D ${file_name} -o /dev/null ${url}'";
+        $jobs[$file_name] = "'curl -sS -m 120 -w @/tmp/curl_write_out_option -D ${file_name} -o /dev/null ${url}'";
+        error_log(print_r($item, true));
+        break;
     }
     $curl_write_out_option = <<< __HEREDOC__
 (%{time_total}s %{size_download}b) 
