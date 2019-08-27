@@ -38,6 +38,7 @@ function func_20190823d($mu_)
     }
     
     error_log(print_r($docids, true));
+    error_log(base64_encode(serialize($docids)));
     
     return;
     
