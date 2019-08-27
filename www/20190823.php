@@ -136,7 +136,9 @@ function func_20190823d($mu_)
         $jobs[$file_name] = $docid;
         
         error_log(print_r($item, true));
-        $url = "https://apidocs.zoho.com/files/v1/revision/details?authtoken=${authtoken_zoho}&scope=docsapi";
+        $url = "https://apidocs.zoho.com/files/v1/revision/details?authtoken=${authtoken_zoho}&scope=docsapi&docid=${docid}&type=" . $item->FILETYPE;
+        $res = $mu_->get_contents($url);
+        error_log($res);
         break;
     }
     
