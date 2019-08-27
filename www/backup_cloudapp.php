@@ -132,55 +132,74 @@ __HEREDOC__;
             CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
             CURLOPT_CUSTOMREQUEST => 'GET',
         ];
-        // $res = $mu_->get_contents($url, $options);
         @unlink("/tmp/${base_name}");
-        // file_put_contents("/tmp/${base_name}", $res);
         
-        $line = 'curl -v -m 120 --compressed -o ' . "/tmp/${base_name}" . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
+        $line = "curl -v -m 120 --compressed -o /tmp/${base_name} -u ${user_hidrive}:${password_hidrive} ${url}";
         error_log($log_prefix . $line);
         $res = null;
         exec($line, $res);
-        // error_log($log_prefix . print_r($res, true));
         foreach ($res as $one_line) {
             error_log($log_prefix . $one_line);
         }
         $res = null;
+        $filesize = filesize("/tmp/${base_name}");
+        
+        $is_file_split = false;
+        if (filesize("/tmp/${base_name}") > 21 * 1024 * 1024) {
+            $line = "cd /tmp && split -d -b 20M ${base_name} ${base_name}.";
+            unlink("/tmp/${base_name}");
+            $is_file_split = true;
+        }
 
-        $url = 'http://my.cl.ly/items/new';
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-            CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
-            CURLOPT_HTTPHEADER => ['Accept: application/json',],
-        ];
-        $res = $mu_->get_contents($url, $options);
-        $json = json_decode($res);
+        for ($i = 0; $i < 100; $i++) {
+            if ($is_file_split === true && !file_exists("/tmp/${base_name}." . str_pad($i, 2, '0', STR_PAD_LEFT))) {
+                break;
+            }
+            
+            $url = 'http://my.cl.ly/items/new';
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+                CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
+                CURLOPT_HTTPHEADER => ['Accept: application/json',],
+            ];
+            $res = $mu_->get_contents($url, $options);
+            $json = json_decode($res);
 
-        $post_data = [
-            'AWSAccessKeyId' => $json->params->AWSAccessKeyId,
-            'key' => $json->params->key,
-            'policy' => $json->params->policy,
-            'signature' => $json->params->signature,
-            'success_action_redirect' => $json->params->success_action_redirect,
-            'acl' => $json->params->acl,
-            'file' => new CURLFile("/tmp/${base_name}", 'text/plain', $base_name),
-        ];
-        $options = [
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => $post_data,
-            CURLOPT_HEADER => true,
-            CURLOPT_FOLLOWLOCATION => false,
-        ];
-        $res = $mu_->get_contents($json->url, $options);
-        $rc = preg_match('/Location: (.+)/i', $res, $match);
+            $tmp_file_name = "/tmp/${base_name}";
+            if ($is_file_split === true) {
+                $tmp_file_name .= '.' . str_pad($i, 2, '0', STR_PAD_LEFT);
+            }
+            $post_data = [
+                'AWSAccessKeyId' => $json->params->AWSAccessKeyId,
+                'key' => $json->params->key,
+                'policy' => $json->params->policy,
+                'signature' => $json->params->signature,
+                'success_action_redirect' => $json->params->success_action_redirect,
+                'acl' => $json->params->acl,
+                'file' => new CURLFile($tmp_file_name, 'text/plain', $base_name),
+            ];
+            $options = [
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => $post_data,
+                CURLOPT_HEADER => true,
+                CURLOPT_FOLLOWLOCATION => false,
+            ];
+            $res = $mu_->get_contents($json->url, $options);
+            $rc = preg_match('/Location: (.+)/i', $res, $match);
 
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-            CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
-            CURLOPT_HTTPHEADER => ['Accept: application/json',],
-            CURLOPT_HEADER => true,
-        ];
-        $res = $mu_->get_contents(trim($match[1]), $options);
-        unlink("/tmp/${base_name}");
+            $options = [
+                CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+                CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
+                CURLOPT_HTTPHEADER => ['Accept: application/json',],
+                CURLOPT_HEADER => true,
+            ];
+            $res = $mu_->get_contents(trim($match[1]), $options);
+            unlink($tmp_file_name);
+            
+            if ($is_file_split === false) {
+                break;
+            }
+        }
     }
 
     $size = number_format($size);
