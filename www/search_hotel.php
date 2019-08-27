@@ -67,7 +67,7 @@ function search_hotel($mu_)
         $res = $mu_->search_blog($hash_url);
         if ($res != $hash_info) {
             $description = '<div class="' . $hash_url . '">' . "${hash_info}</div>${info}";
-            $mu_->post_blog_wordpress($hash_url, $description);
+            $mu_->post_blog_wordpress($hash_url, $description, 'hotel');
         }
     }
     $results = null;
