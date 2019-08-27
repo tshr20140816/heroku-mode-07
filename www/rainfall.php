@@ -85,7 +85,7 @@ $time_finish = microtime(true);
 if ($count === 0) {
     $title = $requesturi . ' [' . substr(($time_finish - $time_start), 0, 6) . 's]';
     $description = $mu->to_big_size(file_get_contents($file_name_blog));
-    $mu->post_blog_wordpress($title, $description, true);
+    $mu->post_blog_wordpress($title, $description, 'rain', true);
     $mu->post_blog_livedoor($title, $description, 'rain');
     unlink($file_name_blog);
 }
