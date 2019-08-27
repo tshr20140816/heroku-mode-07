@@ -85,7 +85,7 @@ function func_20190823e($mu_)
         CURLOPT_HEADER => true,
     ];
     $res = $mu_->get_contents(trim($match[1]), $options);
-    unlink($tmp_file_name);
+    unlink($file);
 }
 
 function func_20190823d($mu_)
