@@ -112,7 +112,12 @@ __HEREDOC__;
                 break;
             }
             foreach ($json as $item) {
+                /*
                 if ($item->file_name == pathinfo($file)['basename']) {
+                    $urls[$item->href] = $options;
+                }
+                */
+                if (preg_match('/' . pathinfo($file)['basename'] . '($|\.\d+$)/', $item->file_name) === 1) {
                     $urls[$item->href] = $options;
                 }
             }
@@ -142,11 +147,17 @@ __HEREDOC__;
             error_log($log_prefix . $one_line);
         }
         $res = null;
-        $filesize = filesize("/tmp/${base_name}");
-        
+
         $is_file_split = false;
         if (filesize("/tmp/${base_name}") > 21 * 1024 * 1024) {
             $line = "cd /tmp && split -d -b 20M ${base_name} ${base_name}.";
+            error_log($log_prefix . $line);
+            $res = null;
+            exec($line, $res);
+            foreach ($res as $one_line) {
+                error_log($log_prefix . $one_line);
+            }
+            $res = null;
             unlink("/tmp/${base_name}");
             $is_file_split = true;
         }
@@ -155,7 +166,12 @@ __HEREDOC__;
             if ($is_file_split === true && !file_exists("/tmp/${base_name}." . str_pad($i, 2, '0', STR_PAD_LEFT))) {
                 break;
             }
-            
+
+            $tmp_file_name = "/tmp/${base_name}";
+            if ($is_file_split === true) {
+                $tmp_file_name .= '.' . str_pad($i, 2, '0', STR_PAD_LEFT);
+            }
+
             $url = 'http://my.cl.ly/items/new';
             $options = [
                 CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
@@ -165,10 +181,6 @@ __HEREDOC__;
             $res = $mu_->get_contents($url, $options);
             $json = json_decode($res);
 
-            $tmp_file_name = "/tmp/${base_name}";
-            if ($is_file_split === true) {
-                $tmp_file_name .= '.' . str_pad($i, 2, '0', STR_PAD_LEFT);
-            }
             $post_data = [
                 'AWSAccessKeyId' => $json->params->AWSAccessKeyId,
                 'key' => $json->params->key,
