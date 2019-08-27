@@ -188,7 +188,7 @@ __HEREDOC__;
                 'signature' => $json->params->signature,
                 'success_action_redirect' => $json->params->success_action_redirect,
                 'acl' => $json->params->acl,
-                'file' => new CURLFile($tmp_file_name, 'text/plain', $base_name),
+                'file' => new CURLFile($tmp_file_name, 'text/plain', pathinfo($tmp_file_name)['basename']),
             ];
             $options = [
                 CURLOPT_POST => true,
