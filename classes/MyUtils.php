@@ -384,13 +384,17 @@ __HEREDOC__;
         if (is_null($description_)) {
             $description_ = '.';
         }
+        if (is_null($category_)) {
+            $category = '';
+        } else {
+            $category = base64_encode($category_);
+        }
 
         error_log($log_prefix . 'start exec');
-        // exec('php -d apc.enable_cli=1 ../scripts/put_blog.php ' . base64_encode($title_) . ' ' . base64_encode($description_) . ' >/dev/null &');
         exec('php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ../scripts/put_blog.php ' .
              base64_encode($title_) . ' ' .
              base64_encode($description_) .
-             base64_encode($category_) . ' >/dev/null &');
+             $category . ' >/dev/null &');
         error_log($log_prefix . 'finish exec');
     }
 
