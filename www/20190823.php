@@ -27,8 +27,11 @@ function func_20190823d($mu_)
     foreach (json_decode($res)->FILES as $item) {
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
-        $jobs[] = $docid;
-        $docids[$docid] = [$item->DOCNAME, $item->CREATED_TIME_IN_MILLISECONDS];
+        $jobs["/tmp/zoho_${docid}"] = $docid;
+        $docids[$docid] = ['DOCNAME' => $item->DOCNAME,
+                           'CREATED_TIME_IN_MILLISECONDS' => $item->CREATED_TIME_IN_MILLISECONDS
+                           'FILE_SIZE' => 0
+                          ];
         
         error_log(print_r($item, true));
         break;
