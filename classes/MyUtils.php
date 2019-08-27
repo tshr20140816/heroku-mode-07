@@ -598,7 +598,7 @@ __HEREDOC__;
         error_log($log_prefix . 'RESULT : ' . $res);
     }
 
-    function post_blog_livedoor($title_, $description_ = null)
+    function post_blog_livedoor($title_, $description_ = null, $category_ = null)
     {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -613,12 +613,19 @@ __HEREDOC__;
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom" xmlns:app="http://www.w3.org/2007/app">
   <title>__TITLE__</title>
+  __CATEGORY__
   <content type="text/plain">__CONTENT__</content>
 </entry>
 __HEREDOC__;
 
         $xml = str_replace('__TITLE__', date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}", $xml);
         $xml = str_replace('__CONTENT__', htmlspecialchars(nl2br($description_)), $xml);
+        
+        if ($category_ === null) {
+            $xml = str_replace('__CATEGORY__', ''), $xml);
+        } else {
+            $xml = str_replace('__CATEGORY__', '<category term="' . $category_ . '" />'), $xml);
+        }
 
         $url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}/article";
 
