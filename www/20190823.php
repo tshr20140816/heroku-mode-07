@@ -9,7 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823e($mu);
+func_20190823d($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
@@ -134,7 +134,14 @@ function func_20190823d($mu_)
         // $file_name = tempnam('/tmp', 'curl_' .  md5(microtime(true)));
         $file_name = '/tmp/zoho_' . $docid;
         $jobs[$file_name] = $docid;
+        
+        error_log(print_r($item, true));
+        $url = "https://apidocs.zoho.com/files/v1/revision/details?authtoken=${authtoken_zoho}&scope=docsapi";
+        break;
     }
+    
+    return;
+    
     
     // $jobs = array_chunk($jobs, 2, true)[0];
 
