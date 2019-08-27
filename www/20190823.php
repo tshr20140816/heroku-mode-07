@@ -35,6 +35,14 @@ function func_20190823e($mu_)
         CURLOPT_HTTPHEADER => ['Accept: application/json',],
     ];
     
+    $options1 = [
+        CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+        CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
+        CURLOPT_HTTPHEADER => ['Accept: application/json',],
+        CURLOPT_CUSTOMREQUEST => 'DELETE',
+        CURLOPT_HEADER => true,
+    ];
+    
     $urls = [];
     $page = 0;
     for (;;) {
@@ -47,12 +55,13 @@ function func_20190823e($mu_)
         }
         foreach ($json as $item) {
             if (preg_match('/' . pathinfo($file)['basename'] . '($|\.\d+$)/', $item->file_name) === 1) {
-                $urls[$item->href] = $options;
+                $urls[$item->href] = $options1;
             }
         }
     }
     
     error_log($log_prefix . print_r($urls, true));
+    $res = $mu_->get_contents_multi($urls);
     
     $cookie = tempnam("/tmp", 'cookie_' . md5(microtime(true)));
     
