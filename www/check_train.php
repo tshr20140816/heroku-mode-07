@@ -188,7 +188,7 @@ function check_train($mu_)
     $description .= "\n" . '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
     // $mu_->post_blog_livedoor('TRAIN', $description);
-    $mu_->post_blog_hatena('TRAIN', $description);
+    $mu_->post_blog_hatena('TRAIN', $description, 'train');
 
     error_log($log_prefix . 'start exec');
     exec('php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ../scripts/update_ttrss.php >/dev/null &');
