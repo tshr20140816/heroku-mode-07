@@ -57,6 +57,7 @@ function func_20190823e($mu_)
         CURLOPT_HTTPHEADER => ['Accept: application/json',],
     ];
     $res = $mu_->get_contents($url, $options);
+    error_log(print_r($res, true));
     $json = json_decode($res);
 
     $post_data = [
@@ -85,6 +86,7 @@ function func_20190823e($mu_)
         CURLOPT_HEADER => true,
     ];
     $res = $mu_->get_contents(trim($match[1]), $options);
+    error_log(print_r($res, true));
     unlink($file);
 }
 
