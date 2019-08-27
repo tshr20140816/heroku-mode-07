@@ -9,11 +9,12 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-put_zoho_filesize_info($mu);
+check_cloudapp_usage_pre($mu);
+// check_zoho_usage_pre($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function put_zoho_filesize_info($mu_)
+function check_zoho_usage_pre($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
@@ -63,4 +64,29 @@ __HEREDOC__;
     unlink('/tmp/jobs.txt');
     unlink('/tmp/xargs_log.txt');
     unlink('/tmp/curl_write_out_option');
+}
+
+function check_cloudapp_usage_pre($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $user_cloudapp = $mu_->get_env('CLOUDAPP_USER', true);
+    $password_cloudapp = $mu_->get_env('CLOUDAPP_PASSWORD', true);
+
+    for (;;) {
+        $page++;
+        $url = 'http://my.cl.ly/items?per_page=100&page=' . $page;
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+            CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
+            CURLOPT_HTTPHEADER => ['Accept: application/json',],
+        ];
+        $res = $mu_->get_contents($url, $options);
+        $json = json_decode($res);
+        if (count($json) === 0) {
+            break;
+        }
+        
+        error_log(print_r($json, true));
+    }
 }
