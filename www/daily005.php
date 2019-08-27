@@ -9,8 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-check_cloudapp_usage_pre($mu);
-// check_zoho_usage_pre($mu);
+check_zoho_usage_pre($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
@@ -28,7 +27,7 @@ function check_zoho_usage_pre($mu_)
         $docid = $item->DOCID;
         $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
         $file_name = "/tmp/zoho_${docid}";
-        $jobs[$file_name] = "'curl -sS -m 120 -w @/tmp/curl_write_out_option -D ${file_name} -o /dev/null ${url}'";
+        $jobs[$file_name] = "'curl -sS -m 60 -w @/tmp/curl_write_out_option -D ${file_name} -o /dev/null ${url}'";
     }
     $curl_write_out_option = <<< __HEREDOC__
 (%{time_total}s %{size_download}b) 
@@ -64,29 +63,4 @@ __HEREDOC__;
     unlink('/tmp/jobs.txt');
     unlink('/tmp/xargs_log.txt');
     unlink('/tmp/curl_write_out_option');
-}
-
-function check_cloudapp_usage_pre($mu_)
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-    $user_cloudapp = $mu_->get_env('CLOUDAPP_USER', true);
-    $password_cloudapp = $mu_->get_env('CLOUDAPP_PASSWORD', true);
-
-    for (;;) {
-        $page++;
-        $url = 'http://my.cl.ly/items?per_page=100&page=' . $page;
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-            CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
-            CURLOPT_HTTPHEADER => ['Accept: application/json',],
-        ];
-        $res = $mu_->get_contents($url, $options);
-        $json = json_decode($res);
-        if (count($json) === 0) {
-            break;
-        }
-        
-        error_log(print_r($json, true));
-    }
 }
