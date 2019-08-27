@@ -622,9 +622,9 @@ __HEREDOC__;
         $xml = str_replace('__CONTENT__', htmlspecialchars(nl2br($description_)), $xml);
         
         if ($category_ === null) {
-            $xml = str_replace('__CATEGORY__', ''), $xml);
+            $xml = str_replace('__CATEGORY__', '', $xml);
         } else {
-            $xml = str_replace('__CATEGORY__', '<category term="' . $category_ . '" />'), $xml);
+            $xml = str_replace('__CATEGORY__', '<category term="' . $category_ . '" />', $xml);
         }
 
         $url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}/article";
