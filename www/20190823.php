@@ -13,111 +13,6 @@ func_20190823d($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190823e($mu_)
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-    $user_cloudapp = $mu_->get_env('CLOUDAPP_USER', true);
-    $password_cloudapp = $mu_->get_env('CLOUDAPP_PASSWORD', true);
-
-    $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-        CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
-        CURLOPT_HTTPHEADER => ['Accept: application/json',],
-    ];
-
-    copy('/app/composer.json', '/tmp/composer.json');
-    $file = '/tmp/composer.json';
-
-    $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-        CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
-        CURLOPT_HTTPHEADER => ['Accept: application/json',],
-    ];
-    
-    $options1 = [
-        CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-        CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
-        CURLOPT_HTTPHEADER => ['Accept: application/json',],
-        CURLOPT_CUSTOMREQUEST => 'DELETE',
-        CURLOPT_HEADER => true,
-    ];
-    
-    $urls = [];
-    $page = 0;
-    for (;;) {
-        $page++;
-        $url = 'http://my.cl.ly/items?per_page=100&page=' . $page;
-        $res = $mu_->get_contents($url, $options);
-        $json = json_decode($res);
-        if (count($json) === 0) {
-            break;
-        }
-        foreach ($json as $item) {
-            if (preg_match('/' . pathinfo($file)['basename'] . '($|\.\d+$)/', $item->file_name) === 1) {
-                $urls[$item->href] = $options1;
-            }
-        }
-    }
-    
-    error_log($log_prefix . print_r($urls, true));
-    $res = $mu_->get_contents_multi($urls);
-    
-    $cookie = tempnam("/tmp", 'cookie_' . md5(microtime(true)));
-    
-    $base_name = pathinfo($file)['basename'];
-    
-    $url = 'http://my.cl.ly/items/new';
-    $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-        CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
-        CURLOPT_HTTPHEADER => ['Accept: application/json',],
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
-    ];
-    $res = $mu_->get_contents($url, $options);
-    error_log(print_r($res, true));
-    $json = json_decode($res);
-
-    $post_data = [
-        'AWSAccessKeyId' => $json->params->AWSAccessKeyId,
-        'key' => $json->params->key,
-        'policy' => $json->params->policy,
-        'signature' => $json->params->signature,
-        'success_action_redirect' => $json->params->success_action_redirect,
-        'acl' => $json->params->acl,
-        'file' => new CURLFile($file, 'text/plain', $base_name),
-    ];
-    $options = [
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $post_data,
-        CURLOPT_HEADER => true,
-        // CURLOPT_FOLLOWLOCATION => false,
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
-    ];
-    $res = $mu_->get_contents($json->url, $options);
-    error_log(print_r($res, true));
-    /*
-    $rc = preg_match('/Location: (.+)/i', $res, $match);
-
-    $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-        CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
-        CURLOPT_HTTPHEADER => ['Accept: application/json',],
-        CURLOPT_HEADER => true,
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
-    ];
-    $res = $mu_->get_contents(trim($match[1]), $options);
-    error_log(print_r($res, true));
-    */
-    unlink($file);
-    
-    error_log(file_get_contents($cookie));
-    unlink($cookie);
-}
-
 function func_20190823d($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
@@ -136,11 +31,10 @@ function func_20190823d($mu_)
         $jobs[$file_name] = $docid;
         
         error_log(print_r($item, true));
-        $url = "https://apidocs.zoho.com/files/v1/revision/details?authtoken=${authtoken_zoho}&scope=docsapi&docid=${docid}&type=" . $item->FILETYPE;
-        $res = $mu_->get_contents($url);
-        error_log($res);
         break;
     }
+    
+    error_log(print_r($jobs, true));
     
     return;
     
