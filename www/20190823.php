@@ -92,12 +92,13 @@ function func_20190823e($mu_)
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => $post_data,
         CURLOPT_HEADER => true,
-        CURLOPT_FOLLOWLOCATION => false,
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
+        // CURLOPT_FOLLOWLOCATION => false,
+        // CURLOPT_COOKIEJAR => $cookie,
+        // CURLOPT_COOKIEFILE => $cookie,
     ];
     $res = $mu_->get_contents($json->url, $options);
     error_log(print_r($res, true));
+    /*
     $rc = preg_match('/Location: (.+)/i', $res, $match);
 
     $options = [
@@ -110,6 +111,7 @@ function func_20190823e($mu_)
     ];
     $res = $mu_->get_contents(trim($match[1]), $options);
     error_log(print_r($res, true));
+    */
     unlink($file);
     
     error_log(file_get_contents($cookie));
