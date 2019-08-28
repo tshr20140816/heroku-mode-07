@@ -31,12 +31,25 @@ $count = (int)$_GET['c'];
 
 $continue_flag = false;
 if ($count !== 0) {
+    /*
     error_log("${pid} SLEEP");
     sleep(28);
     $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $_SERVER['PHP_SELF'] . '?c=' . ($count - 1);
-    // $options = [CURLOPT_TIMEOUT => 3, CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD')];
-    // $res = $mu->get_contents($url, $options);
     exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
+    */
+    
+    $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $_SERVER['PHP_SELF'] . '?c=' . ($count - 1);
+    $option = '-u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD');
+    
+    $shell_script = <<< __HEREDOC__
+#!/bin/bash
+
+sleep 28s
+curl {$option} {$url} > /dev/null 2>&1 &
+__HEREDOC__;
+    file_put_contents('/tmp/rainfall.sh', $shell_script);
+
+    exec('bash /tmp/rainfall.sh &');    
 } else {
     $file_name_blog = '/tmp/rainfall.txt';
     @unlink($file_name_blog);
