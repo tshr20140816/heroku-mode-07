@@ -17,37 +17,78 @@ function func_20190823d($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
+    $sql_select = <<< __HEREDOC__
+SELECT T1.value
+  FROM t_data_log T1
+ WHERE T1.key = :b_key
+__HEREDOC__;
 
+    $sql_upsert = <<< __HEREDOC__
+INSERT INTO t_data_log VALUES(:b_key, :b_value)
+    ON CONFLICT (key)
+    DO UPDATE SET value = :b_value
+__HEREDOC__;
+
+    $pdo = $mu_->get_pdo();
+    $statement_select = $pdo->prepare($sql_select);
+    $statement_upsert = $pdo->prepare($sql_upsert);
+    
+    $statement_select->execute([':b_key' => 'apidocs.zoho.com']);
+    $result = $statement_select->fetchAll();
+    $docids = [];
+    if (count($result) != 0) {
+        $docids = unserialize(bzdecompress(base64_decode($result[0]['value'])));
+    }
+    $result = null;
+
+    $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
+    
     $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
     $res = $mu_->get_contents($url);
 
-    $jobs = [];
-    $docids = [];
     foreach (json_decode($res)->FILES as $item) {
         $docid = $item->DOCID;
-        $url = "https://apidocs.zoho.com/files/v1/content/${docid}?authtoken=${authtoken_zoho}&scope=docsapi";
-        $jobs["/tmp/zoho_${docid}"] = $docid;
-        $docids[$docid] = ['DOCNAME' => $item->DOCNAME,
-                           'CREATED_TIME_IN_MILLISECONDS' => $item->CREATED_TIME_IN_MILLISECONDS,
-                           'FILE_SIZE' => 0,
-                          ];
+        if (array_key_exists($docid, $docids) === true 
+            && $docids[$docid]['DOCNAME'] === $item->DOCNAME
+            && $docids[$docid]['CREATED_TIME_IN_MILLISECONDS'] === $item->CREATED_TIME_IN_MILLISECONDS
+           ) {
+            $docids[$docid]['IS_EXISTS'] = true;
+        } else {
+            $docids[$docid] = ['DOCNAME' => $item->DOCNAME,
+                               'CREATED_TIME_IN_MILLISECONDS' => $item->CREATED_TIME_IN_MILLISECONDS,
+                               'FILE_SIZE' => 0,
+                               'IS_EXISTS' => true,
+                              ];
+        }
     }
+    
+    $unset_list = [];
+    foreach ($docids as $key => $value) {
+        if ($value['IS_EXISTS'] === false) {
+            $unset_list[] = $key;
+        }
+    }
+    foreach($unset_list as $key) {
+        unset($docids[$key]);
+    }
+    
+    
+    
+    
     
     // error_log(print_r($docids, true));
     
     $tmp = base64_encode(bzcompress(serialize($docids)));
     error_log(strlen($tmp));
     
-    error_log(print_r(unserialize(bzdecompress(base64_decode($tmp))), true));
     
+    $pdo = null;
     return;
-    
     
     // $jobs = array_chunk($jobs, 2, true)[0];
 
-    error_log($log_prefix . 'total count : ' . count($jobs));
-    file_put_contents('/tmp/jobs.txt', implode("\n", $jobs));
+    error_log($log_prefix . 'total count : ' . count($docids));
+    file_put_contents('/tmp/jobs.txt', implode("\n", array_keys($docids)));
 
     $line = 'cat /tmp/jobs.txt | xargs -t -L 1 -P 7 -I{} '
         . 'curl -sS -m 120 -w "(%{time_total}s %{size_download}b) " -D /tmp/zoho_{} -o /dev/null '
