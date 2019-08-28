@@ -78,7 +78,7 @@ __HEREDOC__;
     $unset_list = null;
 
     error_log($log_prefix . 'total count : ' . count($job_list));
-    $job_list = array_chunk($job_list, 10)[0];
+    $job_list = array_chunk($job_list, 5)[0];
     file_put_contents('/tmp/jobs.txt', implode("\n", array_chunk($job_list, 10)[0]));
 
     $curl_write_out_option = <<< __HEREDOC__
