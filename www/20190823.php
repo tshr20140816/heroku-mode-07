@@ -20,6 +20,8 @@ function func_20190823e($mu_)
     $database_url = $mu_->get_env('DATABASE_URL_TTRSS', true);
     
     $file_name = '/tmp/testdump.txt';
+    @unlink($file_name);
+    @unlink($file_name . '.bz2';
     $line = "pg_dump --format=plain --dbname=${database_url} >${file_name}";
     $res = null;
     error_log($log_prefix . $line);
