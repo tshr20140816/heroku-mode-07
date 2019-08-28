@@ -34,8 +34,8 @@ function func_20190823e($mu_)
     error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
     $res = null;
     
-    # $line = "pbzip2 -v ${file_name}";
-    $line = "lbzip2 -v ${file_name}";
+    $line = "pbzip2 -v ${file_name}";
+    // $line = "lbzip2 -v ${file_name}";
     error_log($log_prefix . $line);
     $res = null;
     $time_start = microtime(true);
