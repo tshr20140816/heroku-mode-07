@@ -37,7 +37,7 @@ __HEREDOC__;
     $result = $statement_select->fetchAll();
     $docids = [];
     if (count($result) != 0) {
-        // $docids = unserialize(bzdecompress(base64_decode($result[0]['value'])));
+        $docids = unserialize(bzdecompress(base64_decode($result[0]['value'])));
     }
     $result = null;
     $pdo = null;
