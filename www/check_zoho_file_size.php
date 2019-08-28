@@ -110,7 +110,6 @@ __HEREDOC__;
             $rc = preg_match('/Content-Length: (\d+)/', $res, $match);
             if ($rc === 1) {
                 error_log($log_prefix . $match[1] . ' : ' . trim($docid, "'"));
-                // $size += (int)$match[1];
                 $docids[$docid]['FILE_SIZE'] = (int)$match[1];
             }
             unlink($file_name);
