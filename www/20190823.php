@@ -40,7 +40,6 @@ __HEREDOC__;
         $docids = unserialize(bzdecompress(base64_decode($result[0]['value'])));
     }
     $result = null;
-    
     $pdo = null;
 
     $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
@@ -81,9 +80,18 @@ __HEREDOC__;
     error_log($log_prefix . 'total count : ' . count($job_list));
     file_put_contents('/tmp/jobs.txt', implode("\n", $job_list));
 
+    $curl_write_out_option = <<< __HEREDOC__
+(%{time_total}s %{size_download}b) 
+__HEREDOC__;
+    
+    /*
     $line = 'cat /tmp/jobs.txt | xargs -t -L 1 -P 2 -I{} '
         . 'curl -sS -m 120 -w "(%{time_total}s %{size_download}b) " -D /tmp/zoho_{} -o /dev/null '
         . "https://apidocs.zoho.com/files/v1/content/{}?authtoken=${authtoken_zoho}&scope=docsapi 2>/tmp/xargs_log.txt";
+    */
+    $line = 'cat /tmp/jobs.txt | xargs -t -L 1 -P 2 -I{} '
+        . "bash -c 'curl -sS -m 120 -w @/tmp/curl_write_out_option -D /tmp/zoho_{} "
+        . "https://apidocs.zoho.com/files/v1/content/{}?authtoken=${authtoken_zoho}&scope=docsapi 2>>/tmp/xargs_log.txt'";
     $res = null;
     error_log($log_prefix . $line);
     $time_start = microtime(true);
