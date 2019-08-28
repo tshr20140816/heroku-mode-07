@@ -46,6 +46,8 @@ function func_20190823e($mu_)
     }
     error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
     $res = null;
+    error_log(number_format(filesize($file_name . '.bz2'))):
+    @unlink($file_name . '.bz2');
 }
 
 function func_20190823d($mu_)
