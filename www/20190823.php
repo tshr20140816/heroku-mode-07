@@ -9,9 +9,41 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823d($mu);
+func_20190823e($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190823e($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $database_url = $mu_->get_env('DATABASE_URL_TTRSS', true);
+    
+    $file_name = '/tmp/testdump.txt';
+    $line = "pg_dump --format=plain --dbname=${database_url} >${file_name}";
+    $res = null;
+    error_log($log_prefix . $line);
+    $time_start = microtime(true);
+    exec($line, $res);
+    $time_finish = microtime(true);
+    foreach ($res as $one_line) {
+        error_log($log_prefix . $one_line);
+    }
+    error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
+    $res = null;
+    
+    $line = "pbzip2 -v ${file_name}";
+    error_log($log_prefix . $line);
+    $res = null;
+    $time_start = microtime(true);
+    exec($line, $res);
+    $time_finish = microtime(true);
+    foreach ($res as $one_line) {
+        error_log($log_prefix . $one_line);
+    }
+    error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
+    $res = null;
+}
 
 function func_20190823d($mu_)
 {
