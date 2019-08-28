@@ -31,8 +31,7 @@ __HEREDOC__;
 
     $pdo = $mu_->get_pdo();
     $statement_select = $pdo->prepare($sql_select);
-    $statement_upsert = $pdo->prepare($sql_upsert);
-    
+
     $statement_select->execute([':b_key' => 'apidocs.zoho.com']);
     $result = $statement_select->fetchAll();
     $docids = [];
