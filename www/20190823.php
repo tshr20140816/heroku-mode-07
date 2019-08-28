@@ -37,7 +37,7 @@ __HEREDOC__;
     $result = $statement_select->fetchAll();
     $docids = [];
     if (count($result) != 0) {
-        $docids = unserialize(bzdecompress(base64_decode($result[0]['value'])));
+        // $docids = unserialize(bzdecompress(base64_decode($result[0]['value'])));
     }
     $result = null;
     $pdo = null;
@@ -78,6 +78,7 @@ __HEREDOC__;
     $unset_list = null;
 
     error_log($log_prefix . 'total count : ' . count($job_list));
+    $job_list = array_chunk($job_list, 10)[0];
     file_put_contents('/tmp/jobs.txt', implode("\n", array_chunk($job_list, 10)[0]));
 
     $curl_write_out_option = <<< __HEREDOC__
@@ -118,7 +119,7 @@ __HEREDOC__;
                 $size += (int)$match[1];
                 $docids[$docid]['FILE_SIZE'] = (int)$match[1];
             }
-            unlink($docid);
+            unlink($file_name);
         }
     }
     
