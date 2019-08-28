@@ -335,11 +335,14 @@ $rc = $mu->edit_tasks($list_edit_task);
 $count_delete_task = count($list_delete_task);
 $mu->delete_tasks($list_delete_task);
 
+$host_name = getenv('HEROKU_APP_NAME');
+if ($hour_now > 5 && $hour_now < 18) {
+    $host_name = substr($host_name, 0, strlen($host_name) - 1) . '2';
+    $url = 'https://' . $host_name . '.herokuapp.com/check_zoho_file_size.php';
+    exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
+}
+
 if ($rainfall_continue_flag === true) {
-    $host_name = getenv('HEROKU_APP_NAME');
-    if ($hour_now > 5 && $hour_now < 18) {
-        $host_name = substr($host_name, 0, strlen($host_name) - 1) . '2';
-    }
     $url = 'https://' . $host_name . '.herokuapp.com/rainfall.php?c=11';
     exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 }
