@@ -45,11 +45,11 @@ if ($count !== 0) {
 #!/bin/bash
 
 sleep 28s
-curl {$option} {$url} > /dev/null 2>&1 &
+curl {$option} {$url} >/dev/null 2>&1 &
 __HEREDOC__;
     file_put_contents('/tmp/rainfall.sh', $shell_script);
 
-    exec('bash /tmp/rainfall.sh &');    
+    exec('bash /tmp/rainfall.sh >/dev/null 2>&1 &');    
 } else {
     $file_name_blog = '/tmp/rainfall.txt';
     @unlink($file_name_blog);
