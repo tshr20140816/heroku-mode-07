@@ -43,7 +43,7 @@ __HEREDOC__;
     $pdo = null;
 
     $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
-    
+
     $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
     $res = $mu_->get_contents($url);
 
@@ -62,7 +62,7 @@ __HEREDOC__;
                               ];
         }
     }
-    
+
     $unset_list = [];
     $job_list = [];
     foreach ($docids as $key => $value) {
@@ -78,21 +78,15 @@ __HEREDOC__;
     $unset_list = null;
 
     error_log($log_prefix . 'total count : ' . count($job_list));
-    $job_list = array_chunk($job_list, 5)[0];
-    file_put_contents('/tmp/jobs.txt', implode("\n", array_chunk($job_list, 10)[0]));
+    if (count($job_list) === 0) {
+        return;
+    }
+    $job_list = array_chunk($job_list, 4)[0];
+    file_put_contents('/tmp/jobs.txt', implode("\n", $job_list));
 
-    $curl_write_out_option = <<< __HEREDOC__
-(%{time_total}s %{size_download}b) 
-__HEREDOC__;
-    
-    $line = 'cat /tmp/jobs.txt | xargs -t -L 1 -P 5 -I{} '
+    $line = 'cat /tmp/jobs.txt | xargs -t -L 1 -P 4 -I{} '
         . 'curl -sS -m 120 -w "(%{time_total}s %{size_download}b) " -D /tmp/zoho_{} -o /dev/null '
         . "https://apidocs.zoho.com/files/v1/content/{}?authtoken=${authtoken_zoho}&scope=docsapi 2>/tmp/xargs_log.txt";
-    /*
-    $line = 'cat /tmp/jobs.txt | xargs -t -L 1 -P 2 -I{} '
-        . "bash -c 'curl -sS -m 120 -w @/tmp/curl_write_out_option -D /tmp/zoho_{} "
-        . "https://apidocs.zoho.com/files/v1/content/{}?authtoken=${authtoken_zoho}&scope=docsapi 2>>/tmp/xargs_log.txt'";
-    */
     $res = null;
     error_log($log_prefix . $line);
     $time_start = microtime(true);
@@ -106,7 +100,7 @@ __HEREDOC__;
     error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
     unlink('/tmp/jobs.txt');
     unlink('/tmp/xargs_log.txt');
-    
+
     foreach ($job_list as $docid) {
         $file_name = "/tmp/zoho_${docid}";
         if (!file_exists($file_name) || filesize($file_name) === 0) {
@@ -122,10 +116,10 @@ __HEREDOC__;
             unlink($file_name);
         }
     }
-    
-    error_log(print_r($docids, true));
-    error_log(strlen(base64_encode(bzcompress(serialize($docids)))));
-    
+
+    error_log($log_prefix . print_r($docids, true));
+    error_log($log_prefix . 'Data Size : ' . number_format(strlen(base64_encode(bzcompress(serialize($docids))))));
+
     $pdo = $mu_->get_pdo();
     $statement_upsert = $pdo->prepare($sql_upsert);
     
