@@ -35,14 +35,11 @@ function func_20190823d($mu_)
     }
     
     // error_log(print_r($docids, true));
-    $tmp = base64_encode(serialize($docids));
-    error_log(strlen($tmp));
     
     $tmp = base64_encode(bzcompress(serialize($docids)));
     error_log(strlen($tmp));
     
-    // error_log(base64_encode(serialize($docids)));
-    // error_log(print_r(unserialize(base64_decode(base64_encode(serialize($docids)))), true));
+    error_log(print_r(unserialize(bzdecompress(base64_decode($tmp))), true));
     
     return;
     
