@@ -9,27 +9,9 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823e($mu);
+func_20190823d($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
-
-function func_20190823e($mu_)
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
-    $count = 10;
-    $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com' . $_SERVER['PHP_SELF'] . '?c=' . ($count - 1);
-    $option = '-u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD');
-    
-    $shell_script = <<< __HEREDOC__
-#!/bin/bash
-
-sleep 28s
-curl {$option} {$url} > /dev/null 2>&1 &
-__HEREDOC__;
-    
-    error_log($shell_script);
-}
 
 function func_20190823d($mu_)
 {
