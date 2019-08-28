@@ -1584,14 +1584,17 @@ __HEREDOC__;
 
         $authtoken_zoho = $this->get_env('ZOHO_AUTHTOKEN', true);
 
-        $line = "pbzip2 -v ${file_name_}";
+        // $line = "pbzip2 -v ${file_name_}";
+        $line = "lbzip2 -v ${file_name_}";
         error_log($log_prefix . $line);
         $res = null;
+        $time_start = microtime(true);
         exec($line, $res);
-        // error_log($log_prefix . print_r($res, true));
+        $time_finish = microtime(true);
         foreach ($res as $one_line) {
             error_log($log_prefix . $one_line);
         }
+        error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
 
         $method = 'aes-256-cbc';
         $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
@@ -1599,11 +1602,13 @@ __HEREDOC__;
         $line = "openssl ${method} -e -base64 -A -iv ${iv} -pass pass:${password} -in ${file_name_}.bz2 -out ${file_name_}";
         error_log($log_prefix . $line);
         $res = null;
+        $time_start = microtime(true);
         exec($line, $res);
-        // error_log($log_prefix . print_r($res, true));
+        $time_finish = microtime(true);
         foreach ($res as $one_line) {
             error_log($log_prefix . $one_line);
         }
+        error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
         unlink($file_name_ . '.bz2');
 
         error_log($log_prefix . 'size : ' . number_format(filesize($file_name_)));
