@@ -41,6 +41,10 @@ __HEREDOC__;
     $result = null;
     $pdo = null;
 
+    foreach (array_keys($docids) as $docid) {
+        $docids[$docid]['IS_EXISTS'] = false;
+    }
+
     $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
 
     $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
