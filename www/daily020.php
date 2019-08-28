@@ -71,7 +71,7 @@ check_4shared_usage($mu, $file_name_blog);
 // check_cloudapp_usage($mu, $file_name_blog);
 
 // Zoho usage
-// check_zoho_usage($mu, $file_name_blog);
+check_zoho_usage($mu, $file_name_blog);
 
 // MEGA usage
 check_mega_usage($mu, $file_name_blog);
@@ -712,6 +712,7 @@ function check_zoho_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    /*
     $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
 
     $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
@@ -735,6 +736,29 @@ function check_zoho_usage($mu_, $file_name_blog_)
             $size += strlen($res);
         }
         $list_contents = null;
+    }
+    */
+    $sql_select = <<< __HEREDOC__
+SELECT T1.value
+  FROM t_data_log T1
+ WHERE T1.key = :b_key
+__HEREDOC__;
+    
+    $pdo = $mu_->get_pdo();
+    $statement_select = $pdo->prepare($sql_select);
+
+    $statement_select->execute([':b_key' => 'apidocs.zoho.com']);
+    $result = $statement_select->fetchAll();
+    $docids = [];
+    if (count($result) != 0) {
+        $docids = unserialize(bzdecompress(base64_decode($result[0]['value'])));
+    }
+    $result = null;
+    $pdo = null;
+    
+    $size = 0;
+    foreach ($docids as $value) {
+        $size += (int)$value['FILE_SIZE'];
     }
 
     $percentage = substr($size / (5 * 1024 * 1024 * 1024) * 100, 0, 5);
