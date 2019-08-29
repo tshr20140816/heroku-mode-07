@@ -77,6 +77,9 @@ check_zoho_usage($mu, $file_name_blog);
 // MEGA usage
 check_mega_usage($mu, $file_name_blog);
 
+// Dropbox usage
+// check_dropbox_usage($mu, $file_name_blog);
+
 // github contribution count
 count_github_contribution($mu, $file_name_blog);
 
@@ -680,6 +683,28 @@ function backup_opml2($mu_, $file_name_blog_)
     $file_size = number_format($file_size);
 
     file_put_contents($file_name_blog_, "\nOPML2 backup size : ${file_size}Byte\nFeed count : ${feed_count}\n", FILE_APPEND);
+}
+
+function check_dropbox_usage($mu_, $file_name_blog_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $token_dropbox = $this->get_env('DROPBOX_TOKEN', true);
+
+    $url = 'https://api.dropboxapi.com/2/users/get_space_usage';
+    $options = [
+        CURLOPT_POST => true,
+        CURLOPT_HTTPHEADER => ["Authorization: Bearer ${token_dropbox}",
+                              ],
+    ];
+    $res = $mu_->get_contents($url, $options);
+    $json = json_decode($res);
+    
+    $percentage = substr($json->used / $json->allocation->allocated * 100, 0, 5);
+    $size = number_format($json->used);
+
+    error_log($log_prefix . "Dropbox usage : ${size}Byte ${percentage}%");
+    file_put_contents($file_name_blog_, "\nDropbox usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
 }
 
 function check_mega_usage($mu_, $file_name_blog_)
