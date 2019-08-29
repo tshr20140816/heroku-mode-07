@@ -27,7 +27,7 @@ function func_20190823e($mu_)
     error_log($base_name);
     @unlink("/tmp/${base_name}");
     
-    $line = 'curl -v -m 120 -o ' . "/tmp/${base_name}" . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
+    $line = 'curl -v -m 120 -o ' . "/tmp/${base_name}" . ' -u ' . "${user_hidrive}:${password_hidrive} --compressed " . $url;
     $res = null;
     error_log($log_prefix . $line);
     $time_start = microtime(true);
@@ -39,7 +39,8 @@ function func_20190823e($mu_)
     $res = null;
     error_log(filesize("/tmp/${base_name}"));
     
-    $line = "pigz -v /tmp/${base_name}";
+    // $line = "pigz -v /tmp/${base_name}";
+    $line = "zip -v /tmp/${base_name}";
     $res = null;
     error_log($log_prefix . $line);
     $time_start = microtime(true);
@@ -63,9 +64,9 @@ function func_20190823e($mu_)
     }
     $res = null;
     
-    $line = 'curl -v -X POST https://content.dropboxapi.com/2/files/upload'
+    $line = 'curl -v -X POST --compressed https://content.dropboxapi.com/2/files/upload'
         . ' --header "Authorization: Bearer ' . getenv('DROPBOX_TOKEN') . '"'
-        . ' --header "Dropbox-API-Arg: {"path": "/' . $base_name .'.zip", "mode": "overwrite", "autorename": false, "mute": false}"'
+        . ' --header \'Dropbox-API-Arg: {"path": "/' . $base_name .'.zip", "mode": "overwrite", "autorename": false, "mute": false}\''
         . ' --header "Content-Type: application/octet-stream"'
         . ' --data-binary @' . "/tmp/${base_name}.zip";
     $res = null;
