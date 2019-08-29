@@ -9,9 +9,16 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823e($mu);
+func_20190823f($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190823f($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    error_log($mu_->get_encrypt_string(getenv('DROPBOX_TOKEN')));
+}
 
 function func_20190823e($mu_)
 {
