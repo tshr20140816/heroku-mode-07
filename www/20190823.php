@@ -20,7 +20,7 @@ function func_20190823e($mu_)
     $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
     $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
     
-    $url = getenv('TEST_URL01');
+    $url = getenv('TEST_URL_01');
     
     error_log($url);
 }
