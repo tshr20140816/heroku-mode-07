@@ -21,8 +21,10 @@ function func_20190823e($mu_)
     $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
     
     $url = getenv('TEST_URL_01');
-    
     error_log($url);
+    
+    $base_name = pathinfo($url)['basename'];
+    error_log($base_name);
 }
 
 function func_20190823d($mu_)
