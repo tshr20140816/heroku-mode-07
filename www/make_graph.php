@@ -1127,7 +1127,7 @@ function make_process_time($mu_, $file_name_rss_items_)
     $res = $mu_->get_contents($url);
 
     $rc = preg_match_all('/rel="bookmark">.+?\/(.+?) .+? \/daily020\.php&nbsp;\[(.+?)s\]/', $res, $matches, PREG_SET_ORDER);
-
+make
     $labels = [];
     $data = [];
     foreach ($matches as $match) {
@@ -1881,7 +1881,7 @@ function make_database3($mu_, $file_name_rss_items_)
                           'borderColor' => 'rgba(0,0,0,0)',
                           'label' => ['enabled' => true,
                                       'content' => number_format(end($data3)->y),
-                                      'position' => 'right',
+                                      'position' => 'center',
                                       'backgroundColor' => $one_data['size_color'],
                                       'fontColor' => 'black',
                                      ],
