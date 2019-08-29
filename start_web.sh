@@ -39,7 +39,7 @@ ulimit -u
 getconf ARG_MAX
 
 hostname -A
-hottname -I
+hostname -I
 
 echo "$(httpd -v)" > /tmp/apache_current_version
 echo "$(php -v | head -n 1)" > /tmp/php_current_version
