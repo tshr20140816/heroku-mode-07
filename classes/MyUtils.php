@@ -632,7 +632,7 @@ __HEREDOC__;
 
         $xml = str_replace('__TITLE__', date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}", $xml);
         $xml = str_replace('__CONTENT__', htmlspecialchars(nl2br($description_)), $xml);
-        
+
         if ($category_ === null) {
             $xml = str_replace('__CATEGORY__', '', $xml);
         } else {
@@ -1053,489 +1053,11 @@ __HEREDOC__;
 
         $total_time = substr((microtime(true) - $time_start), 0, 5) . 'sec';
 
-        error_log($log_prefix . 'urls : ' . print_r(array_keys($results), true));
+        error_log("${log_prefix}urls : " . print_r(array_keys($results), true));
         error_log("${log_prefix}Total Time : [${total_time}]");
-        error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
+        error_log("${log_prefix}memory_get_usage : " . number_format(memory_get_usage()) . 'byte');
 
         return $results;
-    }
-
-    public function backup_data2($data_, $file_name_)
-    {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-        error_log($log_prefix . 'START memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
-        error_log($log_prefix . "file : ${file_name_}");
-        // error_log($log_prefix . 'file size : ' . number_format(filesize($file_name_)));
-        @unlink($file_name_);
-
-        $base_name = pathinfo($file_name_)['basename'];
-
-        $user_hidrive = $this->get_env('HIDRIVE_USER', true);
-        $password_hidrive = $this->get_env('HIDRIVE_PASSWORD', true);
-
-        $user_pcloud = $this->get_env('PCLOUD_USER', true);
-        $password_pcloud = $this->get_env('PCLOUD_PASSWORD', true);
-
-        $user_teracloud = $this->get_env('TERACLOUD_USER', true);
-        $password_teracloud = $this->get_env('TERACLOUD_PASSWORD', true);
-        $api_key_teracloud = $this->get_env('TERACLOUD_API_KEY', true);
-        $node_teracloud = $this->get_env('TERACLOUD_NODE', true);
-
-        $user_opendrive = $this->get_env('OPENDRIVE_USER', true);
-        $password_opendrive = $this->get_env('OPENDRIVE_PASSWORD', true);
-
-        $user_cloudme = $this->get_env('CLOUDME_USER', true);
-        $password_cloudme = $this->get_env('CLOUDME_PASSWORD', true);
-
-        $user_4shared = $this->get_env('4SHARED_USER', true);
-        $password_4shared = $this->get_env('4SHARED_PASSWORD', true);
-
-        /*
-        $user_cloudapp = $this->get_env('CLOUDAPP_USER', true);
-        $password_cloudapp = $this->get_env('CLOUDAPP_PASSWORD', true);
-        */
-
-        $authtoken_zoho = $this->get_env('ZOHO_AUTHTOKEN', true);
-
-        // debug_print_backtrace();
-        // $res = bzcompress($data_, 9);
-        $file_name = tempnam('/tmp', 'bz_' .  md5(microtime(true)));
-        $rc = file_put_contents($file_name, $data_);
-        $data_ = null;
-        $res = null;
-        // exec('bzip2 -v ' . $file_name, $res);
-        exec('pbzip2 -v ' . $file_name, $res);
-        error_log($log_prefix . print_r($res, true));
-        $res = file_get_contents($file_name . '.bz2');
-        unlink($file_name . '.bz2');
-
-        error_log($log_prefix . 'bzcompress memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
-        $method = 'aes-256-cbc';
-        $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
-        $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
-        $res = openssl_encrypt($res, $method, $password, OPENSSL_RAW_DATA, $iv);
-        error_log($log_prefix . 'openssl_encrypt memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
-
-        $res = base64_encode($res);
-        error_log($log_prefix . $base_name . ' size : ' . number_format(strlen($res)));
-        file_put_contents($file_name_, $res);
-        $res = null;
-
-        $urls = [];
-
-        // CloudApp
-
-        /*
-        $url_target = '';
-        $page = 0;
-        for (;;) {
-            $page++;
-            $url = 'http://my.cl.ly/items?per_page=100&page=' . $page;
-
-            $options = [
-                CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-                CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
-                CURLOPT_HTTPHEADER => ['Accept: application/json',],
-            ];
-
-            $res = $this->get_contents($url, $options, true);
-            $json = json_decode($res);
-            if (count($json) === 0) {
-                break;
-            }
-            foreach ($json as $item) {
-                if ($item->file_name == $base_name) {
-                    $url_target = $item->href;
-                    break 2;
-                }
-            }
-        }
-
-        if ($url_target != '') {
-            $options = [
-                CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-                CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
-                CURLOPT_HTTPHEADER => ['Accept: application/json',],
-                CURLOPT_CUSTOMREQUEST => 'DELETE',
-                CURLOPT_HEADER => true,
-            ];
-            $urls[$url_target] = $options;
-        }
-        */
-
-        // Zoho
-
-        $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
-        $res = $this->get_contents($url);
-
-        foreach (json_decode($res)->FILES as $item) {
-            if ($item->DOCNAME == $base_name) {
-                $url = "https://apidocs.zoho.com/files/v1/delete?authtoken=${authtoken_zoho}&scope=docsapi";
-                $post_data = ['docid' => $item->DOCID,];
-                $options = [CURLOPT_POST => true,
-                            CURLOPT_POSTFIELDS => http_build_query($post_data),
-                            CURLOPT_HEADER => true,
-                           ];
-                $urls[$url] = $options;
-                break;
-            }
-        }
-
-        // HiDrive
-
-        $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-            CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
-            CURLOPT_CUSTOMREQUEST => 'DELETE',
-            CURLOPT_HEADER => true,
-        ];
-        $urls[$url] = $options;
-
-        $url = 'https://webdav.pcloud.com/' . $base_name;
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-            CURLOPT_USERPWD => "${user_pcloud}:${password_pcloud}",
-            CURLOPT_CUSTOMREQUEST => 'DELETE',
-            CURLOPT_HEADER => true,
-        ];
-        $urls[$url] = $options;
-
-        $url = "https://${node_teracloud}.teracloud.jp/dav/${base_name}";
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-            CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
-            CURLOPT_CUSTOMREQUEST => 'DELETE',
-            CURLOPT_HEADER => true,
-        ];
-        $urls[$url] = $options;
-
-        $url = 'https://webdav.opendrive.com/' . $base_name;
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-            CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
-            CURLOPT_CUSTOMREQUEST => 'DELETE',
-            CURLOPT_HEADER => true,
-        ];
-        $urls[$url] = $options;
-
-        $url = "https://webdav.cloudme.com/${user_cloudme}/xios/${base_name}";
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-            CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
-            CURLOPT_CUSTOMREQUEST => 'DELETE',
-            CURLOPT_HEADER => true,
-        ];
-        $urls[$url] = $options;
-
-        $url = 'https://webdav.4shared.com/' . $base_name;
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-            CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
-            CURLOPT_CUSTOMREQUEST => 'DELETE',
-            CURLOPT_HEADER => true,
-        ];
-        $urls[$url] = $options;
-
-        $res = $this->get_contents_multi($urls);
-        error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
-        error_log($log_prefix . print_r($res, true));
-        $res = null;
-
-        $urls = [];
-        $file_size = filesize($file_name_);
-        // if ($file_size > (1024 ** 2 * 2)) {
-        if ($file_size > 0) {
-            $fh = fopen($file_name_, 'rb');
-
-            $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
-            $options = [
-                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
-                CURLOPT_PUT => true,
-                CURLOPT_INFILE => $fh,
-                CURLOPT_INFILESIZE => $file_size,
-                CURLOPT_HTTPHEADER => ['Expect:',],
-                CURLOPT_HEADER => true,
-            ];
-            // $res = $this->get_contents($url, $options);
-            $line = 'curl -v -m 60 -X PUT -T ' . $file_name_ . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
-            error_log($log_prefix . $line);
-            exec($line, $res);
-            error_log($log_prefix . print_r($res, true));
-            $res = null;
-
-            $url = 'https://webdav.pcloud.com/' . $base_name;
-            $options = [
-                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => "${user_pcloud}:${password_pcloud}",
-                CURLOPT_PUT => true,
-                CURLOPT_INFILE => $fh,
-                CURLOPT_INFILESIZE => $file_size,
-                CURLOPT_HTTPHEADER => ['Expect:',],
-                CURLOPT_HEADER => true,
-            ];
-            // $res = $this->get_contents($url, $options);
-            $line = 'curl -v -m 60 -X PUT -T ' . $file_name_ . ' -u ' . "${user_pcloud}:${password_pcloud} " . $url;
-            error_log($log_prefix . $line);
-            exec($line, $res);
-            error_log($log_prefix . print_r($res, true));
-            $res = null;
-
-            $url = "https://${node_teracloud}.teracloud.jp/dav/${base_name}";
-            $options = [
-                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
-                CURLOPT_PUT => true,
-                CURLOPT_INFILE => $fh,
-                CURLOPT_INFILESIZE => $file_size,
-                CURLOPT_HTTPHEADER => ['Expect:',],
-                CURLOPT_HEADER => true,
-            ];
-            // $res = $this->get_contents($url, $options);
-            $line = 'curl -v -m 60 -X PUT -T ' . $file_name_ . ' -u ' . "${user_teracloud}:${password_teracloud} " . $url;
-            error_log($log_prefix . $line);
-            exec($line, $res);
-            error_log($log_prefix . print_r($res, true));
-            $res = null;
-
-            /*
-            $url = 'https://webdav.opendrive.com/' . $base_name;
-            $options = [
-                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
-                CURLOPT_PUT => true,
-                CURLOPT_INFILE => $fh,
-                CURLOPT_INFILESIZE => $file_size,
-                CURLOPT_HEADER => true,
-            ];
-            $res = $this->get_contents($url, $options);
-            */
-
-            $url = "https://webdav.cloudme.com/${user_cloudme}/xios/${base_name}";
-            $options = [
-                CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-                CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
-                CURLOPT_PUT => true,
-                CURLOPT_INFILE => $fh,
-                CURLOPT_INFILESIZE => $file_size,
-                CURLOPT_HTTPHEADER => ['Expect:',],
-                CURLOPT_HEADER => true,
-            ];
-            // $res = $this->get_contents($url, $options);
-            $line = 'curl -v -m 60 -X PUT -T ' . $file_name_ . ' --digest -u ' . "${user_cloudme}:${password_cloudme} " . $url;
-            error_log($log_prefix . $line);
-            exec($line, $res);
-            error_log($log_prefix . print_r($res, true));
-            $res = null;
-
-            $url = 'https://webdav.4shared.com/' . $base_name;
-            $options = [
-                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
-                CURLOPT_PUT => true,
-                CURLOPT_INFILE => $fh,
-                CURLOPT_INFILESIZE => $file_size,
-                CURLOPT_HTTPHEADER => ['Expect:',],
-                CURLOPT_HEADER => true,
-            ];
-            // $res = $this->get_contents($url, $options);
-            $line = 'curl -v -m 60 -X PUT -T ' . $file_name_ . ' -u ' . "${user_4shared}:${password_4shared} " . $url;
-            error_log($log_prefix . $line);
-            exec($line, $res);
-            error_log($log_prefix . print_r($res, true));
-            $res = null;
-
-            fclose($fh);
-
-            $url = "https://apidocs.zoho.com/files/v1/upload?authtoken=${authtoken_zoho}&scope=docsapi";
-            $post_data = ['filename' => $base_name,
-                          'content' => new CURLFile($file_name_, 'text/plain'),
-                         ];
-            $options = [CURLOPT_POST => true,
-                        CURLOPT_POSTFIELDS => $post_data,
-                        CURLOPT_HEADER => true,
-                       ];
-            $res = $this->get_contents($url, $options);
-        } else {
-            $list_fh = [];
-            $list_file_name = [];
-
-            $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
-            copy($file_name_, end($list_file_name));
-            $list_fh[] = fopen(end($list_file_name), 'rb');
-
-            $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
-            $options = [
-                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
-                CURLOPT_PUT => true,
-                CURLOPT_INFILE => end($list_fh),
-                CURLOPT_INFILESIZE => $file_size,
-                CURLOPT_HTTPHEADER => ['Expect:',],
-                CURLOPT_HEADER => true,
-            ];
-            $urls[$url] = $options;
-
-            $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
-            copy($file_name_, end($list_file_name));
-            $list_fh[] = fopen(end($list_file_name), 'rb');
-
-            $url = 'https://webdav.pcloud.com/' . $base_name;
-            $options = [
-                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => "${user_pcloud}:${password_pcloud}",
-                CURLOPT_PUT => true,
-                CURLOPT_INFILE => end($list_fh),
-                CURLOPT_INFILESIZE => $file_size,
-                CURLOPT_HTTPHEADER => ['Expect:',],
-                CURLOPT_HEADER => true,
-            ];
-            $urls[$url] = $options;
-
-            $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
-            copy($file_name_, end($list_file_name));
-            $list_fh[] = fopen(end($list_file_name), 'rb');
-
-            $url = "https://${node_teracloud}.teracloud.jp/dav/${base_name}";
-            $options = [
-                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => "${user_teracloud}:${password_teracloud}",
-                CURLOPT_PUT => true,
-                CURLOPT_INFILE => end($list_fh),
-                CURLOPT_INFILESIZE => $file_size,
-                CURLOPT_HTTPHEADER => ['Expect:',],
-                CURLOPT_HEADER => true,
-            ];
-            $urls[$url] = $options;
-
-            /*
-            $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
-            copy($file_name_, end($list_file_name));
-            $list_fh[] = fopen(end($list_file_name), 'rb');
-
-            $url = 'https://webdav.opendrive.com/' . $base_name;
-            $options = [
-                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => "${user_opendrive}:${password_opendrive}",
-                CURLOPT_PUT => true,
-                CURLOPT_INFILE => end($list_fh),
-                CURLOPT_INFILESIZE => $file_size,
-                CURLOPT_HEADER => true,
-            ];
-            $urls[$url] = $options;
-            */
-
-            $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
-            copy($file_name_, end($list_file_name));
-            $list_fh[] = fopen(end($list_file_name), 'rb');
-
-            $url = "https://webdav.cloudme.com/${user_cloudme}/xios/${base_name}";
-            $options = [
-                CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-                CURLOPT_USERPWD => "${user_cloudme}:${password_cloudme}",
-                CURLOPT_PUT => true,
-                CURLOPT_INFILE => end($list_fh),
-                CURLOPT_INFILESIZE => $file_size,
-                CURLOPT_HTTPHEADER => ['Expect:',],
-                CURLOPT_HEADER => true,
-            ];
-            $urls[$url] = $options;
-
-            $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
-            copy($file_name_, end($list_file_name));
-            $list_fh[] = fopen(end($list_file_name), 'rb');
-
-            $url = 'https://webdav.4shared.com/' . $base_name;
-            $options = [
-                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => "${user_4shared}:${password_4shared}",
-                CURLOPT_PUT => true,
-                CURLOPT_INFILE => end($list_fh),
-                CURLOPT_INFILESIZE => $file_size,
-                CURLOPT_HTTPHEADER => ['Expect:',],
-                CURLOPT_HEADER => true,
-            ];
-            $urls[$url] = $options;
-
-            $list_file_name[] = tempnam("/tmp", 'backup_' .  md5(microtime(true)));
-            copy($file_name_, end($list_file_name));
-
-            $url = "https://apidocs.zoho.com/files/v1/upload?authtoken=${authtoken_zoho}&scope=docsapi";
-            $post_data = ['filename' => $base_name,
-                          'content' => new CURLFile(end($list_file_name), 'text/plain'),
-                         ];
-            $options = [CURLOPT_POST => true,
-                        CURLOPT_POSTFIELDS => $post_data,
-                        CURLOPT_HEADER => true,
-                       ];
-            $urls[$url] = $options;
-
-            $res = $this->get_contents_multi($urls);
-            error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
-            error_log($log_prefix . print_r($res, true));
-            $res = null;
-            foreach ($list_fh as $fh) {
-                fclose($fh);
-            }
-            foreach ($list_file_name as $file_name) {
-                unlink($file_name);
-            }
-        }
-
-        // CloudApp
-
-        /*
-        $url = 'http://my.cl.ly/items/new';
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-            CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
-            CURLOPT_HTTPHEADER => ['Accept: application/json',],
-        ];
-        $res = $this->get_contents($url, $options);
-        $json = json_decode($res);
-
-        $post_data = [
-            'AWSAccessKeyId' => $json->params->AWSAccessKeyId,
-            'key' => $json->params->key,
-            'policy' => $json->params->policy,
-            'signature' => $json->params->signature,
-            'success_action_redirect' => $json->params->success_action_redirect,
-            'acl' => $json->params->acl,
-            'file' => new CURLFile($file_name_, 'text/plain', $base_name),
-        ];
-        $options = [
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => $post_data,
-            CURLOPT_HEADER => true,
-            CURLOPT_FOLLOWLOCATION => false,
-        ];
-        $res = $this->get_contents($json->url, $options);
-        $rc = preg_match('/Location: (.+)/i', $res, $match);
-
-        $options = [
-            CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-            CURLOPT_USERPWD => "${user_cloudapp}:${password_cloudapp}",
-            CURLOPT_HTTPHEADER => ['Accept: application/json',],
-            CURLOPT_HEADER => true,
-        ];
-        $res = $this->get_contents(trim($match[1]), $options);
-
-        unlink($file_name_);
-        */
-
-        /*
-        error_log($log_prefix . 'start exec');
-        exec('php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ../scripts/backup_cloudapp.php ' .
-             $file_name_ . ' >/dev/null &');
-        error_log($log_prefix . 'finish exec');
-        */
-        unlink($file_name_);
-
-        error_log($log_prefix . 'FINISH memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
-
-        return $file_size;
     }
 
     public function backup_data($data_, $file_name_)
@@ -1544,12 +1066,12 @@ __HEREDOC__;
 
         error_log($log_prefix . 'START memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
         error_log($log_prefix . "file : ${file_name_}");
-        
+
         if ($data_ !== null) {
             $rc = file_put_contents($file_name_, $data_);
             $data_ = null;
         }
-        
+
         error_log($log_prefix . 'file size : ' . number_format(filesize($file_name_)));
 
         $base_name = pathinfo($file_name_)['basename'];
@@ -1577,6 +1099,8 @@ __HEREDOC__;
         $user_mega = $this->get_env('MEGA_USER', true);
         $password_mega = $this->get_env('MEGA_PASSWORD', true);
 
+        $token_dropbox = $this->get_env('DROPBOX_TOKEN', true);
+
         /*
         $user_cloudapp = $this->get_env('CLOUDAPP_USER', true);
         $password_cloudapp = $this->get_env('CLOUDAPP_PASSWORD', true);
@@ -1584,42 +1108,29 @@ __HEREDOC__;
 
         $authtoken_zoho = $this->get_env('ZOHO_AUTHTOKEN', true);
 
-        // $line = "pbzip2 -v ${file_name_}";
         $line = "lbzip2 -v ${file_name_}";
-        error_log($log_prefix . $line);
-        $res = null;
-        $time_start = microtime(true);
-        exec($line, $res);
-        $time_finish = microtime(true);
-        foreach ($res as $one_line) {
-            error_log($log_prefix . $one_line);
-        }
-        error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
+        $this->cmd_execute($line, $log_prefix);
 
         $method = 'aes-256-cbc';
         $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
         $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
         $line = "openssl ${method} -e -base64 -A -iv ${iv} -pass pass:${password} -in ${file_name_}.bz2 -out ${file_name_}";
-        error_log($log_prefix . $line);
-        $res = null;
-        $time_start = microtime(true);
-        exec($line, $res);
-        $time_finish = microtime(true);
-        foreach ($res as $one_line) {
-            error_log($log_prefix . $one_line);
-        }
-        error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
+        $this->cmd_execute($line, $log_prefix);
         unlink($file_name_ . '.bz2');
 
         error_log($log_prefix . 'size : ' . number_format(filesize($file_name_)));
         error_log($log_prefix . 'hash : ' . hash_file('sha256', $file_name_));
+
+        // For Dropbox
+        $line = "lbzip2 -v -k ${file_name_}";
+        $this->cmd_execute($line, $log_prefix);
 
         $urls = [];
 
         // Zoho
 
         $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
-        $res = $this->get_contents($url);
+        $res = $this->get_contents($url, null, true);
 
         foreach (json_decode($res)->FILES as $item) {
             if ($item->DOCNAME == $base_name) {
@@ -1630,20 +1141,15 @@ __HEREDOC__;
                             CURLOPT_HEADER => true,
                            ];
                 $urls[$url] = $options;
-                break;
+                // break;
             }
         }
 
+        /*
         // MEGA
 
         $line = "megarm -u ${user_mega} -p ${password_mega} /Root/${base_name}";
-        error_log($log_prefix . $line);
-        $res = null;
-        exec($line, $res);
-        // error_log($log_prefix . print_r($res, true));
-        foreach ($res as $one_line) {
-            error_log($log_prefix . $one_line);
-        }
+        $this->cmd_execute($line, $log_prefix);
 
         // HiDrive
 
@@ -1710,68 +1216,36 @@ __HEREDOC__;
             CURLOPT_HEADER => true,
         ];
         $urls[$url] = $options;
+        */
 
         $res = $this->get_contents_multi($urls);
         error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
-        // error_log($log_prefix . print_r($res, true));
         foreach ($res as $one_line) {
             error_log($log_prefix . $one_line);
         }
         $res = null;
         $urls = [];
 
-        /*
-        $lines = [];
+        $jobs = <<< __HEREDOC__
+megarm -u {$user_mega} -p {$password_mega} /Root/{$base_name}
+curl -v -m 120 -X DELETE -u {$user_hidrive}:{$password_hidrive} https://webdav.hidrive.strato.com/users/{$user_hidrive}/{$base_name}
+curl -v -m 120 -X DELETE -u {$user_pcloud}:{$password_pcloud} https://webdav.pcloud.com/{$base_name}
+curl -v -m 120 -X DELETE -u {$user_teracloud}:{$password_teracloud} https://{$node_teracloud}.teracloud.jp/dav/{$base_name}
+curl -v -m 120 -X DELETE -u {$user_opendrive}:{$password_opendrive} https://webdav.opendrive.com/{$base_name}
+curl -v -m 120 -X DELETE --digest -u {$user_cloudme}:{$password_cloudme} https://webdav.cloudme.com/{$user_cloudme}/xios/{$base_name}
+curl -v -m 120 -X DELETE -u {$user_4shared}:{$password_4shared} https://webdav.4shared.com/{$base_name}
+__HEREDOC__;
 
-        // HiDrive
-
-        $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
-        $lines[] = "curl -v -m 120 -X PUT -T ${file_name_} -u ${user_hidrive}:${password_hidrive} ${url}";
-
-        // pCloud
-
-        $url = "https://webdav.pcloud.com/${base_name}";
-        $lines[] = "curl -v -m 120 -X PUT -T ${file_name_} -u ${user_pcloud}:${password_pcloud} ${url}";
-
-        // TeraCLOUD
-
-        $url = "https://${node_teracloud}.teracloud.jp/dav/${base_name}";
-        $lines[] = "curl -v -m 120 -X PUT -T ${file_name_} -u ${user_teracloud}:${password_teracloud} ${url}";
-
-        // CloudMe
-
-        $url = "https://webdav.cloudme.com/${user_cloudme}/xios/${base_name}";
-        $lines[] = "curl -v -m 120 -X PUT -T ${file_name_} --digest -u ${user_cloudme}:${password_cloudme} ${url}";
-
-        // 4shared
-
-        $url = "https://webdav.4shared.com/${base_name}";
-        $lines[] = "curl -v -m 120 -X PUT -T ${file_name_} -u ${user_4shared}:${password_4shared} ${url}";
-
-        // MEGA
-
-        $lines[] = "megaput -u ${user_mega} -p ${password_mega} --path /Root/${base_name} ${file_name_}";
-
-        foreach ($lines as $line) {
-            $res = null;
-            error_log($log_prefix . $line);
-            exec($line, $res);
-            error_log($log_prefix . print_r($res, true));
-            $res = null;
+        file_put_contents('/tmp/jobs.txt', $jobs);
+        $line = 'cat /tmp/jobs.txt | parallel -j6 --joblog /tmp/joblog.txt 2>&1';
+        $this->cmd_execute($line, $log_prefix);
+        // error_log(file_get_contents('/tmp/joblog.txt'));
+        $tmp = explode("\n", file_get_contents('/tmp/joblog.txt'));
+        foreach ($tmp as $one_line) {
+            error_log($log_prefix . $one_line);
         }
-        
-        // Zoho
-
-        $url = "https://apidocs.zoho.com/files/v1/upload?authtoken=${authtoken_zoho}&scope=docsapi";
-        $post_data = ['filename' => $base_name,
-                      'content' => new CURLFile($file_name_, 'text/plain'),
-                     ];
-        $options = [CURLOPT_POST => true,
-                    CURLOPT_POSTFIELDS => $post_data,
-                    CURLOPT_HEADER => true,
-                    ];
-        $res = $this->get_contents($url, $options);
-        */
+        unlink('/tmp/jobs.txt');
+        unlink('/tmp/joblog.txt');
 
         $jobs = <<< __HEREDOC__
 curl -v -m 120 -X PUT --compressed -T {$file_name_} -u {$user_hidrive}:{$password_hidrive} https://webdav.hidrive.strato.com/users/{$user_hidrive}/{$base_name}
@@ -1781,26 +1255,23 @@ curl -v -m 120 -X PUT --compressed -T {$file_name_} --digest -u {$user_cloudme}:
 curl -v -m 120 -X PUT --compressed -T {$file_name_} -u {$user_4shared}:{$password_4shared} https://webdav.4shared.com/{$base_name}
 megaput -u {$user_mega} -p {$password_mega} --path /Root/{$base_name} {$file_name_}
 curl -v -m 120 -X POST --compressed -F filename={$base_name} -F content=@{$file_name_} https://apidocs.zoho.com/files/v1/upload?authtoken={$authtoken_zoho}&scope=docsapi
+curl -v -m 120 -X POST -H "Authorization: Bearer {$token_dropbox}" -H 'Dropbox-API-Arg: {"path": "{$base_name}.bz2", "mode": "overwrite", "autorename": false, "mute": false}' -H "Content-Type: application/octet-stream" --data-binary @{$file_name_}.bz2 https://content.dropboxapi.com/2/files/upload
 __HEREDOC__;
-        
+
         file_put_contents('/tmp/jobs.txt', $jobs);
         $line = 'cat /tmp/jobs.txt | parallel -j6 --joblog /tmp/joblog.txt 2>&1';
-        $res = null;
-        error_log($log_prefix . $line);
-        $time_start = microtime(true);
-        exec($line, $res);
-        $time_finish = microtime(true);
-        foreach ($res as $one_line) {
+        $this->cmd_execute($line, $log_prefix);
+        // error_log(file_get_contents('/tmp/joblog.txt'));
+        $tmp = explode("\n", file_get_contents('/tmp/joblog.txt'));
+        foreach ($tmp as $one_line) {
             error_log($log_prefix . $one_line);
         }
-        $res = null;
-        error_log(file_get_contents('/tmp/joblog.txt'));
-        error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
         unlink('/tmp/jobs.txt');
         unlink('/tmp/joblog.txt');
 
         $filesize = filesize($file_name_);
         unlink($file_name_);
+        unlink("${file_name_}.bz2");
 
         error_log($log_prefix . 'FINISH memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
 
@@ -1948,9 +1419,9 @@ __HEREDOC__;
         }
         $total_time = substr((microtime(true) - $time_start), 0, 5) . 'sec';
 
-        error_log($log_prefix . 'urls : ' . print_r(array_keys($results), true));
+        error_log("${log_prefix}urls : " . print_r(array_keys($results), true));
         error_log("${log_prefix}Total Time : [${total_time}]");
-        error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
+        error_log("${log_prefix}memory_get_usage : " . number_format(memory_get_usage()) . 'byte');
 
         return $results;
     }
@@ -2040,4 +1511,17 @@ __HEREDOC__;
         return $res;
     }
 
+    public function cmd_execute($line_, $log_prefix_)
+    {
+        $res = null;
+        error_log($log_prefix_ . $line_);
+        $time_start = microtime(true);
+        exec($line_, $res);
+        $time_finish = microtime(true);
+        foreach ($res as $one_line) {
+            error_log($log_prefix_ . $one_line);
+        }
+        $res = null;
+        error_log($log_prefix_ . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
+    }
 }
