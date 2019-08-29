@@ -26,6 +26,7 @@ function func_20190823e($mu_)
     $base_name = pathinfo($url)['basename'];
     error_log($base_name);
     @unlink("/tmp/${base_name}");
+    @unlink("/tmp/${base_name}.zip");
     
     $line = 'curl -v -m 120 -o ' . "/tmp/${base_name}" . ' -u ' . "${user_hidrive}:${password_hidrive} --compressed " . $url;
     $res = null;
@@ -40,7 +41,7 @@ function func_20190823e($mu_)
     error_log(filesize("/tmp/${base_name}"));
     
     // $line = "pigz -v /tmp/${base_name}";
-    $line = "zip -v /tmp/${base_name}";
+    $line = "cd /tmp && zip -v ${base_name}.zip ${base_name}";
     $res = null;
     error_log($log_prefix . $line);
     $time_start = microtime(true);
