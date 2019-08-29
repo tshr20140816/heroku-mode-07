@@ -25,6 +25,70 @@ function func_20190823e($mu_)
     
     $base_name = pathinfo($url)['basename'];
     error_log($base_name);
+    @unlink("/tmp/${base_name}");
+    
+    $line = 'curl -v -m 120 -o ' . "/tmp/${base_name}" . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
+    $res = null;
+    error_log($log_prefix . $line);
+    $time_start = microtime(true);
+    exec($line, $res);
+    $time_finish = microtime(true);
+    foreach ($res as $one_line) {
+        error_log($log_prefix . $one_line);
+    }
+    $res = null;
+    error_log(filesize("/tmp/${base_name}"));
+    
+    $line = "pigz -v /tmp/${base_name}";
+    $res = null;
+    error_log($log_prefix . $line);
+    $time_start = microtime(true);
+    exec($line, $res);
+    $time_finish = microtime(true);
+    foreach ($res as $one_line) {
+        error_log($log_prefix . $one_line);
+    }
+    $res = null;
+    error_log(filesize("/tmp/${base_name}.zip"));
+    
+    $line = 'curl -v -X POST https://api.dropboxapi.com/2/users/get_space_usage'
+        . ' --header "Authorization: Bearer ' . getenv('DROPBOX_TOKEN') . '"';
+    $res = null;
+    error_log($log_prefix . $line);
+    $time_start = microtime(true);
+    exec($line, $res);
+    $time_finish = microtime(true);
+    foreach ($res as $one_line) {
+        error_log($log_prefix . $one_line);
+    }
+    $res = null;
+    
+    $line = 'curl -v -X POST https://content.dropboxapi.com/2/files/upload'
+        . ' --header "Authorization: Bearer ' . getenv('DROPBOX_TOKEN') . '"'
+        . ' --header "Dropbox-API-Arg: {"path": "/' . $base_name .'.zip", "mode": "overwrite", "autorename": false, "mute": false}"'
+        . ' --header "Content-Type: application/octet-stream"' .
+        . ' --data-binary @' . "/tmp/${base_name}.zip";
+    $res = null;
+    error_log($log_prefix . $line);
+    $time_start = microtime(true);
+    exec($line, $res);
+    $time_finish = microtime(true);
+    foreach ($res as $one_line) {
+        error_log($log_prefix . $one_line);
+    }
+    $res = null;
+    
+    $line = 'curl -v -X POST https://api.dropboxapi.com/2/users/get_space_usage'
+        . ' --header "Authorization: Bearer ' . getenv('DROPBOX_TOKEN') . '"';
+    $res = null;
+    error_log($log_prefix . $line);
+    $time_start = microtime(true);
+    exec($line, $res);
+    $time_finish = microtime(true);
+    foreach ($res as $one_line) {
+        error_log($log_prefix . $one_line);
+    }
+    $res = null;
 }
 
 function func_20190823d($mu_)
