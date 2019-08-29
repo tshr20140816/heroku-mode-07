@@ -66,7 +66,7 @@ function func_20190823e($mu_)
     $line = 'curl -v -X POST https://content.dropboxapi.com/2/files/upload'
         . ' --header "Authorization: Bearer ' . getenv('DROPBOX_TOKEN') . '"'
         . ' --header "Dropbox-API-Arg: {"path": "/' . $base_name .'.zip", "mode": "overwrite", "autorename": false, "mute": false}"'
-        . ' --header "Content-Type: application/octet-stream"' .
+        . ' --header "Content-Type: application/octet-stream"'
         . ' --data-binary @' . "/tmp/${base_name}.zip";
     $res = null;
     error_log($log_prefix . $line);
