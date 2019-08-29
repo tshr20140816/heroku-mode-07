@@ -55,6 +55,8 @@ function func_20190823e($mu_)
     $res = null;
     error_log(filesize("/tmp/${base_name}.bz2"));
     
+    return;
+    
     $line = 'curl -v -X POST https://api.dropboxapi.com/2/users/get_space_usage'
         . ' --header "Authorization: Bearer ' . getenv('DROPBOX_TOKEN') . '"';
     $res = null;
