@@ -20,4 +20,23 @@ exit();
 function backup_etc($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $url = "https://webdav.hidrive.strato.com/users/${user_hidrive}/";
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
+        CURLOPT_CUSTOMREQUEST => 'PROPFIND',
+        CURLOPT_HTTPHEADER => ['Depth: 1',],
+    ];
+    $res = $mu_->get_contents($url, $options);
+
+    $files = [];
+    foreach (explode('</D:response>', $res) as $item) {
+        $rc = preg_match('/<D:href>(.+?)<.+?<lp1:creationdate>(.+?)<.+?<lp1:getcontentlength>/s', $item, $match);
+        if ($rc === 1) {
+            if (strtotime($match[2]) > strtotime('-20 hours')) {
+                $files[] = $match[1];
+            }
+        }
+    }
 }
