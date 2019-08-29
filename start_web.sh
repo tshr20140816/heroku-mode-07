@@ -38,6 +38,9 @@ lbzip2 -V
 ulimit -u
 getconf ARG_MAX
 
+hostname -A
+hottname -I
+
 echo "$(httpd -v)" > /tmp/apache_current_version
 echo "$(php -v | head -n 1)" > /tmp/php_current_version
 echo "$(curl -V | head -n 1)" > /tmp/curl_current_version
