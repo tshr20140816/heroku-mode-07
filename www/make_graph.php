@@ -1127,7 +1127,7 @@ function make_process_time($mu_, $file_name_rss_items_)
     $res = $mu_->get_contents($url);
 
     $rc = preg_match_all('/rel="bookmark">.+?\/(.+?) .+? \/daily020\.php&nbsp;\[(.+?)s\]/', $res, $matches, PREG_SET_ORDER);
-make
+
     $labels = [];
     $data = [];
     foreach ($matches as $match) {
