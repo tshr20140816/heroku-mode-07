@@ -31,7 +31,7 @@ function func_20190823g($mu_)
         CURLOPT_HEADER => true,
         CURLOPT_HTTPHEADER => ["Authorization: Bearer ${token_dropbox}",
                                'Accept: */*',
-                               'Content-Type: application/json',
+                               'Content-Type: ',
                               ],
     ];
     $res = $mu_->get_contents($url, $options);
