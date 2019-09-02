@@ -98,6 +98,15 @@ check_version_postgresql($mu, $file_name_blog);
 // Ruby version check
 check_version_ruby($mu, $file_name_blog);
 
+// lbzip2 version check
+check_version_package($mu_, $file_name_blog_, 'lbzip2', 'lbzip2 -version');
+
+// megatools version check
+check_version_package($mu_, $file_name_blog_, 'megatools', 'megals --version');
+
+// parallel version check
+check_version_package($mu_, $file_name_blog_, 'parallel', 'parallel -version');
+
 // CPU info
 check_cpu_info($mu, $file_name_blog);
 
@@ -700,7 +709,7 @@ function check_dropbox_usage($mu_, $file_name_blog_)
     ];
     $res = $mu_->get_contents($url, $options);
     $json = json_decode($res);
-    
+
     $percentage = substr($json->used / $json->allocation->allocated * 100, 0, 5);
     $size = number_format($json->used);
 
@@ -732,7 +741,7 @@ function check_mega_usage($mu_, $file_name_blog_)
     $size = number_format($used_size);
 
     error_log($log_prefix . "Mega usage : ${size}Byte ${percentage}%");
-    file_put_contents($file_name_blog_, "\nMega usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "\nMega usage : ${size}Byte ${percentage}%\n", FILE_APPEND);
 }
 
 function check_zoho_usage($mu_, $file_name_blog_)
@@ -770,7 +779,7 @@ SELECT T1.value
   FROM t_data_log T1
  WHERE T1.key = :b_key
 __HEREDOC__;
-    
+
     $pdo = $mu_->get_pdo();
     $statement_select = $pdo->prepare($sql_select);
 
@@ -782,7 +791,7 @@ __HEREDOC__;
     }
     $result = null;
     $pdo = null;
-    
+
     $size = 0;
     foreach ($docids as $value) {
         $size += (int)$value['FILE_SIZE'];
@@ -792,7 +801,7 @@ __HEREDOC__;
     $size = number_format($size);
 
     error_log($log_prefix . "Zoho usage : ${size}Byte ${percentage}%");
-    file_put_contents($file_name_blog_, "\nZoho usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "\nZoho usage : ${size}Byte ${percentage}%\n", FILE_APPEND);
 }
 
 function check_cloudapp_usage($mu_, $file_name_blog_)
@@ -825,7 +834,7 @@ function check_cloudapp_usage($mu_, $file_name_blog_)
 
     $size = number_format($size);
     error_log($log_prefix . "CloudApp usage : ${size}Byte ${view_counter}View");
-    file_put_contents($file_name_blog_, "\nCloudApp usage : ${size}Byte ${view_counter}View\n\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "\nCloudApp usage : ${size}Byte ${view_counter}View\n", FILE_APPEND);
 }
 
 function check_4shared_usage($mu_, $file_name_blog_)
@@ -855,7 +864,7 @@ function check_4shared_usage($mu_, $file_name_blog_)
     $size = number_format($size);
 
     error_log($log_prefix . "4shared usage : ${size}Byte ${percentage}%");
-    file_put_contents($file_name_blog_, "\n4shared usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "\n4shared usage : ${size}Byte ${percentage}%\n", FILE_APPEND);
 }
 
 function check_cloudme_usage($mu_, $file_name_blog_)
@@ -895,7 +904,7 @@ __HEREDOC__;
     $percentage = substr($match[1] / $match[2] * 100, 0, 5);
 
     error_log($log_prefix . "CloudMe usage : ${size}Byte ${percentage}%");
-    file_put_contents($file_name_blog_, "\nCloudMe usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "\nCloudMe usage : ${size}Byte ${percentage}%\n", FILE_APPEND);
 }
 
 function check_opendrive_usage($mu_, $file_name_blog_)
@@ -927,7 +936,7 @@ function check_opendrive_usage($mu_, $file_name_blog_)
     $percentage = substr(($data->StorageUsed / (5 * 1024 * 1024 * 1024)) * 100, 0, 5);
 
     error_log($log_prefix . "OpenDrive usage : ${size}Byte ${percentage}%");
-    file_put_contents($file_name_blog_, "\nOpenDrive usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "\nOpenDrive usage : ${size}Byte ${percentage}%\n", FILE_APPEND);
 }
 
 function check_teracloud_usage($mu_, $file_name_blog_)
@@ -952,7 +961,7 @@ function check_teracloud_usage($mu_, $file_name_blog_)
     $percentage = substr(($data->dataset->__ROOT__->used / (10 * 1024 * 1024 * 1024)) * 100, 0, 5);
 
     error_log($log_prefix . "TeraCLOUD usage : ${size}Byte ${percentage}%");
-    file_put_contents($file_name_blog_, "\nTeraCLOUD usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "\nTeraCLOUD usage : ${size}Byte ${percentage}%\n", FILE_APPEND);
 }
 
 function check_pcloud_usage($mu_, $file_name_blog_)
@@ -970,7 +979,7 @@ function check_pcloud_usage($mu_, $file_name_blog_)
     $percentage = substr(($data->usedquota / (10 * 1024 * 1024 * 1024)) * 100, 0, 5);
 
     error_log($log_prefix . "pCloud usage : ${size}Byte ${percentage}%");
-    file_put_contents($file_name_blog_, "\npCloud usage : ${size}Byte  ${percentage}%\n\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "\npCloud usage : ${size}Byte  ${percentage}%\n", FILE_APPEND);
 }
 
 function check_hidrive_usage($mu_, $file_name_blog_)
@@ -1013,7 +1022,7 @@ function check_hidrive_usage($mu_, $file_name_blog_)
     $size = number_format($size);
 
     error_log($log_prefix . "HiDrive usage : ${size}Byte ${percentage}%");
-    file_put_contents($file_name_blog_, "\nHiDrive usage : ${size}Byte ${percentage}%\n\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "\nHiDrive usage : ${size}Byte ${percentage}%\n", FILE_APPEND);
 }
 
 function check_version_apache($mu_, $file_name_blog_)
@@ -1194,6 +1203,23 @@ function check_version_ruby($mu_, $file_name_blog_)
     file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
 
+function check_version_package($mu_, $file_name_blog_, $package_, $version_command_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $url = "https://packages.ubuntu.com/bionic/${package_}";
+    $res = $mu_->get_contents($url);
+    $rc = preg_match('/<h1>.+?:(.+)/', $res, $match);
+    $version_package = trim($match[1]);
+
+    $res = $mu_->cmd_execute($version_command_, $log_prefix);
+    $tmp = explode("\n", $res);
+    $version_current = $tmp[0];
+
+    $content = "\n${package_} Version\ncurrent : ${version_current}\npackage : ${version_package}\n";
+    file_put_contents($file_name_blog_, $content, FILE_APPEND);
+}
+
 function check_cpu_info($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
@@ -1217,7 +1243,7 @@ function count_github_contribution($mu_, $file_name_blog_)
     $count = $match[1];
 
     error_log($log_prefix . "github count : ${count}");
-    file_put_contents($file_name_blog_, "\ngithub count : ${count}\n\n", FILE_APPEND);
+    file_put_contents($file_name_blog_, "\ngithub count : ${count}\n", FILE_APPEND);
 }
 
 function update_page_fc2($mu_)
