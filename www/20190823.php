@@ -21,14 +21,15 @@ function func_20190823g($mu_)
     
     $line = 'curl -v -X POST https://api.dropboxapi.com/2/users/get_space_usage'
         . ' --header "Authorization: Bearer ' . $token_dropbox . '"';
-    $mu_->cmd_execute($line, $log_prefix);
+    // $mu_->cmd_execute($line, $log_prefix);
     
-    return;
+    // return;
     
     $url = 'https://api.dropboxapi.com/2/users/get_space_usage';
     $options = [
         CURLOPT_POST => true,
         CURLOPT_HTTPHEADER => ["Authorization: Bearer ${token_dropbox}",
+                               'Accept: */*',
                               ],
     ];
     $res = $mu_->get_contents($url, $options);
