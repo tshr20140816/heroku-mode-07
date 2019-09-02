@@ -122,6 +122,8 @@ fi
 
 curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_100 > /dev/null 2>&1
 
+date
+
 wait
 
 curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_200 > /dev/null 2>&1
