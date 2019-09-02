@@ -689,7 +689,7 @@ function check_dropbox_usage($mu_, $file_name_blog_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $token_dropbox = $this->get_env('DROPBOX_TOKEN', true);
+    $token_dropbox = $mu_->get_env('DROPBOX_TOKEN', true);
 
     $url = 'https://api.dropboxapi.com/2/users/get_space_usage';
     $options = [
