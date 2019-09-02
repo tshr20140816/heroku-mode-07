@@ -19,7 +19,8 @@ function func_20190823g($mu_)
     
     $token_dropbox = $mu_->get_env('DROPBOX_TOKEN', true);
     
-    file_put_contents('dummy', '/tmp/dummy.txt');
+    @unlink('dummy');
+    file_put_contents('/tmp/dummy.txt', 'dummy');
     
     $jobs = <<< __HEREDOC__
 curl -v -m 120 -X POST -H "Authorization: Bearer {$token_dropbox}" -H 'Dropbox-API-Arg: {"path": 'dummy.txt', "mode": "overwrite", "autorename": false, "mute": false}' -H "Content-Type: application/octet-stream" --data-binary @dummy.txt https://content.dropboxapi.com/2/files/upload
