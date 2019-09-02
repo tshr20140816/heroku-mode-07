@@ -1521,7 +1521,8 @@ __HEREDOC__;
         foreach ($res as $one_line) {
             error_log($log_prefix_ . $one_line);
         }
-        $res = null;
+        // $res = null;
         error_log($log_prefix_ . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
+        return $res;
     }
 }
