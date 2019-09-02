@@ -19,26 +19,23 @@ function func_20190823g($mu_)
     
     $token_dropbox = $mu_->get_env('DROPBOX_TOKEN', true);
     
-    /*
-    $line = 'curl -v -X POST https://api.dropboxapi.com/2/users/get_space_usage'
-        . ' --header "Authorization: Bearer ' . $token_dropbox . '"';
-    */
-    // $mu_->cmd_execute($line, $log_prefix);
+    file_put_contents('dummy', '/tmp/dummy.txt');
     
-    // return;
+    $jobs = <<< __HEREDOC__
+curl -v -m 120 -X POST -H "Authorization: Bearer {$token_dropbox}" -H 'Dropbox-API-Arg: {"path": 'dummy.txt', "mode": "overwrite", "autorename": false, "mute": false}' -H "Content-Type: application/octet-stream" --data-binary @dummy.txt https://content.dropboxapi.com/2/files/upload
+__HEREDOC__;
     
-    $url = 'https://api.dropboxapi.com/2/users/get_space_usage';
-    $options = [
-        CURLOPT_POST => true,
-        CURLOPT_HEADER => true,
-        CURLOPT_HTTPHEADER => ["Authorization: Bearer ${token_dropbox}",
-                               // 'Accept: */*',
-                               'Content-Type: ',
-                              ],
-    ];
-    $res = $mu_->get_contents($url, $options);
-    
-    error_log(print_r($res, true));
+    file_put_contents('/tmp/jobs.txt', $jobs);
+    $line = 'cat /tmp/jobs.txt | parallel -j6 --joblog /tmp/joblog.txt 2>&1';
+    $mu_->cmd_execute($line, $log_prefix);
+    // error_log(file_get_contents('/tmp/joblog.txt'));
+    $tmp = explode("\n", file_get_contents('/tmp/joblog.txt'));
+    foreach ($tmp as $one_line) {
+        error_log($log_prefix . $one_line);
+    }
+    unlink('/tmp/jobs.txt');
+    unlink('/tmp/joblog.txt');
+    unlink('/tmp/dummy.txt');
 }
 
 function func_20190823f($mu_)
