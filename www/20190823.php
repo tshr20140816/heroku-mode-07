@@ -9,9 +9,26 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823f($mu);
+func_20190823g($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190823g($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $token_dropbox = $mu_->get_env('DROPBOX_TOKEN', true);
+    
+    $url = 'https://api.dropboxapi.com/2/users/get_space_usage';
+    $options = [
+        CURLOPT_POST => true,
+        CURLOPT_HTTPHEADER => ["Authorization: Bearer ${token_dropbox}",
+                              ],
+    ];
+    $res = $mu_->get_contents($url, $options);
+    
+    error_log(print_r($res, true));
+}
 
 function func_20190823f($mu_)
 {
