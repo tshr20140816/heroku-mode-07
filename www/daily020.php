@@ -695,6 +695,7 @@ function check_dropbox_usage($mu_, $file_name_blog_)
     $options = [
         CURLOPT_POST => true,
         CURLOPT_HTTPHEADER => ["Authorization: Bearer ${token_dropbox}",
+                               'Content-Type: ',
                               ],
     ];
     $res = $mu_->get_contents($url, $options);
