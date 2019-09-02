@@ -78,7 +78,7 @@ check_zoho_usage($mu, $file_name_blog);
 check_mega_usage($mu, $file_name_blog);
 
 // Dropbox usage
-check_dropbox_usage($mu, $file_name_blog);
+// check_dropbox_usage($mu, $file_name_blog);
 
 // github contribution count
 count_github_contribution($mu, $file_name_blog);
