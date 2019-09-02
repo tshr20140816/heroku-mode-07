@@ -23,7 +23,7 @@ function func_20190823g($mu_)
     file_put_contents('/tmp/dummy.txt', 'dummy');
     
     $jobs = <<< __HEREDOC__
-curl -v -m 120 -H "Authorization: Bearer {$token_dropbox}" -H 'Dropbox-API-Arg: {"path": 'dummy.txt', "mode": "overwrite", "autorename": false, "mute": false}' -H "Content-Type: application/octet-stream" --data-binary @/tmp/dummy.txt https://content.dropboxapi.com/2/files/upload
+curl -v -m 120 -H "Authorization: Bearer {$token_dropbox}" -H 'Dropbox-API-Arg: {"path": '/dummy.txt', "mode": "overwrite", "autorename": false, "mute": false}' -H "Content-Type: application/octet-stream" --data-binary @/tmp/dummy.txt https://content.dropboxapi.com/2/files/upload
 __HEREDOC__;
     
     file_put_contents('/tmp/jobs.txt', $jobs);
