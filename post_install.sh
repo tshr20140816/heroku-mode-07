@@ -18,7 +18,7 @@ time pear channel-update pear.php.net > /tmp/pear_php_net.log
 cat /tmp/pear_php_net.log
 is_succeeded=$(grep -c -e succeeded /tmp/pear_php_net.log)
 if [ ${is_succeeded} != '0' ]; then
-    pear install XML_RPC2 &
+  pear install XML_RPC2 &
 fi
 # wget https://github.com/pyrus/Pyrus/blob/master/pyrus.phar
 # php pyrus.phar install pear/XML_RPC2
@@ -44,35 +44,35 @@ popd
 mkdir lib
 
 if [ ${is_succeeded} = '0' ]; then
-    # ***** XML_RPC2 *****
+  # ***** XML_RPC2 *****
 
-    pushd lib
-    git clone --depth=1 -b 1.1.4 https://github.com/pear/XML_RPC2.git .
-    pushd /tmp
-    mkdir pear_exception
-    pushd pear_exception
-    git clone --depth=1 https://github.com/pear/pear_exception.git .
-    popd
-    popd
-    cp -af /tmp/pear_exception/* ./
-    pushd /tmp
-    mkdir http_request2
-    pushd http_request2
-    git clone --depth=1 https://github.com/pear/http_request2.git .
-    popd
-    popd
-    cp -af /tmp/http_request2/* ./
-    pushd /tmp
-    mkdir net_url2
-    pushd net_url2
-    git clone --depth=1 https://github.com/pear/net_url2.git .
-    popd
-    popd
-    cp -af /tmp/net_url2/* ./
+  pushd lib
+  git clone --depth=1 -b 1.1.4 https://github.com/pear/XML_RPC2.git .
+  pushd /tmp
+  mkdir pear_exception
+  pushd pear_exception
+  git clone --depth=1 https://github.com/pear/pear_exception.git .
+  popd
+  popd
+  cp -af /tmp/pear_exception/* ./
+  pushd /tmp
+  mkdir http_request2
+  pushd http_request2
+  git clone --depth=1 https://github.com/pear/http_request2.git .
+  popd
+  popd
+  cp -af /tmp/http_request2/* ./
+  pushd /tmp
+  mkdir net_url2
+  pushd net_url2
+  git clone --depth=1 https://github.com/pear/net_url2.git .
+  popd
+  popd
+  cp -af /tmp/net_url2/* ./
 
-    rm -f *
-    ls -lang
-    popd
+  rm -f *
+  ls -lang
+  popd
 fi
 
 # ***** font etc *****
@@ -94,6 +94,31 @@ ls -lang .fonts/
 
 chmod 755 ./start_web.sh
 chmod 755 ./bin/unrar
+
+set +x
+pushd classes
+for file in $(ls . | grep .php$); do
+  php -l ${file} 2>&1 | tee /tmp/php_error.txt
+done
+popd
+pushd scripts
+for file in $(ls . | grep .php$); do
+  php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
+done
+popd
+pushd www
+for file in $(ls . | grep .php$); do
+  php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
+done
+popd
+set -x
+
+$count1 = $(grep -c 'No syntax errors detected in' /tmp/php_error.txt)
+$count2 = $(wc -l /tmp/php_error.txt)
+
+if [ ${count1} -lt ${count2} ]; then
+  curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/php_error_exists > /dev/null 2>&1
+fi
 
 curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_100 > /dev/null 2>&1
 
