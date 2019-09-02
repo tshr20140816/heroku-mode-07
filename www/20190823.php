@@ -19,8 +19,8 @@ function func_20190823h($mu_)
 
     $url = 'https://packages.ubuntu.com/bionic/megatools';
     $res = $mu_->get_contents($url);
-    $rc = preg_match('/<h1>.+/', $res, $match);
-    error_log(print_r($match, true));
+    $rc = preg_match('/<h1>.+?:(.+)/', $res, $match);
+    error_log(trim($match[1]));
 }
 
 function func_20190823g($mu_)
