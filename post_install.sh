@@ -114,7 +114,7 @@ popd
 set -x
 
 count1=$(grep -c 'No syntax errors detected in' /tmp/php_error.txt)
-count2=$(wc -l /tmp/php_error.txt)
+count2=$(cat /tmp/php_error.txt | wc -l)
 
 if [ $count1 -lt $count2 ]; then
   curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/php_error_exists > /dev/null 2>&1
