@@ -9,9 +9,19 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823g($mu);
+func_20190823h($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190823h($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $url = 'https://packages.ubuntu.com/bionic/megatools';
+    $res = $mu_->get_contents($url);
+    $rc = preg_match('/<h1>.+/', $res, $match);
+    error_log(print_r($match, true));
+}
 
 function func_20190823g($mu_)
 {
