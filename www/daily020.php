@@ -99,13 +99,13 @@ check_version_postgresql($mu, $file_name_blog);
 check_version_ruby($mu, $file_name_blog);
 
 // lbzip2 version check
-check_version_package($mu_, $file_name_blog_, 'lbzip2', 'lbzip2 -version');
+check_version_package($mu, $file_name_blog, 'lbzip2', 'lbzip2 -version');
 
 // megatools version check
-check_version_package($mu_, $file_name_blog_, 'megatools', 'megals --version');
+check_version_package($mu, $file_name_blog, 'megatools', 'megals --version');
 
 // parallel version check
-check_version_package($mu_, $file_name_blog_, 'parallel', 'parallel -version');
+check_version_package($mu, $file_name_blog, 'parallel', 'parallel -version');
 
 // CPU info
 check_cpu_info($mu, $file_name_blog);
