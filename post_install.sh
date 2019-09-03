@@ -18,7 +18,9 @@ time pear channel-update pear.php.net > /tmp/pear_php_net.log
 cat /tmp/pear_php_net.log
 is_succeeded=$(grep -c -e succeeded /tmp/pear_php_net.log)
 if [ ${is_succeeded} != '0' ]; then
-  pear install XML_RPC2 &
+  # pear install XML_RPC2 &
+  time curl -O https://github.com/pyrus/Pyrus/blob/master/pyrus.phar
+  time php pyrus.phar install pear/XML_RPC2
 fi
 # wget https://github.com/pyrus/Pyrus/blob/master/pyrus.phar
 # php pyrus.phar install pear/XML_RPC2
