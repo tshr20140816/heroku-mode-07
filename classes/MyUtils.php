@@ -787,6 +787,8 @@ __HEREDOC__;
         error_log($log_prefix . 'URL : ' . $url_);
         error_log($log_prefix . 'options : ' . print_r($options_, true));
 
+        error_log(print_r(debug_backtrace(), true));
+        
         $options = [
             CURLOPT_URL => $url_,
             CURLOPT_USERAGENT => getenv('USER_AGENT'),
