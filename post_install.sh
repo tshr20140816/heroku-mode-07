@@ -87,7 +87,7 @@ time curl -sS -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/
 mkdir .fonts
 mv ipaexg00401.zip .fonts/
 pushd .fonts
-unzip ipaexg00401.zip
+time unzip ipaexg00401.zip
 rm ipaexg00401.zip
 popd
 ls -lang .fonts/
