@@ -9,6 +9,8 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
+error_log(print_r(debug_backtrace(), true));
+
 @unlink('/tmp/dummy');
 func_20190823i($mu, '/tmp/dummy', 'lbzip2', 'lbzip2 --version');
 error_log(file_get_contents('/tmp/dummy'));
@@ -21,6 +23,7 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 
 function func_20190823i($mu_, $file_name_blog_, $package_, $version_command_)
 {
+    error_log(print_r(debug_backtrace(), true));
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $url = "https://packages.ubuntu.com/bionic/${package_}";
