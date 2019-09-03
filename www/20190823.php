@@ -9,6 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
+@unlink('/tmp/dummy');
 func_20190823i($mu, '/tmp/dummy', 'lbzip2', 'lbzip2 --version');
 error_log(file_get_contents('/tmp/dummy'));
 func_20190823i($mu, '/tmp/dummy', 'megatools', 'megals --version');
