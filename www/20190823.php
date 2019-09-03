@@ -10,8 +10,11 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
 func_20190823i($mu, '/tmp/dummy', 'lbzip2', 'lbzip2 --version');
-// func_20190823i($mu, '/tmp/dummy', 'megatools', 'megals --version');
-// func_20190823i($mu, '/tmp/dummy', 'parallel', 'parallel --version');
+error_log(file_get_contents('/tmp/dummy'));
+func_20190823i($mu, '/tmp/dummy', 'megatools', 'megals --version');
+error_log(file_get_contents('/tmp/dummy'));
+func_20190823i($mu, '/tmp/dummy', 'parallel', 'parallel --version');
+error_log(file_get_contents('/tmp/dummy'));
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
