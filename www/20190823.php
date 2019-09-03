@@ -25,8 +25,9 @@ function func_20190823i($mu_, $file_name_blog_, $package_, $version_command_)
     $version_package = trim($match[1]);
 
     $res = $mu_->cmd_execute($version_command_, $log_prefix);
-    $tmp = explode("\n", $res);
-    $version_current = $tmp[0];
+    // $tmp = explode("\n", $res);
+    // $version_current = $tmp[0];
+    $version_current = $res[0];
 
     $content = "\n${package_} Version\ncurrent : ${version_current}\npackage : ${version_package}\n";
     file_put_contents($file_name_blog_, $content, FILE_APPEND);
