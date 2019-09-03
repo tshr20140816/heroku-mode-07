@@ -787,7 +787,7 @@ __HEREDOC__;
         foreach (array_reverse(debug_backtrace()) as $value) {
             $function_chain .= '[' . $value['function'] . ']';
         }
-        error_log(getmypid() . ' ' . $function_chain);
+        error_log(getmypid() . " ${function_chain} BEGIN');
         $function_chain = null;
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
