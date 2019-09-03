@@ -99,13 +99,13 @@ check_version_postgresql($mu, $file_name_blog);
 check_version_ruby($mu, $file_name_blog);
 
 // lbzip2 version check
-check_version_package($mu, $file_name_blog, 'lbzip2', 'lbzip2 -version');
+check_version_package($mu, $file_name_blog, 'lbzip2', 'lbzip2 --version');
 
 // megatools version check
 check_version_package($mu, $file_name_blog, 'megatools', 'megals --version');
 
 // parallel version check
-check_version_package($mu, $file_name_blog, 'parallel', 'parallel -version');
+check_version_package($mu, $file_name_blog, 'parallel', 'parallel --version');
 
 // CPU info
 check_cpu_info($mu, $file_name_blog);
@@ -1213,8 +1213,7 @@ function check_version_package($mu_, $file_name_blog_, $package_, $version_comma
     $version_package = trim($match[1]);
 
     $res = $mu_->cmd_execute($version_command_, $log_prefix);
-    $tmp = explode("\n", $res);
-    $version_current = $tmp[0];
+    $version_current = $res[0];
 
     $content = "\n${package_} Version\ncurrent : ${version_current}\npackage : ${version_package}\n";
     file_put_contents($file_name_blog_, $content, FILE_APPEND);
