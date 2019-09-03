@@ -1111,13 +1111,13 @@ __HEREDOC__;
         $authtoken_zoho = $this->get_env('ZOHO_AUTHTOKEN', true);
 
         $line = "lbzip2 -v ${file_name_}";
-        $this->cmd_execute($line, $log_prefix);
+        $this->cmd_execute($line);
 
         $method = 'aes-256-cbc';
         $password = base64_encode($user_hidrive) . base64_encode($password_hidrive);
         $iv = substr(sha1($file_name_), 0, openssl_cipher_iv_length($method));
         $line = "openssl ${method} -e -base64 -A -iv ${iv} -pass pass:${password} -in ${file_name_}.bz2 -out ${file_name_}";
-        $this->cmd_execute($line, $log_prefix);
+        $this->cmd_execute($line);
         unlink($file_name_ . '.bz2');
 
         error_log($log_prefix . 'size : ' . number_format(filesize($file_name_)));
@@ -1125,7 +1125,7 @@ __HEREDOC__;
 
         // For Dropbox
         $line = "lbzip2 -v -k ${file_name_}";
-        $this->cmd_execute($line, $log_prefix);
+        $this->cmd_execute($line);
 
         $urls = [];
 
@@ -1151,7 +1151,7 @@ __HEREDOC__;
         // MEGA
 
         $line = "megarm -u ${user_mega} -p ${password_mega} /Root/${base_name}";
-        $this->cmd_execute($line, $log_prefix);
+        $this->cmd_execute($line);
 
         // HiDrive
 
@@ -1240,7 +1240,7 @@ __HEREDOC__;
 
         file_put_contents('/tmp/jobs.txt', $jobs);
         $line = 'cat /tmp/jobs.txt | parallel -j6 --joblog /tmp/joblog.txt 2>&1';
-        $this->cmd_execute($line, $log_prefix);
+        $this->cmd_execute($line);
         // error_log(file_get_contents('/tmp/joblog.txt'));
         $tmp = explode("\n", file_get_contents('/tmp/joblog.txt'));
         foreach ($tmp as $one_line) {
@@ -1262,7 +1262,7 @@ __HEREDOC__;
 
         file_put_contents('/tmp/jobs.txt', $jobs);
         $line = 'cat /tmp/jobs.txt | parallel -j6 --joblog /tmp/joblog.txt 2>&1';
-        $this->cmd_execute($line, $log_prefix);
+        $this->cmd_execute($line);
         // error_log(file_get_contents('/tmp/joblog.txt'));
         $tmp = explode("\n", file_get_contents('/tmp/joblog.txt'));
         foreach ($tmp as $one_line) {
@@ -1513,7 +1513,7 @@ __HEREDOC__;
         return $res;
     }
 
-    public function cmd_execute($line_, $log_prefix_)
+    public function cmd_execute($line_)
     {
         $debug_backtrace = debug_backtrace();
         if (count($debug_backtrace) > 1) {
