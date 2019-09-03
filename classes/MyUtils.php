@@ -1515,9 +1515,6 @@ __HEREDOC__;
 
     public function cmd_execute($line_, $log_prefix_)
     {
-        // $res = null;
-        // error_log($log_prefix_ . $line_);
-        
         $debug_backtrace = debug_backtrace();
         if (count($debug_backtrace) > 1) {
             $log_prefix = getmypid() . ' [' . $debug_backtrace[1]['function'] . '] ';
@@ -1525,14 +1522,13 @@ __HEREDOC__;
             $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
         }
         error_log($log_prefix . $line_);
-        
+
         $time_start = microtime(true);
         exec($line_, $res);
         $time_finish = microtime(true);
         foreach ($res as $one_line) {
             error_log($log_prefix . $one_line);
         }
-        // $res = null;
         error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
         return $res;
     }
