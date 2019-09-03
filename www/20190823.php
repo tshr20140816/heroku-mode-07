@@ -28,7 +28,7 @@ function func_20190823i($mu_, $file_name_blog_, $package_, $version_command_)
     $rc = preg_match('/<h1>.+?:(.+)/', $res, $match);
     $version_package = trim($match[1]);
 
-    $res = $mu_->cmd_execute($version_command_, $log_prefix);
+    $res = $mu_->cmd_execute($version_command_);
     // $tmp = explode("\n", $res);
     // $version_current = $tmp[0];
     $version_current = $res[0];
@@ -69,7 +69,7 @@ __HEREDOC__;
     
     file_put_contents('/tmp/jobs.txt', $jobs);
     $line = 'cat /tmp/jobs.txt | parallel -j6 --joblog /tmp/joblog.txt 2>&1';
-    $mu_->cmd_execute($line, $log_prefix);
+    $mu_->cmd_execute($line);
     // error_log(file_get_contents('/tmp/joblog.txt'));
     $tmp = explode("\n", file_get_contents('/tmp/joblog.txt'));
     foreach ($tmp as $one_line) {
