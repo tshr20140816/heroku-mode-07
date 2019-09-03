@@ -1212,7 +1212,7 @@ function check_version_package($mu_, $file_name_blog_, $package_, $version_comma
     $rc = preg_match('/<h1>.+?:(.+)/', $res, $match);
     $version_package = trim($match[1]);
 
-    $res = $mu_->cmd_execute($version_command_, $log_prefix);
+    $res = $mu_->cmd_execute($version_command_);
     $version_current = $res[0];
 
     $content = "\n${package_} Version\ncurrent : ${version_current}\npackage : ${version_package}\n";
