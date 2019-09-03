@@ -15,6 +15,9 @@ switch (count($argv)) {
     case 3:
         $mu->post_blog_wordpress(base64_decode($argv[1]), base64_decode($argv[2]));
         break;
+    case 4:
+        $mu->post_blog_wordpress(base64_decode($argv[1]), base64_decode($argv[2]), base64_decode($argv[3]));
+        break;
 }
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
