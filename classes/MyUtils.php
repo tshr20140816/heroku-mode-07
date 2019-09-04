@@ -787,7 +787,9 @@ __HEREDOC__;
         $log_prefix = $this->logging_function_begin(__METHOD__);
 
         error_log($log_prefix . 'URL : ' . $url_);
-        error_log($log_prefix . 'options : ' . print_r($options_, true));
+        // error_log($log_prefix . 'options : ' . print_r($options_, true));
+        error_log($log_prefix . 'options :');
+        $this->logging_object($options_, $log_prefix);
 
         $options = [
             CURLOPT_URL => $url_,
@@ -1528,7 +1530,16 @@ __HEREDOC__;
         return $res;
     }
 
-    public function logging_function_begin($method_) {
+    public function logging_object($obj_, $log_prefix_ = '')
+    {
+        $res = explode("\n", print_r($obj_, true));
+        foreach ($res as $one_line) {
+            error_log($log_prefix_ . $one_line);
+        }
+    }
+
+    public function logging_function_begin($method_)
+    {
         $function_chain = '';
         $array = debug_backtrace();
         array_shift($array);
