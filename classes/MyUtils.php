@@ -660,7 +660,8 @@ __HEREDOC__;
         error_log($log_prefix . 'finish exec');
     }
 
-    public function upload_fc2($file_name_) {
+    public function upload_fc2($file_name_)
+    {
         $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
         error_log($log_prefix . 'filesize : ' . number_format(filesize($file_name_)));
