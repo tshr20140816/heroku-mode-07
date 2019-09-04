@@ -9,11 +9,11 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-search_hotel_sancoinn($mu);
+search_hotel_sancoinn2($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function search_hotel_sancoinn($mu_)
+function search_hotel_sancoinn2($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
