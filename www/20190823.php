@@ -41,26 +41,28 @@ function func_20190823i($mu_)
     
     $description = '';
     foreach ($list_date as $date) {
-        $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id=&hi_id=10&dt=' . $date . '&lang=ja-JP';
-        $res = $mu_->get_contents($url, null, true);
-        // error_log($res);
-        
-        $rc = preg_match('/<title>(.+?) /s', $res, $match);
-        $description .= "\n" . $date . ' ' . trim($match[1]) . "\n\n";
-    
-        if (strpos($res, $keyword) === false) {
-            // error_log('EXISTS');
-            $rc = preg_match_all('/<h2 class="strong c-bd02 side">.+?<\/h2>/s', $res, $matches);
-            // error_log(print_r($matches, true));
-            foreach ($matches[0] as $item) {
-                $tmp = trim(str_replace("\r\n", '', strip_tags($item)));
-                $tmp = preg_replace('/ +/', ' ', $tmp);
-                // error_log($log_prefix . $tmp);
-                $description .= $tmp . "\n";
+        foreach ($list_hotel as $hotel_id) {
+            $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id=&hi_id=' . $hotel_id . '&dt=' . $date . '&lang=ja-JP';
+            $res = $mu_->get_contents($url, null, true);
+            // error_log($res);
+
+            $rc = preg_match('/<title>(.+?) /s', $res, $match);
+            $description .= "\n" . $date . ' ' . trim($match[1]) . "\n\n";
+
+            if (strpos($res, $keyword) === false) {
+                // error_log('EXISTS');
+                $rc = preg_match_all('/<h2 class="strong c-bd02 side">.+?<\/h2>/s', $res, $matches);
+                // error_log(print_r($matches, true));
+                foreach ($matches[0] as $item) {
+                    $tmp = trim(str_replace("\r\n", '', strip_tags($item)));
+                    $tmp = preg_replace('/ +/', ' ', $tmp);
+                    // error_log($log_prefix . $tmp);
+                    $description .= $tmp . "\n";
+                }
+            } else {
+                // error_log($log_prefix . 'NONE');
+                $description .= "NONE\n";
             }
-        } else {
-            // error_log($log_prefix . 'NONE');
-            $description .= "NONE\n";
         }
     }
     
