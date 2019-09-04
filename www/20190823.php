@@ -35,6 +35,7 @@ function func_20190823i($mu_)
         $description .= "\n" . $date . "\n\n";
         $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id=&hi_id=10&' . $date . '&lang=ja-JP';
         $res = $mu_->get_contents($url, null, true);
+        error_log($res);
     
         if (strpos($res, $keyword) === false) {
             // error_log('EXISTS');
