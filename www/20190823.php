@@ -51,14 +51,17 @@ function func_20190823i($mu_)
 
             if (strpos($res, $keyword) === false) {
                 // error_log('EXISTS');
-                $rc = preg_match_all('/<h2 class="strong c-bd02 side">.+?<\/h2>/s', $res, $matches);
-                // error_log(print_r($matches, true));
+                $rc = preg_match_all('/<h2 class="strong c-bd02 side">(.+?)<\/h2>.+?&yen;(.+?)\n/s', $res, $matches);
+                error_log(print_r($matches, true));
+                break 2;
+                /*
                 foreach ($matches[0] as $item) {
                     $tmp = trim(str_replace("\r\n", '', strip_tags($item)));
                     $tmp = preg_replace('/ +/', ' ', $tmp);
                     // error_log($log_prefix . $tmp);
                     $description .= $tmp . "\n";
                 }
+                */
             } else {
                 // error_log($log_prefix . 'NONE');
                 $description .= "NONE\n";
