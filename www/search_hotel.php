@@ -11,7 +11,7 @@ $mu = new MyUtils();
 
 search_hotel($mu);
 // search_jtb_tour($mu);
-search_hotel_sancoinn($mu);
+// search_hotel_sancoinn($mu);
 
 $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/get_twitter_jaxa.php';
 exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
@@ -77,7 +77,7 @@ function search_hotel($mu_)
 function search_hotel_sancoinn($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
+
     $url_base = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?'
         . 'cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id='
         . '&hi_id=__HI_ID__&dt=__DATE__&lang=ja-JP';
@@ -89,7 +89,7 @@ function search_hotel_sancoinn($mu_)
     $list_hotel[] = '6';
     $list_hotel[] = '10';
     $list_hotel[] = '11';
-    
+
     $list_date = [];
     $list_date[] = '2019/10/09';
     $list_date[] = '2019/10/11';
@@ -103,14 +103,15 @@ function search_hotel_sancoinn($mu_)
     $list_date[] = '2020/10/01';
     $list_date[] = '2020/10/09';
     $list_date[] = '2020/10/10';
-   
+
     $keyword = '誠に申し訳ございませんが、この検索条件に該当する空室・プランが見つかりませんでした。';
-    
+
     $description = '';
     foreach ($list_date as $date) {
         foreach ($list_hotel as $hotel_id) {
-            $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id=&hi_id=' . $hotel_id . '&dt=' . $date . '&lang=ja-JP';
-            $res = $mu_->get_contents($url, null, true);
+            $url = str_replace('__HI_ID__', $hotel_id, $url_base);
+            $url = str_replace('__DATE__', $date, $url);
+            $res = $mu_->get_contents($url);
             // error_log($res);
 
             $rc = preg_match('/<title>(.+?) /s', $res, $match);
