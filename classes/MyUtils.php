@@ -9,7 +9,7 @@ class MyUtils
 
     public function get_decrypt_string($encrypt_base64_string_)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         $method = 'aes-256-cbc';
         $key = getenv('ENCRYPT_KEY');
@@ -19,7 +19,7 @@ class MyUtils
 
     public function get_encrypt_string($original_string_)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         $method = 'aes-256-cbc';
         $key = getenv('ENCRYPT_KEY');
@@ -29,7 +29,7 @@ class MyUtils
 
     public function get_pdo()
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         $connection_info = parse_url(getenv('DATABASE_URL'));
         $pdo = new PDO(
@@ -42,7 +42,7 @@ class MyUtils
 
     public function get_access_token()
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         $file_name = '/tmp/access_token';
 
@@ -130,7 +130,7 @@ __HEREDOC__;
 
     public function get_folder_id($folder_name_)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         $file_name = '/tmp/folders';
         if (file_exists($file_name)) {
@@ -155,7 +155,7 @@ __HEREDOC__;
 
     public function get_contexts()
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         $file_name = '/tmp/contexts';
         if (file_exists($file_name)) {
@@ -202,7 +202,7 @@ __HEREDOC__;
 
     public function add_tasks($list_add_task_)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         error_log($log_prefix . 'ADD TARGET TASK COUNT : ' . count($list_add_task_));
 
@@ -230,7 +230,7 @@ __HEREDOC__;
 
     public function edit_tasks($list_edit_task_)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         error_log($log_prefix . 'EDIT TARGET TASK COUNT : ' . count($list_edit_task_));
 
@@ -258,7 +258,7 @@ __HEREDOC__;
 
     public function delete_tasks($list_delete_task_)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         error_log($log_prefix . 'DELETE TARGET TASK COUNT : ' . count($list_delete_task_));
 
@@ -281,7 +281,7 @@ __HEREDOC__;
 
     public function get_weather_guest_area()
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         $sql = <<< __HEREDOC__
 SELECT T1.location_number
@@ -308,7 +308,7 @@ __HEREDOC__;
 
     public function get_env($key_name_, $is_decrypt_ = false)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         for ($i = 0; $i < 2; $i++) {
             if (apcu_exists(__METHOD__) === true && $i === 0) {
@@ -379,7 +379,7 @@ __HEREDOC__;
 
     public function post_blog_wordpress_async($title_, $description_ = null, $category_ = null)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         if (is_null($description_)) {
             $description_ = '.';
@@ -400,7 +400,7 @@ __HEREDOC__;
 
     public function post_blog_wordpress($title_, $description_ = null, $category_ = null, $is_only_ = false)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         if (is_null($description_)) {
             $description_ = '.';
@@ -507,7 +507,7 @@ __HEREDOC__;
 
     public function post_blog_fc2_async($title_, $description_ = null)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         if (is_null($description_)) {
             $description_ = '.';
@@ -522,7 +522,7 @@ __HEREDOC__;
 
     public function post_blog_fc2($title_, $description_ = null)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         try {
             $url = 'https://blog.fc2.com/xmlrpc.php';
@@ -547,7 +547,7 @@ __HEREDOC__;
 
     public function post_blog_hatena($title_, $description_ = null, $category_ = null)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         if (is_null($description_)) {
             $description_ = '.';
@@ -612,7 +612,7 @@ __HEREDOC__;
 
     function post_blog_livedoor($title_, $description_ = null, $category_ = null)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         if (is_null($description_)) {
             $description_ = '.';
@@ -662,7 +662,7 @@ __HEREDOC__;
 
     public function upload_fc2($file_name_)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         error_log($log_prefix . 'filesize : ' . number_format(filesize($file_name_)));
         $ftp_link_id = ftp_connect($this->get_env('FC2_FTP_SERVER', true));
@@ -693,7 +693,7 @@ __HEREDOC__;
 
     public function search_blog($keyword_)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         $wordpress_username = $this->get_env('WORDPRESS_USERNAME', true);
 
@@ -710,7 +710,7 @@ __HEREDOC__;
 
     public function get_contents($url_, $options_ = null, $is_cache_search = false)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         if ($is_cache_search !== true) {
             return $this->get_contents_nocache($url_, $options_);
@@ -784,14 +784,6 @@ __HEREDOC__;
 
     public function get_contents_nocache($url_, $options_ = null)
     {
-        /*
-        $function_chain = '';
-        foreach (array_reverse(debug_backtrace()) as $value) {
-            $function_chain .= '[' . $value['function'] . ']';
-        }
-        error_log(getmypid() . " ${function_chain} BEGIN");
-        $function_chain = null;
-        */
         $log_prefix = $this->function_begin_logging(__METHOD__);
 
         error_log($log_prefix . 'URL : ' . $url_);
@@ -895,7 +887,7 @@ __HEREDOC__;
 
     public function get_contents_multi($urls_, $urls_is_cache_ = null, $multi_options_ = null)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         $time_start = microtime(true);
 
@@ -1072,7 +1064,7 @@ __HEREDOC__;
 
     public function backup_data($data_, $file_name_)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         error_log($log_prefix . 'START memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
         error_log($log_prefix . "file : ${file_name_}");
@@ -1290,7 +1282,7 @@ __HEREDOC__;
 
     public function get_contents_proxy($url_)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         error_log($log_prefix . $url_);
         $cookie = tempnam('/tmp', 'cookie_' . md5(microtime(true)));
@@ -1323,7 +1315,7 @@ __HEREDOC__;
 
     public function get_contents_proxy_multi($urls_, $multi_options_ = null)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         $time_start = microtime(true);
 
@@ -1438,7 +1430,7 @@ __HEREDOC__;
 
     public function shrink_image($file_, $is_put_blog_ = false)
     {
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         $url = 'https://api.tinify.com/shrink';
         $options = [CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
