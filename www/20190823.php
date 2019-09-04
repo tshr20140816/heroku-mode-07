@@ -46,7 +46,7 @@ function func_20190823i($mu_)
         $res = $mu_->get_contents($url, null, true);
         // error_log($res);
         
-        $rc = preg_match('/<title>(.+?) /', $res, $match);
+        $rc = preg_match('/<title>(.+?) /s', $res, $match);
         $description .= $match[1] ."\n\n";
     
         if (strpos($res, $keyword) === false) {
