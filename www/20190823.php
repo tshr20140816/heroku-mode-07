@@ -21,7 +21,7 @@ function func_20190823i($mu_)
     $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id=&hi_id=10&dt=2019/09/18&lang=ja-JP';
     // $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id=&hi_id=10&dt=2020/10/09&lang=ja-JP';
     
-    $res = $mu_->get_contents($url);
+    $res = $mu_->get_contents($url, null, true);
     // error_log($res);
     
     $keyword = '誠に申し訳ございませんが、この検索条件に該当する空室・プランが見つかりませんでした。';
@@ -29,10 +29,12 @@ function func_20190823i($mu_)
     if (strpos($res, $keyword) === false) {
         // error_log('EXISTS');
         $rc = preg_match_all('/<h2 class="strong c-bd02 side">.+?<\/h2>/s', $res, $matches);
-        // error_log(print_r($matches, true));
+        error_log(print_r($matches, true));
+        /*
         foreach ($matches as $match) {
             error_log(str_replace("\r\n", '', strip_tags($match[0])));
         }
+        */
     } else {
         error_log('NONE');
     }
