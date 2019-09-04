@@ -16,7 +16,7 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 function search_hotel_sancoinn2($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    
+
     $url_base = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?'
         . 'cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id='
         . '&hi_id=__HI_ID__&dt=__DATE__&lang=ja-JP';
@@ -56,7 +56,6 @@ function search_hotel_sancoinn2($mu_)
         CURLMOPT_MAX_HOST_CONNECTIONS => 100,
     ];
     $results = $mu_->get_contents_multi($urls, null, $multi_options);
-    return;
 
     $keyword = '誠に申し訳ございませんが、この検索条件に該当する空室・プランが見つかりませんでした。';
 
@@ -65,8 +64,9 @@ function search_hotel_sancoinn2($mu_)
         foreach ($list_hotel as $hotel_id) {
             $url = str_replace('__HI_ID__', $hotel_id, $url_base);
             $url = str_replace('__DATE__', $date, $url);
-            $res = $mu_->get_contents($url);
+            // $res = $mu_->get_contents($url);
             // error_log($res);
+            $res = $results[$url];
 
             $rc = preg_match('/<title>(.+?) /s', $res, $match);
             $description .= "\n" . $date . ' ' . trim($match[1]) . "\n\n";
