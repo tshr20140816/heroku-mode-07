@@ -784,13 +784,15 @@ __HEREDOC__;
 
     public function get_contents_nocache($url_, $options_ = null)
     {
+        /*
         $function_chain = '';
         foreach (array_reverse(debug_backtrace()) as $value) {
             $function_chain .= '[' . $value['function'] . ']';
         }
         error_log(getmypid() . " ${function_chain} BEGIN");
         $function_chain = null;
-        $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+        */
+        $log_prefix = $this->function_begin_logging(__METHOD__);
 
         error_log($log_prefix . 'URL : ' . $url_);
         error_log($log_prefix . 'options : ' . print_r($options_, true));
@@ -1521,12 +1523,7 @@ __HEREDOC__;
 
     public function cmd_execute($line_)
     {
-        $debug_backtrace = debug_backtrace();
-        if (count($debug_backtrace) > 1) {
-            $log_prefix = getmypid() . ' [' . $debug_backtrace[1]['function'] . '] ';
-        } else {
-            $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-        }
+        $log_prefix = $this->function_begin_logging(__METHOD__);
         error_log($log_prefix . $line_);
 
         $time_start = microtime(true);
@@ -1537,5 +1534,21 @@ __HEREDOC__;
         }
         error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
         return $res;
+    }
+    
+    public function function_begin_logging($method_) {
+        $function_chain = '';
+        $array = debug_backtrace();
+        array_shift($array);
+        if (count($array) > 0) {
+            foreach (array_reverse($array) as $value) {
+                $function_chain .= '[' . $value['function'] . ']';
+            }
+        } else {
+            $function_chain = "[${method_}]";
+        }
+        $pid = getmypid();
+        error_log("${pid} ${function_chain} BEGIN");
+        return "${pid} [${method_}] ";    
     }
 }
