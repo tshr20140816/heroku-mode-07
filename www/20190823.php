@@ -17,6 +17,12 @@ function func_20190823i($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $list_hotel = [];
+    $list_hotel[] = '4';
+    $list_hotel[] = '6';
+    $list_hotel[] = '10';
+    $list_hotel[] = '11';
+    
     $list_date = [];
     $list_date[] = '2019/10/09';
     $list_date[] = '2019/10/11';
@@ -39,6 +45,9 @@ function func_20190823i($mu_)
         $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id=&hi_id=10&dt=' . $date . '&lang=ja-JP';
         $res = $mu_->get_contents($url, null, true);
         // error_log($res);
+        
+        $rc = preg_match('/<title>(.+?) /', $res, $match);
+        $description .= $match[1] ."\n\n";
     
         if (strpos($res, $keyword) === false) {
             // error_log('EXISTS');
