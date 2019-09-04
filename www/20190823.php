@@ -13,7 +13,7 @@ func_20190823i($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function object_logging($log_prefix_, $obj_) {
+function logging_object($obj_, $log_prefix_ = '') {
     $res = explode("\n", print_r($obj_, true));
     foreach ($res as $one_line) {
         error_log($log_prefix_ . $one_line);
@@ -31,7 +31,7 @@ function func_20190823i($mu_)
     $list_date[] = '2020/07/30';
     $list_date[] = '2020/07/31';
     
-    object_logging($log_prefix, $list_date);
+    logging_object($list_date, $log_prefix);
 }
 
 function search_hotel_sancoinn2($mu_)
