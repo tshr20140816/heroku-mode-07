@@ -9,35 +9,18 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-error_log(print_r(debug_backtrace(), true));
-
-@unlink('/tmp/dummy');
-func_20190823i($mu, '/tmp/dummy', 'lbzip2', 'lbzip2 --version');
-error_log(file_get_contents('/tmp/dummy'));
-func_20190823i($mu, '/tmp/dummy', 'megatools', 'megals --version');
-error_log(file_get_contents('/tmp/dummy'));
-func_20190823i($mu, '/tmp/dummy', 'parallel', 'parallel --version');
-error_log(file_get_contents('/tmp/dummy'));
+func_20190823i($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190823i($mu_, $file_name_blog_, $package_, $version_command_)
+function func_20190823i($mu_)
 {
-    error_log(print_r(debug_backtrace(), true));
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $url = "https://packages.ubuntu.com/bionic/${package_}";
+    $url = "https://secure.reservation.jp/sanco-inn/stay_pc/rsv/detail_room_calendar.aspx?hi_id=10&lang=ja-JP&smrt_id=4";
     $res = $mu_->get_contents($url);
-    $rc = preg_match('/<h1>.+?:(.+)/', $res, $match);
-    $version_package = trim($match[1]);
-
-    $res = $mu_->cmd_execute($version_command_);
-    // $tmp = explode("\n", $res);
-    // $version_current = $tmp[0];
-    $version_current = $res[0];
-
-    $content = "\n${package_} Version\ncurrent : ${version_current}\npackage : ${version_package}\n";
-    file_put_contents($file_name_blog_, $content, FILE_APPEND);
+    
+    error_log($res);
 }
 
 function func_20190823h($mu_)
