@@ -51,7 +51,11 @@ function search_hotel_sancoinn2($mu_)
             $urls[] = $url;
         }
     }
-    $results = $mu_->get_contents_proxy_multi($urls);
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 100,
+    ];
+    $results = $mu_->get_contents_multi($urls, null, $multi_options);
     return;
 
     $keyword = '誠に申し訳ございませんが、この検索条件に該当する空室・プランが見つかりませんでした。';
