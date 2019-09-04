@@ -48,8 +48,9 @@ function search_hotel_sancoinn2($mu_)
     $description = '';
     foreach ($list_date as $date) {
         foreach ($list_hotel as $hotel_id) {
-            $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id=&hi_id=' . $hotel_id . '&dt=' . $date . '&lang=ja-JP';
-            $res = $mu_->get_contents($url, null, true);
+            $url = str_replace('__HI_ID__', $hotel_id, $url_base);
+            $url = str_replace('__DATE__', $date, $url);
+            $res = $mu_->get_contents($url);
             // error_log($res);
 
             $rc = preg_match('/<title>(.+?) /s', $res, $match);
