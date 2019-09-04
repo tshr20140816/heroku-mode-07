@@ -21,10 +21,13 @@ function func_20190823i($mu_)
     $list_date[] = '2019/10/09';
     $list_date[] = '2019/10/11';
     $list_date[] = '2019/10/12';
-    $list_date[] = '2020/07/09';
+    $list_date[] = '2020/07/30';
+    $list_date[] = '2020/07/31';
     $list_date[] = '2020/08/09';
     $list_date[] = '2020/09/09';
+    $list_date[] = '2020/09/29';
     $list_date[] = '2020/09/30';
+    $list_date[] = '2020/10/01';
     $list_date[] = '2020/10/09';
     $list_date[] = '2020/10/10';
     // $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/detail_room_calendar.aspx?hi_id=10&lang=ja-JP&smrt_id=4';
