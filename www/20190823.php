@@ -18,9 +18,13 @@ function func_20190823i($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $list_date = [];
-    $list_date[] = '2019/09/18';
+    $list_date[] = '2019/10/09';
     $list_date[] = '2019/10/11';
     $list_date[] = '2019/10/12';
+    $list_date[] = '2020/01/09';
+    $list_date[] = '2020/03/09';
+    $list_date[] = '2020/05/09';
+    $list_date[] = '2020/07/09';
     $list_date[] = '2020/09/30';
     $list_date[] = '2020/10/09';
     $list_date[] = '2020/10/10';
