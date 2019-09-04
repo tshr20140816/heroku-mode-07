@@ -17,27 +17,42 @@ function func_20190823i($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
+    $list_date = [];
+    $list_date[] = '2019/09/18';
+    $list_date[] = '2019/10/11';
+    $list_date[] = '2019/10/12';
+    $list_date[] = '2020/09/30';
+    $list_date[] = '2020/10/09';
+    $list_date[] = '2020/10/10';
     // $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/detail_room_calendar.aspx?hi_id=10&lang=ja-JP&smrt_id=4';
-    $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id=&hi_id=10&dt=2019/09/18&lang=ja-JP';
+    // $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id=&hi_id=10&dt=2019/09/18&lang=ja-JP';
     // $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id=&hi_id=10&dt=2020/10/09&lang=ja-JP';
-    
-    $res = $mu_->get_contents($url, null, true);
-    // error_log($res);
     
     $keyword = '誠に申し訳ございませんが、この検索条件に該当する空室・プランが見つかりませんでした。';
     
-    if (strpos($res, $keyword) === false) {
-        // error_log('EXISTS');
-        $rc = preg_match_all('/<h2 class="strong c-bd02 side">.+?<\/h2>/s', $res, $matches);
-        error_log(print_r($matches, true));
-        foreach ($matches[0] as $item) {
-            $tmp = trim(str_replace("\r\n", '', strip_tags($item)));
-            $tmp = preg_replace('/ +/', ' ', $tmp);
-            error_log($log_prefix . $tmp);
+    $description = '';
+    foreach ($list_date as $date) {
+        $description .= "\n" . $date . "\n\n";
+        $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id=&hi_id=10&' . $date . '&lang=ja-JP';
+        $res = $mu_->get_contents($url, null, true);
+    
+        if (strpos($res, $keyword) === false) {
+            // error_log('EXISTS');
+            $rc = preg_match_all('/<h2 class="strong c-bd02 side">.+?<\/h2>/s', $res, $matches);
+            // error_log(print_r($matches, true));
+            foreach ($matches[0] as $item) {
+                $tmp = trim(str_replace("\r\n", '', strip_tags($item)));
+                $tmp = preg_replace('/ +/', ' ', $tmp);
+                // error_log($log_prefix . $tmp);
+                $description .= $tmp . "\n";
+            }
+        } else {
+            // error_log($log_prefix . 'NONE');
+            $description .= "NONE\n";
         }
-    } else {
-        error_log($log_prefix . 'NONE');
     }
+    
+    error_log($description);
 }
 
 function func_20190823h($mu_)
