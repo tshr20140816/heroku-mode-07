@@ -21,7 +21,7 @@ function func_20190823j($method_) {
         $function_chain .= '[' . $value['function'] . ']';
     }
     error_log(getmypid() . " ${function_chain} BEGIN");
-    $log_prefix = getmypid() . ' [' . $method_ . '] ';    
+    return getmypid() . ' [' . $method_ . '] ';    
 }
 
 function func_20190823i($mu_)
