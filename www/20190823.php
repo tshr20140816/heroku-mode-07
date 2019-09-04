@@ -16,7 +16,7 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 function object_logging($log_prefix_, $obj_) {
     $res = explode("\n", print_r($obj_, true));
     foreach ($res as $one_line) {
-        error_log($log_prefix_, $res);
+        error_log($log_prefix_ . $one_line);
     }
 }
 
