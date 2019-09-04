@@ -13,9 +13,21 @@ func_20190823i($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
+function func_20190823j($method_) {
+    $function_chain = '';
+    $array = debug_backtrace();
+    array_shift($array);
+    foreach (array_reverse($array) as $value) {
+        $function_chain .= '[' . $value['function'] . ']';
+    }
+    error_log(getmypid() . " ${function_chain} BEGIN");
+    $log_prefix = getmypid() . ' [' . $method_ . '] ';    
+}
+
 function func_20190823i($mu_)
 {
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    // $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    $log_prefix = func_20190823j(__METHOD__);
 
     // $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/detail_room_calendar.aspx?hi_id=10&lang=ja-JP&smrt_id=4';
     $url = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id=&hi_id=10&dt=2019/09/18&lang=ja-JP';
@@ -31,10 +43,10 @@ function func_20190823i($mu_)
         $rc = preg_match_all('/<h2 class="strong c-bd02 side">.+?<\/h2>/s', $res, $matches);
         error_log(print_r($matches, true));
         foreach ($matches[0] as $item) {
-            error_log(trim(str_replace("\r\n", '', strip_tags($item))));
+            error_log($log_prefix . trim(str_replace("\r\n", '', strip_tags($item))));
         }
     } else {
-        error_log('NONE');
+        error_log($log_prefix . 'NONE');
     }
 }
 
