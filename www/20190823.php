@@ -9,13 +9,19 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823i($mu);
+search_hotel_sancoinn($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190823i($mu_)
+function search_hotel_sancoinn($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $url_base = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?'
+        . 'cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id='
+        . '&hi_id=__HI_ID__&dt=__DATE__&lang=ja-JP';
+    $hash_url = 'url' . hash('sha512', $url_base);
+    error_log($log_prefix . "url hash : ${hash_url}");
 
     $list_hotel = [];
     $list_hotel[] = '4';
@@ -50,10 +56,7 @@ function func_20190823i($mu_)
             $description .= "\n" . $date . ' ' . trim($match[1]) . "\n\n";
 
             if (strpos($res, $keyword) === false) {
-                // error_log('EXISTS');
                 $rc = preg_match_all('/<h2 class="strong c-bd02 side">(.+?)<\/h2>.+?&yen;(.+?)\n/s', $res, $matches, PREG_SET_ORDER);
-                // error_log(print_r($matches, true));
-                // break 2;
                 foreach ($matches as $match) {
                     $tmp = trim(str_replace("\r\n", '', strip_tags($match[1])));
                     $tmp = preg_replace('/ +/', ' ', $tmp) . ' ' . $match[2] . "\n";
@@ -68,6 +71,14 @@ function func_20190823i($mu_)
     }
     
     error_log($description);
+    $hash_description = hash('sha512', $description);
+    $description = '<div class="' . $hash_url . '">' . "${hash_description}</div>${description}";
+    
+    $res = $mu_->search_blog($hash_url);
+    if ($res != $hash_description) {
+        $description = '<div class="' . $hash_url . '">' . "${hash_description}</div>${description}";
+        $mu_->post_blog_wordpress($hash_url, $description, 'hotel');
+    }
 }
 
 function func_20190823h($mu_)
