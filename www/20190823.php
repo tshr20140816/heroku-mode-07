@@ -42,9 +42,20 @@ function search_hotel_sancoinn2($mu_)
     $list_date[] = '2020/10/01';
     $list_date[] = '2020/10/09';
     $list_date[] = '2020/10/10';
-   
+
+    $urls = [];
+    foreach ($list_date as $date) {
+        foreach ($list_hotel as $hotel_id) {
+            $url = str_replace('__HI_ID__', $hotel_id, $url_base);
+            $url = str_replace('__DATE__', $date, $url);
+            $urls[] = $url;
+        }
+    }
+    $results = $mu_->get_contents_proxy_multi($urls);
+    return;
+
     $keyword = '誠に申し訳ございませんが、この検索条件に該当する空室・プランが見つかりませんでした。';
-    
+
     $description = '';
     foreach ($list_date as $date) {
         foreach ($list_hotel as $hotel_id) {
