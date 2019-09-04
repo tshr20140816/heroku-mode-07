@@ -9,9 +9,30 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-search_hotel_sancoinn2($mu);
+func_20190823i($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function object_logging($log_prefix_, $obj_) {
+    $res = explode("\n", print_r($obj_, true));
+    foreach ($res as $one_line) {
+        error_log($log_prefix_, $res);
+    }
+}
+
+function func_20190823i($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $list_date = [];
+    $list_date[] = '2019/10/09';
+    $list_date[] = '2019/10/11';
+    $list_date[] = '2019/10/12';
+    $list_date[] = '2020/07/30';
+    $list_date[] = '2020/07/31';
+    
+    object_logging($log_prefix, $list_date);
+}
 
 function search_hotel_sancoinn2($mu_)
 {
