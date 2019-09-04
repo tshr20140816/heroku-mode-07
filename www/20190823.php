@@ -30,11 +30,9 @@ function func_20190823i($mu_)
         // error_log('EXISTS');
         $rc = preg_match_all('/<h2 class="strong c-bd02 side">.+?<\/h2>/s', $res, $matches);
         error_log(print_r($matches, true));
-        /*
-        foreach ($matches as $match) {
-            error_log(str_replace("\r\n", '', strip_tags($match[0])));
+        foreach ($matches[0] as $item) {
+            error_log(trim(str_replace("\r\n", '', strip_tags($item))));
         }
-        */
     } else {
         error_log('NONE');
     }
