@@ -28,7 +28,7 @@ function search_hotel($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
     $urls = [];
-    for ($i = 0; $i < 11; $i++) {
+    for ($i = 0; $i < 20; $i++) {
         $url = $mu_->get_env('URL_RAKUTEN_TRAVEL_' . str_pad($i, 2, '0', STR_PAD_LEFT));
         if (strlen($url) < 10) {
             continue;
