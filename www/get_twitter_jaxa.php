@@ -46,7 +46,8 @@ __HEREDOC__;
 
     $rss_items = [];
     foreach ($res->channel->item as $item) {
-        error_log($log_prefix . print_r($item, true));
+        // error_log($log_prefix . print_r($item, true));
+        $mu_->logging_object($item, $log_prefix);
         $description = $item->description;
         $rc = preg_match('/<img src="(.+?)".*?>/', $item->description, $match);
         if ($rc == 1) {
@@ -56,7 +57,8 @@ __HEREDOC__;
             $filename = tempnam('/tmp', 'image_' . md5(microtime(true)));
             file_put_contents($filename, $res1);
             $rc = getimagesize($filename);
-            error_log($log_prefix . print_r($rc, true));
+            // error_log($log_prefix . print_r($rc, true));
+            $mu_->logging_object($rc, $log_prefix);
             if (array_key_exists('mime', $rc) && substr($rc['mime'], 0, 6) == 'image/') {
                 $extension = explode('/', $rc['mime'])[1];
             }
