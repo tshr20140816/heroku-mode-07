@@ -1243,9 +1243,12 @@ __HEREDOC__;
 
         $res = $this->get_contents_multi($urls);
         error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
+        /*
         foreach ($res as $one_line) {
             error_log($log_prefix . $one_line);
         }
+        */
+        $this->logging_object($res, $log_prefix);
         $res = null;
         $urls = [];
 
@@ -1264,9 +1267,12 @@ __HEREDOC__;
         $this->cmd_execute($line);
         // error_log(file_get_contents('/tmp/joblog.txt'));
         $tmp = explode("\n", file_get_contents('/tmp/joblog.txt'));
+        /*
         foreach ($tmp as $one_line) {
             error_log($log_prefix . $one_line);
         }
+        */
+        $this->logging_object($tmp, $log_prefix);
         unlink('/tmp/jobs.txt');
         unlink('/tmp/joblog.txt');
 
@@ -1286,9 +1292,12 @@ __HEREDOC__;
         $this->cmd_execute($line);
         // error_log(file_get_contents('/tmp/joblog.txt'));
         $tmp = explode("\n", file_get_contents('/tmp/joblog.txt'));
+        /*
         foreach ($tmp as $one_line) {
             error_log($log_prefix . $one_line);
         }
+        */
+        $this->logging_object($tmp, $log_prefix);
         unlink('/tmp/jobs.txt');
         unlink('/tmp/joblog.txt');
 
@@ -1545,9 +1554,12 @@ __HEREDOC__;
         $time_start = microtime(true);
         exec($line_, $res);
         $time_finish = microtime(true);
+        /*
         foreach ($res as $one_line) {
             error_log($log_prefix . $one_line);
         }
+        */
+        $this->logging_object($res, $log_prefix);
         error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
         return $res;
     }
