@@ -161,7 +161,9 @@ function get_quota($mu_, $file_name_blog_)
     $urls = [];
     foreach ($list_targets as $target) {
         $data = json_decode($list_contents['https://api.heroku.com/account?' . hash('md5', $target)], true);
-        error_log($log_prefix . '$data : ' . print_r($data, true));
+        // error_log($log_prefix . '$data : ' . print_r($data, true));
+        error_log($log_prefix . '$data :');
+        $mu_->logging_object($data, $log_prefix);
 
         $account = explode('@', $data['email'])[0];
         $api_key = base64_decode(getenv('HEROKU_API_KEY_' . $target));
@@ -374,7 +376,8 @@ __HEREDOC__;
          ':b_balance' => $balance,
          ':b_last_use_date' => date('Y/m/d', $last_use_date_new),
         ]);
-    error_log($log_prefix . print_r($statement->errorInfo(), true));
+    // error_log($log_prefix . print_r($statement->errorInfo(), true));
+    $mu_->logging_object($statement->errorInfo(), $log_prefix);
     error_log($log_prefix . 'INSERT $rc : ' . $rc);
     $pdo = null;
 
@@ -437,13 +440,15 @@ __HEREDOC__;
 
     $record_count = 0;
     foreach ($pdo->query($sql) as $row) {
-        error_log($log_prefix . print_r($row, true));
+        // error_log($log_prefix . print_r($row, true));
+        $mu_->logging_object($row, $log_prefix);
         $record_count = $row['cnt'];
     }
 
     $database_size = 0;
     foreach ($pdo->query("SELECT pg_database_size('${database_name}') size") as $row) {
-        error_log($log_prefix . print_r($row, true));
+        // error_log($log_prefix . print_r($row, true));
+        $mu_->logging_object($row, $log_prefix);
         $database_size = $row['size'];
     }
     $pdo = null;
@@ -1091,7 +1096,7 @@ function check_version_php($mu_, $file_name_blog_)
     $list_version = [];
     foreach ($elements as $element) {
         $tmp = $element->nodeValue;
-        if (strpos($tmp, 'RC') > 0) {
+        if (strpos($tmp, 'RC') > 0 || strpos($tmp, 'beta') > 0) {
             continue;
         }
         $tmp = str_replace('php-', '', $tmp);
@@ -1099,7 +1104,8 @@ function check_version_php($mu_, $file_name_blog_)
         $list_version[(int)$tmp[0] * 10000 + (int)$tmp[1] * 100 + (int)$tmp[2]] = $element->nodeValue;
     }
     krsort($list_version);
-    error_log(print_r($list_version, true));
+    // error_log(print_r($list_version, true));
+    $mu_->logging_object($list_version, $log_prefix);
     $version_latest = array_shift($list_version);
 
     $res = file_get_contents('/tmp/php_current_version');
@@ -1299,7 +1305,8 @@ __HEREDOC__;
         if (count($match) === 0) {
             continue;
         }
-        error_log($log_prefix . print_r($match, true));
+        // error_log($log_prefix . print_r($match, true));
+        $mu_->logging_object($match, $log_prefix);
 
         $res = $mu_->get_contents($match[1]);
         $description = '<img src="data:image/jpg;base64,' . base64_encode($res) . '" />';
