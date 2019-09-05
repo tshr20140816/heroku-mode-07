@@ -622,6 +622,51 @@ __HEREDOC__;
         $this->logging_object($res, $log_prefix);
     }
 
+    public function delete_blog_hatena($pattern_)
+    {
+        $log_prefix = $this->logging_function_begin(__METHOD__);
+
+        $hatena_id = $this->get_env('HATENA_ID', true);
+        $hatena_blog_id = $this->get_env('HATENA_BLOG_ID', true);
+        $hatena_api_key = $this->get_env('HATENA_API_KEY', true);
+
+        $url = "https://blog.hatena.ne.jp/${hatena_id}/${hatena_blog_id}/atom/entry";
+        $options = [
+            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+            CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
+            CURLOPT_HEADER => true,
+            CURLOPT_HTTPHEADER => ['Expect:',],
+        ];
+
+        for ($i = 0; $i < 10; $i++) {
+            $res = $this->get_contents($url, $options);
+            $entrys = explode('<entry>', $res);
+            array_shift($entrys);
+            foreach ($entrys as $entry) {
+                $rc = preg_match($pattern_, $entry, $match);
+                error_log($log_prefix . $rc);
+                if ($rc === 1) {
+                    $rc = preg_match('/<link rel="edit" href="(.+?)"/', $entry, $match);
+                    error_log($log_prefix . $match[1]);
+                    $url = $match[1];
+
+                    $options = [
+                        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                        CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
+                        CURLOPT_CUSTOMREQUEST => 'DELETE',
+                        CURLOPT_HEADER => true,
+                        CURLOPT_HTTPHEADER => ['Expect:',],
+                    ];
+                    $res = $this->get_contents($url, $options);
+                    $this->logging_object($res, $log_prefix);
+                    break 2;
+                }
+            }
+            $rc = preg_match('/<link rel="next" href="(.+?)"/', $res, $match);
+            $url = $match[1];
+        }
+    }
+
     function post_blog_livedoor($title_, $description_ = null, $category_ = null)
     {
         $log_prefix = $this->logging_function_begin(__METHOD__);
