@@ -64,7 +64,8 @@ __HEREDOC__;
         $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_04') . '.xml';
         $urls[] = "https://${fc2_fqdn}/" . getenv('FC2_RSS_05') . '.xml';
     }
-    error_log($log_prefix . print_r($urls, true));
+    // error_log($log_prefix . print_r($urls, true));
+    $mu_->logging_object($urls, $log_prefix);
 
     $json = '{"sid":"' . $session_id . '","op":"getFeeds","cat_id":-3}';
     $res = $mu_->get_contents($url, $options + [CURLOPT_POSTFIELDS => $json,]);
