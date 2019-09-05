@@ -75,7 +75,8 @@ __HEREDOC__;
         if (in_array($feed->feed_url, $urls)) {
             $json = '{"sid":"' . $session_id . '","op":"updateFeed","feed_id":' . $feed->id . '}';
             $res = $mu_->get_contents($url, $options + [CURLOPT_POSTFIELDS => $json,]);
-            error_log($log_prefix . print_r(json_decode($res), true));
+            // error_log($log_prefix . print_r(json_decode($res), true));
+            $mu_->logging_object(json_decode($res), $log_prefix);
         }
     }
 }
