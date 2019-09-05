@@ -13,13 +13,6 @@ func_20190823i($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function logging_object($obj_, $log_prefix_ = '') {
-    $res = explode("\n", print_r($obj_, true));
-    foreach ($res as $one_line) {
-        error_log($log_prefix_ . $one_line);
-    }
-}
-
 function func_20190823i($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
@@ -31,8 +24,8 @@ function func_20190823i($mu_)
     $list_date[] = '2020/07/30';
     $list_date[] = '2020/07/31';
     
-    logging_object($list_date, $log_prefix);
-    logging_object(null, 'TEST');
+    $mu->logging_object($list_date, $log_prefix);
+    $mu->logging_object(null, 'TEST');
 }
 
 function search_hotel_sancoinn2($mu_)
