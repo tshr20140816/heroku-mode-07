@@ -67,6 +67,7 @@ function search_hotel($mu_)
 
         $res = $mu_->search_blog($hash_url);
         if ($res != $hash_info) {
+            $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ ' . $hash_url . '</');
             $description = '<div class="' . $hash_url . '">' . "${hash_info}</div>${info}";
             $mu_->post_blog_wordpress($hash_url, $description, 'hotel');
         }
@@ -150,6 +151,7 @@ function search_hotel_sancoinn($mu_)
 
     $res = $mu_->search_blog($hash_url);
     if ($res != $hash_description) {
+        $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ ' . $hash_url . '</');
         $description = '<div class="' . $hash_url . '">' . "${hash_description}</div>${description}";
         $mu_->post_blog_wordpress($hash_url, $description, 'hotel');
     }
