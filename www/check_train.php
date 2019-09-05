@@ -99,6 +99,7 @@ function check_train($mu_)
         }
     }
 
+    /*
     $hatena_id = $mu_->get_env('HATENA_ID', true);
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
     $hatena_api_key = $mu_->get_env('HATENA_API_KEY', true);
@@ -144,6 +145,8 @@ function check_train($mu_)
         $rc = preg_match('/<link rel="next" href="(.+?)"/', $res, $match);
         $url = $match[1];
     }
+    */
+    $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ TRAIN</');
     
     // $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
     // $sanyo2_st = $mu_->get_contents($url, null, true);
