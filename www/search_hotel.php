@@ -93,8 +93,8 @@ function search_hotel_sancoinn($mu_)
     $list_date = [];
     $list_date[] = '2019/10/11';
     $list_date[] = '2019/10/12';
-    $list_date[] = '2020/07/30';
-    $list_date[] = '2020/07/31';
+    // $list_date[] = '2020/07/30';
+    // $list_date[] = '2020/07/31';
     $list_date[] = '2020/08/09';
     $list_date[] = '2020/09/09';
     $list_date[] = '2020/09/29';
