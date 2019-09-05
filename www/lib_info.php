@@ -177,7 +177,9 @@ __HEREDOC__;
       . '","context":"' . $list_context_id[date('w', mktime(0, 0, 0, 1, 6, 2018))]
       . '","tag":"HOURLY","folder":"' . $folder_id_label . '"}';
     
-    error_log($log_prefix . 'LIB : ' . print_r($list_add_task, true));
+    // error_log($log_prefix . 'LIB : ' . print_r($list_add_task, true));
+    error_log("${log_prefix}LIB :");
+    $mu_->logging_object($list_add_task, $log_prefix);
     
     $rc = $mu_->add_tasks($list_add_task);
     
