@@ -24,8 +24,8 @@ function func_20190823i($mu_)
     $list_date[] = '2020/07/30';
     $list_date[] = '2020/07/31';
     
-    $mu->logging_object($list_date, $log_prefix);
-    $mu->logging_object(null, 'TEST');
+    $mu_->logging_object($list_date, $log_prefix);
+    $mu_->logging_object(null, 'TEST');
 }
 
 function search_hotel_sancoinn2($mu_)
