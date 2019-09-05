@@ -17,15 +17,13 @@ function func_20190823i($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $list_date = [];
-    $list_date[] = '2019/10/09';
-    $list_date[] = '2019/10/11';
-    $list_date[] = '2019/10/12';
-    $list_date[] = '2020/07/30';
-    $list_date[] = '2020/07/31';
+    $mu_->logging_object(null, $log_prefix);
     
-    $mu_->logging_object($list_date, $log_prefix);
-    $mu_->logging_object(null, 'TEST');
+    $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
+
+    $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
+    $res = $mu_->get_contents($url);
+    $mu_->logging_object($res, $log_prefix);
 }
 
 function search_hotel_sancoinn2($mu_)
