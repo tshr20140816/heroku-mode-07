@@ -1532,9 +1532,18 @@ __HEREDOC__;
 
     public function logging_object($obj_, $log_prefix_ = '')
     {
-        $res = explode("\n", print_r($obj_, true));
-        foreach ($res as $one_line) {
-            error_log($log_prefix_ . $one_line);
+        if (is_null($obj_)) {
+            error_log($log_prefix_ . '(NULL)');
+        } else if (is_array($obj_) || is_object($obj_)) {
+            $res = explode("\n", print_r($obj_, true));
+            foreach ($res as $one_line) {
+                error_log($log_prefix_ . $one_line);
+            }
+        } else if (is_string($obj_)) {
+            $res = explode("\n", $obj_);
+            foreach ($res as $one_line) {
+                error_log($log_prefix_ . $one_line);
+            }
         }
     }
 
