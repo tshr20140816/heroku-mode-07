@@ -9,9 +9,61 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823i($mu);
+func_20190823j($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190823j($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    
+    $url_base = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?'
+        . 'cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id='
+        . '&hi_id=__HI_ID__&dt=__DATE__&lang=ja-JP';
+    $hash_url = 'url' . hash('sha512', $url_base);
+    error_log($log_prefix . "url hash : ${hash_url}");
+    
+    $pattern = '/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ ' . $hash_url . '</';
+    
+    $hatena_id = $mu_->get_env('HATENA_ID', true);
+    $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
+    $hatena_api_key = $mu_->get_env('HATENA_API_KEY', true);
+    $url = "https://blog.hatena.ne.jp/${hatena_id}/${hatena_blog_id}/atom/entry";
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
+        CURLOPT_HEADER => true,
+        CURLOPT_HTTPHEADER => ['Expect:',],
+    ];
+    
+    for ($i = 0; $i < 10; $i++) {
+        $res = $mu_->get_contents($url, $options);
+        $entrys = explode('<entry>', $res);
+        array_shift($entrys);
+        foreach ($entrys as $entry) {
+            $rc = preg_match($pattern, $entry, $match);
+            error_log($log_prefix . $rc);
+            if ($rc === 1) {
+                $rc = preg_match('/<link rel="edit" href="(.+?)"/', $entry, $match);
+                error_log($log_prefix . $match[1]);
+                $url = $match[1];
+                
+                $options = [
+                    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                    CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
+                    CURLOPT_CUSTOMREQUEST => 'DELETE',
+                    CURLOPT_HEADER => true,
+                    CURLOPT_HTTPHEADER => ['Expect:',],
+                ];
+                // $res = $mu_->get_contents($url, $options);
+                // $mu_->logging_object($res, $log_prefix);
+                break 2;
+            }
+        }
+        $rc = preg_match('/<link rel="next" href="(.+?)"/', $res, $match);
+        $url = $match[1];
+    }
+}
 
 function func_20190823i($mu_)
 {
