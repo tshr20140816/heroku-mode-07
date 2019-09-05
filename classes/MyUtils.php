@@ -617,7 +617,9 @@ __HEREDOC__;
 
         $pdo = null;
 
-        error_log($log_prefix . 'RESULT : ' . $res);
+        // error_log($log_prefix . 'RESULT : ' . $res);
+        error_log("${log_prefix}RESULT :");
+        $this->logging_object($res, $log_prefix);
     }
 
     function post_blog_livedoor($title_, $description_ = null, $category_ = null)
