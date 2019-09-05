@@ -137,7 +137,7 @@ function check_train($mu_)
 
                 $res = $mu_->get_contents($url, $options);
                 // error_log($log_prefix . $res);
-                $mu->logging_object($res, $log_prefix);
+                $mu_->logging_object($res, $log_prefix);
                 break 2;
             }
         }
