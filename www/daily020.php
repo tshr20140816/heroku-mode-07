@@ -201,7 +201,9 @@ __HEREDOC__;
         foreach ($list_contents as $url => $contents) {
             if (substr($url, strlen($hash) * -1) === $hash) {
                 $data = json_decode($contents, true);
-                error_log($log_prefix . '$data : ' . print_r($data, true));
+                // error_log($log_prefix . '$data : ' . print_r($data, true));
+                error_log($log_prefix . '$data :');
+                $mu_->logging_object($data, $log_prefix);
 
                 $dyno_used = (int)$data['quota_used'];
                 $dyno_quota = (int)$data['account_quota'];
@@ -402,9 +404,12 @@ function backup_db($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
     $time_start = microtime(true);
     exec($line, $res);
     $time_finish = microtime(true);
+    /*
     foreach ($res as $one_line) {
         error_log($log_prefix . $one_line);
     }
+    */
+    $mu_->logging_object($res, $log_prefix);
     $res = null;
 
     // $file_size = $mu_->backup_data(file_get_contents($file_name), $file_name);
@@ -650,7 +655,8 @@ function backup_opml2($mu_, $file_name_blog_)
 
     $rc = preg_match('/"authenticity_token".+?value="(.+?)"/', $res, $match);
 
-    error_log($log_prefix . print_r($match, true));
+    // error_log($log_prefix . print_r($match, true));
+    $mu_->logging_object($match, $log_prefix);
 
     $post_data = ['authenticity_token' => $match[1],
                  'utf8' => '&#x2713;',
