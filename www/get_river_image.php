@@ -50,7 +50,8 @@ function get_river_image($mu_, $file_name_rss_items_)
 
     // error_log($res);
     $rc = preg_match('/<img alt="最新監視カメラ画像".+? src="(.+?)"/s', $res, $match);
-    error_log($log_prefix . print_r($match, true));
+    // error_log($log_prefix . print_r($match, true));
+    $mu_->logging_object($match, $log_prefix);
     $url = 'http://' . parse_url($url, PHP_URL_HOST) . $match[1];
 
     $rc = preg_match('/.+?(\d+\/\d+ \d+:\d+).+?<td>(.+?)<img alt="上昇率" /s', $res, $match);
@@ -97,12 +98,14 @@ function get_river_water_level($mu_, $file_name_rss_items_, $url_, $point_)
 
     $rc = preg_match("/common.riverData = JSON.parse\('(.+)'/", $res, $match);
     $json = json_decode($match[1], true);
-    error_log($log_prefix . print_r($json, true));
+    // error_log($log_prefix . print_r($json, true));
+    $mu_->logging_object($json, $log_prefix);
     $title = $json['RiverName'];
 
     $rc = preg_match("/common.obsData = JSON.parse\('(.+)'/", $res, $match);
     $json = json_decode($match[1], true);
-    error_log($log_prefix . print_r($json, true));
+    // error_log($log_prefix . print_r($json, true));
+    $mu_->logging_object($json, $log_prefix);
 
     $target = null;
     foreach ($json as $item) {
@@ -394,11 +397,13 @@ function get_shinkansen_info($mu_, $common_ja_, $train_location_info_, $bound_ =
 
     $rc = preg_match('/"station": {(.+?)}/s', $tmp, $match);
     $stations = json_decode('{' . $match[1] . '}', true);
-    error_log($log_prefix . print_r($stations, true));
+    // error_log($log_prefix . print_r($stations, true));
+    $mu_->logging_object($stations, $log_prefix);
 
     $rc = preg_match('/"train": {(.+?)}/s', $tmp, $match);
     $trains = json_decode('{' . $match[1] . '}', true);
-    error_log($log_prefix . print_r($trains, true));
+    // error_log($log_prefix . print_r($trains, true));
+    $mu_->logging_object($trains, $log_prefix);
 
     $tmp = explode('</script>', $train_location_info_);
     $tmp = json_decode(trim(end($tmp)), true);
