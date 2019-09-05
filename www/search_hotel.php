@@ -144,7 +144,8 @@ function search_hotel_sancoinn($mu_)
         }
     }
 
-    error_log($description);
+    // error_log($description);
+    $mu_->logging_object($description, $log_prefix);
     $hash_description = hash('sha512', $description);
 
     $res = $mu_->search_blog($hash_url);
