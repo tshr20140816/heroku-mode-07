@@ -19,13 +19,9 @@ function func_20190823i($mu_)
     
     $mu_->logging_object(null, $log_prefix);
     
-    $authtoken_zoho = $mu_->get_env('ZOHO_AUTHTOKEN', true);
-
-    $url = "https://apidocs.zoho.com/files/v1/files?authtoken=${authtoken_zoho}&scope=docsapi";
+    $url = 'https://www.yahoo.co.jp/';
     $res = $mu_->get_contents($url);
-    $mu_->logging_object(json_decode($res), $log_prefix);
-    $mu_->logging_object(null, $log_prefix);
-    $mu_->logging_object(json_decode($res, true), $log_prefix);
+    $mu_->logging_object($res, $log_prefix);
 }
 
 function search_hotel_sancoinn2($mu_)
