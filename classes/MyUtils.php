@@ -1365,7 +1365,7 @@ __HEREDOC__;
 
         $results = [];
         $cookie = [];
-        foreach (array_chunk($urls_, 8) as $urls) {
+        foreach (array_chunk($urls_, 20) as $urls) {
             $mh = curl_multi_init();
             if (is_null($multi_options_) === false) {
                 foreach ($multi_options_ as $key => $value) {
