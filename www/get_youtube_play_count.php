@@ -47,6 +47,7 @@ function get_youtube_play_count($mu_)
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 100,
+        CURLMOPT_MAXCONNECTS => 100,
     ];
 
     for (;;) {
