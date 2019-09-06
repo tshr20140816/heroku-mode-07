@@ -155,7 +155,9 @@ function get_quota($mu_, $file_name_blog_)
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 10,
+        CURLMOPT_MAXCONNECTS => 10,
     ];
+
     $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
 
     $urls = [];
@@ -174,10 +176,6 @@ function get_quota($mu_, $file_name_blog_)
     }
     $list_contents = null;
 
-    $multi_options = [
-        CURLMOPT_PIPELINING => 3,
-        CURLMOPT_MAX_HOST_CONNECTIONS => 10,
-    ];
     $list_contents = $mu_->get_contents_multi($urls, null, $multi_options);
 
     $sql_select = <<< __HEREDOC__
