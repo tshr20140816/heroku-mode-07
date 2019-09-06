@@ -129,6 +129,7 @@ for ($i = 0; $i < 8; $i++) {
 $multi_options = [
     CURLMOPT_PIPELINING => 3,
     CURLMOPT_MAX_HOST_CONNECTIONS => 1,
+    CURLMOPT_MAXCONNECTS => 100,
 ];
 $list_contents = $mu->get_contents_multi($urls, $urls_is_cache, $multi_options);
 error_log($pid . ' memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
