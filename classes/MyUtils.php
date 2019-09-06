@@ -160,7 +160,6 @@ __HEREDOC__;
         $file_name = '/tmp/contexts';
         if (file_exists($file_name)) {
             $list_context_id = unserialize(file_get_contents($file_name));
-            // error_log($log_prefix . '(CACHE HIT) $list_context_id : ' . print_r($list_context_id, true));
             error_log($log_prefix . '(CACHE HIT) $list_context_id');
             return $list_context_id;
         }
@@ -193,7 +192,6 @@ __HEREDOC__;
                     break;
             }
         }
-        // error_log($log_prefix . '$list_context_id : ' . print_r($list_context_id, true));
         error_log($log_prefix . '$list_context_id :');
         $this->logging_object($list_context_id, $log_prefix);
 
@@ -302,7 +300,6 @@ __HEREDOC__;
                 $list_weather_guest_area[] = $location_number . ',' . $point_name . ',' . $yyyymmdd;
             }
         }
-        // error_log($log_prefix . '$list_weather_guest_area : ' . print_r($list_weather_guest_area, true));
         error_log($log_prefix . '$list_weather_guest_area :');
         $this->logging_object($list_weather_guest_area, $log_prefix);
         $pdo = null;
@@ -333,7 +330,6 @@ __HEREDOC__;
                     $list_env[$row['key']] = $row['value'];
                 }
 
-                // error_log($log_prefix . '$list_env : ' . print_r($list_env, true));
                 error_log($log_prefix . '$list_env :');
                 $this->logging_object($list_env, $log_prefix);
                 $pdo = null;
@@ -429,7 +425,6 @@ __HEREDOC__;
                     CURLOPT_POSTFIELDS => http_build_query($post_data),
                    ];
         $res = $this->get_contents($url, $options);
-        // error_log($log_prefix . print_r(json_decode($res), true));
         $this->logging_object(json_decode($res), $log_prefix);
 
         $access_token = json_decode($res)->access_token;
@@ -437,7 +432,6 @@ __HEREDOC__;
         $url = 'https://public-api.wordpress.com/rest/v1/me/';
         $options = [CURLOPT_HTTPHEADER => ["Authorization: Bearer ${access_token}",],];
         $res = $this->get_contents($url, $options);
-        // error_log($log_prefix . print_r(json_decode($res), true));
         $this->logging_object(json_decode($res), $log_prefix);
 
         $blog_id = json_decode($res)->primary_blog;
@@ -451,7 +445,6 @@ __HEREDOC__;
                     CURLOPT_HTTPHEADER => ["Authorization: Bearer ${access_token}",],
                    ];
         $res = $this->get_contents($url, $options);
-        // error_log($log_prefix . print_r(json_decode($res), true));
         $this->logging_object(json_decode($res), $log_prefix);
 
         $sql = <<< __HEREDOC__
@@ -547,7 +540,6 @@ __HEREDOC__;
             }
             $options = ['title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}", 'description' => $description_];
             $result = $client->newPost('', $this->get_env('FC2_ID', true), $this->get_env('FC2_PASSWORD', true), $options, 1); // 1 : publish
-            // error_log($log_prefix . 'RESULT : ' . print_r($result, true));
             $this->logging_object($result, $log_prefix);
         } catch (Exception $e) {
             error_log($log_prefix . 'Exception : ' . $e->getMessage());
@@ -617,7 +609,6 @@ __HEREDOC__;
 
         $pdo = null;
 
-        // error_log($log_prefix . 'RESULT : ' . $res);
         error_log("${log_prefix}RESULT :");
         $this->logging_object($res, $log_prefix);
     }
@@ -736,7 +727,6 @@ __HEREDOC__;
         */
 
         $rc = ftp_rawlist($ftp_link_id, '.');
-        // error_log($log_prefix . 'ftp_rawlist : ' . print_r($rc, true));
         error_log($log_prefix . 'ftp_rawlist :');
         $this->logging_object($rc, $log_prefix);
 
@@ -744,7 +734,6 @@ __HEREDOC__;
         error_log($log_prefix . 'ftp_put : ' . $rc);
 
         $rc = ftp_rawlist($ftp_link_id, '.');
-        // error_log($log_prefix . 'ftp_rawlist : ' . print_r($rc, true));
         error_log($log_prefix . 'ftp_rawlist :');
         $this->logging_object($rc, $log_prefix);
 
@@ -848,7 +837,6 @@ __HEREDOC__;
         $log_prefix = $this->logging_function_begin(__METHOD__);
 
         error_log($log_prefix . 'URL : ' . $url_);
-        // error_log($log_prefix . 'options : ' . print_r($options_, true));
         error_log($log_prefix . 'options :');
         $this->logging_object($options_, $log_prefix);
 
@@ -925,14 +913,6 @@ __HEREDOC__;
                     break 2;
             }
 
-            // error_log($log_prefix . '$res : ' . $res);
-            /*
-            $tmp = explode("\n", $res);
-            foreach ($tmp as $one_line) {
-                error_log($log_prefix . $one_line);
-            }
-            $tmp = null;
-            */
             $this->logging_object($res, $log_prefix);
             $res = $http_code;
 
@@ -947,7 +927,6 @@ __HEREDOC__;
             }
         }
 
-        // error_log($log_prefix . 'LENGTH : ' . number_format(strlen($res)));
         return $res;
     }
 
@@ -1121,7 +1100,6 @@ __HEREDOC__;
 
         $total_time = substr((microtime(true) - $time_start), 0, 5) . 'sec';
 
-        // error_log("${log_prefix}urls : " . print_r(array_keys($results), true));
         error_log("${log_prefix}urls :");
         $this->logging_object(array_keys($results), $log_prefix);
         error_log("${log_prefix}Total Time : [${total_time}]");
@@ -1290,11 +1268,6 @@ __HEREDOC__;
 
         $res = $this->get_contents_multi($urls);
         error_log($log_prefix . 'memory_get_usage : ' . number_format(memory_get_usage()) . 'byte');
-        /*
-        foreach ($res as $one_line) {
-            error_log($log_prefix . $one_line);
-        }
-        */
         $this->logging_object($res, $log_prefix);
         $res = null;
         $urls = [];
@@ -1314,11 +1287,6 @@ __HEREDOC__;
         $this->cmd_execute($line);
         // error_log(file_get_contents('/tmp/joblog.txt'));
         $tmp = explode("\n", file_get_contents('/tmp/joblog.txt'));
-        /*
-        foreach ($tmp as $one_line) {
-            error_log($log_prefix . $one_line);
-        }
-        */
         $this->logging_object($tmp, $log_prefix);
         unlink('/tmp/jobs.txt');
         unlink('/tmp/joblog.txt');
@@ -1339,11 +1307,6 @@ __HEREDOC__;
         $this->cmd_execute($line);
         // error_log(file_get_contents('/tmp/joblog.txt'));
         $tmp = explode("\n", file_get_contents('/tmp/joblog.txt'));
-        /*
-        foreach ($tmp as $one_line) {
-            error_log($log_prefix . $one_line);
-        }
-        */
         $this->logging_object($tmp, $log_prefix);
         unlink('/tmp/jobs.txt');
         unlink('/tmp/joblog.txt');
@@ -1499,7 +1462,6 @@ __HEREDOC__;
         }
         $total_time = substr((microtime(true) - $time_start), 0, 5) . 'sec';
 
-        // error_log("${log_prefix}urls : " . print_r(array_keys($results), true));
         error_log("${log_prefix}urls :");
         $this->logging_object(array_keys($results), $log_prefix);
         error_log("${log_prefix}Total Time : [${total_time}]");
@@ -1535,7 +1497,6 @@ __HEREDOC__;
         $tmp = preg_split('/^\r\n/m', $res, 2);
 
         $json = json_decode($tmp[1]);
-        // error_log($log_prefix . print_r($json, true));
         $this->logging_object($json, $log_prefix);
 
         $rc = preg_match('/compression-count: (.+)/i', $tmp[0], $match);
@@ -1602,11 +1563,6 @@ __HEREDOC__;
         $time_start = microtime(true);
         exec($line_, $res);
         $time_finish = microtime(true);
-        /*
-        foreach ($res as $one_line) {
-            error_log($log_prefix . $one_line);
-        }
-        */
         $this->logging_object($res, $log_prefix);
         error_log($log_prefix . 'Process Time : ' . substr(($time_finish - $time_start), 0, 6) . 's');
         return $res;
