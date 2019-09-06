@@ -54,7 +54,7 @@ function func_20190823b($mu_, $file_name_rss_items_)
               'color' => 'orange',
              ],
              ['target' => 'toodledo2',
-              'color' => 'pink',
+              'color' => 'deeppink',
              ],
             ];
 
