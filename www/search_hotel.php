@@ -36,7 +36,11 @@ function search_hotel($mu_)
         }
         $urls[] = $url;
     }
-    $results = $mu_->get_contents_proxy_multi($urls);
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAXCONNECTS => 8,
+    ];
+    $results = $mu_->get_contents_proxy_multi($urls, $multi_options);
 
     foreach ($results as $url => $result) {
         $hash_url = 'url' . hash('sha512', $url);
