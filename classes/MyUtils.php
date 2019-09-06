@@ -1406,6 +1406,7 @@ __HEREDOC__;
             }
         }
 
+        $web_proxy = $this->get_env('WEB_PROXY');
         $cookie = [];
         foreach ($urls_ as $url) {
             error_log($log_prefix . 'CURL MULTI Add $url : ' . $url);
@@ -1418,7 +1419,7 @@ __HEREDOC__;
 
             $ch = curl_init();
             $this->_count_web_access++;
-            $options = [CURLOPT_URL => $this->get_env('WEB_PROXY'),
+            $options = [CURLOPT_URL => $web_proxy,
                         CURLOPT_USERAGENT => getenv('USER_AGENT'),
                         CURLOPT_RETURNTRANSFER => true,
                         CURLOPT_ENCODING => '',
