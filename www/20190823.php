@@ -17,5 +17,7 @@ function func_20190823j($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    error_log($mu_->get_env('WEB_PROXY'));
+    $url = $mu_->get_env('WEB_PROXY');
+    $res = $mu_->get_contents($url);
+    error_log($res);
 }
