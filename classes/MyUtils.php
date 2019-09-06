@@ -703,8 +703,7 @@ __HEREDOC__;
         ];
 
         $res = $this->get_contents($url, $options);
-
-        error_log($log_prefix . 'RESULT : ' . $res);
+        $this->logging_object($res, $log_prefix);
 
         error_log($log_prefix . 'start exec');
         exec('php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ../scripts/update_ttrss.php >/dev/null &');
