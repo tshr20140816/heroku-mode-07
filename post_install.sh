@@ -110,7 +110,7 @@ fi
 
 cat << '__HEREDOC__' >jobs.txt
 curl -sS -O https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip
-curl -sS -L -o /tmp/migu-1m.zip "https://ja.osdn.net/frs/redir.php?m=iij&f=mix-mplus-ipa/63545/migu-1m-20150712.zip"
+curl -sS -L -o migu-1m.zip "https://ja.osdn.net/frs/redir.php?m=iij&f=mix-mplus-ipa/63545/migu-1m-20150712.zip"
 curl -sS -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar
 curl -sS -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar
 __HEREDOC__
@@ -118,22 +118,14 @@ __HEREDOC__
 time cat jobs.txt | parallel -j4 --joblog /tmp/joblog.txt 2>&1
 cat /tmp/joblog.txt
 
-pushd /tmp
-time unzip migu-1m.zip
-popd
-
 mkdir .fonts
-mv ipaexg00401.zip .fonts/
+mv ipaexg00401.zip migu-1m.zip .fonts/
 pushd .fonts
 time unzip ipaexg00401.zip
-rm ipaexg00401.zip
-mv /tmp/migu-1m-20150712/*.ttf ./
+time unzip migu-1m.zip
+rm -f *.zip
 popd
 ls -lang .fonts/
-pushd /tmp
-rm -rf migu-1m-20150712
-rm migu-1m.zip
-popd
 
 chmod 755 ./start_web.sh
 chmod 755 ./bin/unrar
