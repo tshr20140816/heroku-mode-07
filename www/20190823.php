@@ -17,7 +17,7 @@ function func_20190823j($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     
-    $url = $mu_->get_env('URL_RAKUTEN_TRAVEL_01);
+    $url = $mu_->get_env('URL_RAKUTEN_TRAVEL_01');
     $res = $mu_->get_contents_proxy($url);
     
     // $url = $mu_->get_env('WEB_PROXY');
