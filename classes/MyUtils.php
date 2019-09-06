@@ -1359,104 +1359,106 @@ __HEREDOC__;
 
         $time_start = microtime(true);
 
-        $mh = curl_multi_init();
-        if (is_null($multi_options_) === false) {
-            foreach ($multi_options_ as $key => $value) {
-                $rc = curl_multi_setopt($mh, $key, $value);
-                if ($rc === false) {
-                    error_log($log_prefix . "curl_multi_setopt : ${key} ${value}");
-                }
-            }
-        }
-
         $web_proxy = $this->get_env('WEB_PROXY');
-        $cookie = [];
-        foreach ($urls_ as $url) {
-            error_log($log_prefix . 'CURL MULTI Add $url : ' . $url);
-            $cookie[] = tempnam('/tmp', 'cookie_' . md5(microtime(true)));
-
-            $post_data = ['form[url]' => $url,
-                          'form[dataCenter]' => 'random',
-                          'terms-agreed' => '1',
-                         ];
-
-            $ch = curl_init();
-            $this->_count_web_access++;
-            $options = [CURLOPT_URL => $web_proxy,
-                        CURLOPT_USERAGENT => getenv('USER_AGENT'),
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => '',
-                        CURLOPT_FOLLOWLOCATION => true,
-                        CURLOPT_MAXREDIRS => 3,
-                        CURLOPT_PATH_AS_IS => true,
-                        CURLOPT_TCP_FASTOPEN => true,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2TLS,
-                        CURLOPT_COOKIEJAR => end($cookie),
-                        CURLOPT_COOKIEFILE => end($cookie),
-                        CURLOPT_ENCODING => 'gzip, deflate',
-                        CURLOPT_HTTPHEADER => [
-                            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
-                            'Cache-Control: no-cache',
-                            'Connection: keep-alive',
-                            'DNT: 1',
-                            'Upgrade-Insecure-Requests: 1',
-                            ],
-                        CURLOPT_POST => true,
-                        CURLOPT_POSTFIELDS => http_build_query($post_data),
-            ];
-
-            foreach ($options as $key => $value) {
-                $rc = curl_setopt($ch, $key, $value);
-                if ($rc == false) {
-                    error_log($log_prefix . "curl_setopt : ${key} ${value}");
-                }
-            }
-            curl_multi_add_handle($mh, $ch);
-            $list_ch[$url] = $ch;
-        }
-
-        $active = null;
-        $rc = curl_multi_exec($mh, $active);
-
-        $count = 0;
-        while ($active && $rc == CURLM_OK) {
-            $count++;
-            if (curl_multi_select($mh) == -1) {
-                usleep(1);
-            }
-            $rc = curl_multi_exec($mh, $active);
-        }
-        error_log($log_prefix . 'loop count : ' . $count);
 
         $results = [];
-        foreach ($urls_ as $url) {
-            $ch = $list_ch[$url];
-            $res = curl_getinfo($ch);
-            $http_code = (string)$res['http_code'];
-            error_log($log_prefix . "CURL Result ${http_code} : ${url}");
-            if ($http_code[0] == '2') {
-                $result = curl_multi_getcontent($ch);
-                $results[$url] = $result;
+        $cookie = [];
+        foreach (array_chunk($urls_, 8) as $urls) {
+            $mh = curl_multi_init();
+            if (is_null($multi_options_) === false) {
+                foreach ($multi_options_ as $key => $value) {
+                    $rc = curl_multi_setopt($mh, $key, $value);
+                    if ($rc === false) {
+                        error_log($log_prefix . "curl_multi_setopt : ${key} ${value}");
+                    }
+                }
             }
-            curl_multi_remove_handle($mh, $ch);
-            curl_close($ch);
 
-            if (apcu_exists('HTTP_STATUS') === true) {
-                $dic_http_status = apcu_fetch('HTTP_STATUS');
-            } else {
-                $dic_http_status = [];
+            foreach ($urls as $url) {
+                error_log($log_prefix . 'CURL MULTI Add $url : ' . $url);
+                $cookie[] = tempnam('/tmp', 'cookie_' . md5(microtime(true)));
+
+                $post_data = ['form[url]' => $url,
+                            'form[dataCenter]' => 'random',
+                            'terms-agreed' => '1',
+                            ];
+
+                $ch = curl_init();
+                $this->_count_web_access++;
+                $options = [CURLOPT_URL => $web_proxy,
+                            CURLOPT_USERAGENT => getenv('USER_AGENT'),
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_ENCODING => '',
+                            CURLOPT_FOLLOWLOCATION => true,
+                            CURLOPT_MAXREDIRS => 3,
+                            CURLOPT_PATH_AS_IS => true,
+                            CURLOPT_TCP_FASTOPEN => true,
+                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2TLS,
+                            CURLOPT_COOKIEJAR => end($cookie),
+                            CURLOPT_COOKIEFILE => end($cookie),
+                            CURLOPT_ENCODING => 'gzip, deflate',
+                            CURLOPT_HTTPHEADER => [
+                                'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                                'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+                                'Cache-Control: no-cache',
+                                'Connection: keep-alive',
+                                'DNT: 1',
+                                'Upgrade-Insecure-Requests: 1',
+                                ],
+                            CURLOPT_POST => true,
+                            CURLOPT_POSTFIELDS => http_build_query($post_data),
+                ];
+
+                foreach ($options as $key => $value) {
+                    $rc = curl_setopt($ch, $key, $value);
+                    if ($rc == false) {
+                        error_log($log_prefix . "curl_setopt : ${key} ${value}");
+                    }
+                }
+                curl_multi_add_handle($mh, $ch);
+                $list_ch[$url] = $ch;
             }
-            if (array_key_exists($http_code, $dic_http_status) === true) {
-                $dic_http_status[$http_code]++;
-            } else {
-                $dic_http_status[$http_code] = 1;
+
+            $active = null;
+            $rc = curl_multi_exec($mh, $active);
+
+            $count = 0;
+            while ($active && $rc == CURLM_OK) {
+                $count++;
+                if (curl_multi_select($mh) == -1) {
+                    usleep(1);
+                }
+                $rc = curl_multi_exec($mh, $active);
             }
-            apcu_store('HTTP_STATUS', $dic_http_status);
+            error_log($log_prefix . 'loop count : ' . $count);
+
+            foreach ($urls as $url) {
+                $ch = $list_ch[$url];
+                $res = curl_getinfo($ch);
+                $http_code = (string)$res['http_code'];
+                error_log($log_prefix . "CURL Result ${http_code} : ${url}");
+                if ($http_code[0] == '2') {
+                    $result = curl_multi_getcontent($ch);
+                    $results[$url] = $result;
+                }
+                curl_multi_remove_handle($mh, $ch);
+                curl_close($ch);
+
+                if (apcu_exists('HTTP_STATUS') === true) {
+                    $dic_http_status = apcu_fetch('HTTP_STATUS');
+                } else {
+                    $dic_http_status = [];
+                }
+                if (array_key_exists($http_code, $dic_http_status) === true) {
+                    $dic_http_status[$http_code]++;
+                } else {
+                    $dic_http_status[$http_code] = 1;
+                }
+                apcu_store('HTTP_STATUS', $dic_http_status);
+            }
+
+            curl_multi_close($mh);
         }
-
-        curl_multi_close($mh);
-
         foreach ($cookie as $file) {
             unlink($file);
         }
