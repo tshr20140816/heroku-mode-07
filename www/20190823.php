@@ -17,26 +17,19 @@ function func_20190823j($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $urls = [];
-    for ($i = 0; $i < 10; $i++) {
-        $url = $mu_->get_env('URL_RAKUTEN_TRAVEL_' . str_pad($i, 2, '0', STR_PAD_LEFT));
-        if (strlen($url) < 10) {
-            continue;
+    $results = [];
+    for ($j = 0; $j < 2; $j++) {
+        $urls = [];
+        for ($i = $j * 10; $i < ($j + 1) * 10; $i++) {
+            $url = $mu_->get_env('URL_RAKUTEN_TRAVEL_' . str_pad($i, 2, '0', STR_PAD_LEFT));
+            if (strlen($url) < 10) {
+                continue;
+            }
+            $urls[] = $url;
         }
-        $urls[] = $url;
-    }
-    $results = $mu_->get_contents_proxy_multi($urls);
-    
-    $urls = [];
-    for ($i = 10; $i < 20; $i++) {
-        $url = $mu_->get_env('URL_RAKUTEN_TRAVEL_' . str_pad($i, 2, '0', STR_PAD_LEFT));
-        if (strlen($url) < 10) {
-            continue;
+        if (count($url) > 0) {
+            $results = $mu_->get_contents_proxy_multi($urls);
         }
-        $urls[] = $url;
-    }
-    if (count($url) > 0) {
-        $results = array_merge($results, $mu_->get_contents_proxy_multi($urls));
     }
 
     return;
