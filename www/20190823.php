@@ -27,8 +27,9 @@ function func_20190823j($mu_)
     }
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAXCONNECTS => 8,
     ];
-    $results = $mu_->get_contents_proxy_multi($urls);
+    $results = $mu_->get_contents_proxy_multi($urls, $multi_options);
     error_log(count($results));
 
     return;
