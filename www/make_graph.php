@@ -2000,6 +2000,7 @@ function npb_team_ranking($mu_, $file_name_rss_items_)
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 10,
+        CURLMOPT_MAXCONNECTS => 10,
     ];
     $list_contents = $mu_->get_contents_multi([], $urls, $multi_options);
 
