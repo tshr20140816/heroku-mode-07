@@ -1656,6 +1656,9 @@ function make_heroku_dyno_usage_graph3($mu_, $file_name_rss_items_)
              ['target' => 'kyoto',
               'color' => 'orange',
              ],
+             ['target' => 'toodledo2',
+              'color' => 'pink',
+             ],
             ];
 
     $sql = <<< __HEREDOC__
@@ -1766,8 +1769,6 @@ __HEREDOC__;
     unlink($file);
 
     $description = '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
-    // $mu_->post_blog_hatena('github contributions', $description);
-    // $mu_->post_blog_fc2_async('github contributions', $description);
     $description = '<![CDATA[' . $description . ']]>';
 
     $rss_item_text = <<< __HEREDOC__
