@@ -109,7 +109,7 @@ fi
 # wget -q https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip
 time curl -sS -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar \
               -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar \
-              -O https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip          
+              -O https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip
 
 mkdir .fonts
 mv ipaexg00401.zip .fonts/
