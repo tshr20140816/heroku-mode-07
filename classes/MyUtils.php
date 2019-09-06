@@ -311,6 +311,7 @@ __HEREDOC__;
     {
         $log_prefix = $this->logging_function_begin(__METHOD__);
 
+        $list_env_previous = [];
         for ($i = 0; $i < 2; $i++) {
             if (apcu_exists(__METHOD__) === true && $i === 0) {
                 $list_env = apcu_fetch(__METHOD__);
@@ -322,7 +323,6 @@ SELECT T1.key
   FROM m_env T1
  ORDER BY T1.key
 __HEREDOC__;
-
                 $pdo = $this->get_pdo();
 
                 $list_env = [];
@@ -330,11 +330,13 @@ __HEREDOC__;
                     $list_env[$row['key']] = $row['value'];
                 }
 
-                error_log($log_prefix . '$list_env :');
-                $this->logging_object($list_env, $log_prefix);
-                $pdo = null;
+                if (count(array_diff($list_env, $list_env_previous)) > 0) {
+                    error_log($log_prefix . '$list_env :');
+                    $this->logging_object($list_env, $log_prefix);
+                    apcu_store(__METHOD__, $list_env);
+                }
 
-                apcu_store(__METHOD__, $list_env);
+                $pdo = null;
             }
             $value = '';
             if (array_key_exists($key_name_, $list_env)) {
@@ -346,6 +348,7 @@ __HEREDOC__;
             if ($value != '') {
                 break;
             }
+            $list_env_previous = $list_env;
         }
         return $value;
     }
