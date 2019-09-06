@@ -75,25 +75,7 @@ if [ ${is_succeeded} = '0' ]; then
   popd
 fi
 
-# ***** font etc *****
-
-# wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar
-# wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar
-# wget -q https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip
-time curl -sS -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar \
-              -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar \
-              -O https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip          
-
-mkdir .fonts
-mv ipaexg00401.zip .fonts/
-pushd .fonts
-time unzip ipaexg00401.zip
-rm ipaexg00401.zip
-popd
-ls -lang .fonts/
-
-chmod 755 ./start_web.sh
-chmod 755 ./bin/unrar
+# ***** php syntax check *****
 
 set +x
 pushd classes
@@ -119,6 +101,26 @@ count2=$(cat /tmp/php_error.txt | wc -l)
 if [ $count1 -lt $count2 ]; then
   curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/php_error_exists > /dev/null 2>&1
 fi
+
+# ***** font etc *****
+
+# wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar
+# wget -q https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar
+# wget -q https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip
+time curl -sS -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar \
+              -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar \
+              -O https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip          
+
+mkdir .fonts
+mv ipaexg00401.zip .fonts/
+pushd .fonts
+time unzip ipaexg00401.zip
+rm ipaexg00401.zip
+popd
+ls -lang .fonts/
+
+chmod 755 ./start_web.sh
+chmod 755 ./bin/unrar
 
 curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_100 > /dev/null 2>&1
 
