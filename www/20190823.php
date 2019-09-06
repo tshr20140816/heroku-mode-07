@@ -28,9 +28,10 @@ function func_20190823j($mu_)
             $urls[] = $url;
         }
         if (count($url) > 0) {
-            $results = $mu_->get_contents_proxy_multi($urls);
+            $results = array_merge($results, $mu_->get_contents_proxy_multi($urls));
         }
     }
+    error_log(count($results));
 
     return;
     
