@@ -119,6 +119,7 @@ function search_hotel_sancoinn($mu_)
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 100,
+        CURLMOPT_MAXCONNECTS => 100,
     ];
     $results = $mu_->get_contents_multi($urls, null, $multi_options);
 
@@ -189,6 +190,7 @@ __HEREDOC__;
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 50,
+        CURLMOPT_MAXCONNECTS => 50,
     ];
 
     $pdo = $mu_->get_pdo();
