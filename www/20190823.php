@@ -76,7 +76,7 @@ function func_20190823d($mu_)
         $count_ok = substr_count($res, '<td align="center">○</td>');
         $count_ng = substr_count($res, '<td align="center">×</td>');
         $count_pre = substr_count($res, 'ご希望の乗車日の空席状況は照会できません。');
-        $list_result['key' . $day] = [$count_ok, $count_ng, $count_pre];
+        $list_result[$day][] = [$count_ok, $count_ng, $count_pre];
     }
     error_log(print_r($list_result, true));
 }
