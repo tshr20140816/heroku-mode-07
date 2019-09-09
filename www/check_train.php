@@ -10,7 +10,11 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 $mu = new MyUtils();
 
 $rc = check_train($mu);
-search_sunrize($mu);
+$hour = date('G', strtotime('+9 hours'));
+$minute = ltrim(date('i', strtotime('+9 hours')), '0');
+if (($hour > 6 || ($hours == 5 && $minute > 29)) && ($hour < 22 || ($hour == 22 && $minute < 30))) {
+    search_sunrize($mu);
+}
 
 $time_finish = microtime(true);
 
