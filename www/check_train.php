@@ -554,7 +554,7 @@ function search_sunrize($mu_)
         CURLMOPT_MAXCONNECTS => 8,
     ];
     $results = $mu_->get_contents_multi($urls, null, $multi_options);
-    $description = '';
+    $description = "\n";
     foreach ($urls as $url => $value) {
         // error_log(mb_convert_encoding($results[$url], 'UTF-8', 'SJIS'));
         $res = mb_convert_encoding($results[$url], 'UTF-8', 'SJIS');
@@ -564,7 +564,7 @@ function search_sunrize($mu_)
         $count_mada = substr_count($res, 'ご希望の乗車日の空席状況は照会できません。');
         $tmp = explode('?', $url);
         
-        $description .= $tmp[1];
+        $description .= $tmp[1] . ' ';
         if ($count_maru > 0) {
             $description .= str_repeat('○', $count_maru);
         }
