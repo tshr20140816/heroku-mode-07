@@ -90,11 +90,11 @@ function func_20190823c($mu_, $file_name_rss_items_)
 
     $data2 = [];
     $tmp1 = new stdClass();
-    $tmp1->x = floor(($gain_min_value > $loss_min_value ? $gain_min_value : $loss_min_value) / 10) * 10;
+    $tmp1->x = $gain_min_value;
     $tmp1->y = $tmp1->x;
     $data2[] = $tmp1;
     $tmp1 = new stdClass();
-    $tmp1->x = ceil(($gain_max_value > $loss_max_value ? $gain_max_value : $loss_max_value) / 10) * 10;
+    $tmp1->x = $gain_max_value;
     $tmp1->y = $tmp1->x;
     $data2[] = $tmp1;
 
