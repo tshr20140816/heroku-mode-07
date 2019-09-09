@@ -19,7 +19,8 @@ function func_20190823d($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
     
-    $list_days = [3, 9, 10, 15, 16, 17, 18];
+    // $list_days = [3, 9, 10, 15, 16, 17, 18];
+    $list_days = [3, 15];
     $list_cookie = [];
     $urls = [];
     foreach ($list_days as $day) {
@@ -69,7 +70,7 @@ function func_20190823d($mu_)
         CURLMOPT_MAXCONNECTS => 100,
     ];
     $results = $mu_->get_contents_multi($urls, null, $multi_options);
-    
+    error_log(print_r($results, true));
 }
 
 function func_20190823c($mu_, $file_name_rss_items_)
