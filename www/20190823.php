@@ -118,6 +118,7 @@ function func_20190823c($mu_, $file_name_rss_items_)
                                         ],
                         'ticks' => ['max' => $gain_max_value + (10 - $gain_max_value % 10) + 10,
                                     'min' => $gain_min_value - ($gain_min_value % 10) - 10,
+                                    'stepSize' => 20,
                                    ],
                        ];
     $scales->yAxes[] = ['display' => true,
@@ -128,6 +129,7 @@ function func_20190823c($mu_, $file_name_rss_items_)
                                         ],
                         'ticks' => ['max' => $loss_max_value + (10 - $loss_max_value % 10) + 10,
                                     'min' => $loss_min_value - ($loss_min_value % 10) - 10,
+                                    'stepSize' => 20,
                                    ],
                        ];
     $json = ['type' => 'bubble',
