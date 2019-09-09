@@ -19,10 +19,39 @@ function func_20190823d($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
     
+    $cookie = tempnam("/tmp", 'cookie_' .  md5(microtime(true)));
+    
     $url = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
-    $post_data = [];
-    $options = [];
+    $post_data = [
+        'month' => '10',
+        'day' => '3',
+        'hour' => '22',
+        'minute' => '30',
+        'train' => '5',
+        'dep_stn' => '岡山',
+        'arr_stn' => '東京',
+        'dep_stnpb' => '',
+        'arr_stnpb' => '',
+        'script' => '1',
+    ];
+    $options = [
+        CURLOPT_ENCODING => 'gzip, deflate',
+        CURLOPT_HTTPHEADER => [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+            ],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+    ];
     $res = $mu_->get_contents($url, $options);
+    error_log($res);
+    unlink($cookie);
 }
 
 function func_20190823c($mu_, $file_name_rss_items_)
