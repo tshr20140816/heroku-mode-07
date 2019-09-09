@@ -82,6 +82,8 @@ function func_20190823d($mu_)
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     error_log($res);
     unlink($cookie);
+    
+    error_log(urlencode(mb_convert_encoding, '東京', 'SJIS', 'UTF-8'));
 }
 
 function func_20190823c($mu_, $file_name_rss_items_)
