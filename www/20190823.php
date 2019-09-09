@@ -20,7 +20,7 @@ function func_20190823d($mu_)
     error_log($log_prefix . 'BEGIN');
     
     // $list_days = [3, 9, 10, 15, 16, 17, 18];
-    $list_days = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+    $list_days = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
     // $list_days = [7];
     $list_cookie = [];
     $urls = [];
@@ -87,13 +87,13 @@ function func_20190823d($mu_)
             $result_string .= str_repeat('○', $count_maru);
         }
         if ($count_sankaku > 0) {
-            $result_string .= str_repeat('△', $count_maru);
+            $result_string .= str_repeat('△', $count_sankaku);
         }
         if ($count_batsu > 0) {
-            $result_string .= str_repeat('×', $count_maru);
+            $result_string .= str_repeat('×', $count_batsu);
         }
         if ($count_mada > 0) {
-            $result_string .= str_repeat('-', $count_maru);
+            $result_string .= '-';
         }
         $result_string .= "\n";
     }
