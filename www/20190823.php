@@ -21,22 +21,6 @@ function func_20190823d($mu_)
     
     $cookie = tempnam("/tmp", 'cookie_' .  md5(microtime(true)));
     
-    $url = 'http://www.jr.cyberstation.ne.jp/';
-    $options = [
-        CURLOPT_ENCODING => 'gzip, deflate',
-        CURLOPT_HTTPHEADER => [
-            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
-            'Cache-Control: no-cache',
-            'Connection: keep-alive',
-            'DNT: 1',
-            'Upgrade-Insecure-Requests: 1',
-            ],
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
-    ];
-    // $res = $mu_->get_contents($url, $options);
-    
     $url = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
     $post_data = [
         'month' => '10',
@@ -59,7 +43,7 @@ function func_20190823d($mu_)
             'Connection: keep-alive',
             'DNT: 1',
             'Upgrade-Insecure-Requests: 1',
-            'Referer: http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do'
+            'Referer: ' . $url,
             ],
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
