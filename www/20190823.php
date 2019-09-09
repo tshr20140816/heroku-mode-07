@@ -157,7 +157,7 @@ function func_20190823c($mu_, $file_name_rss_items_)
     
     
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
-    exec('node ../scripts/chartjs_node.js 720 360 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    exec('node ../scripts/chartjs_node.js 640 360 ' . base64_encode(json_encode($json)) . ' ' . $file);
     $res = file_get_contents($file);
     header('Content-Type: image/png');
     echo $res;
