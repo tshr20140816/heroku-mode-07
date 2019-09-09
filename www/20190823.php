@@ -20,7 +20,7 @@ function func_20190823d($mu_)
     error_log($log_prefix . 'BEGIN');
     
     // $list_days = [3, 9, 10, 15, 16, 17, 18];
-    $list_days = [3, 9, 15];
+    $list_days = [4, 9, 15];
     $list_cookie = [];
     $urls = [];
     foreach ($list_days as $day) {
