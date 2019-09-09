@@ -70,7 +70,7 @@ function func_20190823d($mu_)
         CURLMOPT_MAXCONNECTS => 100,
     ];
     $results = $mu_->get_contents_multi($urls, null, $multi_options);
-    foreach ($urls as $url) {
+    foreach ($urls as $url => $value) {
         error_log(mb_convert_encoding($results[$url], 'UTF-8', 'SJIS'));
     }
 }
