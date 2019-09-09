@@ -331,10 +331,22 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
                         'ticks' => ['fontColor' => 'black',
                                    ],
                        ];
+    $scales->yAxes[] = ['id' => 'y-axis-1',
+                        'ticks' => ['fontColor' => 'black',
+                                   ],
+                       ];
 
     $json = ['type' => 'line',
              'data' => ['labels' => $labels,
                         'datasets' => [['data' => $data,
+                                        'fill' => false,
+                                        'lineTension' => 0,
+                                        'borderColor' => 'black',
+                                        'borderWidth' => 1,
+                                        'pointBackgroundColor' => 'black',
+                                        'pointRadius' => 2,
+                                       ],
+                                       ['data' => $data,
                                         'fill' => false,
                                         'lineTension' => 0,
                                         'borderColor' => 'black',
