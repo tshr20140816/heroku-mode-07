@@ -66,8 +66,8 @@ function func_20190823d($mu_)
 
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
-        CURLMOPT_MAX_HOST_CONNECTIONS => 100,
-        CURLMOPT_MAXCONNECTS => 100,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 8,
+        CURLMOPT_MAXCONNECTS => 8,
     ];
     $results = $mu_->get_contents_multi($urls, null, $multi_options);
     $list_result = [];
