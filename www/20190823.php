@@ -71,10 +71,9 @@ function func_20190823d($mu_)
     ];
     $results = $mu_->get_contents_multi($urls, null, $multi_options);
     $list_result = [];
-    $results = '';
+    $result_string = '';
     foreach ($urls as $url => $value) {
         // error_log(mb_convert_encoding($results[$url], 'UTF-8', 'SJIS'));
-        error_log($url);
         $res = mb_convert_encoding($results[$url], 'UTF-8', 'SJIS');
         $count_maru = substr_count($res, '<td align="center">○</td>');
         $count_sankaku = substr_count($res, '<td align="center">△</td>');
@@ -83,23 +82,23 @@ function func_20190823d($mu_)
         $tmp = explode('?', $url);
         $list_result[$tmp[1]] = [$count_maru, $count_sankaku, $count_batsu, $count_mada];
         
-        $results .= $tmp[1];
+        $result_string .= $tmp[1];
         if ($count_maru > 0) {
-            $results .= str_repeat('○', $count_maru);
+            $result_string .= str_repeat('○', $count_maru);
         }
         if ($count_sankaku > 0) {
-            $results .= str_repeat('△', $count_maru);
+            $result_string .= str_repeat('△', $count_maru);
         }
         if ($count_batsu > 0) {
-            $results .= str_repeat('×', $count_maru);
+            $result_string .= str_repeat('×', $count_maru);
         }
         if ($count_mada > 0) {
-            $results .= str_repeat('-', $count_maru);
+            $result_string .= str_repeat('-', $count_maru);
         }
-        $results .= "\n";
+        $result_string .= "\n";
     }
     error_log(print_r($list_result, true));
-    error_log($results);
+    error_log($result_string);
 }
 
 function func_20190823c($mu_, $file_name_rss_items_)
