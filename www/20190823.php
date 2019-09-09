@@ -59,6 +59,7 @@ function func_20190823d($mu_)
             'Connection: keep-alive',
             'DNT: 1',
             'Upgrade-Insecure-Requests: 1',
+            'Referer: http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do'
             ],
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
