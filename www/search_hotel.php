@@ -12,7 +12,7 @@ $mu = new MyUtils();
 search_hotel($mu);
 // search_jtb_tour($mu);
 search_hotel_sancoinn($mu);
-search_sunrize($mu);
+// search_sunrize($mu);
 
 $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/get_twitter_jaxa.php';
 exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
