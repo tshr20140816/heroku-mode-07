@@ -64,7 +64,7 @@ function func_20190823d($mu_)
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
         CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => http_build_query($post_data),
+        CURLOPT_POSTFIELDS => 'month=10&day=3&hour=22&minute=30&train=5&dep_stn=%89%AA%8ER&arr_stn=%93%8C%8B%9E&dep_stnpb=&arr_stnpb=&script=1',
     ];
     $res = $mu_->get_contents($url, $options);
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
