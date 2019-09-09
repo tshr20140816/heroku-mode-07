@@ -100,6 +100,9 @@ function func_20190823d($mu_)
     }
     error_log(print_r($list_result, true));
     error_log($result_string);
+    foreach ($list_cookie as $cookie) {
+        unlink($cookie);
+    }
 }
 
 function func_20190823c($mu_, $file_name_rss_items_)
