@@ -269,3 +269,97 @@ __HEREDOC__;
         $mu_->post_blog_wordpress_async($hash_url, $description, 'jtb');
     }
 }
+
+function search_sunrize($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
+    
+    $url_base = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
+    $hash_url = 'url' . hash('sha512', $url_base);
+    
+    $list_days = [8, 9, 10, 11, 12, 13, 14, 15];
+    $list_cookie = [];
+    $urls = [];
+    foreach ($list_days as $day) {
+        $cookie = tempnam("/tmp", 'cookie_' .  md5(microtime(true)));
+        $list_cookie[] = $cookie;
+
+        $url = $url_base . '?' . $day;
+        $post_data = [
+            'month' => '10',
+            'day' => $day,
+            'hour' => '22',
+            'minute' => '30',
+            'train' => '5',
+            'dep_stn' => mb_convert_encoding('岡山', 'SJIS', 'UTF-8'),
+            'arr_stn' => mb_convert_encoding('東京', 'SJIS', 'UTF-8'),
+            'dep_stnpb' => '',
+            'arr_stnpb' => '',
+            'script' => '1',
+        ];
+        $options = [
+            CURLOPT_ENCODING => 'gzip, deflate',
+            CURLOPT_HTTPHEADER => [
+                'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+                'Cache-Control: no-cache',
+                'Connection: keep-alive',
+                'DNT: 1',
+                'Upgrade-Insecure-Requests: 1',
+                'Referer: ' . $url,
+                ],
+            CURLOPT_COOKIEJAR => $cookie,
+            CURLOPT_COOKIEFILE => $cookie,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => http_build_query($post_data),
+        ];
+        $urls[$url] = $options;
+    }
+
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 8,
+        CURLMOPT_MAXCONNECTS => 8,
+    ];
+    $results = $mu_->get_contents_multi($urls, null, $multi_options);
+    $description = '';
+    foreach ($urls as $url => $value) {
+        // error_log(mb_convert_encoding($results[$url], 'UTF-8', 'SJIS'));
+        $res = mb_convert_encoding($results[$url], 'UTF-8', 'SJIS');
+        $count_maru = substr_count($res, '<td align="center">○</td>');
+        $count_sankaku = substr_count($res, '<td align="center">△</td>');
+        $count_batsu = substr_count($res, '<td align="center">×</td>');
+        $count_mada = substr_count($res, 'ご希望の乗車日の空席状況は照会できません。');
+        $tmp = explode('?', $url);
+        
+        $description .= $tmp[1];
+        if ($count_maru > 0) {
+            $description .= str_repeat('○', $count_maru);
+        }
+        if ($count_sankaku > 0) {
+            $description .= str_repeat('△', $count_sankaku);
+        }
+        if ($count_batsu > 0) {
+            $description .= str_repeat('×', $count_batsu);
+        }
+        if ($count_mada > 0) {
+            $description .= '-';
+        }
+        $description .= "\n";
+    }
+    foreach ($list_cookie as $cookie) {
+        unlink($cookie);
+    }
+    
+    // error_log($description);
+    $mu_->logging_object($description, $log_prefix);
+    $hash_description = hash('sha512', $description);
+
+    $res = $mu_->search_blog($hash_url);
+    if ($res != $hash_description) {
+        $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ ' . $hash_url . '</');
+        $description = '<div class="' . $hash_url . '">' . "${hash_description}</div>${description}";
+        $mu_->post_blog_wordpress($hash_url, $description, 'sunrize');
+    }
+}
