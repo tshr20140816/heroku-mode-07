@@ -111,13 +111,26 @@ function func_20190823c($mu_, $file_name_rss_items_)
     // error_log($log_prefix . print_r($datasets, true));
 
     $scales = new stdClass();
+
+    $xaxis_max_value = $gain_max_value + (10 - $gain_max_value % 10);
+    $xaxis_max_value += $xaxis_max_value % 20 === 0 ? 20 : 10;
+
+    $xaxis_min_value = $gain_min_value - ($gain_min_value % 10);
+    $xaxis_min_value -= $xaxis_min_value % 20 === 0 ? 20 : 10;
+
+    $loss_max_value = $loss_max_value + (10 - $loss_max_value % 10);
+    $loss_max_value += $loss_max_value % 20 === 0 ? 20 : 10;
+
+    $loss_min_value = $loss_min_value - ($loss_min_value % 10);
+    $loss_min_value -= $loss_min_value % 20 === 0 ? 20 : 10;
+
     $scales->xAxes[] = ['display' => true,
                         'scaleLabel' => ['display' => true,
                                          'labelString' => '得点',
                                          'fontColor' => 'black',
                                         ],
-                        'ticks' => ['max' => $gain_max_value + (10 - $gain_max_value % 10) + 10,
-                                    'min' => $gain_min_value - ($gain_min_value % 10) - 10,
+                        'ticks' => ['max' => $xaxis_max_value,
+                                    'min' => $xaxis_min_value,
                                     'stepSize' => 20,
                                     'autoSkip' => false,
                                    ],
@@ -128,8 +141,8 @@ function func_20190823c($mu_, $file_name_rss_items_)
                                          'labelString' => '失点',
                                          'fontColor' => 'black',
                                         ],
-                        'ticks' => ['max' => $loss_max_value + (10 - $loss_max_value % 10) + 10,
-                                    'min' => $loss_min_value - ($loss_min_value % 10) - 10,
+                        'ticks' => ['max' => $loss_max_value,
+                                    'min' => $loss_min_value,
                                     'stepSize' => 20,
                                     'autoSkip' => false,
                                    ],
