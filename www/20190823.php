@@ -74,6 +74,7 @@ function func_20190823d($mu_)
     $results = '';
     foreach ($urls as $url => $value) {
         // error_log(mb_convert_encoding($results[$url], 'UTF-8', 'SJIS'));
+        error_log($url);
         $res = mb_convert_encoding($results[$url], 'UTF-8', 'SJIS');
         $count_maru = substr_count($res, '<td align="center">○</td>');
         $count_sankaku = substr_count($res, '<td align="center">△</td>');
