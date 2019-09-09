@@ -186,10 +186,10 @@ function func_20190823c($mu_, $file_name_rss_items_)
     
     $im1 = imagecreatefromstring($res);
     
-    $im2 = imagecreatetruecolor(imagesx($im1), imagesy($im1) - 15);
+    $im2 = imagecreatetruecolor(imagesx($im1), imagesy($im1) - 25);
     imagefill($im2, 0, 0, imagecolorallocate($im2, 255, 255, 255));
     
-    imagecopy($im2, $im1, 0, 0, 0, 0, imagesx($im1), imagesy($im1) - 20);
+    imagecopy($im2, $im1, 0, 0, 0, 0, imagesx($im1), imagesy($im1) - 25);
     imagedestroy($im1);
     
     $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
