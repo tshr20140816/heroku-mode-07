@@ -182,6 +182,22 @@ function func_20190823c($mu_, $file_name_rss_items_)
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
     exec('node ../scripts/chartjs_node.js 640 360 ' . base64_encode(json_encode($json)) . ' ' . $file);
     $res = file_get_contents($file);
+    unlink($file);
+    
+    $im1 = imagecreatefromstring($res);
+    
+    $im2 = imagecreatetruecolor(imagesx($im1), imagesy($im1) - 15);
+    imagefill($im2, 0, 0, imagecolorallocate($im2, 255, 255, 255));
+    
+    imagecopy($im2, $im1, 0, 0, 0, 0, imagesx($im1), imagesy($im1) - 15);
+    imagedestroy($im1);
+    
+    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
+    imagepng($im2, $file, 9);
+    imagedestroy($im2);
+    
+    $res = file_get_contents($file);
+    
     header('Content-Type: image/png');
     echo $res;
     unlink($file);
