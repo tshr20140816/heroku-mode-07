@@ -50,6 +50,7 @@ function func_20190823d($mu_)
         CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
     $res = $mu_->get_contents($url, $options);
+    $res = mb_convert_encoding($body, 'UTF-8', 'SJIS');
     error_log($res);
     unlink($cookie);
 }
