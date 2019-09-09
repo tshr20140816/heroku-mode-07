@@ -27,7 +27,7 @@ function func_20190823d($mu_)
         $cookie = tempnam("/tmp", 'cookie_' .  md5(microtime(true)));
         $list_cookie[] = $cookie;
 
-        $url = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
+        $url = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do?' . $day;
         $post_data = [
             'month' => '10',
             'day' => $day,
@@ -70,7 +70,9 @@ function func_20190823d($mu_)
         CURLMOPT_MAXCONNECTS => 100,
     ];
     $results = $mu_->get_contents_multi($urls, null, $multi_options);
-    error_log(print_r($results, true));
+    foreach ($urls as $url) {
+        error_log(mb_convert_encoding($results[$url], 'UTF-8', 'SJIS'));
+    }
 }
 
 function func_20190823c($mu_, $file_name_rss_items_)
