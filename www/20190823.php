@@ -116,6 +116,9 @@ function func_20190823c($mu_, $file_name_rss_items_)
                                          'labelString' => '得点',
                                          'fontColor' => 'black',
                                         ],
+                        'ticks' => ['max' => $gain_max_value + (10 - $gain_max_value % 10) + 10,
+                                    'min' => $gain_min_value - ($gain_min_value % 10) - 10,
+                                   ],
                        ];
     $scales->yAxes[] = ['display' => true,
                         'bottom' => $loss_min_value,
@@ -123,6 +126,9 @@ function func_20190823c($mu_, $file_name_rss_items_)
                                          'labelString' => '失点',
                                          'fontColor' => 'black',
                                         ],
+                        'ticks' => ['max' => $loss_max_value + (10 - $loss_max_value % 10) + 10,
+                                    'min' => $loss_min_value - ($loss_min_value % 10) - 10,
+                                   ],
                        ];
     $json = ['type' => 'bubble',
              'data' => ['datasets' => $datasets],
