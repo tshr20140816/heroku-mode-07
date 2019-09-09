@@ -35,7 +35,7 @@ function func_20190823d($mu_)
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
     ];
-    $res = $mu_->get_contents($url, $options);
+    // $res = $mu_->get_contents($url, $options);
     
     $url = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
     $post_data = [
@@ -44,23 +44,11 @@ function func_20190823d($mu_)
         'hour' => '22',
         'minute' => '30',
         'train' => '5',
-        'dep_stn' => '岡山',
-        'arr_stn' => '東京',
+        'dep_stn' => mb_convert_encoding('岡山', 'SJIS', 'UTF-8)',
+        'arr_stn' => mb_convert_encoding('東京', 'SJIS', 'UTF-8)',
         'dep_stnpb' => '',
         'arr_stnpb' => '',
         'script' => '1',
-    ];
-    $post_data = [
-        'month=10',
-        'day=3',
-        'hour=22',
-        'minute=30',
-        'train=5',
-        'dep_stn=%89%AA%8ER',
-        'arr_stn=%93%8C%8B%9E',
-        'dep_stnpb=',
-        'arr_stnpb=',
-        'script=1',
     ];
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate',
@@ -76,14 +64,12 @@ function func_20190823d($mu_)
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
         CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => implode('&', $post_data),
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
     $res = $mu_->get_contents($url, $options);
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     error_log($res);
     unlink($cookie);
-    
-    error_log(urlencode(mb_convert_encoding('東京', 'SJIS', 'UTF-8')));
 }
 
 function func_20190823c($mu_, $file_name_rss_items_)
