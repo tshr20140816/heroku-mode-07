@@ -62,17 +62,23 @@ function func_20190823d($mu_)
         // error_log($res);
         // unlink($cookie);
     }
-    
-    
+
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 100,
         CURLMOPT_MAXCONNECTS => 100,
     ];
     $results = $mu_->get_contents_multi($urls, null, $multi_options);
+    $list_result = [];
     foreach ($urls as $url => $value) {
-        error_log(mb_convert_encoding($results[$url], 'UTF-8', 'SJIS'));
+        // error_log(mb_convert_encoding($results[$url], 'UTF-8', 'SJIS'));
+        $res = mb_convert_encoding($results[$url], 'UTF-8', 'SJIS');
+        $count_ok = substr_count($res, '<td align="center">○</td>');
+        $count_ng = substr_count($res, '<td align="center">×</td>');
+        $count_pre = substr_count($res, 'ご希望の乗車日の空席状況は照会できません。');
+        $list_result[$day] = [$count_ok, $count_ng, $count_pre];
     }
+    error_log(print_r($list_result, true));
 }
 
 function func_20190823c($mu_, $file_name_rss_items_)
