@@ -9,10 +9,21 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823c($mu, '/tmp/dummy');
-@unlink('/tmp/dummy');
+func_20190823d($mu);
+// @unlink('/tmp/dummy');
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190823d($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
+    
+    $url = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
+    $post_data = [];
+    $options = [];
+    $res = $mu_->get_contents($url, $options);
+}
 
 function func_20190823c($mu_, $file_name_rss_items_)
 {
