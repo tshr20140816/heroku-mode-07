@@ -90,7 +90,7 @@ function func_20190823c($mu_, $file_name_rss_items_)
 
     $data2 = [];
     $tmp1 = new stdClass();
-    $tmp1->x = $gain_min_value;
+    $tmp1->x = $gain_min_value - ($gain_max_value - $gain_min_value);
     $tmp1->y = $tmp1->x;
     $data2[] = $tmp1;
     $tmp1 = new stdClass();
