@@ -444,7 +444,7 @@ __HEREDOC__;
                       'content' => $description_,
                      ];
         if (!is_null($category_)) {
-            $post_data['categories'] => $category_;
+            $post_data['categories'] = $category_;
         }
         $options = [CURLOPT_POST => true,
                     CURLOPT_POSTFIELDS => http_build_query($post_data),
