@@ -708,9 +708,13 @@ __HEREDOC__;
         $res = $this->get_contents($url, $options);
         $this->logging_object($res, $log_prefix);
 
+        /*
         error_log($log_prefix . 'start exec');
         exec('php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ../scripts/update_ttrss.php >/dev/null &');
         error_log($log_prefix . 'finish exec');
+        */
+        $line = 'php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ../scripts/update_ttrss.php >/dev/null &';
+        $this->cmd_execute($line);
     }
 
     public function upload_fc2($file_name_)
