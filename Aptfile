@@ -3,7 +3,7 @@ lbzip2
 # pxz
 parallel
 megatools
-# outguess
+outguess
 
 # -- curl --
 # libssh2-1
