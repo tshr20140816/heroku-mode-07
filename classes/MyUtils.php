@@ -443,6 +443,9 @@ __HEREDOC__;
         $post_data = ['title' => date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${title_}",
                       'content' => $description_,
                      ];
+        if (!is_null($category_)) {
+            $post_data['categories'] => $category_;
+        }
         $options = [CURLOPT_POST => true,
                     CURLOPT_POSTFIELDS => http_build_query($post_data),
                     CURLOPT_HTTPHEADER => ["Authorization: Bearer ${access_token}",],
