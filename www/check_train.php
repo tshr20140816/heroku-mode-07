@@ -105,6 +105,8 @@ function check_train($mu_)
         }
     }
 
+    $mu_->post_blog_wordpress('TRAIN', $description, 'train', true);
+
     /*
     $hatena_id = $mu_->get_env('HATENA_ID', true);
     $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
