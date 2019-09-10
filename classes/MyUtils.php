@@ -386,7 +386,7 @@ __HEREDOC__;
     {
         $log_prefix = $this->logging_function_begin(__METHOD__);
 
-        if (is_null($description_)) {
+        if (is_null($description_) || strlen($description_) === 0) {
             $description_ = '.';
         }
         if (is_null($category_)) {
@@ -407,7 +407,7 @@ __HEREDOC__;
     {
         $log_prefix = $this->logging_function_begin(__METHOD__);
 
-        if (is_null($description_)) {
+        if (is_null($description_) || strlen($description_) === 0) {
             $description_ = '.';
         }
 
@@ -557,7 +557,7 @@ __HEREDOC__;
     {
         $log_prefix = $this->logging_function_begin(__METHOD__);
 
-        if (is_null($description_)) {
+        if (is_null($description_) || strlen($description_) === 0) {
             $description_ = '.';
         }
 
@@ -668,7 +668,7 @@ __HEREDOC__;
     {
         $log_prefix = $this->logging_function_begin(__METHOD__);
 
-        if (is_null($description_)) {
+        if (is_null($description_) || strlen($description_) === 0) {
             $description_ = '.';
         }
 
