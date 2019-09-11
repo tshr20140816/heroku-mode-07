@@ -38,7 +38,7 @@ function func_20190823e($mu_)
     // $mu_->cmd_execute($line);
     
     // $line = "pxz -v -k -9 ${file_name}";
-    $line = "pxz -kvc < ${file_name} | dd of=${file_name}.xz bs=16M";
+    $line = "pxz -kvc < ${file_name} | pv | dd of=${file_name}.xz bs=16M";
     $mu_->cmd_execute($line);
     
     exec('ls -lang /tmp/', $res);
