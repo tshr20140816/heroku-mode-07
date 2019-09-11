@@ -39,8 +39,15 @@ function func_20190823e($mu_)
     $line = "lbzip2 -v -k ${file_name}";
     $mu_->cmd_execute($line);
     
+    $line = "pixz < ${file_name} > ${file_name}.xz";
+    $mu_->cmd_execute($line);
+    
+    exec('ls -lang /tmp/', $res);
+    error_log(print_r($res, true));
+    
     unlink($file_name);
     unlink($file_name . '.bz2');
+    unlink($file_name . '.xz');
 }
 
 function func_20190823d($mu_)
