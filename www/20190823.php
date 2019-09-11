@@ -25,7 +25,7 @@ function func_20190823f($mu_)
     imagestring($im, 1, 0, 0, date('His', strtotime('+9 hours')), $color);
     
     $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
-    imagejpeg($im, $file, 9);
+    imagejpeg($im, $file, 100);
     imagedestroy($im);
     
     header('Content-Type: image/jpeg');
