@@ -9,10 +9,39 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823d($mu);
+func_20190823e($mu);
 // @unlink('/tmp/dummy');
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190823e($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
+    
+    $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
+    $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
+    
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
+        CURLOPT_CUSTOMREQUEST => 'GET',
+    ];
+    
+    $url = getenv('TEST_URL_01');
+    $base_name = pathinfo($url)['basename'];
+    $file_name = '/tmp/' . $base_name;
+    
+    $res = $mu_->get_contents($url, $options);
+    file_put_contents($file_name, $res);
+    $res = null;
+    
+    $line = "lbzip2 -v -k ${file_name}";
+    $mu_->cmd_execute($line);
+    
+    unlink($file_name);
+    unlink($file_name . '.bz2');
+}
 
 function func_20190823d($mu_)
 {
