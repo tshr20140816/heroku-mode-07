@@ -75,8 +75,8 @@ if [ ${is_succeeded} = '0' ]; then
   popd
 fi
 
-# For pixz
-cp /lib/x86_64-linux-gnu/liblzo2.so.2.0.0 ./
+# # For pixz
+# cp /lib/x86_64-linux-gnu/liblzo2.so.2.0.0 ./
 
 # ***** php syntax check *****
 
