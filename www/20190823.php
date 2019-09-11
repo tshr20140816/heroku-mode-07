@@ -34,10 +34,11 @@ function func_20190823e($mu_)
     $line = "lbzip2 -v -k ${file_name}";
     $mu_->cmd_execute($line);
     
-    # $line = "pixz -9 < ${file_name} > ${file_name}.xz";
-    # $mu_->cmd_execute($line);
+    // $line = "pixz -9 < ${file_name} > ${file_name}.xz";
+    // $mu_->cmd_execute($line);
     
-    $line = "pxz -v -k -9 ${file_name}";
+    // $line = "pxz -v -k -9 ${file_name}";
+    $line = "pxz -kvc < ${file_name} | dd of=${file_name}.xz bs=16M";
     $mu_->cmd_execute($line);
     
     exec('ls -lang /tmp/', $res);
