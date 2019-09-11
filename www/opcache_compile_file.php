@@ -21,6 +21,9 @@ foreach ($res as $file_name) {
     error_log("${pid} ${file_name} : ${rc}");
 }
 
+$mu = new MyUtils();
+$mu->get_env('TTRSS_SELECTED');
+
 error_log("${pid} opcache_get_configuration : " . print_r(opcache_get_configuration(), true));
 
 error_log("${pid} opcache_get_status : " . print_r(opcache_get_status(), true));
