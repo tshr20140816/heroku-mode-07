@@ -74,6 +74,8 @@ fc-cache -fv > /dev/null 2>&1 &
 
 mkdir -p ./.apt/usr/bin/lib/Image
 cp ./.apt/usr/share/perl5/Image/ExifTool.pm ./.apt/usr/bin/lib/Image/
+ls -lang /app/.apt/usr/bin/lib
+ls -lang /app/.apt/usr/bin/lib/Image
 
 set +x
 pushd classes
