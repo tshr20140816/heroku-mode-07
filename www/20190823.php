@@ -28,7 +28,7 @@ function func_20190823f($mu_)
     imagejpeg($im, $file, 100);
     imagedestroy($im);
     
-    $line = 'mogrify -comment "TEST" ' . $file;
+    $line = 'exiftool -artist="TEST" ' . $file;
     $mu_->cmd_execute($line);
     
     header('Content-Type: image/jpeg');
