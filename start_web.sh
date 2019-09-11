@@ -72,8 +72,8 @@ fc-cache -fv > /dev/null 2>&1 &
 # ln -s /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0 /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so
 # ln -s /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0 /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so.2
 
-mkdir ./.apt/usr/bin/lib
-cp ./.apt/usr/share/perl5/Image/ExifTool.pm ./.apt/usr/bin/lib/
+mkdir -p ./.apt/usr/bin/lib/Image
+cp ./.apt/usr/share/perl5/Image/ExifTool.pm ./.apt/usr/bin/lib/Image/
 
 set +x
 pushd classes
