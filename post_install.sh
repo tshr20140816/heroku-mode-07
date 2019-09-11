@@ -78,6 +78,8 @@ fi
 # # For pixz
 # cp /lib/x86_64-linux-gnu/liblzo2.so.2.0.0 ./
 
+find . -name ExifTool.pm -print
+
 # ***** php syntax check *****
 
 set +x
