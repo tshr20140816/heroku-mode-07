@@ -2,7 +2,8 @@
 lbzip2
 pxz
 pixz
-liblzo2-2
+liblzo2-dev
+liblzo2-2-udeb
 parallel
 megatools
 outguess
