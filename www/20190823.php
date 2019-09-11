@@ -28,6 +28,9 @@ function func_20190823f($mu_)
     imagejpeg($im, $file, 100);
     imagedestroy($im);
     
+    $line = 'mogrify -comment "TEST"' . $file_name;
+    $mu_->cmd_execute($line);
+    
     header('Content-Type: image/jpeg');
     echo file_get_contents($file);
     unlink($file);
