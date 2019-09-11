@@ -5,6 +5,7 @@ set -x
 export TZ=JST-9
 export WEB_CONCURRENCY=4
 export USER_AGENT=$(curl -sS https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/useragent.txt)
+export PERL5LIB=/app/.apt/usr/share/perl5
 
 if [ ! -v BASIC_USER ]; then
   echo "Error : BASIC_USER not defined."
@@ -71,11 +72,6 @@ fc-cache -fv > /dev/null 2>&1 &
 # mv liblzo2.so.2.0.0 /app/.apt/usr/lib/x86_64-linux-gnu/
 # ln -s /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0 /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so
 # ln -s /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0 /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so.2
-
-mkdir -p ./.apt/usr/bin/lib/Image
-cp ./.apt/usr/share/perl5/Image/ExifTool.pm ./.apt/usr/bin/lib/Image/
-ls -lang /app/.apt/usr/bin/lib
-ls -lang /app/.apt/usr/bin/lib/Image
 
 set +x
 pushd classes
