@@ -5,6 +5,7 @@ pixz
 parallel
 megatools
 outguess
+pv
 
 # -- curl --
 # libssh2-1
