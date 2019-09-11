@@ -9,10 +9,29 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823e($mu);
+func_20190823f($mu);
 // @unlink('/tmp/dummy');
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190823f($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
+    
+    $im = imagecreate(300, 300);
+    imagecolorallocate($im, 255, 255, 255);
+    $color = imagecolorallocate($im, 0, 0, 0);
+    imagestring($im, 1, 0, 0, date('His', strtotime('+9 hours')), $color);
+    
+    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
+    imagepng($im, $file, 9);
+    imagedestroy($im);
+    
+    header('Content-Type: image/png');
+    echo file_get_contents($file);
+    unlink($file);
+}
 
 function func_20190823e($mu_)
 {
