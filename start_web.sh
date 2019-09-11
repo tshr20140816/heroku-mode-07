@@ -64,6 +64,12 @@ popd
 
 fc-cache -fv > /dev/null 2>&1 &
 
+# For pixz
+unlink /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so
+mv liblzo2.so.2.0.0 /app/.apt/usr/lib/x86_64-linux-gnu/
+ln -s /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0 /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so
+ln -s /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0 /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so.2
+
 set +x
 pushd classes
 for file in $(ls . | grep .php$); do
