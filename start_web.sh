@@ -19,6 +19,8 @@ fi
 npm update >/dev/null 2>&1 &
 pear list-upgrades >/tmp/pear_upgrades 2>&1 &
 
+find -L . -type l | grep -v usr/share/doc
+
 grep -c -e processor /proc/cpuinfo
 cat /proc/cpuinfo | head -n $(($(cat /proc/cpuinfo | wc -l) / $(grep -c -e processor /proc/cpuinfo)))
 
