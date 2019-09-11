@@ -29,7 +29,7 @@ function func_20190823f($mu_)
     imagedestroy($im);
     
     $line = 'exiftool -artist="TEST" ' . $file;
-    $mu_->cmd_execute($line);
+    // $mu_->cmd_execute($line);
     
     $line = 'outguess -k password -d 20190823.php ' . $file . ' ' . $file . '.jpg';
     $mu_->cmd_execute($line);
