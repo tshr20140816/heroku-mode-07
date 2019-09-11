@@ -5,6 +5,7 @@ lbzip2
 parallel
 megatools
 outguess
+exiftool
 # pv
 
 # -- curl --
