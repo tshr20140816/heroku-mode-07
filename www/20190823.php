@@ -22,19 +22,14 @@ function func_20190823e($mu_)
     $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
     $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
     
-    $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-        CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
-        CURLOPT_CUSTOMREQUEST => 'GET',
-    ];
-    
     $url = getenv('TEST_URL_01');
     $base_name = pathinfo($url)['basename'];
     $file_name = '/tmp/' . $base_name;
     
-    $res = $mu_->get_contents($url, $options);
-    file_put_contents($file_name, $res);
-    $res = null;
+    if (file_exists($file_name) === false) {
+        $line = 'curl -v -m 120 -o ' . "/tmp/${base_name}" . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
+        $mu_->cmd_execute($line);
+    }
     
     $line = "lbzip2 -v -k ${file_name}";
     $mu_->cmd_execute($line);
@@ -45,7 +40,7 @@ function func_20190823e($mu_)
     exec('ls -lang /tmp/', $res);
     error_log(print_r($res, true));
     
-    unlink($file_name);
+    // unlink($file_name);
     unlink($file_name . '.bz2');
     unlink($file_name . '.xz');
 }
