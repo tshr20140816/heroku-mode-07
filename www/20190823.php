@@ -32,7 +32,7 @@ function func_20190823f($mu_)
     error_log(filesize($file));
     */
     
-    $res = $mu_->get_contents('http://www.carp.co.jp/');
+    $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/');
     error_log($res);
     
     return;
