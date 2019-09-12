@@ -28,6 +28,8 @@ function func_20190823f($mu_)
     imagejpeg($im, $file, 100);
     imagedestroy($im);
     
+    error_log(filesize($file));
+    
     $line = 'exiftool -artist="TEST" ' . $file;
     // $mu_->cmd_execute($line);
     
