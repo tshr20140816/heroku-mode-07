@@ -31,11 +31,11 @@ function func_20190823f($mu_)
     $line = 'exiftool -artist="TEST" ' . $file;
     // $mu_->cmd_execute($line);
     
-    $line = 'outguess -k password -d ../composer.json ' . $file . ' new_' . $file;
+    $line = 'outguess -k password -d ../composer.json ' . $file . ' ' . $file . '.jpg';
     $mu_->cmd_execute($line);
     
     header('Content-Type: image/jpeg');
-    echo file_get_contents('new_' . $file);
+    echo file_get_contents($file . '.jpg');
     unlink($file);
 }
 
