@@ -54,16 +54,14 @@ function func_20190823f($mu_)
         // error_log(print_r($match, true));
         // $res = $mu_->get_contents($match[1], $options);
         $line = 'curl -v -o ' . $file . ' ' . $match[1] . ' 2>&1';
-        $mu_->cmd_execute($line);
-        error_log(filesize($file));
+        // $mu_->cmd_execute($line);
+        // error_log(filesize($file));
         break;
     }
     
-    /*
     $line = 'curl -o ' . $file . ' https://farm8.staticflickr.com/7151/6760135001_14c59a1490_o.jpg';
     $mu_->cmd_execute($line);
     error_log(filesize($file));
-    */
     
     $line = 'exiftool -all= ' . $file;
     $mu_->cmd_execute($line);
