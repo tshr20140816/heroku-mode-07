@@ -46,25 +46,17 @@ function func_20190823f($mu_)
         break;
     }
     
+    $line = 'exiftool -all= ' . $file;
+    $mu_->cmd_execute($line);
+    
+    $line = 'exiftool -artist="TEST" ' . $file;
+    $mu_->cmd_execute($line);
+    
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
     $livedoor_atom_password = $mu_->get_env('LIVEDOOR_ATOM_PASSWORD', true);
     
     $url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}/image";
     
-    /*
-    $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-        CURLOPT_USERPWD => "${livedoor_id}:${livedoor_atom_password}",
-        CURLOPT_HEADER => true,
-        CURLOPT_POST => true,
-        CURLOPT_BINARYTRANSFER => true,
-        CURLOPT_HTTPHEADER => ['Content-Type: image/jpeg',],
-        CURLOPT_POSTFIELDS => file_get_contents($file),
-    ];
-    
-    $res = $mu_->get_contents($url, $options);
-    error_log($res);
-    */
     $line = "curl -v -X POST -u ${livedoor_id}:${livedoor_atom_password} " . '-H "Expect:" -H "Content-Type: image/jpeg" '
         . "${url} --data-binary @${file}";
     $mu_->cmd_execute($line);
