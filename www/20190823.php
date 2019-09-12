@@ -19,6 +19,13 @@ function func_20190823f($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
     
+    $line = 'curl -o /tmp/test.jpg https://farm8.staticflickr.com/7151/6760135001_14c59a1490_o.jpg';
+    $mu_->cmd_execute($line);
+    error_log('/tmp/test.jpg');
+    unlink('/tmp/test.jpg');
+    
+    return;
+    
     $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
     $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
     
