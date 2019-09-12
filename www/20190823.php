@@ -51,6 +51,7 @@ function func_20190823f($mu_)
     
     $url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}/image";
     
+    /*
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${livedoor_id}:${livedoor_atom_password}",
@@ -63,6 +64,9 @@ function func_20190823f($mu_)
     
     $res = $mu_->get_contents($url, $options);
     error_log($res);
+    */
+    $line = "curl -v -X POST -u ${livedoor_id}:${livedoor_atom_password} " . '-H "Content-Type: image/jpeg" ' . "${url} -d @${file}";
+    $mu_->cmd_execute($line);
     unlink($file);
     return;
     
