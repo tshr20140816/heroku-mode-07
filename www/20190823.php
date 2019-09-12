@@ -19,6 +19,18 @@ function func_20190823f($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
     
+    $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
+    $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
+    
+    $url = getenv('TEST_URL_01');
+    $base_name = pathinfo($url)['basename'];
+    $file_name = '/tmp/' . $base_name;
+    
+    if (file_exists($file_name) === false) {
+        $line = 'curl -v -m 120 -o ' . "/tmp/${base_name}" . ' -u ' . "${user_hidrive}:${password_hidrive} " . $url;
+        $mu_->cmd_execute($line);
+    }
+    
     $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/');
     // https://www.pakutaso.com/animal/cat/index_2.html
     // error_log($res);
@@ -50,7 +62,7 @@ function func_20190823f($mu_)
     $line = 'exiftool -all= ' . $file;
     $mu_->cmd_execute($line);
     
-    $line = 'outguess -k password -d ../composer.json ' . $file . ' ' . $file . '.jpg';
+    $line = 'outguess -k password -d ' . $file_name . ' ' . $file . ' ' . $file . '.jpg';
     $res = $mu_->cmd_execute($line);
     
     unlink($file);
@@ -65,6 +77,7 @@ function func_20190823f($mu_)
     clearstatcache();
     error_log(filesize($file));
     
+    /*
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
     $livedoor_atom_password = $mu_->get_env('LIVEDOOR_ATOM_PASSWORD', true);
     
@@ -73,34 +86,17 @@ function func_20190823f($mu_)
     $line = "curl -v -X POST -u ${livedoor_id}:${livedoor_atom_password} " . '-H "Expect:" -H "Content-Type: image/jpeg" '
         . "${url} --data-binary @${file}";
     $mu_->cmd_execute($line);
+    */
     
     unlink($file);
     return;
     
-    $file = tempnam('/tmp', 'jpeg_' . md5(microtime(true))) . '.jpg';
-    
-    
-    
-    $line = 'exiftool ' . $file;
-    $mu_->cmd_execute($line);
-    
-    $line = 'outguess -k password -d ../composer.json ' . $file . ' ' . $file . '.jpg';
-    $mu_->cmd_execute($line);
-    
-    $line = 'exiftool -artist="TEST" ' . $file . '.jpg';
-    $mu_->cmd_execute($line);
-    
-    $line = 'exiftool -all= ' . $file . '.jpg';
-    $mu_->cmd_execute($line);
     
     $line = 'outguess -k password -r ' . $file . '.jpg /tmp/composer.txt';
     $mu_->cmd_execute($line);
     
     error_log(file_get_contents('/tmp/composer.txt'));
     
-    header('Content-Type: image/jpeg');
-    echo file_get_contents($file . '.jpg');
-    unlink($file);
 }
 
 function func_20190823e($mu_)
