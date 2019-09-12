@@ -46,8 +46,8 @@ function func_20190823f($mu_)
         break;
     }
     
-    $livedoor_id = $mu->get_env('LIVEDOOR_ID', true);
-    $livedoor_atom_password = $mu->get_env('LIVEDOOR_ATOM_PASSWORD', true);
+    $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
+    $livedoor_atom_password = $mu_->get_env('LIVEDOOR_ATOM_PASSWORD', true);
     
     $url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}/image";
     
