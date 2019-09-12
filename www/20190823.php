@@ -31,7 +31,7 @@ function func_20190823f($mu_)
         $mu_->cmd_execute($line);
     }
     
-    $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/');
+    $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/', null, true);
     // https://www.pakutaso.com/animal/cat/index_2.html
     // error_log($res);
     
@@ -48,7 +48,7 @@ function func_20190823f($mu_)
     
     foreach ($matches[1] as $url) {
         // error_log($url);
-        $res = $mu_->get_contents($url);
+        $res = $mu_->get_contents($url, null, true);
         // error_log($res);
         $rc = preg_match('/"thumbnailUrl":"(.+?)"/', $res, $match);
         // error_log(print_r($match, true));
@@ -62,7 +62,7 @@ function func_20190823f($mu_)
     $line = 'exiftool -all= ' . $file;
     $mu_->cmd_execute($line);
     
-    $line = 'outguess -k password -d ' . $file_name . ' ' . $file . ' ' . $file . '.jpg';
+    $line = 'outguess -p 100 -k password -d ' . $file_name . ' ' . $file . ' ' . $file . '.jpg';
     $res = $mu_->cmd_execute($line);
     
     unlink($file);
