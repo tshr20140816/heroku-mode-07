@@ -66,7 +66,7 @@ function func_20190823f($mu_)
     error_log($res);
     */
     $line = "curl -v -X POST -u ${livedoor_id}:${livedoor_atom_password} " . '-H "Expect:" -H "Content-Type: image/jpeg" '
-        . '-H "Content-Length: ' . filesize($file) .'"' . "${url} -d @${file}";
+        . "${url} --data-binary @${file}";
     $mu_->cmd_execute($line);
     
     header('Content-Type: image/jpeg');
