@@ -65,7 +65,7 @@ function func_20190823f($mu_)
     $res = $mu_->get_contents($url, $options);
     error_log($res);
     */
-    $line = "curl -v -X POST -u ${livedoor_id}:${livedoor_atom_password} " . '-H "Content-Type: image/jpeg" ' . "${url} -d @${file}";
+    $line = "curl -v -X POST -u ${livedoor_id}:${livedoor_atom_password} " . '-H "Expect:" -H "Content-Type: image/jpeg" ' . "${url} -d @${file}";
     $mu_->cmd_execute($line);
     unlink($file);
     return;
