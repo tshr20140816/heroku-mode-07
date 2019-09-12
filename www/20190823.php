@@ -24,18 +24,18 @@ function func_20190823f($mu_)
     $color = imagecolorallocate($im, 0, 0, 0);
     imagestring($im, 1, 0, 0, date('His', strtotime('+9 hours')), $color);
     
-    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
+    $file = tempnam('/tmp', 'jpeg_' . md5(microtime(true))) . '.jpg';
     imagejpeg($im, $file, 100);
     imagedestroy($im);
     
     $line = 'exiftool -artist="TEST" ' . $file;
     // $mu_->cmd_execute($line);
     
-    $line = 'outguess -k password -d 20190823.php ' . $file . ' ' . $file . '.jpg';
+    $line = 'outguess -k password -d ../composer.json ' . $file . ' new_' . $file;
     $mu_->cmd_execute($line);
     
     header('Content-Type: image/jpeg');
-    echo file_get_contents($file . '.jpg');
+    echo file_get_contents('new_' . $file);
     unlink($file);
 }
 
