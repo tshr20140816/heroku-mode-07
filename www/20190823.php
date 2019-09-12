@@ -41,6 +41,8 @@ function func_20190823f($mu_)
         $file = tempnam('/tmp', 'jpeg_' . md5(microtime(true))) . '.jpg';
         $line = 'curl -v -o ' . $file . ' ' . $url;
         $mu_->cmd_execute($line);
+        error_log(filesize($file));
+        unlink($file);
         break;
     }
     
