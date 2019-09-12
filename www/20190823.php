@@ -19,6 +19,7 @@ function func_20190823f($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
     
+    /*
     $im = imagecreate(1000, 600);
     imagecolorallocate($im, 255, 255, 255);
     $color = imagecolorallocate($im, 0, 0, 0);
@@ -29,6 +30,16 @@ function func_20190823f($mu_)
     imagedestroy($im);
     
     error_log(filesize($file));
+    */
+    
+    $res = $mu_->get_contents('http://www.carp.co.jp/');
+    error_log($res);
+    
+    return;
+    
+    $file = tempnam('/tmp', 'jpeg_' . md5(microtime(true))) . '.jpg';
+    
+    
     
     $line = 'exiftool ' . $file;
     $mu_->cmd_execute($line);
