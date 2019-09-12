@@ -36,11 +36,18 @@ function func_20190823f($mu_)
     $line = 'outguess -k password -d ../composer.json ' . $file . ' ' . $file . '.jpg';
     $mu_->cmd_execute($line);
     
+    /*
     $line = 'exiftool -artist="TEST" ' . $file . '.jpg';
     $mu_->cmd_execute($line);
     
     $line = 'exiftool -all= ' . $file . '.jpg';
     $mu_->cmd_execute($line);
+    */
+    
+    $line = 'outguess -k password -r ' . $file . '.jpg /tmp/composer.txt';
+    $mu_->cmd_execute($line);
+    
+    error_log(file_get_contents('/tmp/composer.txt'));
     
     header('Content-Type: image/jpeg');
     echo file_get_contents($file . '.jpg');
