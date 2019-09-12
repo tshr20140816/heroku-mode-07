@@ -20,6 +20,7 @@ function func_20190823f($mu_)
     error_log($log_prefix . 'BEGIN');
     
     $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/');
+    // https://www.pakutaso.com/animal/cat/index_2.html
     // error_log($res);
     
     $rc = preg_match_all('/<a href="(https:\/\/www.pakutaso.com\/2.+?)"/', $res, $matches);
