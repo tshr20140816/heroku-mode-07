@@ -21,7 +21,7 @@ function func_20190823f($mu_)
     
     $line = 'curl -o /tmp/test.jpg https://farm8.staticflickr.com/7151/6760135001_14c59a1490_o.jpg';
     $mu_->cmd_execute($line);
-    error_log('/tmp/test.jpg');
+    error_log(filesize('/tmp/test.jpg'));
     unlink('/tmp/test.jpg');
     
     return;
