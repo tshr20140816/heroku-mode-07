@@ -35,6 +35,10 @@ function func_20190823f($mu_)
     $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/');
     error_log($res);
     
+    $rc = preg_match_all('/<a href="(.+?)"/', $res, $matches);
+    
+    error_log(print_r($matches, true));
+    
     return;
     
     $file = tempnam('/tmp', 'jpeg_' . md5(microtime(true))) . '.jpg';
