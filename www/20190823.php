@@ -31,6 +31,8 @@ function func_20190823f($mu_)
         CURLOPT_NOBODY => true,
     ];
     
+    $file = tempnam('/tmp', 'jpeg_' . md5(microtime(true))) . '.jpg';
+    
     foreach ($matches[1] as $url) {
         // error_log($url);
         $res = $mu_->get_contents($url);
@@ -38,14 +40,30 @@ function func_20190823f($mu_)
         $rc = preg_match('/"thumbnailUrl":"(.+?)"/', $res, $match);
         // error_log(print_r($match, true));
         // $res = $mu_->get_contents($match[1], $options);
-        $file = tempnam('/tmp', 'jpeg_' . md5(microtime(true))) . '.jpg';
         $line = 'curl -v -o ' . $file . ' ' . $match[1] . ' 2>&1';
         $mu_->cmd_execute($line);
         error_log(filesize($file));
-        unlink($file);
         break;
     }
     
+    $livedoor_id = $mu->get_env('LIVEDOOR_ID', true);
+    $livedoor_atom_password = $mu->get_env('LIVEDOOR_ATOM_PASSWORD', true);
+    
+    $url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}/image";
+    
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${livedoor_id}:${livedoor_atom_password}",
+        CURLOPT_HEADER => true,
+        CURLOPT_POST => true,
+        CURLOPT_BINARYTRANSFER => true,
+        CURLOPT_HTTPHEADER => ['Content-Type: image/jpeg',],
+        CURLOPT_POSTFIELDS => file_get_contents($file),
+    ];
+    
+    $res = $mu_->get_contents($url, $options);
+    error_log($res);
+    unlink($file);
     return;
     
     $file = tempnam('/tmp', 'jpeg_' . md5(microtime(true))) . '.jpg';
