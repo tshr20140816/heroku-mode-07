@@ -229,7 +229,7 @@ function make_score_map($mu_, $file_name_rss_items_)
 
 
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
-    exec('node ../scripts/chartjs_node.js 640 360 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    exec('node ../scripts/chartjs_node.js 600 360 ' . base64_encode(json_encode($json)) . ' ' . $file);
     $res = file_get_contents($file);
     unlink($file);
 
@@ -356,9 +356,9 @@ function make_loggly_usage($mu_, $file_name_rss_items_)
                                    ],
                        ];
     $scales->yAxes[] = ['id' => 'y-axis-1',
+                        'position' => 'right',
                         'ticks' => ['fontColor' => 'black',
                                     'max' => 200,
-                                    'position' => 'right',
                                    ],
                        ];
 
