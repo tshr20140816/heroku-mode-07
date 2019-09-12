@@ -33,14 +33,16 @@ function func_20190823f($mu_)
     */
     
     $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/');
-    error_log($res);
+    // error_log($res);
     
     $rc = preg_match_all('/<a href="(https:\/\/www.pakutaso.com\/2.+?)"/', $res, $matches);
     
-    error_log(print_r($matches, true));
+    // error_log(print_r($matches, true));
     
     foreach ($matches[1] as $url) {
         error_log($url);
+        $res = $mu_->get_contents($url);
+        error_log($res);
         break;
     }
     
