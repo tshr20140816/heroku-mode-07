@@ -39,12 +39,19 @@ function func_20190823f($mu_)
     
     // error_log(print_r($matches, true));
     
+    $options = [
+        CURLOPT_HEADER => true,
+        CURLOPT_NOBODY => true,
+    ];
+    
     foreach ($matches[1] as $url) {
-        error_log($url);
+        // error_log($url);
         $res = $mu_->get_contents($url);
         // error_log($res);
         $rc = preg_match('/"thumbnailUrl":"(.+?)"/', $res, $match);
-        error_log(print_r($match, true));
+        // error_log(print_r($match, true));
+        $res = $mu_->get_contents($match[1], $options);
+        error_log($res);
         break;
     }
     
