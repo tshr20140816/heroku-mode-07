@@ -68,7 +68,7 @@ function func_20190823f($mu_)
     $line = 'exiftool -all= ' . $file;
     $mu_->cmd_execute($line);
     
-    $line = 'convert -geometry "400%" ' . $file . ' ' . $file . '.jpg';
+    $line = 'convert -geometry "500%" ' . $file . ' ' . $file . '.jpg';
     $mu_->cmd_execute($line);
     
     unlink($file);
