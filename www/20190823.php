@@ -19,19 +19,6 @@ function func_20190823f($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
     
-    /*
-    $im = imagecreate(1000, 600);
-    imagecolorallocate($im, 255, 255, 255);
-    $color = imagecolorallocate($im, 0, 0, 0);
-    imagestring($im, 1, 0, 0, date('His', strtotime('+9 hours')), $color);
-    
-    $file = tempnam('/tmp', 'jpeg_' . md5(microtime(true))) . '.jpg';
-    imagejpeg($im, $file, 100);
-    imagedestroy($im);
-    
-    error_log(filesize($file));
-    */
-    
     $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/');
     // error_log($res);
     
@@ -50,8 +37,10 @@ function func_20190823f($mu_)
         // error_log($res);
         $rc = preg_match('/"thumbnailUrl":"(.+?)"/', $res, $match);
         // error_log(print_r($match, true));
-        $res = $mu_->get_contents($match[1], $options);
-        error_log($res);
+        // $res = $mu_->get_contents($match[1], $options);
+        $file = tempnam('/tmp', 'jpeg_' . md5(microtime(true))) . '.jpg';
+        $line = 'curl -v -o ' . $file . ' ' . $url;
+        $mu_->cmd_execute($line);
         break;
     }
     
