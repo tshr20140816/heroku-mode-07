@@ -19,7 +19,7 @@ function func_20190823f($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
     
-    $im = imagecreate(300, 300);
+    $im = imagecreate(600, 600);
     imagecolorallocate($im, 255, 255, 255);
     $color = imagecolorallocate($im, 0, 0, 0);
     imagestring($im, 1, 0, 0, date('His', strtotime('+9 hours')), $color);
