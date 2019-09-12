@@ -49,8 +49,20 @@ function func_20190823f($mu_)
     $line = 'exiftool -all= ' . $file;
     $mu_->cmd_execute($line);
     
+    $line = 'outguess -k password -d ../composer.json ' . $file . ' ' . $file . '.jpg';
+    $res = $mu_->cmd_execute($line);
+    
+    unlink($file);
+    clearstatcache();
+    rename($file . '.jpg', $file);
+    
+    error_log(filesize($file));
+    
     $line = 'exiftool -artist="TEST" ' . $file;
     $mu_->cmd_execute($line);
+    
+    clearstatcache();
+    error_log(filesize($file));
     
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
     $livedoor_atom_password = $mu_->get_env('LIVEDOOR_ATOM_PASSWORD', true);
@@ -61,8 +73,6 @@ function func_20190823f($mu_)
         . "${url} --data-binary @${file}";
     $mu_->cmd_execute($line);
     
-    header('Content-Type: image/jpeg');
-    echo file_get_contents($file);
     unlink($file);
     return;
     
