@@ -39,7 +39,7 @@ function func_20190823f($mu_)
         // error_log(print_r($match, true));
         // $res = $mu_->get_contents($match[1], $options);
         $file = tempnam('/tmp', 'jpeg_' . md5(microtime(true))) . '.jpg';
-        $line = 'curl -v -o ' . $file . ' ' . $url;
+        $line = 'curl -v -o ' . $file . ' ' . $match[1];
         $mu_->cmd_execute($line);
         error_log(filesize($file));
         unlink($file);
