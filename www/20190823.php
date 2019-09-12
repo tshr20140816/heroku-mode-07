@@ -39,6 +39,11 @@ function func_20190823f($mu_)
     
     error_log(print_r($matches, true));
     
+    foreach ($matches[1] as $url) {
+        error_log($url);
+        break;
+    }
+    
     return;
     
     $file = tempnam('/tmp', 'jpeg_' . md5(microtime(true))) . '.jpg';
