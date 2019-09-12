@@ -30,10 +30,16 @@ function func_20190823f($mu_)
     
     error_log(filesize($file));
     
+    $line = 'exiftool ' . $file;
+    $mu_->cmd_execute($line);
+    
     $line = 'outguess -k password -d ../composer.json ' . $file . ' ' . $file . '.jpg';
     $mu_->cmd_execute($line);
     
     $line = 'exiftool -artist="TEST" ' . $file . '.jpg';
+    $mu_->cmd_execute($line);
+    
+    $line = 'exiftool -all= ' . $file . '.jpg';
     $mu_->cmd_execute($line);
     
     header('Content-Type: image/jpeg');
