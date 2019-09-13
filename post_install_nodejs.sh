@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 npm audit
 npm outdated
 
