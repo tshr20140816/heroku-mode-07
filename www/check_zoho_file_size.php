@@ -40,6 +40,7 @@ __HEREDOC__;
     }
     $result = null;
     $pdo = null;
+    error_log("${log_prefix} doc count : " . count($docids));
 
     foreach (array_keys($docids) as $docid) {
         $docids[$docid]['IS_EXISTS'] = false;
