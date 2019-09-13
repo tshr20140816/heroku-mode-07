@@ -1237,6 +1237,11 @@ function check_cpu_info($mu_, $file_name_blog_)
     $rc = preg_match('/model name.*?:\s*(.+)/', $res, $match);
 
     $content = "\nCPU : " . $match[1];
+
+    $res = $mu_->cmd_execute('cat /proc/version');
+
+    $content = "\n" . $res[0];
+
     file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
 
