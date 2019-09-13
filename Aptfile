@@ -9,5 +9,9 @@ exiftool
 # pv
 
 # -- curl --
-# libssh2-1
-# libbrotli1
+libssh2-1-dev
+libbrotli-dev
+libnghttp2-14
+libnghttp2-dev
+libpsl5
+libpsl-dev
