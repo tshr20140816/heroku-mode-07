@@ -66,21 +66,23 @@ fc-cache -fv > /dev/null 2>&1 &
 ldd bin/curl
 
 set +x
-pushd classes
-for file in $(ls . | grep .php$); do
-  php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
-done
-popd
-pushd scripts
-for file in $(ls . | grep .php$); do
-  php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
-done
-popd
-pushd www
-for file in $(ls . | grep .php$); do
-  php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
-done
-popd
+# pushd classes
+# for file in $(ls . | grep .php$); do
+#   php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
+# done
+# popd
+# pushd scripts
+# for file in $(ls . | grep .php$); do
+#   php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
+# done
+# popd
+# pushd www
+# for file in $(ls . | grep .php$); do
+#   php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
+# done
+# popd
+mv php_error.txt /tmp/
+cat /tmp/php_error.txt
 pushd scripts
 for file in $(ls . | grep .js$); do
   eslint ${file} 2>&1 | tee -a /tmp/php_error.txt
