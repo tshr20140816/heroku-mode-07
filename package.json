@@ -12,6 +12,6 @@
   },
   "scripts": {
     "heroku-prebuild": "bash check_point.sh 300",
-    "heroku-postbuild": "bash check_point.sh 400"
+    "heroku-postbuild": "bash post_install_nodejs.sh"
   }
 }
