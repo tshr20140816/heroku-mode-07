@@ -25,20 +25,20 @@ find -L . -type l | grep -v usr/share/doc
 grep -c -e processor /proc/cpuinfo
 cat /proc/cpuinfo | head -n $(($(cat /proc/cpuinfo | wc -l) / $(grep -c -e processor /proc/cpuinfo)))
 
-httpd -V
+# httpd -V
 # httpd -M | sort
-php --version
+# php --version
 # php -i
 # whereis php
 # php -m
 cat /proc/version
-curl --version
+# curl --version
 
 git --version
 
-lbzip2 --version
-megals --version
-parallel --version
+# lbzip2 --version
+# megals --version
+# parallel --version
 
 ulimit -u
 getconf ARG_MAX
