@@ -133,7 +133,7 @@ function search_hotel_sancoinn($mu_)
                 }
             }
         }
-        if (count($url) === 0) {
+        if (count($urls) === 0) {
             break;
         }
         $results = array_merge($results, $mu_->get_contents_multi($urls, null, $multi_options));
