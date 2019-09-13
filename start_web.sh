@@ -73,10 +73,10 @@ fc-cache -fv > /dev/null 2>&1 &
 # ln -s /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0 /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so
 # ln -s /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0 /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so.2
 
-pushd bin
-ls -lang
-chmod +x curl
-popd
+# pushd bin
+# ls -lang
+# chmod +x curl
+# popd
 
 set +x
 pushd classes
