@@ -5,17 +5,19 @@ include(dirname(__FILE__) . '/../classes/MyUtils.php');
 $pid = getmypid();
 $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
-error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
+error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s') . ' ' . $_SERVER['HTTP_USER_AGENT']);
 
 $mu = new MyUtils();
 
-if (substr($_SERVER['HTTP_USER_AGENT'], 0, 4) === 'curl') {
+$is_curl = substr($_SERVER['HTTP_USER_AGENT'], 0, 4) === 'curl';
+
+if ($is_curl === true) {
     search_hotel($mu);
 }
 // search_jtb_tour($mu);
 search_hotel_sancoinn($mu);
 
-if (substr($_SERVER['HTTP_USER_AGENT'], 0, 4) === 'curl') {
+if ($is_curl === true) {
     $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/get_twitter_jaxa.php';
     exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 
@@ -24,7 +26,9 @@ if (substr($_SERVER['HTTP_USER_AGENT'], 0, 4) === 'curl') {
 }
 $time_finish = microtime(true);
 
-$mu->post_blog_wordpress_async("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]');
+if ($is_curl === true) {
+    $mu->post_blog_wordpress_async("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]');
+}
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
 function search_hotel($mu_)
