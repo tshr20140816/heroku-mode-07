@@ -4,7 +4,6 @@ set -x
 
 cd ~
 touch .netrc
-
 echo "machine github.com" >> .netrc
 echo "login username" >> .netrc
 echo "password xxxxxxx" >> .netrc
@@ -17,6 +16,22 @@ cd /tmp
 git clone --depth=1 https://github.com/tshr20140816/heroku-mode-07.git
 git clone --depth=1 https://github.com/tshr20140816/heroku-mode-09.git
 
-diff heroku-mode-07/composer.json heroku-mode-09/composer.json
-diff heroku-mode-07/composer.lock heroku-mode-09/composer.lock
-# diff heroku-mode-07/package.json heroku-mode-09/package.json
+update_flag=0
+
+size=$(diff heroku-mode-07/composer.json heroku-mode-09/composer.json | wc -c)
+if [ $size -gt 0 ]; then
+    cp -f heroku-mode-07/composer.json heroku-mode-09/composer.json
+    update_flag=1
+fi
+size=$(diff heroku-mode-07/composer.lock heroku-mode-09/composer.lock | wc -c)
+if [ $size -gt 0 ]; then
+    cp -f heroku-mode-07/composer.lock heroku-mode-09/composer.lock
+    update_flag=1
+fi
+
+cd heroku-mode-09
+
+if [ $update_flag -eq 1 ]; then
+    git commit -a -m autoupdate
+    git push origin master
+fi
