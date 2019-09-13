@@ -511,7 +511,7 @@ function search_sunrize($mu_)
     $url_base = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
     $hash_url = 'url' . hash('sha512', $url_base);
     
-    $list_days = [8, 9, 10, 11, 12, 13, 14, 15];
+    $list_days = [12, 13, 14, 15, 16, 17, 18];
     $list_cookie = [];
     $urls = [];
     foreach ($list_days as $day) {
