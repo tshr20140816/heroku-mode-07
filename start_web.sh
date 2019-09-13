@@ -73,6 +73,10 @@ fc-cache -fv > /dev/null 2>&1 &
 # ln -s /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0 /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so
 # ln -s /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0 /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so.2
 
+pushd bin
+chmod +x curl
+popd
+
 set +x
 pushd classes
 for file in $(ls . | grep .php$); do
@@ -106,6 +110,7 @@ wait
 
 cat /tmp/pear_upgrades
 
-curl -s -m 1 --basic -u ${BASIC_USER}:${BASIC_PASSWORD} https://${HEROKU_APP_NAME}.herokuapp.com/opcache_compile_file.php
+# curl -s -m 1 --basic -u ${BASIC_USER}:${BASIC_PASSWORD} https://${HEROKU_APP_NAME}.herokuapp.com/opcache_compile_file.php
+bin/curl -s -m 1 --basic -u ${BASIC_USER}:${BASIC_PASSWORD} https://${HEROKU_APP_NAME}.herokuapp.com/opcache_compile_file.php
 
 vendor/bin/heroku-php-apache2 -C apache.conf www
