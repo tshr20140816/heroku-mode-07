@@ -111,6 +111,8 @@ if [ $count1 -lt $count2 ]; then
   curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/php_error_exists > /dev/null 2>&1
 fi
 
+cp /tmp/php_error.txt ./
+
 # ***** font etc *****
 
 # time curl -sS -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar \
