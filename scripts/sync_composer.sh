@@ -3,10 +3,8 @@
 set -x
 
 cd ~
-touch .netrc
-echo "machine github.com" >> .netrc
-echo "login username" >> .netrc
-echo "password xxxxxxx" >> .netrc
+
+php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ./make_netrc.php
 
 git config --global user.email "user"
 git config --global user.name "user"
