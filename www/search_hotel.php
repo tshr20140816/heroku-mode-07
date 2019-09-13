@@ -9,7 +9,9 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-search_hotel($mu);
+if (substr($_SERVER['HTTP_USER_AGENT'], 0, 4) === 'curl') {
+    search_hotel($mu);
+}
 // search_jtb_tour($mu);
 search_hotel_sancoinn($mu);
 
