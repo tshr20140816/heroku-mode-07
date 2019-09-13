@@ -124,8 +124,14 @@ curl -sS -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2
 curl -sS -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar
 __HEREDOC__
 
-time cat jobs.txt | parallel -j4 --joblog /tmp/joblog.txt 2>&1
-cat /tmp/joblog.txt
+# time cat jobs.txt | parallel -j4 --joblog /tmp/joblog.txt 2>&1
+# cat /tmp/joblog.txt
+
+time bin/curl -Z -sS \
+ -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar \
+ -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar \
+ -O https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip \
+ -L -o migu-1m.zip "https://ja.osdn.net/frs/redir.php?m=iij&f=mix-mplus-ipa/63545/migu-1m-20150712.zip"
 
 mkdir .fonts
 mv ipaexg00401.zip migu-1m.zip .fonts/
@@ -139,12 +145,12 @@ ls -lang .fonts/
 chmod 755 ./start_web.sh
 chmod 755 ./bin/unrar
 
-curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_100 > /dev/null 2>&1
+bin/curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_100 > /dev/null 2>&1
 
 date
 
 wait
 
-curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_200 > /dev/null 2>&1
+bin/curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_200 > /dev/null 2>&1
 
 date
