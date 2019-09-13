@@ -17,7 +17,7 @@ if [ ! -v BASIC_PASSWORD ]; then
   exit
 fi
 
-npm update >/dev/null 2>&1 &
+npm update >/tmp/npm_update_log 2>&1 &
 pear list-upgrades >/tmp/pear_upgrades 2>&1 &
 
 find -L . -type l | grep -v usr/share/doc
@@ -98,6 +98,7 @@ ls -lang /tmp
 
 wait
 
+cat /tmp/npm_update_log
 cat /tmp/pear_upgrades
 
 # curl -s -m 1 --basic -u ${BASIC_USER}:${BASIC_PASSWORD} https://${HEROKU_APP_NAME}.herokuapp.com/opcache_compile_file.php
