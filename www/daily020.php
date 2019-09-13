@@ -1058,8 +1058,8 @@ function check_version_apache($mu_, $file_name_blog_)
     krsort($list_version);
     $version_latest = array_shift($list_version);
 
-    $res = file_get_contents('/tmp/apache_current_version');
-    $version_current = trim(str_replace(["\r\n", "\r", "\n", '   ', '  '], ' ', $res));
+    $res = $mu_->cmd_execute('httpd -v');
+    $version_current = trim(str_replace(["\r\n", "\r", "\n", '   ', '  '], ' ', $res[0]));
 
     $url = 'https://devcenter.heroku.com/articles/php-support?4nocache' . date('Ymd', strtotime('+9 hours'));
     $res = $mu_->get_contents($url, null, true);
@@ -1102,12 +1102,11 @@ function check_version_php($mu_, $file_name_blog_)
         $list_version[(int)$tmp[0] * 10000 + (int)$tmp[1] * 100 + (int)$tmp[2]] = $element->nodeValue;
     }
     krsort($list_version);
-    // error_log(print_r($list_version, true));
     $mu_->logging_object($list_version, $log_prefix);
     $version_latest = array_shift($list_version);
 
-    $res = file_get_contents('/tmp/php_current_version');
-    $version_current = trim(str_replace(["\r\n", "\r", "\n", '   ', '  '], ' ', $res));
+    $res = $mu_->cmd_execute('php -v | head -n 1');
+    $version_current = trim(str_replace(["\r\n", "\r", "\n", '   ', '  '], ' ', $res[0]));
 
     $url = 'https://devcenter.heroku.com/articles/php-support?4nocache' . date('Ymd', strtotime('+9 hours'));
     $res = $mu_->get_contents($url, null, true);
@@ -1150,8 +1149,8 @@ function check_version_curl($mu_, $file_name_blog_)
 
     $version_latest = $elements[0]->nodeValue;
 
-    $res = file_get_contents('/tmp/curl_current_version');
-    $version_current = trim(str_replace(["\r\n", "\r", "\n", '   ', '  '], ' ', $res));
+    $res = $mu_->cmd_execute('curl -v | head -n 1');
+    $version_current = trim(str_replace(["\r\n", "\r", "\n", '   ', '  '], ' ', $res[0]));
 
     error_log($log_prefix . '$version_latest : ' . $version_latest);
     error_log($log_prefix . '$version_current : ' . $version_current);
