@@ -101,7 +101,7 @@ function search_hotel_sancoinn($mu_)
     $list_hotel[] = '6';
     $list_hotel[] = '10';
     $list_hotel[] = '11';
-    
+
     $list_date = [];
     $list_date[] = '2019/10/11';
     $list_date[] = '2019/10/12';
@@ -115,20 +115,29 @@ function search_hotel_sancoinn($mu_)
     $list_date[] = '2020/10/09';
     $list_date[] = '2020/10/10';
 
-    $urls = [];
-    foreach ($list_date as $date) {
-        foreach ($list_hotel as $hotel_id) {
-            $url = str_replace('__HI_ID__', $hotel_id, $url_base);
-            $url = str_replace('__DATE__', $date, $url);
-            $urls[$url] = null;
-        }
-    }
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
         CURLMOPT_MAX_HOST_CONNECTIONS => 100,
         CURLMOPT_MAXCONNECTS => 100,
     ];
-    $results = $mu_->get_contents_multi($urls, null, $multi_options);
+
+    $results = [];
+    for ($i = 0; $i < 2; $i++) {
+        $urls = [];
+        foreach ($list_date as $date) {
+            foreach ($list_hotel as $hotel_id) {
+                $url = str_replace('__HI_ID__', $hotel_id, $url_base);
+                $url = str_replace('__DATE__', $date, $url);
+                if (array_key_exists($results, $url) !== false) {
+                    $urls[$url] = null;
+                }
+            }
+        }
+        if (count($url) === 0) {
+            break;
+        }
+        $results = array_merge($results, $mu_->get_contents_multi($urls, null, $multi_options));
+    }
 
     $keyword = '誠に申し訳ございませんが、この検索条件に該当する空室・プランが見つかりませんでした。';
 
