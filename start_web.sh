@@ -46,15 +46,6 @@ getconf ARG_MAX
 hostname -A
 hostname -I
 
-echo "$(httpd -v)" > /tmp/apache_current_version
-echo "$(php -v | head -n 1)" > /tmp/php_current_version
-echo "$(curl -V | head -n 1)" > /tmp/curl_current_version
-
-# if [ $(date +%-M) -lt 10 ]; then
-  # heroku-buildpack-php
-#   composer update > /dev/null 2>&1 &
-# fi
-
 htpasswd -c -b .htpasswd ${BASIC_USER} ${BASIC_PASSWORD}
 
 dig -t txt _netblocks.google.com | grep ^[^\;] > /tmp/_netblocks.google.com.txt
