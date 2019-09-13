@@ -80,8 +80,12 @@ fi
 
 # find . -name ExifTool.pm -print
 
+chmod +x ./start_web.sh
+chmod +x ./check_point.sh
+chmod +x ./post_install_nodejs.sh
 pushd bin
 chmod +x curl
+chmod +x unrar
 popd
 
 # ***** php syntax check *****
@@ -143,9 +147,6 @@ time unzip migu-1m.zip
 rm -f *.zip
 popd
 ls -lang .fonts/
-
-chmod 755 ./start_web.sh
-chmod 755 ./bin/unrar
 
 bin/curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_100 > /dev/null 2>&1
 
