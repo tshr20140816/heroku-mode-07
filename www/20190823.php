@@ -68,6 +68,7 @@ function func_20190823g($mu_)
                 error_log($log_prefix . $url);
                 if (array_key_exists($url, $results) !== false) {
                     $urls[$url] = null;
+                    error_log(print_r($urls, true));
                 }
             }
         }
@@ -76,7 +77,7 @@ function func_20190823g($mu_)
         }
         $results = array_merge($results, $mu_->get_contents_multi($urls, null, $multi_options));
     }
-    error_log(print_r($url, true));
+    error_log(print_r($urls, true));
     return;
 
     $keyword = '誠に申し訳ございませんが、この検索条件に該当する空室・プランが見つかりませんでした。';
