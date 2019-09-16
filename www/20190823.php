@@ -9,18 +9,114 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823f($mu);
+func_20190823g($mu);
 // @unlink('/tmp/dummy');
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190823g($mu_)
+function func_20190823h($mu_)
 {
     /*
     https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=736&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2019&ciDateM=10&ciDateD=12&lowerCharge=0&upperCharge=999999&coDateY=2019&coDateM=10&coDateD=13&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1
     https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=9211&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2019&ciDateM=10&ciDateD=11&lowerCharge=0&upperCharge=999999&coDateY=2019&coDateM=10&coDateD=12&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1
     https://www.rj-win.jp/USER_PC/search/plan/group_id/81/hotel_id/76#start_position
     */
+}
+
+function func_20190823g($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $url_base = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?'
+        . 'cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id='
+        . '&hi_id=__HI_ID__&dt=__DATE__&lang=ja-JP';
+    $hash_url = 'url' . hash('sha512', $url_base);
+    error_log($log_prefix . "url hash : ${hash_url}");
+
+    $list_hotel = [];
+    $list_hotel[] = '4';
+    $list_hotel[] = '6';
+    $list_hotel[] = '10';
+    $list_hotel[] = '11';
+
+    $list_date = [];
+    $list_date[] = '2019/10/11';
+    $list_date[] = '2019/10/12';
+    // $list_date[] = '2020/07/30';
+    // $list_date[] = '2020/07/31';
+    // $list_date[] = '2020/08/09';
+    // $list_date[] = '2020/09/09';
+    $list_date[] = '2020/09/29';
+    $list_date[] = '2020/09/30';
+    $list_date[] = '2020/10/01';
+    $list_date[] = '2020/10/09';
+    $list_date[] = '2020/10/10';
+
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 100,
+        CURLMOPT_MAXCONNECTS => 100,
+    ];
+
+    $results = [];
+    for ($i = 0; $i < 2; $i++) {
+        $urls = [];
+        foreach ($list_date as $date) {
+            foreach ($list_hotel as $hotel_id) {
+                $url = str_replace('__HI_ID__', $hotel_id, $url_base);
+                $url = str_replace('__DATE__', $date, $url);
+                error_log($log_prefix . $url);
+                if (array_key_exists($url, $results) !== false) {
+                    $urls[$url] = null;
+                }
+            }
+        }
+        if (count($urls) === 0) {
+            break;
+        }
+        $results = array_merge($results, $mu_->get_contents_multi($urls, null, $multi_options));
+    }
+    error_log(print_r($url, true));
+    return;
+
+    $keyword = '誠に申し訳ございませんが、この検索条件に該当する空室・プランが見つかりませんでした。';
+
+    $description = '';
+    foreach ($list_date as $date) {
+        foreach ($list_hotel as $hotel_id) {
+            $url = str_replace('__HI_ID__', $hotel_id, $url_base);
+            $url = str_replace('__DATE__', $date, $url);
+            $res = $results[$url];
+
+            $rc = preg_match('/<title>(.+?) /s', $res, $match);
+            $description .= "\n" . $date . ' ' . trim($match[1]) . "\n\n";
+
+            if (strpos($res, $keyword) === false) {
+                $rc = preg_match_all('/<h2 class="strong c-bd02 side">(.+?)<\/h2>.+?&yen;(.+?)\n/s', $res, $matches, PREG_SET_ORDER);
+                foreach ($matches as $match) {
+                    $tmp = trim(str_replace("\r\n", '', strip_tags($match[1])));
+                    $tmp = preg_replace('/ +/', ' ', $tmp) . ' ' . $match[2] . "\n";
+                    // error_log($log_prefix . $tmp);
+                    $description .= $tmp;
+                }
+            } else {
+                // error_log($log_prefix . 'NONE');
+                $description .= "NONE\n";
+            }
+        }
+    }
+
+    // error_log($description);
+    $mu_->logging_object($description, $log_prefix);
+    $hash_description = hash('sha512', $description);
+
+    $res = $mu_->search_blog($hash_url);
+    if ($res != $hash_description) {
+        // $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ ' . $hash_url . '</');
+        $description = '<div class="' . $hash_url . '">' . "${hash_description}</div>${description}";
+        // $mu_->post_blog_wordpress($hash_url, $description, 'hotel');
+    }
+    error_log($description);
 }
 
 function func_20190823f($mu_)
