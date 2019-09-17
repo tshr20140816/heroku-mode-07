@@ -58,8 +58,8 @@ function func_20190823h($mu_)
     $tmp = explode('</form>', $res);
     // $rc = preg_match_all('/<span class="em">(.+?)<.+?<td style="border-bottom:1px dotted #cccccc;" align="center">(.+?)</s', $tmp[1], $matches);
     // error_log(print_r($matches, true));
-    $rc = preg_match_all('/<table.+?<\/table>.+?<\/table>/s', $tmp[1], $matches);
-    error_log(print_r($matches, true));
+    $tmp = explode('<table class="tbl02" cellpadding="0" cellspacing="0" border="0">', $tmp[1]);
+    error_log(print_r($tmp, true));
 }
 
 function func_20190823g($mu_)
