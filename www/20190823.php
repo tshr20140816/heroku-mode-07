@@ -55,7 +55,8 @@ function func_20190823h($mu_)
     $res = $mu_->get_contents($url, $options, true);
     error_log($res);
     
-    $rc = preg_match_all('/<span class="em">(.+?)</', $res, $matches);
+    $tmp = explode('</form>', $res);    
+    $rc = preg_match_all('/<span class="em">(.+?)</', $tmp[1], $matches);
     error_log(print_r($matches, true));
 }
 
