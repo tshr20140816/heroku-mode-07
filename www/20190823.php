@@ -33,7 +33,7 @@ function func_20190823h($mu_)
         'capacity' => '2',
         's_charge' => '0',
         'e_charge' => '0',
-        'adult' => '1',
+        'adult' => '2',
         'upper' => '0',
         'lower' => '0',
         'baby_meakandbed' => '0',
@@ -46,7 +46,7 @@ function func_20190823h($mu_)
         'sp_id' => '',
         'viainn_card_flg' => '0',
         'member_id' => '',
-        'stpoflg' => '0',
+        'stpoflg' => '1',
     ];
     $options = [
         CURLOPT_POST => true,
