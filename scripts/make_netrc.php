@@ -15,7 +15,7 @@ $netrc = <<< __HEREDOC__
 machine github.com
 login {$login_user}
 password {$login_password}
-__HEREDOC__
+__HEREDOC__;
 
 file_put_contents('../.netrc', $netrc);
 
