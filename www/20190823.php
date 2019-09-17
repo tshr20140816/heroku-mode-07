@@ -14,6 +14,14 @@ func_20190823h($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
+function func_20190823i($mu_)
+{
+    /*
+    https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=736&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2019&ciDateM=10&ciDateD=12&lowerCharge=0&upperCharge=999999&coDateY=2019&coDateM=10&coDateD=13&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1
+    https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=9211&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2019&ciDateM=10&ciDateD=11&lowerCharge=0&upperCharge=999999&coDateY=2019&coDateM=10&coDateD=12&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1
+    */
+}
+
 function func_20190823h($mu_)
 {
     /*
@@ -22,7 +30,7 @@ function func_20190823h($mu_)
     https://www.rj-win.jp/USER_PC/search/plan/group_id/81/hotel_id/76#start_position
     */
     
-    $url = 'https://www.rj-win.jp/USER_PC/search/room/group_id/81/hotel_id/76';
+    $url_base = 'https://www.rj-win.jp/USER_PC/search/room/group_id/81/hotel_id/76';
     
     $list_date = [];
     $list_date[] = '2019/10/11';
@@ -33,6 +41,12 @@ function func_20190823h($mu_)
     // $list_date[] = '2020/04/15';
     // $list_date[] = '2020/05/15';
     $list_date[] = '2020/10/01';
+    
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 8,
+        CURLMOPT_MAXCONNECTS => 8,
+    ];
     
     $post_data = [
         'yearmonth' => '2019-10',
@@ -58,19 +72,34 @@ function func_20190823h($mu_)
         'member_id' => '',
         'stpoflg' => '1',
     ];
+    $results = [];
+    for ($i = 0; $i < 2; $i++) {
+        $urls = []:
+        foreach ($list_date as $date) {
+            $tmp = explode('/', $date);
+            $post_data['yearmonth'] = $tmp[0] . '-' . $tmp[1];
+            $post_data['day'] = $tmp[2];
+
+            $options = [
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => http_build_query($post_data),
+            ];
+            $url = $url_base . '?' . urlencode($date);
+            if (array_key_exists($url, $results) === false) {
+                $urls[$url_base . '?' . urlencode($date)] = $option;
+            }
+        }
+        if (count($urls) === 0) {
+            break;
+        }
+        $results = array_merge($results, $mu_->get_contents_multi($urls, null, $multi_options));
+    }
+    
     $description = '';
     foreach ($list_date as $date) {
-        // error_log($date);
         $description .= "\n${date}\n";
-        $tmp = explode('/', $date);
-        $post_data['yearmonth'] = $tmp[0] . '-' . $tmp[1];
-        $post_data['day'] = $tmp[2];
-
-        $options = [
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => http_build_query($post_data),
-        ];
-        $res = $mu_->get_contents($url, $options, true);
+        $url = $url_base . '?' . urlencode($date);
+        $res = $results[$url];
 
         $tmp = explode('</form>', $res);
         $tmp = explode('<table class="tbl02" cellpadding="0" cellspacing="0" border="0">', $tmp[1]);
@@ -80,17 +109,14 @@ function func_20190823h($mu_)
             if ($rc === 0) {
                 continue;
             }
-            // error_log($match[1]);
             $room_name = $match[1];
             $rc = preg_match_all('/<td style="border-bottom:1px dotted #cccccc;" align="center">￥(.+?) /', $item, $matches);
-            // error_log(print_r($matches, true));
             foreach ($matches[1] as $item) {
                 $item = str_replace(',', '', $item);
                 if ((int)$item < $price) {
                     $price = (int)$item;
                 }
             }
-            // error_log($room_name . ' ' . number_format($price));
             $description .= $room_name . ' ' . number_format($price) . "\n";
         }
     }
