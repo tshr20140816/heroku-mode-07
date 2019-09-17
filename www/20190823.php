@@ -53,13 +53,17 @@ function func_20190823h($mu_)
         CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
     $res = $mu_->get_contents($url, $options, true);
-    error_log($res);
+    // error_log($res);
     
     $tmp = explode('</form>', $res);
     // $rc = preg_match_all('/<span class="em">(.+?)<.+?<td style="border-bottom:1px dotted #cccccc;" align="center">(.+?)</s', $tmp[1], $matches);
     // error_log(print_r($matches, true));
     $tmp = explode('<table class="tbl02" cellpadding="0" cellspacing="0" border="0">', $tmp[1]);
-    error_log(print_r($tmp, true));
+    // error_log(print_r($tmp, true));
+    foreach ($tmp as $item) {
+        $rc = preg_match('/<span class="em">(.+?)</', $item, $match);
+        error_log($match[1]);
+    }
 }
 
 function func_20190823g($mu_)
