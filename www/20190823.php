@@ -24,13 +24,9 @@ function func_20190823i($mu_)
 
 function func_20190823h($mu_)
 {
-    /*
-    https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=736&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2019&ciDateM=10&ciDateD=12&lowerCharge=0&upperCharge=999999&coDateY=2019&coDateM=10&coDateD=13&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1
-    https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=9211&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2019&ciDateM=10&ciDateD=11&lowerCharge=0&upperCharge=999999&coDateY=2019&coDateM=10&coDateD=12&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1
-    https://www.rj-win.jp/USER_PC/search/plan/group_id/81/hotel_id/76#start_position
-    */
+    // grandcourt
     
-    $url_base = 'https://www.rj-win.jp/USER_PC/search/room/group_id/81/hotel_id/76';
+    $url_base = $mu_->get_env('URL_HOTEL_02');
     
     $list_date = [];
     $list_date[] = '2019/10/11';
