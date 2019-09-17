@@ -35,10 +35,23 @@ popd
 
 # ***** phppgadmin *****
 
+# pushd www
+# time git clone --depth=1 -b REL_5-6-0  https://github.com/phppgadmin/phppgadmin.git phppgadmin
+# cp ../config.inc.php phppgadmin/conf/
+# # ls -lang phppgadmin
+# popd
+
+cat << '__HEREDOC__' >jobs.txt
+git clone --depth=1 -b REL_5-6-0  https://github.com/phppgadmin/phppgadmin.git www/phppgadmin
+git clone --depth=1 https://github.com/tshr20140816/heroku-mode-07.git /tmp/heroku-mode-07
+git clone --depth=1 https://github.com/tshr20140816/heroku-mode-09.git /tmp/heroku-mode-09
+__HEREDOC__
+
+time cat jobs.txt | parallel -j3 --joblog /tmp/joblog.txt 2>&1
+cat /tmp/joblog.txt
+
 pushd www
-time git clone --depth=1 -b REL_5-6-0  https://github.com/phppgadmin/phppgadmin.git phppgadmin
 cp ../config.inc.php phppgadmin/conf/
-# ls -lang phppgadmin
 popd
 
 mkdir lib
