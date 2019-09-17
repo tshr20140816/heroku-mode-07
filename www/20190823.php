@@ -83,7 +83,7 @@ function func_20190823h($mu_)
                     $price = (int)$item;
                 }
             }
-            error_log($room_name . ' ' . $price);
+            error_log($room_name . ' ' . number_format($price));
         }
     }
 }
