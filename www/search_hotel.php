@@ -90,8 +90,8 @@ function search_hotel_sancoinn($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $url_base = 'https://secure.reservation.jp/sanco-inn/stay_pc/rsv/rsv_src_pln.aspx?'
-        . 'cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id='
+    $url_base = $mu_->get_env('URL_HOTEL_01')
+        . '?cond=or&dt_tbd=0&le=1&rc=1&pmin=0&ra=&pa=&cl_tbd=0&mc=2&rt=&st=0&pmax=2147483647&cc=&smc_id='
         . '&hi_id=__HI_ID__&dt=__DATE__&lang=ja-JP';
     $hash_url = 'url' . hash('sha512', $url_base);
     error_log($log_prefix . "url hash : ${hash_url}");
