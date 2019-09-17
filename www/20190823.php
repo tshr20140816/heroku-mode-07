@@ -24,9 +24,12 @@ function func_20190823i($mu_)
 
 function func_20190823h($mu_)
 {
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     // grandcourt
     
     $url_base = $mu_->get_env('URL_HOTEL_02');
+    $hash_url = 'url' . hash('sha512', $url_base);
+    error_log($log_prefix . "url hash : ${hash_url}");
     
     $list_date = [];
     $list_date[] = '2019/10/11';
@@ -116,7 +119,15 @@ function func_20190823h($mu_)
             $description .= $room_name . ' ' . number_format($price) . "\n";
         }
     }
-    error_log($description);
+    $mu_->logging_object($description, $log_prefix);
+    $hash_description = hash('sha512', $description);
+
+    $res = $mu_->search_blog($hash_url);
+    if ($res != $hash_description) {
+        $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ ' . $hash_url . '</');
+        $description = '<div class="' . $hash_url . '">' . "${hash_description}</div>${description}";
+        $mu_->post_blog_wordpress($hash_url, $description, 'hotel');
+    }
 }
 
 function func_20190823g($mu_)
