@@ -390,3 +390,96 @@ function search_hotel_grandcourt($mu_)
         $mu_->post_blog_wordpress($hash_url, $description, $mu_->to_next_word('grandcourt'));
     }
 }
+
+function search_hotel_greenhotels($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $url_base = 'https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=__HOTEL_NO__&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=__YEAR1__&ciDateM=__MONTH1__&ciDateD=__DAY1__&lowerCharge=0&upperCharge=999999&coDateY=__YEAR2__&coDateM=__MONTH2__&coDateD=__DAY2__&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1';
+    $hash_url = 'url' . hash('sha512', $url_base);
+    error_log($log_prefix . "url hash : ${hash_url}");
+
+    $list_hotel = [];
+    $list_hotel[] = '736';
+    $list_hotel[] = '9211';
+
+    $list_date = [];
+    $list_date[] = '2019/10/11';
+    $list_date[] = '2019/10/12';
+    $list_date[] = '2020/02/29';
+    $list_date[] = '2020/03/02';
+    $list_date[] = '2020/03/15';
+    // $list_date[] = '2020/04/15';
+    // $list_date[] = '2020/05/15';
+    $list_date[] = '2020/10/01';
+    
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 100,
+        CURLMOPT_MAXCONNECTS => 100,
+    ];
+
+    $results = [];
+    for ($i = 0; $i < 2; $i++) {
+        $urls = [];
+        foreach ($list_date as $date) {
+            foreach ($list_hotel as $hotel_no) {
+                $target_date = strtotime($date);
+                $target_next_date = strtotime('+1day', $target_date);
+
+                $url = str_replace('__HOTEL_NO__', $hotel_no, $url_base);
+                $url = str_replace('__YEAR1__', date('Y', $target_date), $url);
+                $url = str_replace('__MONTH1__', date('m', $target_date), $url);
+                $url = str_replace('__DAY1__', date('d', $target_date), $url);
+                $url = str_replace('__YEAR2__', date('Y', $target_next_date), $url);
+                $url = str_replace('__MONTH2__', date('m', $target_next_date), $url);
+                $url = str_replace('__DAY2__', date('d', $target_next_date), $url);
+                // error_log($log_prefix . $url);
+                if (array_key_exists($url, $results) === false) {
+                    $urls[$url] = null;
+                }
+            }
+        }
+        if (count($urls) === 0) {
+            break;
+        }
+        $results = array_merge($results, $mu_->get_contents_multi($urls, null, $multi_options));
+    }
+
+    $description = '';
+    foreach ($list_date as $date) {
+        foreach ($list_hotel as $hotel_no) {
+            $target_date = strtotime($date);
+            $target_next_date = strtotime('+1day', $target_date);
+
+            $url = str_replace('__HOTEL_NO__', $hotel_no, $url_base);
+            $url = str_replace('__YEAR1__', date('Y', $target_date), $url);
+            $url = str_replace('__MONTH1__', date('m', $target_date), $url);
+            $url = str_replace('__DAY1__', date('d', $target_date), $url);
+            $url = str_replace('__YEAR2__', date('Y', $target_next_date), $url);
+            $url = str_replace('__MONTH2__', date('m', $target_next_date), $url);
+            $url = str_replace('__DAY2__', date('d', $target_next_date), $url);
+            $res = $results[$url];
+            $rc = preg_match('/<h1>(.+?)－/', $res, $match);
+            $description .= "\n${date} " . $match[1] . "\n";
+
+            $tmp = explode('<dd class="planName">', $res);
+            foreach ($tmp as $item) {
+                $rc = preg_match('/<strong>(.+?)<.+?<B>(.+?)<.+?<td class="totalCharge">(.+?)</s', $item, $match);
+                if ($rc === false) {
+                    continue;
+                }
+                $description .= trim($match[3]) . ' ' . trim($match[2]) . ' ' . trim($match[1]) . "\n";
+            }
+        }
+    }
+    $mu_->logging_object($description, $log_prefix);
+    $hash_description = hash('sha512', $description);
+
+    $res = $mu_->search_blog($hash_url);
+    if ($res != $hash_description) {
+        $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ ' . $hash_url . '</');
+        $description = '<div class="' . $hash_url . '">' . "${hash_description}</div>${description}";
+        $mu_->post_blog_wordpress($hash_url, $description, $mu_->to_next_word('greenhotels'));
+    }
+}
