@@ -20,7 +20,9 @@ function func_20190823i($mu_)
     https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=736&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2019&ciDateM=10&ciDateD=12&lowerCharge=0&upperCharge=999999&coDateY=2019&coDateM=10&coDateD=13&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1
     https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=9211&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2019&ciDateM=10&ciDateD=11&lowerCharge=0&upperCharge=999999&coDateY=2019&coDateM=10&coDateD=12&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1
     */
-    $url = 'https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=__HOTEL_NO__&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=__YEAR1__&ciDateM=__MONTH1__&ciDateD=__DATE1__&lowerCharge=0&upperCharge=999999&coDateY=__YEAR2__&coDateM=__MONTH2__&coDateD=__DATE2__&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1';
+    $url_base = 'https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=__HOTEL_NO__&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=__YEAR1__&ciDateM=__MONTH1__&ciDateD=__DATE1__&lowerCharge=0&upperCharge=999999&coDateY=__YEAR2__&coDateM=__MONTH2__&coDateD=__DATE2__&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1';
+    $hash_url = 'url' . hash('sha512', $url_base);
+    error_log($log_prefix . "url hash : ${hash_url}");
     
     $list_hotel = [];
     $list_hotel[] = '736';
@@ -29,6 +31,36 @@ function func_20190823i($mu_)
     $list_date = [];
     // $list_date[] = '2019/10/11';
     $list_date[] = '2019/10/16';
+    
+    $results = [];
+    for ($i = 0; $i < 2; $i++) {
+        $urls = [];
+        foreach ($list_date as $date) {
+            foreach ($list_hotel as $hotel_no) {
+                $target_date = strtotime($date);
+                $target_next_date = strtotime($date + ' +1day');
+                error_log(date('Ymd', $target_date) . ' ' . date('Ymd', $target_next_date));
+                
+                $url = str_replace('__HOTEL_NO__', $hotel_no, $url_base);
+                $url = str_replace('__YEAR1__', date('Y', $target_date), $url);
+                $url = str_replace('__MONTH1__', date('m', $target_date), $url);
+                $url = str_replace('__DAY1__', date('d', $target_date), $url);
+                $url = str_replace('__YEAR2__', date('Y', $target_next_date), $url);
+                $url = str_replace('__MONTH2__', date('m', $target_next_date), $url);
+                $url = str_replace('__DAY2__', date('d', $target_next_date), $url);
+                error_log($log_prefix . $url);
+                if (array_key_exists($url, $results) === false) {
+                    $urls[$url] = null;
+                }
+            }
+        }
+        if (count($urls) === 0) {
+            break;
+        }
+        // $results = array_merge($results, $mu_->get_contents_multi($urls, null, $multi_options));
+    }
+    error_log(print_r($urls, true));
+    return;
     
     $res = $mu_->get_contents($url, null, true);
     // error_log($res);
