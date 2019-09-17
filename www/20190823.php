@@ -21,7 +21,7 @@ function func_20190823i($mu_)
     https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=736&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2019&ciDateM=10&ciDateD=12&lowerCharge=0&upperCharge=999999&coDateY=2019&coDateM=10&coDateD=13&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1
     https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=9211&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2019&ciDateM=10&ciDateD=11&lowerCharge=0&upperCharge=999999&coDateY=2019&coDateM=10&coDateD=12&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1
     */
-    $url_base = 'https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=__HOTEL_NO__&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=__YEAR1__&ciDateM=__MONTH1__&ciDateD=__DATE1__&lowerCharge=0&upperCharge=999999&coDateY=__YEAR2__&coDateM=__MONTH2__&coDateD=__DATE2__&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1';
+    $url_base = 'https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=__HOTEL_NO__&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=__YEAR1__&ciDateM=__MONTH1__&ciDateD=__DAY1__&lowerCharge=0&upperCharge=999999&coDateY=__YEAR2__&coDateM=__MONTH2__&coDateD=__DAY2__&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1';
     $hash_url = 'url' . hash('sha512', $url_base);
     error_log($log_prefix . "url hash : ${hash_url}");
     
