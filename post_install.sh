@@ -23,17 +23,7 @@ fi
 # wget https://github.com/pyrus/Pyrus/blob/master/pyrus.phar
 # php pyrus.phar install pear/XML_RPC2
 
-# ***** heroku cli *****
-
-time curl -sS -o heroku.tar.gz https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz
-mkdir heroku
-mv heroku.tar.gz ./heroku/heroku.tar.gz
-pushd heroku
-time tar xf heroku.tar.gz --strip-components=1
-rm heroku.tar.gz
-popd
-
-# ***** phppgadmin *****
+# ***** heroku cli & phppgadmin *****
 
 # pushd www
 # time git clone --depth=1 -b REL_5-6-0  https://github.com/phppgadmin/phppgadmin.git phppgadmin
@@ -42,13 +32,21 @@ popd
 # popd
 
 cat << '__HEREDOC__' >jobs.txt
+curl -sS -o heroku.tar.gz https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz
 git clone --depth=1 -b REL_5-6-0  https://github.com/phppgadmin/phppgadmin.git www/phppgadmin
 git clone --depth=1 https://github.com/tshr20140816/heroku-mode-07.git /tmp/heroku-mode-07
 git clone --depth=1 https://github.com/tshr20140816/heroku-mode-09.git /tmp/heroku-mode-09
 __HEREDOC__
 
-time cat jobs.txt | parallel -j3 --joblog /tmp/joblog.txt 2>&1
+time cat jobs.txt | parallel -j4 --joblog /tmp/joblog.txt 2>&1
 cat /tmp/joblog.txt
+
+mkdir heroku
+mv heroku.tar.gz ./heroku/heroku.tar.gz
+pushd heroku
+time tar xf heroku.tar.gz --strip-components=1
+rm heroku.tar.gz
+popd
 
 pushd www
 cp ../config.inc.php phppgadmin/conf/
@@ -131,20 +129,6 @@ fi
 cp /tmp/php_error.txt ./
 
 # ***** font etc *****
-
-# time curl -sS -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar \
-#               -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar \
-#               -O https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip
-
-cat << '__HEREDOC__' >jobs.txt
-curl -sS -O https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip
-curl -sS -L -o migu-1m.zip "https://ja.osdn.net/frs/redir.php?m=iij&f=mix-mplus-ipa/63545/migu-1m-20150712.zip"
-curl -sS -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar
-curl -sS -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar
-__HEREDOC__
-
-# time cat jobs.txt | parallel -j4 --joblog /tmp/joblog.txt 2>&1
-# cat /tmp/joblog.txt
 
 time bin/curl -Z -sS \
  -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar \
