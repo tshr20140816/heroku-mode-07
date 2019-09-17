@@ -7,6 +7,7 @@ megatools
 outguess
 exiftool
 # pv
+nkf
 
 # -- curl --
 libssh2-1-dev
