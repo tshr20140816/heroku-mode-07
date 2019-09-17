@@ -9,10 +9,16 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823i($mu);
+func_20190823j($mu);
 // @unlink('/tmp/dummy');
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190823j($mu_)
+{
+    error_log($mu_->get_encrypt_string(getenv('TEST_ID')));
+    error_log($mu_->get_encrypt_string(getenv('TEST_PASSWORD')));
+}
 
 function func_20190823i($mu_)
 {
