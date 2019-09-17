@@ -38,7 +38,7 @@ if ($res === 'continue') {
         unlink($file_name);
     }
     $log .= date('Y/m/d H:i:s', strtotime('+9 hours')) . " ${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . "s]";
-    $mu->post_blog_wordpress('/lib_info.php', $log);
+    $mu->post_blog_wordpress('/lib_info.php', $log, 'library');
     
     /*
     $username = $mu->get_env('WORDPRESS_USERNAME', true);
