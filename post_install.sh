@@ -107,6 +107,9 @@ pushd bin
 chmod +x curl
 chmod +x unrar
 popd
+pushd scripts
+chmod +x sync_composer.sh
+popd
 
 # ***** php syntax check *****
 
