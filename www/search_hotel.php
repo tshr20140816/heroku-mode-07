@@ -128,7 +128,7 @@ function search_hotel_sancoinn($mu_)
             foreach ($list_hotel as $hotel_id) {
                 $url = str_replace('__HI_ID__', $hotel_id, $url_base);
                 $url = str_replace('__DATE__', $date, $url);
-                if (array_key_exists($url, $results) !== false) {
+                if (array_key_exists($url, $results) === false) {
                     $urls[$url] = null;
                 }
             }
