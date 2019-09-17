@@ -33,6 +33,12 @@ function func_20190823i($mu_)
     // $list_date[] = '2019/10/11';
     $list_date[] = '2019/10/16';
     
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 8,
+        CURLMOPT_MAXCONNECTS => 8,
+    ];
+    
     $results = [];
     for ($i = 0; $i < 2; $i++) {
         $urls = [];
@@ -63,7 +69,7 @@ function func_20190823i($mu_)
     
     $description = '';
     foreach ($list_date as $date) {
-        foreach ($list_hotel as $hotel_id) {
+        foreach ($list_hotel as $hotel_no) {
             $target_date = strtotime($date);
             $target_next_date = strtotime('+1day', $target_date);
 
