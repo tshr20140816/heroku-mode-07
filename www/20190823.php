@@ -61,11 +61,18 @@ function func_20190823h($mu_)
     $tmp = explode('<table class="tbl02" cellpadding="0" cellspacing="0" border="0">', $tmp[1]);
     // error_log(print_r($tmp, true));
     foreach ($tmp as $item) {
+        $price = 99999;
         $rc = preg_match('/<span class="em">(.+?)</', $item, $match);
         error_log($match[1]);
-        // <td style="border-bottom:1px dotted #cccccc;" align="center">￥5,200 （税込・サ込）</td>
         $rc = preg_match_all('/<td style="border-bottom:1px dotted #cccccc;" align="center">￥(.+?) /', $item, $matches);
         error_log(print_r($matches, true));
+        foreach ($matches[1] as $item) {
+            $item = str_replace(',', '', $item);
+            if ((int)$item < $price) {
+                $price = (int)$item;
+            }
+        }
+        error_log($price);
     }
 }
 
