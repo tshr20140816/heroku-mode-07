@@ -40,7 +40,7 @@ function func_20190823i($mu_)
             foreach ($list_hotel as $hotel_no) {
                 $target_date = strtotime($date);
                 $target_next_date = strtotime('+1day', $target_date);
-                error_log(date('Ymd', $target_date) . ' ' . date('Ymd', $target_next_date));
+                // error_log(date('Ymd', $target_date) . ' ' . date('Ymd', $target_next_date));
                 
                 $url = str_replace('__HOTEL_NO__', $hotel_no, $url_base);
                 $url = str_replace('__YEAR1__', date('Y', $target_date), $url);
@@ -49,7 +49,7 @@ function func_20190823i($mu_)
                 $url = str_replace('__YEAR2__', date('Y', $target_next_date), $url);
                 $url = str_replace('__MONTH2__', date('m', $target_next_date), $url);
                 $url = str_replace('__DAY2__', date('d', $target_next_date), $url);
-                error_log($log_prefix . $url);
+                // error_log($log_prefix . $url);
                 if (array_key_exists($url, $results) === false) {
                     $urls[$url] = null;
                 }
@@ -58,26 +58,37 @@ function func_20190823i($mu_)
         if (count($urls) === 0) {
             break;
         }
-        // $results = array_merge($results, $mu_->get_contents_multi($urls, null, $multi_options));
+        $results = array_merge($results, $mu_->get_contents_multi($urls, null, $multi_options));
     }
-    error_log(print_r($urls, true));
-    return;
     
-    $res = $mu_->get_contents($url, null, true);
-    // error_log($res);
-    $rc = preg_match('/<h1>(.+?)－/', $res, $match);
-    error_log($match[1]);
-    
-    $tmp = explode('<dd class="planName">', $res);
-    foreach ($tmp as $item) {
-        $rc = preg_match('/<strong>(.+?)<.+?<B>(.+?)<.+?<td class="totalCharge">(.+?)</s', $item, $match);
-        if ($rc === false) {
-            continue;
+    $description = '';
+    foreach ($list_date as $date) {
+        foreach ($list_hotel as $hotel_id) {
+            $target_date = strtotime($date);
+            $target_next_date = strtotime('+1day', $target_date);
+
+            $url = str_replace('__HOTEL_NO__', $hotel_no, $url_base);
+            $url = str_replace('__YEAR1__', date('Y', $target_date), $url);
+            $url = str_replace('__MONTH1__', date('m', $target_date), $url);
+            $url = str_replace('__DAY1__', date('d', $target_date), $url);
+            $url = str_replace('__YEAR2__', date('Y', $target_next_date), $url);
+            $url = str_replace('__MONTH2__', date('m', $target_next_date), $url);
+            $url = str_replace('__DAY2__', date('d', $target_next_date), $url);
+            $res = $results[$url];
+            $rc = preg_match('/<h1>(.+?)－/', $res, $match);
+            $description .= "\n${date} " . $match[1] . "\n";
+            
+            $tmp = explode('<dd class="planName">', $res);
+            foreach ($tmp as $item) {
+                $rc = preg_match('/<strong>(.+?)<.+?<B>(.+?)<.+?<td class="totalCharge">(.+?)</s', $item, $match);
+                if ($rc === false) {
+                    continue;
+                }
+                $description .= trim($match[3]) . ' ' . trim($match[2]) . ' ' . trim($match[1]) . "\n";
+            }
         }
-        // error_log(print_r($match, true));
-        $title = trim($match[3]) . ' ' . trim($match[2]) . ' ' . trim($match[1]);
-        error_log($title);
     }
+    error_log($description);
 }
 
 function func_20190823h($mu_)
