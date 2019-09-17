@@ -22,7 +22,7 @@ function func_20190823h($mu_)
     https://www.rj-win.jp/USER_PC/search/plan/group_id/81/hotel_id/76#start_position
     */
     
-    $url = 'https://www.rj-win.jp/USER_PC/search/plan/group_id/81/hotel_id/76';
+    $url = 'https://www.rj-win.jp/USER_PC/search/room/group_id/81/hotel_id/76';
     
     $post_data = [
         'yearmonth' => '2019-10',
