@@ -54,6 +54,9 @@ function func_20190823h($mu_)
     ];
     $res = $mu_->get_contents($url, $options);
     error_log($res);
+    
+    $rc = preg_match_all('/<span class="em">(.+?)</', $res, $matches);
+    error_log(print_r($matches, true));
 }
 
 function func_20190823g($mu_)
