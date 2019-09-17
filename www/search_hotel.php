@@ -17,6 +17,7 @@ if ($is_curl === true) {
 // search_jtb_tour($mu);
 search_hotel_sancoinn($mu);
 search_hotel_grandcourt($mu);
+search_hotel_greenhotels($mu);
 
 if ($is_curl === true) {
     $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/get_twitter_jaxa.php';
