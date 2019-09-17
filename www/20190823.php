@@ -52,7 +52,7 @@ function func_20190823h($mu_)
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
-    $res = $mu_->get_contents($url, $options);
+    $res = $mu_->get_contents($url, $options, true);
     error_log($res);
     
     $rc = preg_match_all('/<span class="em">(.+?)</', $res, $matches);
