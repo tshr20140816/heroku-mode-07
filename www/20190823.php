@@ -74,7 +74,7 @@ function func_20190823h($mu_)
     ];
     $results = [];
     for ($i = 0; $i < 2; $i++) {
-        $urls = []:
+        $urls = [];
         foreach ($list_date as $date) {
             $tmp = explode('/', $date);
             $post_data['yearmonth'] = $tmp[0] . '-' . $tmp[1];
