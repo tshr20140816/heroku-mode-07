@@ -9,6 +9,9 @@ curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_000 >/dev/null
 grep -c -e processor /proc/cpuinfo
 cat /proc/cpuinfo | head -n $(($(cat /proc/cpuinfo | wc -l) / $(grep -c -e processor /proc/cpuinfo)))
 
+whereis gcc
+gcc --version
+
 # ***** XML_RPC2 *****
 
 pear config-show
