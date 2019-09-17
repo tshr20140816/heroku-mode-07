@@ -27,6 +27,9 @@ function func_20190823i($mu_)
     $tmp = explode('<dd class="planName">', $res);
     foreach ($tmp as $item) {
         $rc = preg_match('/<strong>(.+?)<.+?<B>(.+?)<.+?<td class="totalCharge">(.+?)</s', $item, $match);
+        if ($rc === 0) {
+            continue;
+        }
         // error_log(print_r($match, true));
         $title = trim($match[1]) . ' ' . trim($match[2]) . ' ' . trim($match[3]);
         error_log($title);
