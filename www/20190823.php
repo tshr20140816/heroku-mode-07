@@ -126,7 +126,7 @@ function func_20190823h($mu_)
     if ($res != $hash_description) {
         $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ ' . $hash_url . '</');
         $description = '<div class="' . $hash_url . '">' . "${hash_description}</div>${description}";
-        $mu_->post_blog_wordpress($hash_url, $description, 'hotel');
+        $mu_->post_blog_wordpress($hash_url, $description, $mu_->to_next_word('grandcourt'));
     }
 }
 
