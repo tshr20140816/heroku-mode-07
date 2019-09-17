@@ -1149,7 +1149,7 @@ function check_version_curl($mu_, $file_name_blog_)
 
     $version_latest = $elements[0]->nodeValue;
 
-    $res = $mu_->cmd_execute('curl -v | head -n 1');
+    $res = $mu_->cmd_execute('curl -V | head -n 1');
     $version_current = trim(str_replace(["\r\n", "\r", "\n", '   ', '  '], ' ', $res[0]));
 
     error_log($log_prefix . '$version_latest : ' . $version_latest);
