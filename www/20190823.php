@@ -23,7 +23,36 @@ function func_20190823h($mu_)
     */
     
     $url = 'https://www.rj-win.jp/USER_PC/search/plan/group_id/81/hotel_id/76';
-    $res = $mu_->get_contents($url);
+    
+    $post_data = [
+        'yearmonth' => '2019-10',
+        'day' => '16',
+        'stay_num' => '1',
+        'room_num' => '1',
+        'room_id' => '',
+        'capacity' => '2',
+        's_charge' => '0',
+        'e_charge' => '0',
+        'adult' => '1',
+        'upper' => '0',
+        'lower' => '0',
+        'baby_meakandbed' => '0',
+        'baby_meal' => '0',
+        'baby_bed' => '0',
+        'baby' => '0',
+        'cat_search_con' => '0',
+        'hotel_id' => '76',
+        'detail' => 'off',
+        'sp_id' => '',
+        'viainn_card_flg' => '0',
+        'member_id' => '',
+        'stpoflg' => '0',
+    ];
+    $options = [
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+    ];
+    $res = $mu_->get_contents($url, $options);
     error_log($res);
 }
 
