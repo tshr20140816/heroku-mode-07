@@ -66,7 +66,7 @@ function func_20190823g($mu_)
                 $url = str_replace('__HI_ID__', $hotel_id, $url_base);
                 $url = str_replace('__DATE__', $date, $url);
                 error_log($log_prefix . $url);
-                if (array_key_exists($url, $urls) !== false) {
+                if (array_key_exists($url, $results) === false) {
                     $urls[$url] = null;
                     error_log(print_r($urls, true));
                 }
