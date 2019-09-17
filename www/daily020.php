@@ -1240,7 +1240,7 @@ function check_cpu_info($mu_, $file_name_blog_)
 
     $res = $mu_->cmd_execute('cat /proc/version');
 
-    $content = "\n" . $res[0];
+    $content .= "\n" . $res[0];
 
     file_put_contents($file_name_blog_, $content, FILE_APPEND);
 }
