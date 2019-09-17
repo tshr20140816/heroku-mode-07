@@ -2,6 +2,9 @@
 
 set -x
 
+cd ~
+cd scripts
+
 php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ./make_netrc.php
 
 git config --global user.email "user"
