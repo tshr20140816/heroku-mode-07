@@ -759,6 +759,9 @@ __HEREDOC__;
         $url = "https://${wordpress_username}.wordpress.com/?s=${keyword_}";
         $res = $this->get_contents($url);
         $rc = preg_match('/<h1 class="entry-title"><a href="(.+?)"/', $res, $match);
+        if ($rc === false) {
+            return '';
+        }
         $res = $this->get_contents($match[1]);
         $rc = preg_match('/<div class="' . $keyword_ . '">(.+?)</', $res, $match);
 
