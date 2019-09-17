@@ -55,7 +55,12 @@ mv ical.php ${ICS_ADDRESS}.php
 mv rss.php ${RSS_ADDRESS}.php
 popd
 
-fc-cache -fv > /dev/null 2>&1 &
+fc-cache -fv >/dev/null 2>&1 &
+
+if [-f ./update_heroku-mode-07 ]; then
+    ./scripts/sync_composer.sh >/dev/null 2>&1 &
+    rm ./update_heroku-mode-07
+fi
 
 # # For pixz
 # unlink /app/.apt/usr/lib/x86_64-linux-gnu/liblzo2.so
@@ -66,21 +71,6 @@ fc-cache -fv > /dev/null 2>&1 &
 ldd bin/curl
 
 set +x
-# pushd classes
-# for file in $(ls . | grep .php$); do
-#   php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
-# done
-# popd
-# pushd scripts
-# for file in $(ls . | grep .php$); do
-#   php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
-# done
-# popd
-# pushd www
-# for file in $(ls . | grep .php$); do
-#   php -l ${file} 2>&1 | tee -a /tmp/php_error.txt
-# done
-# popd
 mv php_error.txt /tmp/
 cat /tmp/php_error.txt
 pushd scripts
