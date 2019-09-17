@@ -52,6 +52,15 @@ pushd www
 cp ../config.inc.php phppgadmin/conf/
 popd
 
+pushd /temp
+size1=$(diff heroku-mode-07/composer.json heroku-mode-09/composer.json | wc -c)
+size2=$(diff heroku-mode-07/composer.lock heroku-mode-09/composer.lock | wc -c)
+popd
+
+if [ $size1 -gt 0 ] || [ $size2 -gt 0 ]; then
+    touch update_heroku-mode-07
+fi
+
 mkdir lib
 
 if [ ${is_succeeded} = '0' ]; then
