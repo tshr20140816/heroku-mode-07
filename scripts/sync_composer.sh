@@ -36,3 +36,9 @@ if [ $update_flag -eq 1 ]; then
     git commit -a -m autoupdate
     git push origin master
 fi
+
+cd /tmp
+rm -rf heroku-mode-07
+rm -rf heroku-mode-09
+
+# post wordpress
