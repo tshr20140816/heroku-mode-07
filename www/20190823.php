@@ -20,7 +20,7 @@ function func_20190823i($mu_)
     https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=736&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2019&ciDateM=10&ciDateD=12&lowerCharge=0&upperCharge=999999&coDateY=2019&coDateM=10&coDateD=13&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1
     https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=9211&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2019&ciDateM=10&ciDateD=11&lowerCharge=0&upperCharge=999999&coDateY=2019&coDateM=10&coDateD=12&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1
     */
-    $url = 'https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=736&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2019&ciDateM=10&ciDateD=12&lowerCharge=0&upperCharge=999999&coDateY=2019&coDateM=10&coDateD=13&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1';
+    $url = 'https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=736&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2019&ciDateM=10&ciDateD=16&lowerCharge=0&upperCharge=999999&coDateY=2019&coDateM=10&coDateD=17&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1';
     $res = $mu_->get_contents($url);
     error_log($res);
 }
