@@ -16,8 +16,9 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 
 function func_20190823j($mu_)
 {
-    error_log($mu_->get_encrypt_string(getenv('TEST_ID')));
-    error_log($mu_->get_encrypt_string(getenv('TEST_PASSWORD')));
+    $res = $mu_->cmd_execute('curl -v | head -n 1');
+    $version_current = trim(str_replace(["\r\n", "\r", "\n", '   ', '  '], ' ', $res[0]));
+    error_log(print_r($res, true));
 }
 
 function func_20190823i($mu_)
