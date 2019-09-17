@@ -24,6 +24,10 @@ function func_20190823h($mu_)
     
     $url = 'https://www.rj-win.jp/USER_PC/search/room/group_id/81/hotel_id/76';
     
+    $list_date = [];
+    $list_date[] = '2019/10/11';
+    $list_date[] = '2019/10/16';
+    
     $post_data = [
         'yearmonth' => '2019-10',
         'day' => '11',
@@ -48,30 +52,39 @@ function func_20190823h($mu_)
         'member_id' => '',
         'stpoflg' => '1',
     ];
-    $options = [
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => http_build_query($post_data),
-    ];
-    $res = $mu_->get_contents($url, $options, true);
     
-    $tmp = explode('</form>', $res);
-    $tmp = explode('<table class="tbl02" cellpadding="0" cellspacing="0" border="0">', $tmp[1]);
-    foreach ($tmp as $item) {
-        $price = 99999;
-        $rc = preg_match('/<span class="em">(.+?)</', $item, $match);
-        if ($rc === 0) {
-            continue;
-        }
-        error_log($match[1]);
-        $rc = preg_match_all('/<td style="border-bottom:1px dotted #cccccc;" align="center">￥(.+?) /', $item, $matches);
-        error_log(print_r($matches, true));
-        foreach ($matches[1] as $item) {
-            $item = str_replace(',', '', $item);
-            if ((int)$item < $price) {
-                $price = (int)$item;
+    foreach ($list_date as $date) {
+        error_log($date);
+        $tmp = explode('/', $date);
+        $post_data['yearmonth'] = $tmp[0] . '-' . $tmp[1];
+        $post_data['day'] = $tmp[2];
+
+        $options = [
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => http_build_query($post_data),
+        ];
+        $res = $mu_->get_contents($url, $options, true);
+
+        $tmp = explode('</form>', $res);
+        $tmp = explode('<table class="tbl02" cellpadding="0" cellspacing="0" border="0">', $tmp[1]);
+        foreach ($tmp as $item) {
+            $price = 99999;
+            $rc = preg_match('/<span class="em">(.+?)</', $item, $match);
+            if ($rc === 0) {
+                continue;
             }
+            // error_log($match[1]);
+            $room_name = $match[1];
+            $rc = preg_match_all('/<td style="border-bottom:1px dotted #cccccc;" align="center">￥(.+?) /', $item, $matches);
+            // error_log(print_r($matches, true));
+            foreach ($matches[1] as $item) {
+                $item = str_replace(',', '', $item);
+                if ((int)$item < $price) {
+                    $price = (int)$item;
+                }
+            }
+            error_log($room_name . ' ' . $price);
         }
-        error_log($price);
     }
 }
 
