@@ -63,6 +63,9 @@ function func_20190823h($mu_)
     foreach ($tmp as $item) {
         $rc = preg_match('/<span class="em">(.+?)</', $item, $match);
         error_log($match[1]);
+        // <td style="border-bottom:1px dotted #cccccc;" align="center">￥5,200 （税込・サ込）</td>
+        $rc = preg_match_all('/<td style="border-bottom:1px dotted #cccccc;" align="center">￥(.+?) /', $item, $matches);
+        error_log(print_r($matches, true));
     }
 }
 
