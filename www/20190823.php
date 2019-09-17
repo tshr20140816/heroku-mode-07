@@ -56,7 +56,7 @@ function func_20190823h($mu_)
     error_log($res);
     
     $tmp = explode('</form>', $res);    
-    $rc = preg_match_all('/<span class="em">(.+?)</', $tmp[1], $matches);
+    $rc = preg_match_all('/<span class="em">(.+?)<.+?<td style="border-bottom:1px dotted #cccccc;" align="center">(.+?)</s', $tmp[1], $matches);
     error_log(print_r($matches, true));
 }
 
