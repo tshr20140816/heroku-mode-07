@@ -9,7 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823g($mu);
+func_20190823h($mu);
 // @unlink('/tmp/dummy');
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
@@ -21,6 +21,10 @@ function func_20190823h($mu_)
     https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=9211&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2019&ciDateM=10&ciDateD=11&lowerCharge=0&upperCharge=999999&coDateY=2019&coDateM=10&coDateD=12&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1
     https://www.rj-win.jp/USER_PC/search/plan/group_id/81/hotel_id/76#start_position
     */
+    
+    $url = 'https://www.rj-win.jp/USER_PC/search/plan/group_id/81/hotel_id/76';
+    $res = $mu_->get_contents($url);
+    error_log($res);
 }
 
 function func_20190823g($mu_)
