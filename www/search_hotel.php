@@ -16,6 +16,7 @@ if ($is_curl === true) {
 }
 // search_jtb_tour($mu);
 search_hotel_sancoinn($mu);
+search_hotel_grandcourt($mu);
 
 if ($is_curl === true) {
     $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/get_twitter_jaxa.php';
@@ -283,5 +284,109 @@ __HEREDOC__;
     if ($res != $hash_info) {
         $description = '<div class="' . $hash_url . '">' . "${hash_info}</div>${info}";
         $mu_->post_blog_wordpress_async($hash_url, $description, 'jtb');
+    }
+}
+
+function search_hotel_grandcourt($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+
+    $url_base = $mu_->get_env('URL_HOTEL_02');
+    $hash_url = 'url' . hash('sha512', $url_base);
+    error_log($log_prefix . "url hash : ${hash_url}");
+
+    $list_date = [];
+    $list_date[] = '2019/10/11';
+    $list_date[] = '2019/10/12';
+    $list_date[] = '2020/02/29';
+    $list_date[] = '2020/03/02';
+    $list_date[] = '2020/03/15';
+    // $list_date[] = '2020/04/15';
+    // $list_date[] = '2020/05/15';
+    $list_date[] = '2020/10/01';
+
+    $multi_options = [
+        CURLMOPT_PIPELINING => 3,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 8,
+        CURLMOPT_MAXCONNECTS => 8,
+    ];
+
+    $post_data = [
+        'yearmonth' => '2019-10',
+        'day' => '',
+        'stay_num' => '1',
+        'room_num' => '1',
+        'room_id' => '',
+        'capacity' => '2',
+        's_charge' => '0',
+        'e_charge' => '0',
+        'adult' => '2',
+        'upper' => '0',
+        'lower' => '0',
+        'baby_meakandbed' => '0',
+        'baby_meal' => '0',
+        'baby_bed' => '0',
+        'baby' => '0',
+        'cat_search_con' => '0',
+        'hotel_id' => '76',
+        'detail' => 'off',
+        'sp_id' => '',
+        'viainn_card_flg' => '0',
+        'member_id' => '',
+        'stpoflg' => '1',
+    ];
+    $results = [];
+    for ($i = 0; $i < 2; $i++) {
+        $urls = [];
+        foreach ($list_date as $date) {
+            $tmp = explode('/', $date);
+            $post_data['yearmonth'] = $tmp[0] . '-' . $tmp[1];
+            $post_data['day'] = $tmp[2];
+            $options = [
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => http_build_query($post_data),
+            ];
+            $url = $url_base . '?' . urlencode($date);
+            if (array_key_exists($url, $results) === false) {
+                $urls[$url_base . '?' . urlencode($date)] = $options;
+            }
+        }
+        if (count($urls) === 0) {
+            break;
+        }
+        $results = array_merge($results, $mu_->get_contents_multi($urls, null, $multi_options));
+    }
+
+    $description = '';
+    foreach ($list_date as $date) {
+        $description .= "\n${date}\n";
+        $url = $url_base . '?' . urlencode($date);
+        $res = $results[$url];
+        $tmp = explode('</form>', $res);
+        $tmp = explode('<table class="tbl02" cellpadding="0" cellspacing="0" border="0">', $tmp[1]);
+        foreach ($tmp as $item) {
+            $price = 99999;
+            $rc = preg_match('/<span class="em">(.+?)</', $item, $match);
+            if ($rc === 0) {
+                continue;
+            }
+            $room_name = $match[1];
+            $rc = preg_match_all('/<td style="border-bottom:1px dotted #cccccc;" align="center">￥(.+?) /', $item, $matches);
+            foreach ($matches[1] as $item) {
+                $item = str_replace(',', '', $item);
+                if ((int)$item < $price) {
+                    $price = (int)$item;
+                }
+            }
+            $description .= $room_name . ' ' . number_format($price) . "\n";
+        }
+    }
+    $mu_->logging_object($description, $log_prefix);
+    $hash_description = hash('sha512', $description);
+    $res = $mu_->search_blog($hash_url);
+    if ($res != $hash_description) {
+        $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ ' . $hash_url . '</');
+        $description = '<div class="' . $hash_url . '">' . "${hash_description}</div>${description}";
+        $mu_->post_blog_wordpress($hash_url, $description, $mu_->to_next_word('grandcourt'));
     }
 }
