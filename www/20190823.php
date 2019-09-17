@@ -59,6 +59,9 @@ function func_20190823h($mu_)
     foreach ($tmp as $item) {
         $price = 99999;
         $rc = preg_match('/<span class="em">(.+?)</', $item, $match);
+        if ($rc === 0) {
+            continue;
+        }
         error_log($match[1]);
         $rc = preg_match_all('/<td style="border-bottom:1px dotted #cccccc;" align="center">￥(.+?) /', $item, $matches);
         error_log(print_r($matches, true));
