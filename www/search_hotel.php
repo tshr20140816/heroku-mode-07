@@ -396,7 +396,7 @@ function search_hotel_greenhotels($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
 
-    $url_base = 'https://greens.rwiths.net/r-withs/tfs0020a.do?hotelNo=__HOTEL_NO__&GCode=greens&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=__YEAR1__&ciDateM=__MONTH1__&ciDateD=__DAY1__&lowerCharge=0&upperCharge=999999&coDateY=__YEAR2__&coDateM=__MONTH2__&coDateD=__DAY2__&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1';
+    $url_base = $mu_->get_env('URL_HOTEL_03');
     $hash_url = 'url' . hash('sha512', $url_base);
     error_log($log_prefix . "url hash : ${hash_url}");
 
