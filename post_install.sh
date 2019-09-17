@@ -28,12 +28,6 @@ fi
 
 # ***** heroku cli & phppgadmin *****
 
-# pushd www
-# time git clone --depth=1 -b REL_5-6-0  https://github.com/phppgadmin/phppgadmin.git phppgadmin
-# cp ../config.inc.php phppgadmin/conf/
-# # ls -lang phppgadmin
-# popd
-
 cat << '__HEREDOC__' >jobs.txt
 curl -sS -o heroku.tar.gz https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz
 git clone --depth=1 -b REL_5-6-0  https://github.com/phppgadmin/phppgadmin.git www/phppgadmin
