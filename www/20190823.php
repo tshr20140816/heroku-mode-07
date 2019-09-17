@@ -38,8 +38,8 @@ function func_20190823i($mu_)
     
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
-        CURLMOPT_MAX_HOST_CONNECTIONS => 8,
-        CURLMOPT_MAXCONNECTS => 8,
+        CURLMOPT_MAX_HOST_CONNECTIONS => 100,
+        CURLMOPT_MAXCONNECTS => 100,
     ];
     
     $results = [];
@@ -49,8 +49,7 @@ function func_20190823i($mu_)
             foreach ($list_hotel as $hotel_no) {
                 $target_date = strtotime($date);
                 $target_next_date = strtotime('+1day', $target_date);
-                // error_log(date('Ymd', $target_date) . ' ' . date('Ymd', $target_next_date));
-                
+
                 $url = str_replace('__HOTEL_NO__', $hotel_no, $url_base);
                 $url = str_replace('__YEAR1__', date('Y', $target_date), $url);
                 $url = str_replace('__MONTH1__', date('m', $target_date), $url);
