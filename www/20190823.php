@@ -31,7 +31,13 @@ function func_20190823i($mu_)
     
     $list_date = [];
     // $list_date[] = '2019/10/11';
-    $list_date[] = '2019/10/16';
+    // $list_date[] = '2019/10/16';
+    $list_date[] = '2019/10/11';
+    $list_date[] = '2019/10/12';
+    $list_date[] = '2020/02/29';
+    $list_date[] = '2020/03/02';
+    $list_date[] = '2020/03/15';
+    $list_date[] = '2020/05/15';
     
     $multi_options = [
         CURLMOPT_PIPELINING => 3,
