@@ -86,7 +86,7 @@ function func_20190823h($mu_)
             ];
             $url = $url_base . '?' . urlencode($date);
             if (array_key_exists($url, $results) === false) {
-                $urls[$url_base . '?' . urlencode($date)] = $option;
+                $urls[$url_base . '?' . urlencode($date)] = $options;
             }
         }
         if (count($urls) === 0) {
