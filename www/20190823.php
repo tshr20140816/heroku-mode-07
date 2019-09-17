@@ -55,8 +55,10 @@ function func_20190823h($mu_)
     $res = $mu_->get_contents($url, $options, true);
     error_log($res);
     
-    $tmp = explode('</form>', $res);    
-    $rc = preg_match_all('/<span class="em">(.+?)<.+?<td style="border-bottom:1px dotted #cccccc;" align="center">(.+?)</s', $tmp[1], $matches);
+    $tmp = explode('</form>', $res);
+    // $rc = preg_match_all('/<span class="em">(.+?)<.+?<td style="border-bottom:1px dotted #cccccc;" align="center">(.+?)</s', $tmp[1], $matches);
+    // error_log(print_r($matches, true));
+    $rc = preg_match_all('<table.+?<\/table>.+?<\/table>', $tmp[1], $matches);
     error_log(print_r($matches, true));
 }
 
