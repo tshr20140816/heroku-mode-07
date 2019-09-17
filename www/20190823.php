@@ -30,7 +30,7 @@ function func_20190823h($mu_)
     
     $post_data = [
         'yearmonth' => '2019-10',
-        'day' => '11',
+        'day' => '',
         'stay_num' => '1',
         'room_num' => '1',
         'room_id' => '',
@@ -52,9 +52,10 @@ function func_20190823h($mu_)
         'member_id' => '',
         'stpoflg' => '1',
     ];
-    
+    $description = '';
     foreach ($list_date as $date) {
-        error_log($date);
+        // error_log($date);
+        $description .= "\n${date}\n";
         $tmp = explode('/', $date);
         $post_data['yearmonth'] = $tmp[0] . '-' . $tmp[1];
         $post_data['day'] = $tmp[2];
@@ -83,9 +84,11 @@ function func_20190823h($mu_)
                     $price = (int)$item;
                 }
             }
-            error_log($room_name . ' ' . number_format($price));
+            // error_log($room_name . ' ' . number_format($price));
+            $description .= $room_name . ' ' . number_format($price) . "\n";
         }
     }
+    error_log($description);
 }
 
 function func_20190823g($mu_)
