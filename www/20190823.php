@@ -26,7 +26,7 @@ function func_20190823h($mu_)
     
     $post_data = [
         'yearmonth' => '2019-10',
-        'day' => '16',
+        'day' => '11',
         'stay_num' => '1',
         'room_num' => '1',
         'room_id' => '',
@@ -53,13 +53,9 @@ function func_20190823h($mu_)
         CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
     $res = $mu_->get_contents($url, $options, true);
-    // error_log($res);
     
     $tmp = explode('</form>', $res);
-    // $rc = preg_match_all('/<span class="em">(.+?)<.+?<td style="border-bottom:1px dotted #cccccc;" align="center">(.+?)</s', $tmp[1], $matches);
-    // error_log(print_r($matches, true));
     $tmp = explode('<table class="tbl02" cellpadding="0" cellspacing="0" border="0">', $tmp[1]);
-    // error_log(print_r($tmp, true));
     foreach ($tmp as $item) {
         $price = 99999;
         $rc = preg_match('/<span class="em">(.+?)</', $item, $match);
