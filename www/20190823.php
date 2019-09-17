@@ -26,13 +26,13 @@ function func_20190823h($mu_)
     
     $list_date = [];
     $list_date[] = '2019/10/11';
-    $list_date[] = '2019/10/16';
-    $list_date[] = '2020/02/15';
+    $list_date[] = '2019/10/12';
     $list_date[] = '2020/02/29';
     $list_date[] = '2020/03/02';
     $list_date[] = '2020/03/15';
-    $list_date[] = '2020/04/15';
-    $list_date[] = '2020/05/15';
+    // $list_date[] = '2020/04/15';
+    // $list_date[] = '2020/05/15';
+    $list_date[] = '2020/10/01';
     
     $post_data = [
         'yearmonth' => '2019-10',
