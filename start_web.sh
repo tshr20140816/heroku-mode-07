@@ -57,7 +57,7 @@ popd
 
 fc-cache -fv >/dev/null 2>&1 &
 
-if [-f ./update_heroku-mode-07 ]; then
+if [ -f ./update_heroku-mode-07 ]; then
     ./scripts/sync_composer.sh >/dev/null 2>&1 &
     rm ./update_heroku-mode-07
 fi
