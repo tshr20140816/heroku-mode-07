@@ -1,5 +1,9 @@
 <?php
 
+/*
+search_hotel_call
+→ search_hotel
+*/
 include(dirname(__FILE__) . '/../classes/MyUtils.php');
 
 $pid = getmypid();
