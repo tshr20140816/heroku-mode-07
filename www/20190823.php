@@ -1,7 +1,7 @@
 <?php
 
 include(dirname(__FILE__) . '/../classes/MyUtils.php');
-require_once('Zend/XmlRpc/Client.php');
+// require_once('Zend/XmlRpc/Client.php');
 
 $pid = getmypid();
 $requesturi = $_SERVER['REQUEST_URI'];
