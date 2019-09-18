@@ -19,6 +19,9 @@ function func_20190823g($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
+
+    $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/', null, true);
+    error_log($res);
 }
 
 function func_20190823f($mu_)
