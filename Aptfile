@@ -8,6 +8,7 @@ outguess
 exiftool
 # pv
 nkf
+tree
 
 # -- curl --
 libssh2-1-dev
