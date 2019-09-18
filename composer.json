@@ -11,7 +11,7 @@
     "ext-soap": "*",
     "ext-ftp": "*",
     "ext-imap": "*",
-    "zendframework/zendframework": ">=3.0.0"
+    "zendframework/zend-xmlrpc": "*"
   }
   ,
   "require-dev":
