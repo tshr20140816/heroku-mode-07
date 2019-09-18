@@ -51,7 +51,7 @@ pushd www
 cp ../config.inc.php phppgadmin/conf/
 popd
 
-pushd /temp
+pushd /tmp
 size1=$(diff heroku-mode-07/composer.json heroku-mode-09/composer.json | wc -c)
 size2=$(diff heroku-mode-07/composer.lock heroku-mode-09/composer.lock | wc -c)
 popd
