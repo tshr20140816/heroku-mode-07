@@ -10,7 +10,8 @@
     "ext-imagick": "*",
     "ext-soap": "*",
     "ext-ftp": "*",
-    "ext-imap": "*"
+    "ext-imap": "*",
+    "zendframework/zendframework": ">=3.0.0"
   }
   ,
   "require-dev":
