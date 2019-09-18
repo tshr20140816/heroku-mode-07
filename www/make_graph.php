@@ -505,30 +505,6 @@ __HEREDOC__;
                           ],
             ];
 
-    // $json = str_replace('"__CALLBACK__"', '"function(value){return value.toLocaleString();}"', json_encode($json));
-
-    /*
-    $url = 'https://quickchart.io/chart?width=600&height=360&c=' . urlencode($tmp);
-    $res = $mu_->get_contents($url);
-    $url_length = strlen($url);
-
-    $im1 = imagecreatefromstring($res);
-    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
-    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
-    imagealphablending($im2, false);
-    imagesavealpha($im2, true);
-    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
-    imagedestroy($im1);
-
-    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
-    imagepng($im2, $file, 9);
-    imagedestroy($im2);
-
-    $res = $mu_->shrink_image($file);
-
-    unlink($file);
-    */
-
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
     exec('node ../scripts/chartjs_node.js 600 320 ' . base64_encode(json_encode($json)) . ' ' . $file);
     $res = file_get_contents($file);
@@ -631,27 +607,6 @@ function make_process_time($mu_, $file_name_rss_items_)
                           ],
             ];
 
-    /*
-    $url = 'https://quickchart.io/chart?w=600&h=360&c=' . urlencode(json_encode($chart_data));
-    $res = $mu_->get_contents($url);
-    $url_length = strlen($url);
-
-    $im1 = imagecreatefromstring($res);
-    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
-    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
-    imagealphablending($im2, false);
-    imagesavealpha($im2, true);
-    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
-    imagedestroy($im1);
-
-    $file = tempnam("/tmp", md5(microtime(true)));
-    imagepng($im2, $file, 9);
-    imagedestroy($im2);
-
-    $res = $mu_->shrink_image($file);
-
-    unlink($file);
-    */
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
     exec('node ../scripts/chartjs_node.js 600 360 ' . base64_encode(json_encode($json)) . ' ' . $file);
     $res = file_get_contents($file);
@@ -757,27 +712,6 @@ __HEREDOC__;
                            'scales' => $scales,
                           ],
             ];
-
-    /*
-    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . urlencode(json_encode($data));
-    $res = $mu_->get_contents($url);
-    $url_length = strlen($url);
-
-    $im1 = imagecreatefromstring($res);
-    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
-    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
-    imagealphablending($im2, false);
-    imagesavealpha($im2, true);
-    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
-    imagedestroy($im1);
-    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
-    imagepng($im2, $file, 9);
-    imagedestroy($im2);
-
-    $res = $mu_->shrink_image($file);
-
-    unlink($file);
-    */
 
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
     exec('node ../scripts/chartjs_node.js 600 320 ' . base64_encode(json_encode($json)) . ' ' . $file);
@@ -910,27 +844,6 @@ function make_github_contributions($mu_, $file_name_rss_items_)
                           ],
             ];
 
-    /*
-    $url = 'https://quickchart.io/chart?width=600&height=320&c=' . urlencode(json_encode($json));
-    $res = $mu_->get_contents($url);
-    $url_length = strlen($url);
-
-    $im1 = imagecreatefromstring($res);
-    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
-    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
-    imagealphablending($im2, false);
-    imagesavealpha($im2, true);
-    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
-    imagedestroy($im1);
-    $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
-    imagepng($im2, $file, 9);
-    imagedestroy($im2);
-
-    $res = $mu_->shrink_image($file);
-
-    unlink($file);
-    */
-
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
     exec('node ../scripts/chartjs_node.js 600 320 ' . base64_encode(json_encode($json)) . ' ' . $file);
     $res = file_get_contents($file);
@@ -1004,28 +917,6 @@ function make_storage_usage($mu_, $file_name_rss_items_)
                            'responsiveAnimationDuration' => 0,
                           ],
             ];
-
-    /*
-    $url = 'https://quickchart.io/chart?w=600&h=360&c=' . urlencode(json_encode($json));
-    $res = $mu_->get_contents($url);
-    $url_length = strlen($url);
-
-    $im1 = imagecreatefromstring($res);
-    error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
-    $im2 = imagecreatetruecolor(imagesx($im1) / 2, imagesy($im1) / 2);
-    imagealphablending($im2, false);
-    imagesavealpha($im2, true);
-    imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 2, imagesy($im1) / 2, imagesx($im1), imagesy($im1));
-    imagedestroy($im1);
-
-    $file = tempnam("/tmp", md5(microtime(true)));
-    imagepng($im2, $file, 9);
-    imagedestroy($im2);
-
-    $res = $mu_->shrink_image($file);
-
-    unlink($file);
-    */
 
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
     exec('node ../scripts/chartjs_node.js 600 360 ' . base64_encode(json_encode($json)) . ' ' . $file);
