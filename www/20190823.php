@@ -10,15 +10,15 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823j($mu);
+func_20190823g($mu);
 // @unlink('/tmp/dummy');
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
-function func_20190823j($mu_)
+function func_20190823g($mu_)
 {
-    $client = new Zend\XmlRpc\Client('http://blog.fc2.com/xmlrpc.php');
-    $client = null;
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
 }
 
 function func_20190823f($mu_)
@@ -154,4 +154,10 @@ function func_20190823e($mu_)
     // unlink($file_name);
     unlink($file_name . '.bz2');
     unlink($file_name . '.xz');
+}
+
+function func_20190823a($mu_)
+{
+    $client = new Zend\XmlRpc\Client('http://blog.fc2.com/xmlrpc.php');
+    $client = null;
 }
