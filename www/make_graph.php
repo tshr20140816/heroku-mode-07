@@ -15,8 +15,8 @@ $file_name_rss_items = tempnam('/tmp', 'rss_' . md5(microtime(true)));
 $url_length = [];
 
 $url_length['make_waon_balance'] = make_waon_balance($mu, $file_name_rss_items);
-$url_length['make_heroku_dyno_usage_graph3'] = make_heroku_dyno_usage_graph3($mu, $file_name_rss_items);
-$url_length['make_database3'] = make_database3($mu, $file_name_rss_items);
+$url_length['make_heroku_dyno_usage_graph'] = make_heroku_dyno_usage_graph($mu, $file_name_rss_items);
+$url_length['make_database'] = make_database($mu, $file_name_rss_items);
 $url_length['make_process_time'] = make_process_time($mu, $file_name_rss_items);
 $url_length['make_post_count'] = make_post_count($mu, $file_name_rss_items);
 $url_length['make_github_contributions'] = make_github_contributions($mu, $file_name_rss_items);
@@ -1057,7 +1057,7 @@ __HEREDOC__;
     return 0;
 }
 
-function make_heroku_dyno_usage_graph3($mu_, $file_name_rss_items_)
+function make_heroku_dyno_usage_graph($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
@@ -1231,7 +1231,7 @@ __HEREDOC__;
     return 0;
 }
 
-function make_database3($mu_, $file_name_rss_items_)
+function make_database($mu_, $file_name_rss_items_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
