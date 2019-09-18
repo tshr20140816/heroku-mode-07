@@ -21,7 +21,12 @@ function func_20190823g($mu_)
     error_log($log_prefix . 'BEGIN');
 
     $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/', null, true);
-    error_log($res);
+    // error_log($res);
+    
+    // <p class="align -right" style="margin-top:10px"><small>(\d+)
+    $rc = preg_match('/<p class="align -right" style="margin-top:10px"><small>(\d+)/', $res, $match);
+    
+    error_log($match[1]);
 }
 
 function func_20190823f($mu_)
