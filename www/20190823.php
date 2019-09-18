@@ -1,7 +1,7 @@
 <?php
 
 include(dirname(__FILE__) . '/../classes/MyUtils.php');
-require_once('Zend/XmlRpc/Client.php');
+// require_once('Zend/XmlRpc/Client.php');
 
 $pid = getmypid();
 $requesturi = $_SERVER['REQUEST_URI'];
@@ -17,7 +17,7 @@ error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's'
 
 function func_20190823j($mu_)
 {
-    $client = new Zend_XmlRpc_Client('http://blog.fc2.com/xmlrpc.php');
+    $client = new Zend\XmlRpc\Client('http://blog.fc2.com/xmlrpc.php');
     $client = null;
 }
 
