@@ -41,4 +41,8 @@ cd /tmp
 rm -rf heroku-mode-07
 rm -rf heroku-mode-09
 
-# post wordpress
+cd ~
+cd scripts
+
+base64string=$(echo -n 'mode-09 composer update' | base64)
+php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ./put_blog.php ${base64string}
