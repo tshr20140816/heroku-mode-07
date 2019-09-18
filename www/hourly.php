@@ -3,7 +3,7 @@
 /*
 hourly
 → (rainfall)
-→ (check_zoho_file_size)
+→ (check_zoho_file_size) server2
 → search_hotel
   → get_twitter_jaxa
     → get_river_image
