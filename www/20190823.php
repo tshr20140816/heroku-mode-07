@@ -20,6 +20,10 @@ function func_20190823g($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
 
+    $url = 'https://www.accuweather.com/ja/jp/hiroshima-shi/223955/daily-weather-forecast/223955?day=11';
+    $res = $mu_->get_contents_proxy($url);
+    error_log($res);
+    /*
     $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/', null, true);
     // error_log($res);
     
@@ -27,6 +31,7 @@ function func_20190823g($mu_)
     $rc = preg_match('/<p class="align -right" style="margin-top:10px"><small>(\d+)/', $res, $match);
     
     error_log($match[1]);
+    */
 }
 
 function func_20190823f($mu_)
