@@ -141,7 +141,7 @@ cp /tmp/php_error.txt ./
 
 # ***** font etc *****
 
-time bin/curl -Z -sS \
+time bin/curl -w "%{time_total} %{filename_effective}\n" -Z -sS \
  -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar \
  -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar \
  -O https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip \
