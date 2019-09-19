@@ -36,16 +36,25 @@ function func_20190823g($mu_)
                 CURLOPT_HEADER => true,
                ];
     
-    $url = 'https://www.accuweather.com/ja/jp/hiroshima-shi/223955/daily-weather-forecast/223955';
-    // $url = 'https://www.accuweather.com/';
-    // $res = $mu_->get_contents_proxy($url);
-    $res = $mu_->get_contents($url, $options);
-    // error_log($res);
+    $url_base = 'https://www.accuweather.com/ja/jp/hiroshima-shi/223955/daily-weather-forecast/223955';
+    
+    $urls = [];
+    $urls[] = $url_base;
+    $urls[] = $url_base . '?page=1';
+    $urls[] = $url_base . '?page=2';
+    $urls[] = $url_base . '?page=3';
+    $urls[] = $url_base . '?page=4';
+    
+    foreach ($urls as $url) {
+        $res = $mu_->get_contents($url, $options, true);
+    }
     unlink($cookie);
     
+    /*
     $rc = preg_match('/var dailyForecast =(.+);/', $res, $match);
     $json = json_decode($match[1]);
     error_log(print_r($json, true));
+    */
     
     /*
     $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/', null, true);
