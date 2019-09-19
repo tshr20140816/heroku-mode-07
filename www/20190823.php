@@ -36,7 +36,7 @@ function func_20190823g($mu_)
                 CURLOPT_HEADER => true,
                ];
     
-    $url = 'https://www.accuweather.com/ja/jp/hiroshima-shi/223955/daily-weather-forecast/223955?day=11';
+    $url = 'https://www.accuweather.com/ja/jp/hiroshima-shi/223955/daily-weather-forecast/223955';
     // $url = 'https://www.accuweather.com/';
     // $res = $mu_->get_contents_proxy($url);
     $res = $mu_->get_contents($url, $options);
