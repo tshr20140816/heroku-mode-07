@@ -60,6 +60,8 @@ function func_20190823h($mu_)
     unlink($cookie);
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     
+    $rc = preg_match('/<td align="left">Ｍａｘとき３０７号２階<\/td>/s', $res, $match);
+    
     error_log($res);
 }
 
