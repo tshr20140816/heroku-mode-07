@@ -15,6 +15,73 @@ func_20190823h($mu);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 
+function func_20190823j($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
+
+    $list = [];
+    $list[] = ['10','19','14','30','3','盛岡','新函館北斗','2150','1007'];
+    $list[] = ['10','19','14','30','3','盛岡','新函館北斗','2150','1007'];
+    
+    $description = '';
+
+    $url = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
+    $hash_url = 'url' . hash('sha512', $url . 'extra');
+
+    $cookie = tempnam("/tmp", 'cookie_' .  md5(microtime(true)));
+
+    $options = [
+        CURLOPT_ENCODING => 'gzip, deflate',
+        CURLOPT_HTTPHEADER => [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+            'Referer: ' . $url,
+            ],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+    ];
+
+    $post_data = [
+        'month' => '10',
+        'day' => '19',
+        'hour' => '14',
+        'minute' => '30',
+        'train' => '3',
+        'dep_stn' => mb_convert_encoding('盛岡', 'SJIS', 'UTF-8'),
+        'arr_stn' => mb_convert_encoding('新函館北斗', 'SJIS', 'UTF-8'),
+        'dep_stnpb' => '2150',
+        'arr_stnpb' => '1007',
+        'script' => '1',
+    ];
+    $options[CURLOPT_POSTFIELDS] = http_build_query($post_data);
+    $res = $mu_->get_contents($url, $options);
+    unlink($cookie);
+    $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
+
+    $rc = preg_match('/<td align="left">はやぶさ　２１号.+?<td.+?<td.+?<td.+?<td.+?>(.+?)</s', $res, $match);
+
+    $description .= "はやぶさ " . $match[1];
+
+    $mu_->logging_object($description, $log_prefix);
+    $hash_description = hash('sha512', $description);
+
+    /*
+    $res = $mu_->search_blog($hash_url);
+    if ($res != $hash_description) {
+        $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ ' . $hash_url . '</');
+        $description = '<div class="' . $hash_url . '">' . "${hash_description}</div>${description}";
+        $mu_->post_blog_wordpress($hash_url, $description, 'train_extra');
+    }
+    */
+}
+
 function func_20190823i($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
