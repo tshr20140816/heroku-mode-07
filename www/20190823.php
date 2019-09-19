@@ -20,12 +20,14 @@ function func_20190823h($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
     
+    $file = tempnam('/tmp', 'jpeg_' . md5(microtime(true))) . '.jpg';
+    
     $url = 'https://www.pakutaso.com/animal/cat/';
     $res = $mu_->get_contents($url, null, true);
     
     $rc = preg_match('/<p class="align -right" style="margin-top:10px"><small>(\d+)/', $res, $match);
     
-    error_log($match[1]);
+    // error_log($match[1]);
     
     $page = rand(1, $match[1]);
     
@@ -35,7 +37,15 @@ function func_20190823h($mu_)
     
     $res = $mu_->get_contents($url, null, true);
     $rc = preg_match_all('/<a href="(https:\/\/www.pakutaso.com\/2.+?)"/', $res, $matches);
-    error_log(print_r($matches, true));
+    // error_log(print_r($matches, true));
+    
+    $url = $matches[1][rand(0, count($matches[1]))];
+    $res = $mu_->get_contents($url, null, true);
+    $rc = preg_match('/"thumbnailUrl":"(.+?)"/', $res, $match);
+    $line = 'curl -v -o ' . $file . ' ' . $match[1] . ' 2>&1';
+    $mu_->cmd_execute($line);
+    error_log(filesize($file));
+    unlink($file);
 }
 
 function func_20190823g($mu_)
