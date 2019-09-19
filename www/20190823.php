@@ -10,10 +10,57 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823g($mu);
+func_20190823h($mu);
 // @unlink('/tmp/dummy');
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190823h($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
+    
+    $url_base = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
+    $hash_url = 'url' . hash('sha512', $url_base);
+    
+    $cookie = tempnam("/tmp", 'cookie_' .  md5(microtime(true)));
+    
+    $url = $url_base . '?' . $day;
+    
+    $post_data = [
+        'month' => '10',
+        'day' => '18',
+        'hour' => '8',
+        'minute' => '20',
+        'train' => '4',
+        'dep_stn' => mb_convert_encoding('東京', 'SJIS', 'UTF-8'),
+        'arr_stn' => mb_convert_encoding('大宮', 'SJIS', 'UTF-8'),
+        'dep_stnpb' => '4000',
+        'arr_stnpb' => '4320',
+        'script' => '1',
+    ];
+    
+    $options = [
+        CURLOPT_ENCODING => 'gzip, deflate',
+        CURLOPT_HTTPHEADER => [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+            'Referer: ' . $url,
+            ],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+    ];
+    $res = $mu_->get_contents($url, $options);
+    unlink($cookie);
+    
+    error_log($res);
+}
 
 function func_20190823g($mu_)
 {
