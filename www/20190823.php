@@ -23,7 +23,7 @@ function func_20190823h($mu_)
     $description = '';
     
     $url = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
-    $hash_url = 'url' . hash('sha512', $url);
+    $hash_url = 'url' . hash('sha512', $url . 'extra');
     
     $cookie = tempnam("/tmp", 'cookie_' .  md5(microtime(true)));
 
