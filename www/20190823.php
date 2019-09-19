@@ -45,6 +45,16 @@ function func_20190823h($mu_)
     $line = 'curl -v -o ' . $file . ' ' . $match[1] . ' 2>&1';
     $mu_->cmd_execute($line);
     error_log(filesize($file));
+    
+    $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
+    $livedoor_atom_password = $mu_->get_env('LIVEDOOR_ATOM_PASSWORD', true);
+    
+    $url = "https://livedoor.blogcms.jp/atompub/${livedoor_id}/image";
+    
+    $line = "curl -v -X POST -u ${livedoor_id}:${livedoor_atom_password} " . '-H "Expect:" -H "Content-Type: image/jpeg" '
+        . "${url} --data-binary @${file}";
+    $mu_->cmd_execute($line);
+    
     unlink($file);
 }
 
