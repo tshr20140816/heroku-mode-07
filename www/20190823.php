@@ -50,10 +50,14 @@ function func_20190823g($mu_)
         $res = $mu_->get_contents($url, $options, true);
         $rc = preg_match('/var dailyForecast =(.+);/', $res, $match);
         $json = json_decode($match[1]);
-        error_log(print_r($json, true));
+        // error_log(print_r($json, true));
+        foreach ($json as $item) {
+            $list_base[$item->date] = $item->day->phrase . ' ' . $item->day->precip . ' '
+                . (($item->day->temp - 32) * 5 / 9) . '/' . (($item->night->temp - 32) * 5 / 9);
+        }
     }
     unlink($cookie);
-    
+    error_log(print_r($list_base, true));
     /*
     $rc = preg_match('/var dailyForecast =(.+);/', $res, $match);
     $json = json_decode($match[1]);
