@@ -20,11 +20,28 @@ function func_20190823g($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
 
+    $cookie = tempnam('/tmp', 'cookie_' . md5(microtime(true)));
+    
+    $options = [CURLOPT_ENCODING => 'gzip, deflate',
+                CURLOPT_HTTPHEADER => [
+                    'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                    'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+                    'Cache-Control: no-cache',
+                    'Connection: keep-alive',
+                    'DNT: 1',
+                    'Upgrade-Insecure-Requests: 1',
+                    ],
+                CURLOPT_COOKIEJAR => $cookie,
+                CURLOPT_COOKIEFILE => $cookie,
+                CURLOPT_HEADER => true,
+               ];
+    
     // $url = 'https://www.accuweather.com/ja/jp/hiroshima-shi/223955/daily-weather-forecast/223955?day=11';
     $url = 'https://www.accuweather.com/';
     // $res = $mu_->get_contents_proxy($url);
-    $res = $mu_->get_contents($url);
+    $res = $mu_->get_contents($url, $options);
     error_log($res);
+    unlink($cookie);
     /*
     $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/', null, true);
     // error_log($res);
