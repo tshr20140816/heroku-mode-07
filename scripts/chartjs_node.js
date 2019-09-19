@@ -1,3 +1,11 @@
+/*
+argv
+2 : width
+3 : height
+4 : json(base64 encode)
+5 : output file name
+6 : font name(optional)
+*/
 const ChartjsNode = require('chartjs-node');
 const ChartjsAnnotation = require('chartjs-plugin-annotation');
 
