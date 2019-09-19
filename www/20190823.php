@@ -10,10 +10,30 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823h($mu);
+func_20190823i($mu);
 // @unlink('/tmp/dummy');
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190823i($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
+    
+    $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
+    $livedoor_filemanager_password = getenv('TEST_PASSWORD');
+    $url = "https://livedoor.blogcms.jp/blog/${livedoor_id}/file_manager/list";
+    
+    $options = [CURLOPT_ENCODING => 'gzip, deflate',
+                CURLOPT_HTTPHEADER => [
+                    'X-LDBlog-Token: ' . $livedoor_filemanager_password,
+                    ],
+                CURLOPT_HEADER => true,
+                CURLOPT_POST => true,
+               ];
+    $res = $mu_->get_contents($url, $options);
+    error_log($res);
+}
 
 function func_20190823h($mu_)
 {
