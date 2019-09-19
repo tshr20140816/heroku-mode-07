@@ -77,6 +77,7 @@ function func_20190823h($mu_)
         'arr_stnpb' => '1007',
         'script' => '1',
     ];
+    $options[CURLOPT_POSTFIELDS] = http_build_query($post_data);
     $res = $mu_->get_contents($url, $options);
     unlink($cookie);
     $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
