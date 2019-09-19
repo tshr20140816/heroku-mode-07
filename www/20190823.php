@@ -27,6 +27,7 @@ function func_20190823i($mu_)
     $options = [CURLOPT_ENCODING => 'gzip, deflate',
                 CURLOPT_HTTPHEADER => [
                     'X-LDBlog-Token: ' . $livedoor_filemanager_password,
+                    'Expect:'
                     ],
                 CURLOPT_HEADER => true,
                 CURLOPT_POST => true,
