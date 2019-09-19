@@ -62,7 +62,7 @@ function func_20190823h($mu_)
     
     $rc = preg_match('/<td align="left">Ｍａｘとき３０７号２階<\/td>.+?<{5}.+?>(.+?)</s', $res, $match);
     
-    error_log(print_r($res, true));
+    error_log(print_r($match, true));
 }
 
 function func_20190823g($mu_)
