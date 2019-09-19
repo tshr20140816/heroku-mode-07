@@ -20,13 +20,22 @@ function func_20190823h($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
     
-    $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/', null, true);
-    // error_log($res);
+    $url = 'https://www.pakutaso.com/animal/cat/';
+    $res = $mu_->get_contents($url, null, true);
     
-    // <p class="align -right" style="margin-top:10px"><small>(\d+)
     $rc = preg_match('/<p class="align -right" style="margin-top:10px"><small>(\d+)/', $res, $match);
     
     error_log($match[1]);
+    
+    $page = rand(1, $match[1]);
+    
+    if ($page !== 1) {
+        $url .= 'index_' . $page . '.html';
+    }
+    
+    $res = $mu_->get_contents($url, null, true);
+    $rc = preg_match_all('/<a href="(https:\/\/www.pakutaso.com\/2.+?)"/', $res, $matches);
+    error_log(print_r($matches, true));
 }
 
 function func_20190823g($mu_)
