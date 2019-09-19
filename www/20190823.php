@@ -20,13 +20,13 @@ function func_20190823h($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
     
-    $url_base = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
-    $hash_url = 'url' . hash('sha512', $url_base);
+    $description = '';
+    
+    $url = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
+    $hash_url = 'url' . hash('sha512', $url);
     
     $cookie = tempnam("/tmp", 'cookie_' .  md5(microtime(true)));
-    
-    $url = $url_base . '?' . $day;
-    
+
     $post_data = [
         'month' => '10',
         'day' => '19',
@@ -62,7 +62,31 @@ function func_20190823h($mu_)
     
     $rc = preg_match('/<td align="left">Ｍａｘとき３０７号２階.+?<td.+?<td.+?<td.+?<td.+?>(.+?)</s', $res, $match);
     
-    error_log(print_r($match, true));
+    // error_log(print_r($match, true));
+    $description .= "\nMaxとき " . $match[1] . "\n";
+
+    $post_data = [
+        'month' => '10',
+        'day' => '19',
+        'hour' => '14',
+        'minute' => '30',
+        'train' => '3',
+        'dep_stn' => mb_convert_encoding('盛岡', 'SJIS', 'UTF-8'),
+        'arr_stn' => mb_convert_encoding('新函館北斗', 'SJIS', 'UTF-8'),
+        'dep_stnpb' => '2150',
+        'arr_stnpb' => '1007',
+        'script' => '1',
+    ];
+    $res = $mu_->get_contents($url, $options);
+    unlink($cookie);
+    $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
+    
+    $rc = preg_match('/<td align="left">はやぶさ　２１号.+?<td.+?<td.+?<td.+?<td.+?>(.+?)</s', $res, $match);
+    
+    // error_log(print_r($match, true));
+    $description .= "はやぶさ " . $match[1];
+    
+    error_log($description);
 }
 
 function func_20190823g($mu_)
