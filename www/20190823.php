@@ -69,6 +69,7 @@ function func_20190823h($mu_)
     $mu_->cmd_execute($line);
     error_log(filesize($file));
     
+    /*
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
     $livedoor_atom_password = $mu_->get_env('LIVEDOOR_ATOM_PASSWORD', true);
     
@@ -76,6 +77,29 @@ function func_20190823h($mu_)
     
     $line = "curl -v -X POST -u ${livedoor_id}:${livedoor_atom_password} " . '-H "Expect:" -H "Content-Type: image/jpeg" '
         . "${url} --data-binary @${file}";
+    $mu_->cmd_execute($line);
+    */
+    
+    $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
+    $livedoor_filemanager_password = getenv('TEST_PASSWORD');
+    $url = "https://livedoor.blogcms.jp/blog/${livedoor_id}/file_manager/upload";
+    /*
+    $post_data = ['dir_id' => 86924,
+                 ];
+    
+    $options = [CURLOPT_ENCODING => 'gzip, deflate',
+                CURLOPT_HTTPHEADER => [
+                    'X-LDBlog-Token: ' . $livedoor_filemanager_password,
+                    'Expect:'
+                    ],
+                CURLOPT_HEADER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => http_build_query($post_data),
+               ];
+    $res = $mu_->get_contents($url, $options);
+    */
+    $line = "curl -v -X POST " . '-H "Expect:" -H "X-LDBlog-Token: ' . $livedoor_filemanager_password . '" '
+        . "${url} -F 'dir_id=86924' -F 'name=test0010.jpg' -F 'upload_data=@" . $file . "'";
     $mu_->cmd_execute($line);
     
     unlink($file);
