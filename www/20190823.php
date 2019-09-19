@@ -40,8 +40,13 @@ function func_20190823g($mu_)
     // $url = 'https://www.accuweather.com/';
     // $res = $mu_->get_contents_proxy($url);
     $res = $mu_->get_contents($url, $options);
-    error_log($res);
+    // error_log($res);
     unlink($cookie);
+    
+    $rc = preg_match('/var dailyForecast =(.+);/', $res, $match);
+    $json = json_decode($match);
+    error_log(print_r($json, true));
+    
     /*
     $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/', null, true);
     // error_log($res);
