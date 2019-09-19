@@ -23,7 +23,7 @@ function func_20190823i($mu_)
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
     $livedoor_filemanager_password = getenv('TEST_PASSWORD');
     $url = "https://livedoor.blogcms.jp/blog/${livedoor_id}/file_manager/list";
-    $post_data = ['dir_id' => 86924,];
+    // $post_data = ['dir_id' => 1,];
     
     $options = [CURLOPT_ENCODING => 'gzip, deflate',
                 CURLOPT_HTTPHEADER => [
@@ -99,7 +99,7 @@ function func_20190823h($mu_)
     $res = $mu_->get_contents($url, $options);
     */
     $line = "curl -v -X POST " . '-H "Expect:" -H "X-LDBlog-Token: ' . $livedoor_filemanager_password . '" '
-        . "${url} -F 'dir_id=86924' -F 'name=test0010.jpg' -F 'upload_data=@" . $file . "'";
+        . "${url} -F 'dir_id=1' -F 'name=test0010.jpg' -F 'upload_data=@" . $file . "'";
     $mu_->cmd_execute($line);
     
     unlink($file);
