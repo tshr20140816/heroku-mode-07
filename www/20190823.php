@@ -53,7 +53,7 @@ function func_20190823g($mu_)
         // error_log(print_r($json, true));
         foreach ($json as $item) {
             $list_base[$item->date] = $item->day->phrase . ' ' . $item->day->precip . ' '
-                . (($item->day->temp - 32) * 5 / 9) . '/' . (($item->night->temp - 32) * 5 / 9);
+                . (int)(($item->day->temp - 32) * 5 / 9) . '/' . (int)(($item->night->temp - 32) * 5 / 9);
         }
     }
     unlink($cookie);
