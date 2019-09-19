@@ -44,7 +44,7 @@ function func_20190823g($mu_)
     unlink($cookie);
     
     $rc = preg_match('/var dailyForecast =(.+);/', $res, $match);
-    $json = json_decode($match);
+    $json = json_encode($match);
     error_log(print_r($json, true));
     
     /*
