@@ -45,8 +45,12 @@ function func_20190823g($mu_)
     $urls[] = $url_base . '?page=3';
     $urls[] = $url_base . '?page=4';
     
+    $list_base = [];
     foreach ($urls as $url) {
         $res = $mu_->get_contents($url, $options, true);
+        $rc = preg_match('/var dailyForecast =(.+);/', $res, $match);
+        $json = json_decode($match[1]);
+        error_log(print_r($json, true));
     }
     unlink($cookie);
     
