@@ -14,6 +14,7 @@ $hour = date('G', strtotime('+9 hours'));
 $minute = ltrim(date('i', strtotime('+9 hours')), '0');
 if (($hour > 6 || ($hours == 5 && $minute > 29)) && ($hour < 22 || ($hour == 22 && $minute < 30))) {
     search_sunrize($mu);
+    search_extra($mu);
 }
 
 $time_finish = microtime(true);
@@ -135,7 +136,7 @@ function check_train($mu_)
                 $rc = preg_match('/<link rel="edit" href="(.+?)"/', $entry, $match);
                 error_log($log_prefix . $match[1]);
                 $url = $match[1];
-                
+
                 $options = [
                     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                     CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
@@ -155,7 +156,7 @@ function check_train($mu_)
     }
     */
     $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ TRAIN</');
-    
+
     // $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
     // $sanyo2_st = $mu_->get_contents($url, null, true);
 
@@ -206,7 +207,7 @@ function check_train($mu_)
     exec('php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ../scripts/update_ttrss.php >/dev/null &');
     error_log($log_prefix . 'finish exec');
 }
-    
+
 function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0') // $direction_ : '0' nobori / '1' kudari
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
@@ -507,10 +508,10 @@ function search_sunrize($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
-    
+
     $url_base = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
     $hash_url = 'url' . hash('sha512', $url_base);
-    
+
     // $list_days = [12, 13, 14, 15, 16, 17, 18];
     $list_days = [16, 17, 18];
     $list_cookie = [];
@@ -566,7 +567,7 @@ function search_sunrize($mu_)
         $count_batsu = substr_count($res, '<td align="center">×</td>');
         $count_mada = substr_count($res, 'ご希望の乗車日の空席状況は照会できません。');
         $tmp = explode('?', $url);
-        
+
         $description .= $tmp[1] . ' ';
         if ($count_maru > 0) {
             $description .= str_repeat('○', $count_maru);
@@ -585,7 +586,7 @@ function search_sunrize($mu_)
     foreach ($list_cookie as $cookie) {
         unlink($cookie);
     }
-    
+
     // error_log($description);
     $mu_->logging_object($description, $log_prefix);
     $hash_description = hash('sha512', $description);
@@ -595,5 +596,86 @@ function search_sunrize($mu_)
         $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ ' . $hash_url . '</');
         $description = '<div class="' . $hash_url . '">' . "${hash_description}</div>${description}";
         $mu_->post_blog_wordpress($hash_url, $description, 'sunrize');
+    }
+}
+
+function search_extra($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
+
+    $description = '';
+
+    $url = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
+    $hash_url = 'url' . hash('sha512', $url . 'extra');
+
+    $cookie = tempnam("/tmp", 'cookie_' .  md5(microtime(true)));
+
+    $post_data = [
+        'month' => '10',
+        'day' => '19',
+        'hour' => '8',
+        'minute' => '20',
+        'train' => '4',
+        'dep_stn' => mb_convert_encoding('東京', 'SJIS', 'UTF-8'),
+        'arr_stn' => mb_convert_encoding('大宮', 'SJIS', 'UTF-8'),
+        'dep_stnpb' => '4000',
+        'arr_stnpb' => '4320',
+        'script' => '1',
+    ];
+
+    $options = [
+        CURLOPT_ENCODING => 'gzip, deflate',
+        CURLOPT_HTTPHEADER => [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+            'Referer: ' . $url,
+            ],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => http_build_query($post_data),
+    ];
+    $res = $mu_->get_contents($url, $options);
+    unlink($cookie);
+    $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
+
+    $rc = preg_match('/<td align="left">Ｍａｘとき３０７号２階.+?<td.+?<td.+?<td.+?<td.+?>(.+?)</s', $res, $match);
+
+    $description .= "\nMaxとき " . $match[1] . "\n";
+
+    $post_data = [
+        'month' => '10',
+        'day' => '19',
+        'hour' => '14',
+        'minute' => '30',
+        'train' => '3',
+        'dep_stn' => mb_convert_encoding('盛岡', 'SJIS', 'UTF-8'),
+        'arr_stn' => mb_convert_encoding('新函館北斗', 'SJIS', 'UTF-8'),
+        'dep_stnpb' => '2150',
+        'arr_stnpb' => '1007',
+        'script' => '1',
+    ];
+    $options[CURLOPT_POSTFIELDS] = http_build_query($post_data);
+    $res = $mu_->get_contents($url, $options);
+    unlink($cookie);
+    $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
+
+    $rc = preg_match('/<td align="left">はやぶさ　２１号.+?<td.+?<td.+?<td.+?<td.+?>(.+?)</s', $res, $match);
+
+    $description .= "はやぶさ " . $match[1];
+
+    $mu_->logging_object($description, $log_prefix);
+    $hash_description = hash('sha512', $description);
+
+    $res = $mu_->search_blog($hash_url);
+    if ($res != $hash_description) {
+        $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ ' . $hash_url . '</');
+        $description = '<div class="' . $hash_url . '">' . "${hash_description}</div>${description}";
+        $mu_->post_blog_wordpress($hash_url, $description, 'train_extra');
     }
 }
