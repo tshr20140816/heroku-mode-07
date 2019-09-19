@@ -23,6 +23,7 @@ function func_20190823i($mu_)
     $livedoor_id = $mu_->get_env('LIVEDOOR_ID', true);
     $livedoor_filemanager_password = getenv('TEST_PASSWORD');
     $url = "https://livedoor.blogcms.jp/blog/${livedoor_id}/file_manager/list";
+    $post_data = ['dir_id' => 86924,];
     
     $options = [CURLOPT_ENCODING => 'gzip, deflate',
                 CURLOPT_HTTPHEADER => [
@@ -31,6 +32,7 @@ function func_20190823i($mu_)
                     ],
                 CURLOPT_HEADER => true,
                 CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => http_build_query($post_data),
                ];
     $res = $mu_->get_contents($url, $options);
     error_log($res);
