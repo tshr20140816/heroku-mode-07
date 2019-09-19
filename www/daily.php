@@ -58,6 +58,7 @@ $list_sunrise_sunset = get_sun($mu);
 // Weather Information 今日の10日後から70日分
 
 $list_base = [];
+/*
 $sub_address = $mu->get_env('SUB_ADDRESS');
 for ($i = 0; $i < 12; $i++) {
     $url = 'https://feed43.com/' . $sub_address . ($i * 5 + 11) . '-' . ($i * 5 + 15) . '.xml';
@@ -78,6 +79,40 @@ for ($i = 0; $i < 12; $i++) {
         }
     }
 }
+*/
+$cookie = tempnam('/tmp', 'cookie_' . md5(microtime(true)));
+
+$options = [CURLOPT_ENCODING => 'gzip, deflate',
+            CURLOPT_HTTPHEADER => [
+                'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+                'Cache-Control: no-cache',
+                'Connection: keep-alive',
+                'DNT: 1',
+                'Upgrade-Insecure-Requests: 1',
+                ],
+            CURLOPT_COOKIEJAR => $cookie,
+            CURLOPT_COOKIEFILE => $cookie,
+            CURLOPT_HEADER => true,
+           ];
+
+$url_base = 'https://www.accuweather.com/ja/jp/hiroshima-shi/223955/daily-weather-forecast/223955';
+$urls = [];
+$urls[] = $url_base;
+$urls[] = $url_base . '?page=1';
+$urls[] = $url_base . '?page=2';
+$urls[] = $url_base . '?page=3';
+$urls[] = $url_base . '?page=4';
+foreach ($urls as $url) {
+    $res = $mu->get_contents($url, $options, true);
+    $rc = preg_match('/var dailyForecast =(.+);/', $res, $match);
+    $json = json_decode($match[1]);
+    foreach ($json as $item) {
+        $list_base[$item->date] = $item->day->phrase . ' ' . $item->day->precip . ' '
+            . (int)(($item->day->temp - 32) * 5 / 9) . '/' . (int)(($item->night->temp - 32) * 5 / 9);
+    }
+}
+unlink($cookie);
 error_log($pid . ' $list_base : ' . print_r($list_base, true));
 
 // Get Tasks
