@@ -58,6 +58,7 @@ function func_20190823h($mu_)
     ];
     $res = $mu_->get_contents($url, $options);
     unlink($cookie);
+    $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
     
     error_log($res);
 }
