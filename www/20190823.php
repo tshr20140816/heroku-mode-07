@@ -20,74 +20,13 @@ function func_20190823h($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
     
-    $description = '';
+    $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/', null, true);
+    // error_log($res);
     
-    $url = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
-    $hash_url = 'url' . hash('sha512', $url . 'extra');
+    // <p class="align -right" style="margin-top:10px"><small>(\d+)
+    $rc = preg_match('/<p class="align -right" style="margin-top:10px"><small>(\d+)/', $res, $match);
     
-    $cookie = tempnam("/tmp", 'cookie_' .  md5(microtime(true)));
-
-    $post_data = [
-        'month' => '10',
-        'day' => '19',
-        'hour' => '8',
-        'minute' => '20',
-        'train' => '4',
-        'dep_stn' => mb_convert_encoding('東京', 'SJIS', 'UTF-8'),
-        'arr_stn' => mb_convert_encoding('大宮', 'SJIS', 'UTF-8'),
-        'dep_stnpb' => '4000',
-        'arr_stnpb' => '4320',
-        'script' => '1',
-    ];
-    
-    $options = [
-        CURLOPT_ENCODING => 'gzip, deflate',
-        CURLOPT_HTTPHEADER => [
-            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
-            'Cache-Control: no-cache',
-            'Connection: keep-alive',
-            'DNT: 1',
-            'Upgrade-Insecure-Requests: 1',
-            'Referer: ' . $url,
-            ],
-        CURLOPT_COOKIEJAR => $cookie,
-        CURLOPT_COOKIEFILE => $cookie,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => http_build_query($post_data),
-    ];
-    $res = $mu_->get_contents($url, $options);
-    unlink($cookie);
-    $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
-    
-    $rc = preg_match('/<td align="left">Ｍａｘとき３０７号２階.+?<td.+?<td.+?<td.+?<td.+?>(.+?)</s', $res, $match);
-    
-    // error_log(print_r($match, true));
-    $description .= "\nMaxとき " . $match[1] . "\n";
-
-    $post_data = [
-        'month' => '10',
-        'day' => '19',
-        'hour' => '14',
-        'minute' => '30',
-        'train' => '3',
-        'dep_stn' => mb_convert_encoding('盛岡', 'SJIS', 'UTF-8'),
-        'arr_stn' => mb_convert_encoding('新函館北斗', 'SJIS', 'UTF-8'),
-        'dep_stnpb' => '2150',
-        'arr_stnpb' => '1007',
-        'script' => '1',
-    ];
-    $options[CURLOPT_POSTFIELDS] = http_build_query($post_data);
-    $res = $mu_->get_contents($url, $options);
-    unlink($cookie);
-    $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
-    
-    $rc = preg_match('/<td align="left">はやぶさ　２１号.+?<td.+?<td.+?<td.+?<td.+?>(.+?)</s', $res, $match);
-    
-    // error_log(print_r($match, true));
-    $description .= "はやぶさ " . $match[1];
-    
-    error_log($description);
+    error_log($match[1]);
 }
 
 function func_20190823g($mu_)
