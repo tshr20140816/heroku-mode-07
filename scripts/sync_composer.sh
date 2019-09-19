@@ -42,6 +42,8 @@ rm -rf heroku-mode-07
 rm -rf heroku-mode-09
 
 cd ~
+rm .netrc
+
 cd scripts
 
 base64string=$(echo -n 'mode-09 composer update' | base64)
