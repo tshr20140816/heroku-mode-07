@@ -21,6 +21,8 @@ function func_20190823k($mu_)
     error_log($log_prefix . 'BEGIN');
     error_log("${log_prefix}memory_get_usage : " . number_format(memory_get_usage()) . 'byte');
     
+    // https://www.flickr.com/
+    
     /*
     $res = file_get_contents('../bin/curl');
     $filesize = strlen($res);
