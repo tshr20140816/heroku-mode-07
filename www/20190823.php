@@ -77,7 +77,7 @@ function func_20190823k($mu_)
             imagesetpixel($im, $x, $y, $color);
         }
     }
-    fclose('/tmp/testdata');
+    fclose($fp);
     unlink('/tmp/testdata');
     header('Content-Type: image/png');
     imagepng($im);
