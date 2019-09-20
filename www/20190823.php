@@ -23,7 +23,7 @@ function func_20190823k($mu_)
     $res = file_get_contents('./daily010.php');
     
     for ($i = 0; $i < strlen($res); $i++) {
-        error_log(hexdec(bin2hex($res[$i])) . ' ' . (int)$res[$i]);
+        error_log(hexdec(bin2hex($res[$i])));
     }
 }
 
