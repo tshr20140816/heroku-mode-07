@@ -30,12 +30,18 @@ function func_20190823k($mu_)
     $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
     
     $url = getenv('TEST_URL_01');
+    /*
     $options = [
         CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
         CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
     ];
     $res = $mu_->get_contents($url, $options, true);
+    */
+    $line = "curl -u ${user_hidrive}:${password_hidrive} -o /tmp/testdata ${url}";
+    $mu_->cmd_execute($line);
     
+    $res = file_get_contents('/tmp/testdata');
+    unlink('/tmp/testdata');
     $filesize = strlen($res);
     error_log('$filesize : ' . $filesize);
     
