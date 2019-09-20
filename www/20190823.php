@@ -21,10 +21,17 @@ function func_20190823k($mu_)
     error_log($log_prefix . 'BEGIN');
     
     $res = file_get_contents('./daily010.php');
-    
+    $filesize = strlen($res);
+    error_log($filesize);
+    error_log($filesize / 3);
+    error_log($filesize % 3);
+    error_log($filesize + ($filesize % 3));
+    error_log(($filesize + ($filesize % 3)) / 3);
+    /*
     for ($i = 0; $i < strlen($res); $i++) {
         error_log(hexdec(bin2hex($res[$i])));
     }
+    */
 }
 
 function func_20190823j($mu_)
