@@ -31,11 +31,10 @@ function func_20190823k($mu_)
     }
     $full_size /= 3;
     error_log('$full_size : ' . $full_size);
-    if ($full_size % 2 === 0) {
-        $width = $full_size / 2;
-    } else {
-        $width = ($full_size + 1) / 2;
-    }
+    
+    error_log(ceil(sqrt($full_size)));
+    
+    $width = ceil(sqrt($full_size));
     $height = $width;
     error_log('$height : ' . $height);
     
