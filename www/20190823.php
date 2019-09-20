@@ -22,11 +22,6 @@ function func_20190823k($mu_)
     
     $res = file_get_contents('./daily010.php');
     $filesize = strlen($res);
-    error_log($filesize);
-    error_log($filesize / 3);
-    error_log($filesize % 3);
-    error_log($filesize + ($filesize % 3));
-    error_log(($filesize + (3 - $filesize % 3)) / 3);
     
     $full_size = $filesize;
     $tmp = $filesize % 3;
@@ -35,7 +30,13 @@ function func_20190823k($mu_)
     }
     $full_size /= 3;
     error_log('$full_size : ' . $full_size);
-    
+    if ($full_size % 2 === 0) {
+        $width = $full_size / 2;
+    } else {
+        $width = ($full_size + 1) / 2;
+    }
+    $height = $width;
+    error_log('$height : ' . $height);
     /*
     for ($i = 0; $i < strlen($res); $i++) {
         error_log(hexdec(bin2hex($res[$i])));
