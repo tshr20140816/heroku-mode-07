@@ -69,7 +69,7 @@ function func_20190823j($mu_)
         unlink($cookie);
         $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
 
-        $rc = preg_match('/<td align="left">' . $item[8] . '.+?<td.+?<td.+?<td.+?<td.+?>(.+?)</s', $res, $match);
+        $rc = preg_match('/<td align="left">' . $item[9] . '.+?<td.+?<td.+?<td.+?<td.+?>(.+?)</s', $res, $match);
 
         $description .= "\n" . $item[5] . ' - ' . $item[6] . ' ' . $match[1];
     }
