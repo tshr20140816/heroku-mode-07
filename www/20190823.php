@@ -39,10 +39,8 @@ function func_20190823k($mu_)
     */
     $line = "curl -u ${user_hidrive}:${password_hidrive} -o /tmp/testdata ${url}";
     $mu_->cmd_execute($line);
-    
-    $res = file_get_contents('/tmp/testdata');
-    unlink('/tmp/testdata');
-    $filesize = strlen($res);
+
+    $filesize = filesize('/tmp/testdata');
     error_log('$filesize : ' . $filesize);
     
     $full_size = $filesize;
@@ -60,25 +58,27 @@ function func_20190823k($mu_)
     error_log('$height : ' . $height);
     
     $im = imagecreatetruecolor($width, $height);
-    $index = 0;
+    $fp = fopen('/tmp/testdata', 'rb');
     for ($y = 0; $y < $height; $y++) {
         for ($x = 0; $x < $width; $x++) {
             $r = 0;
             $g = 0;
             $b = 0;
-            if ($index < $filesize) {
-                $r = hexdec(bin2hex($res[$index++]));
+            if (feof($fp) === false) {
+                $r = hexdec(bin2hex(fread($fp, 1)));
             }
-            if ($index < $filesize) {
-                $g = hexdec(bin2hex($res[$index++]));
+            if (feof($fp) === false) {
+                $g = hexdec(bin2hex(fread($fp, 1)));
             }
-            if ($index < $filesize) {
-                $b = hexdec(bin2hex($res[$index++]));
+            if (feof($fp) === false) {
+                $b = hexdec(bin2hex(fread($fp, 1)));
             }
             $color = imagecolorallocate($im, $r, $g, $b);
             imagesetpixel($im, $x, $y, $color);
         }
     }
+    fclose('/tmp/testdata');
+    unlink('/tmp/testdata');
     header('Content-Type: image/png');
     imagepng($im);
     /*
