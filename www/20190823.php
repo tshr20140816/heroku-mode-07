@@ -58,8 +58,8 @@ function func_20190823k($mu_)
             imagesetpixel($im, $x, $y, $color);
         }
     }
-    header('Content-Type: image/png');
-    imagepng($im);
+    header('Content-Type: image/bmp');
+    imagebmp($im);
 }
 
 function func_20190823j($mu_)
