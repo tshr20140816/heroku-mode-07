@@ -22,6 +22,7 @@ function func_20190823k($mu_)
     
     $res = file_get_contents('./daily010.php');
     $filesize = strlen($res);
+    error_log('$filesize : ' . $filesize);
     
     $full_size = $filesize;
     $tmp = $filesize % 3;
@@ -37,11 +38,29 @@ function func_20190823k($mu_)
     }
     $height = $width;
     error_log('$height : ' . $height);
-    /*
-    for ($i = 0; $i < strlen($res); $i++) {
-        error_log(hexdec(bin2hex($res[$i])));
+    
+    $im = imagecreatetruecolor($width, $height);
+    $index = 0;
+    for ($y = 0; $y < $height; $y++) {
+        for ($x = 0; $x < $width; $x++) {
+            $r = 0;
+            $g = 0;
+            $b = 0;
+            if ($index < $filesize) {
+                $r = hexdec(bin2hex($res[$index++]));
+            }
+            if ($index < $filesize) {
+                $g = hexdec(bin2hex($res[$index++]));
+            }
+            if ($index < $filesize) {
+                $b = hexdec(bin2hex($res[$index++]));
+            }
+            $color = imagecolorallocate($im, $r, $g, $b);
+            imagesetpixel($im, $x, $y, $color);
+        }
     }
-    */
+    header('Content-Type: image/png');
+    imagepng($im);
 }
 
 function func_20190823j($mu_)
