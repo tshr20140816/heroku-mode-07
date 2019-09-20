@@ -77,6 +77,10 @@ function func_20190823k($mu_)
             }
             $color = imagecolorallocate($im, $r, $g, $b);
             imagesetpixel($im, $x, $y, $color);
+            $color = null;
+        }
+        if ($y % 100 === 99) {
+            error_log("${log_prefix}memory_get_usage : " . number_format(memory_get_usage()) . 'byte');
         }
     }
     fclose($fp);
