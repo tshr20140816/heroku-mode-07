@@ -27,6 +27,15 @@ function func_20190823k($mu_)
     error_log($filesize % 3);
     error_log($filesize + ($filesize % 3));
     error_log(($filesize + (3 - $filesize % 3)) / 3);
+    
+    $full_size = $filesize;
+    $tmp = $filesize % 3;
+    if ($tmp !== 0) {
+        $full_size += 3 - $tmp;
+    }
+    $full_size /= 3;
+    error_log('$full_size : ' . $full_size);
+    
     /*
     for ($i = 0; $i < strlen($res); $i++) {
         error_log(hexdec(bin2hex($res[$i])));
