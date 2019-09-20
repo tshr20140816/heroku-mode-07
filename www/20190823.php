@@ -19,6 +19,7 @@ function func_20190823k($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
+    error_log("${log_prefix}memory_get_usage : " . number_format(memory_get_usage()) . 'byte');
     
     /*
     $res = file_get_contents('../bin/curl');
@@ -42,6 +43,7 @@ function func_20190823k($mu_)
 
     $filesize = filesize('/tmp/testdata');
     error_log('$filesize : ' . $filesize);
+    error_log("${log_prefix}memory_get_usage : " . number_format(memory_get_usage()) . 'byte');
     
     $full_size = $filesize;
     $tmp = $filesize % 3;
@@ -80,6 +82,7 @@ function func_20190823k($mu_)
     fclose($fp);
     unlink('/tmp/testdata');
     header('Content-Type: image/png');
+    error_log("${log_prefix}memory_get_usage : " . number_format(memory_get_usage()) . 'byte');
     imagepng($im);
     /*
     imagepng($im, '/tmp/testfile.png');
