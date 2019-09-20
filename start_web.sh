@@ -3,7 +3,7 @@
 set -x
 
 export TZ=JST-9
-export WEB_CONCURRENCY=3
+export WEB_CONCURRENCY=4
 export USER_AGENT=$(curl -sS https://raw.githubusercontent.com/tshr20140816/heroku-mode-07/master/useragent.txt)
 export PERL5LIB=/app/.apt/usr/share/perl5
 
