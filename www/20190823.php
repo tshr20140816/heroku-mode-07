@@ -20,7 +20,22 @@ function func_20190823k($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
     
+    /*
     $res = file_get_contents('../bin/curl');
+    $filesize = strlen($res);
+    error_log('$filesize : ' . $filesize);
+    */
+    
+    $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
+    $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
+    
+    $url = getenv('TEST_URL_01');
+    $options = [
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => "${user_hidrive}:${password_hidrive}",
+    ];
+    $res = $mu_->get_contents($url, $options, true);
+    
     $filesize = strlen($res);
     error_log('$filesize : ' . $filesize);
     
