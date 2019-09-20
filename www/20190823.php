@@ -58,8 +58,22 @@ function func_20190823k($mu_)
             imagesetpixel($im, $x, $y, $color);
         }
     }
-    header('Content-Type: image/bmp');
-    imagebmp($im, null, false);
+    imagepng($im, '/tmp/testfile.png');
+    imagedestroy($im);
+    
+    $res = null;
+    $im = null;
+    
+    $im = imagecreatefrompng('/tmp/testfile.png');
+    
+    for ($y = 0; $y < $height; $y++) {
+        for ($x = 0; $x < $width; $x++) {
+            $rgb = imagecolorat($im, $x, $y);
+            error_log(dechex(($rgb >> 16) & 0xFF) . ' ' . dechex(($rgb >> 8) & 0xFF) . ' ' . dechex($rgb & 0xFF));
+        }
+    }
+    imagedestroy($im);
+    unlink('/tmp/testfile.png');
 }
 
 function func_20190823j($mu_)
