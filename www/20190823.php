@@ -59,7 +59,7 @@ function func_20190823k($mu_)
         }
     }
     header('Content-Type: image/bmp');
-    imagebmp($im);
+    imagebmp($im, null, false);
 }
 
 function func_20190823j($mu_)
