@@ -83,7 +83,11 @@ function func_20190823k($mu_)
     unlink('/tmp/testdata');
     header('Content-Type: image/png');
     error_log("${log_prefix}memory_get_usage : " . number_format(memory_get_usage()) . 'byte');
-    imagepng($im);
+    // imagepng($im);
+    imagepng($im, '/tmp/testfile.png');
+    imagedestroy($im);
+    error_log(filesize('/tmp/testfile.png'));
+    unlink('/tmp/testfile.png');
     /*
     imagepng($im, '/tmp/testfile.png');
     imagedestroy($im);
