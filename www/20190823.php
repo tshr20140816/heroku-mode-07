@@ -20,7 +20,7 @@ function func_20190823k($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
     
-    $res = file_get_contents('./daily010.php');
+    $res = file_get_contents('../bin/curl');
     $filesize = strlen($res);
     error_log('$filesize : ' . $filesize);
     
@@ -58,6 +58,9 @@ function func_20190823k($mu_)
             imagesetpixel($im, $x, $y, $color);
         }
     }
+    header('Content-Type: image/png');
+    imagepng($im);
+    /*
     imagepng($im, '/tmp/testfile.png');
     imagedestroy($im);
     
@@ -74,6 +77,7 @@ function func_20190823k($mu_)
     }
     imagedestroy($im);
     unlink('/tmp/testfile.png');
+    */
 }
 
 function func_20190823j($mu_)
