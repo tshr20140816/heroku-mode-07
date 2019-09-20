@@ -604,25 +604,19 @@ function search_extra($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
 
+    $list = [];
+    $list[] = ['10','19','14','30','3','盛岡','新函館北斗','2150','1007'];
+    $list[] = ['10','19','14','30','3','盛岡','八戸','2150','2170'];
+    $list[] = ['10','19','15','0','3','八戸','新青森','2170','2343'];
+    $list[] = ['10','19','15','20','3','新青森','木古内','2343','1330'];
+    $list[] = ['10','19','16','10','3','木古内','新函館北斗','1330','1007'];
+
     $description = '';
 
     $url = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
     $hash_url = 'url' . hash('sha512', $url . 'extra');
 
     $cookie = tempnam("/tmp", 'cookie_' .  md5(microtime(true)));
-
-    $post_data = [
-        'month' => '10',
-        'day' => '19',
-        'hour' => '8',
-        'minute' => '20',
-        'train' => '4',
-        'dep_stn' => mb_convert_encoding('東京', 'SJIS', 'UTF-8'),
-        'arr_stn' => mb_convert_encoding('大宮', 'SJIS', 'UTF-8'),
-        'dep_stnpb' => '4000',
-        'arr_stnpb' => '4320',
-        'script' => '1',
-    ];
 
     $options = [
         CURLOPT_ENCODING => 'gzip, deflate',
@@ -640,34 +634,29 @@ function search_extra($mu_)
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => http_build_query($post_data),
     ];
-    $res = $mu_->get_contents($url, $options);
-    unlink($cookie);
-    $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
 
-    $rc = preg_match('/<td align="left">Ｍａｘとき３０７号２階.+?<td.+?<td.+?<td.+?<td.+?>(.+?)</s', $res, $match);
+    foreach ($list as $item) {
+        $post_data = [
+            'month' => $item[0],
+            'day' => $item[1],
+            'hour' => $item[2],
+            'minute' => $item[3],
+            'train' => $item[4],
+            'dep_stn' => mb_convert_encoding($item[5], 'SJIS', 'UTF-8'),
+            'arr_stn' => mb_convert_encoding($item[6], 'SJIS', 'UTF-8'),
+            'dep_stnpb' => $item[7],
+            'arr_stnpb' => $item[8],
+            'script' => '1',
+        ];
+        $options[CURLOPT_POSTFIELDS] = http_build_query($post_data);
+        $res = $mu_->get_contents($url, $options);
+        unlink($cookie);
+        $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
 
-    $description .= "\nMaxとき " . $match[1] . "\n";
+        $rc = preg_match('/<td align="left">はやぶさ　２１号.+?<td.+?<td.+?<td.+?<td.+?>(.+?)</s', $res, $match);
 
-    $post_data = [
-        'month' => '10',
-        'day' => '19',
-        'hour' => '14',
-        'minute' => '30',
-        'train' => '3',
-        'dep_stn' => mb_convert_encoding('盛岡', 'SJIS', 'UTF-8'),
-        'arr_stn' => mb_convert_encoding('新函館北斗', 'SJIS', 'UTF-8'),
-        'dep_stnpb' => '2150',
-        'arr_stnpb' => '1007',
-        'script' => '1',
-    ];
-    $options[CURLOPT_POSTFIELDS] = http_build_query($post_data);
-    $res = $mu_->get_contents($url, $options);
-    unlink($cookie);
-    $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
-
-    $rc = preg_match('/<td align="left">はやぶさ　２１号.+?<td.+?<td.+?<td.+?<td.+?>(.+?)</s', $res, $match);
-
-    $description .= "はやぶさ " . $match[1];
+        $description .= "\n" . $item[5] . ' - ' . $item[6] . ' ' . $match[1];
+    }
 
     $mu_->logging_object($description, $log_prefix);
     $hash_description = hash('sha512', $description);
