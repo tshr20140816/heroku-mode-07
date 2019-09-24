@@ -10,65 +10,10 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823l($mu);
+func_20190823k($mu);
 // @unlink('/tmp/dummy');
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
-
-function func_20190823l($mu_)
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-
-    $urls = [];
-    for ($i = 0; $i < 20; $i++) {
-        $url = $mu_->get_env('URL_RAKUTEN_TRAVEL_' . str_pad($i, 2, '0', STR_PAD_LEFT));
-        if (strlen($url) < 10) {
-            continue;
-        }
-        $urls[] = $url;
-    }
-    $multi_options = [
-        CURLMOPT_PIPELINING => 3,
-        CURLMOPT_MAXCONNECTS => 8,
-    ];
-    $results = $mu_->get_contents_proxy_multi($urls, $multi_options);
-
-    foreach ($results as $url => $result) {
-        $hash_url = 'url' . hash('sha512', $url);
-        error_log($log_prefix . "url hash : ${hash_url}");
-
-        parse_str(parse_url($url, PHP_URL_QUERY), $tmp);
-
-        $y = $tmp['f_nen1'];
-        $m = $tmp['f_tuki1'];
-        $d = $tmp['f_hi1'];
-
-        $info = "\n\n${y}/${m}/${d}\n";
-
-        $tmp = explode('<dl class="htlGnrlInfo">', $result);
-        array_shift($tmp);
-
-        $hotels = [];
-        foreach ($tmp as $hotel_info) {
-            $rc = preg_match('/<a id.+>(.+?)</', $hotel_info, $match);
-            error_log($log_prefix . $match[1]);
-            // $info .= $match[1];
-            $hotel_name = $match[1];
-            $rc = preg_match('/<span class="vPrice".*?>合計(.+?)円/', $hotel_info, $match);
-            error_log($log_prefix . $match[1]);
-            // $info .= ' ' . strip_tags($match[1]) . "\n";
-            $price = strip_tags($match[1]);
-            $hotels[$price . ' ' . $hotel_name] = (int)str_replace(',', '', $price);
-        }
-        asort($hotels);
-        // error_log($log_prefix . print_r($hotels, true));
-        $hotels = array_chunk($hotels, 28, true)[0];
-        error_log($log_prefix . print_r($hotels, true));
-        $info .= implode("\n", array_keys($hotels));
-        error_log($log_prefix. $info);
-    }
-    $results = null;
-}
 
 function func_20190823k($mu_)
 {
