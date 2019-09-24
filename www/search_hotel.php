@@ -66,14 +66,20 @@ function search_hotel($mu_)
         $tmp = explode('<dl class="htlGnrlInfo">', $result);
         array_shift($tmp);
 
+        $hotels = [];
         foreach ($tmp as $hotel_info) {
             $rc = preg_match('/<a id.+>(.+?)</', $hotel_info, $match);
             // error_log($match[1]);
-            $info .= $match[1];
-            $rc = preg_match('/<span class="vPrice".*?>(.+)/', $hotel_info, $match);
+            $hotel_name = $match[1];
+            $rc = preg_match('/<span class="vPrice".*?>合計(.+?)円/', $hotel_info, $match);
             // error_log(strip_tags($match[1]));
-            $info .= ' ' . strip_tags($match[1]) . "\n";
+            $price = strip_tags($match[1]);
+            $hotels[$price . ' ' . $hotel_name] = (int)str_replace(',', '', $price);
         }
+        asort($hotels);
+        $hotels = array_chunk($hotels, 28, true)[0];
+        $info .= implode("\n", array_keys($hotels));
+        // error_log($log_prefix. $info);
 
         $hash_info = hash('sha512', $info);
         error_log($log_prefix . "info hash : ${hash_info}");
