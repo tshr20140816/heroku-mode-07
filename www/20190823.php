@@ -10,10 +10,19 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-func_20190823k($mu);
+func_20190823j($mu);
 // @unlink('/tmp/dummy');
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
+
+function func_20190823j($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
+    
+    $res = $mu_->get_contents(getenv('TEST_URL_01'));
+    error_log($res);
+}
 
 function func_20190823k($mu_)
 {
