@@ -62,7 +62,9 @@ function func_20190823l($mu_)
         }
         asort($hotels);
         error_log($log_prefix . print_r($hotels, true));
-        error_log($log_prefix. $info);
+        $hotels = array_chunk($hotels, 30, true);
+        error_log($log_prefix . print_r($hotels, true));
+        // error_log($log_prefix. $info);
     }
     $results = null;
 }
