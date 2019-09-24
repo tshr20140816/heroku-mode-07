@@ -203,66 +203,6 @@ function func_20190823h($mu_)
     unlink($file);
 }
 
-function func_20190823g($mu_)
-{
-    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
-    error_log($log_prefix . 'BEGIN');
-
-    $cookie = tempnam('/tmp', 'cookie_' . md5(microtime(true)));
-    
-    $options = [CURLOPT_ENCODING => 'gzip, deflate',
-                CURLOPT_HTTPHEADER => [
-                    'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                    'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
-                    'Cache-Control: no-cache',
-                    'Connection: keep-alive',
-                    'DNT: 1',
-                    'Upgrade-Insecure-Requests: 1',
-                    ],
-                CURLOPT_COOKIEJAR => $cookie,
-                CURLOPT_COOKIEFILE => $cookie,
-                CURLOPT_HEADER => true,
-               ];
-    
-    $url_base = 'https://www.accuweather.com/ja/jp/hiroshima-shi/223955/daily-weather-forecast/223955';
-    
-    $urls = [];
-    $urls[] = $url_base;
-    $urls[] = $url_base . '?page=1';
-    $urls[] = $url_base . '?page=2';
-    $urls[] = $url_base . '?page=3';
-    $urls[] = $url_base . '?page=4';
-    
-    $list_base = [];
-    foreach ($urls as $url) {
-        $res = $mu_->get_contents($url, $options, true);
-        $rc = preg_match('/var dailyForecast =(.+);/', $res, $match);
-        $json = json_decode($match[1]);
-        // error_log(print_r($json, true));
-        foreach ($json as $item) {
-            $list_base[$item->date] = $item->day->phrase . ' ' . $item->day->precip . ' '
-                . (int)(($item->day->temp - 32) * 5 / 9) . '/' . (int)(($item->night->temp - 32) * 5 / 9);
-        }
-    }
-    unlink($cookie);
-    error_log(print_r($list_base, true));
-    /*
-    $rc = preg_match('/var dailyForecast =(.+);/', $res, $match);
-    $json = json_decode($match[1]);
-    error_log(print_r($json, true));
-    */
-    
-    /*
-    $res = $mu_->get_contents('https://www.pakutaso.com/animal/cat/', null, true);
-    // error_log($res);
-    
-    // <p class="align -right" style="margin-top:10px"><small>(\d+)
-    $rc = preg_match('/<p class="align -right" style="margin-top:10px"><small>(\d+)/', $res, $match);
-    
-    error_log($match[1]);
-    */
-}
-
 function func_20190823f($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
