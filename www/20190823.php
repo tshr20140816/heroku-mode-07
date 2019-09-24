@@ -65,7 +65,7 @@ function func_20190823l($mu_)
         $hotels = array_chunk($hotels, 28, true);
         // error_log($log_prefix . print_r($hotels, true));
         $info .= implode("\n", array_keys($hotels));
-        // error_log($log_prefix. $info);
+        error_log($log_prefix. $info);
     }
     $results = null;
 }
