@@ -52,7 +52,7 @@ function func_20190823l($mu_)
             $rc = preg_match('/<a id.+>(.+?)</', $hotel_info, $match);
             error_log($log_prefix . $match[1]);
             $info .= $match[1];
-            $rc = preg_match('/<span class="vPrice".*?>合計(.+)円/', $hotel_info, $match);
+            $rc = preg_match('/<span class="vPrice".*?>合計(.+?)円/', $hotel_info, $match);
             error_log($log_prefix . strip_tags($match[1]));
             $info .= ' ' . strip_tags($match[1]) . "\n";
         }
