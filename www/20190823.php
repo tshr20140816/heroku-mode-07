@@ -57,8 +57,11 @@ function func_20190823l($mu_)
             $rc = preg_match('/<span class="vPrice".*?>合計(.+?)円/', $hotel_info, $match);
             error_log($log_prefix . $match[1]);
             $info .= ' ' . strip_tags($match[1]) . "\n";
-            $price = $match[1];
+            $price = strip_tags($match[1]);
+            $hotels[$price . ' ' . $hotel_name] = (int)str_replace(',', '', $price);
         }
+        asort($hotels);
+        error_log($log_prefix . print_r($hotels, true));
         error_log($log_prefix. $info);
     }
     $results = null;
