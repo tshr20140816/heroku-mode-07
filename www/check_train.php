@@ -637,7 +637,7 @@ function search_extra($mu_)
         CURLOPT_COOKIEJAR => $cookie,
         CURLOPT_COOKIEFILE => $cookie,
         CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => http_build_query($post_data),
+        CURLOPT_POSTFIELDS => '',
     ];
 
     foreach ($list as $item) {
