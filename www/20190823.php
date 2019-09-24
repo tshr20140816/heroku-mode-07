@@ -48,13 +48,16 @@ function func_20190823l($mu_)
         $tmp = explode('<dl class="htlGnrlInfo">', $result);
         array_shift($tmp);
 
+        $hotels = [];
         foreach ($tmp as $hotel_info) {
             $rc = preg_match('/<a id.+>(.+?)</', $hotel_info, $match);
             error_log($log_prefix . $match[1]);
             $info .= $match[1];
+            $hotel_name = $match[1];
             $rc = preg_match('/<span class="vPrice".*?>合計(.+?)円/', $hotel_info, $match);
-            error_log($log_prefix . strip_tags($match[1]));
+            error_log($log_prefix . $match[1]);
             $info .= ' ' . strip_tags($match[1]) . "\n";
+            $price = $match[1];
         }
         error_log($log_prefix. $info);
     }
