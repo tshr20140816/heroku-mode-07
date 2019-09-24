@@ -9,6 +9,7 @@ exiftool
 # pv
 nkf
 tree
+cadaver
 
 # -- curl --
 libssh2-1-dev
