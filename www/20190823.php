@@ -22,6 +22,18 @@ function func_20190823j($mu_)
     
     $res = $mu_->get_contents(getenv('TEST_URL_01'));
     error_log($res);
+    
+    $file_name = '/tmp/sample.xml';
+    file_put_contents($file_name, $res);
+    $base_name = pathinfo($file_name)['basename'];
+    
+    $user_hidrive = $mu_->get_env('HIDRIVE_USER', true);
+    $password_hidrive = $mu_->get_env('HIDRIVE_PASSWORD', true);
+    
+    $line = "curl -v -m 120 -X PUT --compressed " .
+        "-T ${file_name} -u ${user_hidrive}:${password_hidrive} https://webdav.hidrive.strato.com/users/${user_hidrive}/${base_name}";
+    $mu_->cmd_execute($line);
+    unlink($file_name);
 }
 
 function func_20190823k($mu_)
