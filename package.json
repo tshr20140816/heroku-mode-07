@@ -5,7 +5,7 @@
   },
   "dependencies": {
     "npm-check-updates": "^3.1.23",
-    "eslint": "^6.4.0",
+    "eslint": "^6.5.0",
     "chart.js": "^2.8.0",
     "chartjs-node": "^1.7.1",
     "chartjs-plugin-annotation": "^0.5.7"
