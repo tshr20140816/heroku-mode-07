@@ -22,8 +22,8 @@ $url_length['make_post_count'] = make_post_count($mu, $file_name_rss_items);
 $url_length['make_github_contributions'] = make_github_contributions($mu, $file_name_rss_items);
 $url_length['make_storage_usage'] = make_storage_usage($mu, $file_name_rss_items);
 $url_length['make_loggly_usage'] = make_loggly_usage($mu, $file_name_rss_items);
-$url_length['make_score_map'] = make_score_map($mu, $file_name_rss_items);
-$url_length['npb_team_ranking'] = npb_team_ranking($mu, $file_name_rss_items);
+// $url_length['make_score_map'] = make_score_map($mu, $file_name_rss_items);
+// $url_length['npb_team_ranking'] = npb_team_ranking($mu, $file_name_rss_items);
 
 $xml_text = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
