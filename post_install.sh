@@ -38,7 +38,7 @@ git clone --depth=1 https://github.com/tshr20140816/heroku-mode-07.git /tmp/hero
 git clone --depth=1 https://github.com/tshr20140816/heroku-mode-09.git /tmp/heroku-mode-09
 __HEREDOC__
 
-time cat jobs.txt | parallel -j4 --joblog /tmp/joblog.txt 2>&1
+time cat jobs.txt | parallel -j2 --joblog /tmp/joblog.txt 2>&1
 cat /tmp/joblog.txt
 
 mkdir heroku
