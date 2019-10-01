@@ -1291,7 +1291,6 @@ curl -v -m 120 -X DELETE -u {$user_pcloud}:{$password_pcloud} https://webdav.pcl
 curl -v -m 120 -X DELETE -u {$user_teracloud}:{$password_teracloud} https://{$node_teracloud}.teracloud.jp/dav/{$base_name}
 curl -v -m 120 -X DELETE -u {$user_opendrive}:{$password_opendrive} https://webdav.opendrive.com/{$base_name}
 curl -v -m 120 -X DELETE --digest -u {$user_cloudme}:{$password_cloudme} https://webdav.cloudme.com/{$user_cloudme}/xios/{$base_name}
-curl -v -m 120 -X DELETE -u {$user_4shared}:{$password_4shared} https://webdav.4shared.com/{$base_name}
 __HEREDOC__;
 
         file_put_contents('/tmp/jobs.txt', $jobs);
