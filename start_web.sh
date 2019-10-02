@@ -86,6 +86,8 @@ printenv | wc -c
 
 ls -lang /tmp
 
+./heroku/bin/heroku status
+
 wait
 
 cat /tmp/npm_update_log
