@@ -47,6 +47,8 @@ pushd heroku
 time tar xf heroku.tar.gz --strip-components=1
 rm heroku.tar.gz
 popd
+./heroku/bin/heroku --version
+./heroku/bin/heroku status
 
 pushd www
 cp ../config.inc.php phppgadmin/conf/
