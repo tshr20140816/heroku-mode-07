@@ -109,6 +109,8 @@ __HEREDOC__;
 $count = $pdo->exec($sql);
 error_log('t_check_webpage create table result : ' . $count);
 
+//
+
 $sql = <<< __HEREDOC__
 CREATE TABLE t_mail (
     uid character varying(255) PRIMARY KEY
@@ -132,6 +134,8 @@ __HEREDOC__;
 $count = $pdo->exec($sql);
 error_log('t_waon_history create table result : ' . $count);
 
+//
+
 $sql = <<< __HEREDOC__
 CREATE TABLE t_rss (
     rss_id int PRIMARY KEY,
@@ -140,6 +144,8 @@ CREATE TABLE t_rss (
 __HEREDOC__;
 $count = $pdo->exec($sql);
 error_log('create table result : ' . $count);
+
+//
 
 $sql = <<< __HEREDOC__
 CREATE TABLE t_blog_post (
