@@ -417,7 +417,7 @@ function search_hotel_greenhotels($mu_)
     // $list_date[] = '2020/03/02';
     $list_date[] = '2020/03/15';
     $list_date[] = '2020/04/15';
-    // $list_date[] = '2020/05/15';
+    $list_date[] = '2020/05/15';
     $list_date[] = '2020/10/01';
     
     $multi_options = [
