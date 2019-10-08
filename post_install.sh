@@ -33,7 +33,7 @@ fi
 
 cat << '__HEREDOC__' >jobs.txt
 curl -sS -o heroku.tar.gz https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz
-git clone --depth=1 -b REL_5-6-0  https://github.com/phppgadmin/phppgadmin.git www/phppgadmin
+git clone --depth=1 -b REL_7-12-0  https://github.com/phppgadmin/phppgadmin.git www/phppgadmin
 git clone --depth=1 https://github.com/tshr20140816/heroku-mode-07.git /tmp/heroku-mode-07
 git clone --depth=1 https://github.com/tshr20140816/heroku-mode-09.git /tmp/heroku-mode-09
 __HEREDOC__
