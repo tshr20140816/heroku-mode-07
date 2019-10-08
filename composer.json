@@ -10,6 +10,7 @@
     "ext-imagick": "*",
     "ext-soap": "*",
     "ext-ftp": "*",
+    "ext-intl": "*",
     "ext-imap": "*"
   }
   ,
