@@ -11,7 +11,7 @@
     "chartjs-plugin-annotation": "^0.5.7"
   },
   "scripts": {
-    "heroku-prebuild": "./check_point.sh 300",
-    "heroku-postbuild": "./post_install_nodejs.sh"
+    "heroku-prebuild": "./check_point.sh 300 &",
+    "heroku-postbuild": "./post_install_nodejs.sh &"
   }
 }
