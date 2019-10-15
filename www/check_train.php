@@ -730,7 +730,7 @@ function search_extra2($mu_)
         unlink($cookie);
         $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
 
-        $rc = preg_match('/<td align="left">.*?' . $item[9] . '.+?<td.+?<td.+?<td.+?' . $item[10] . '<td.+?>(.+?)</s', $res, $match);
+        $rc = preg_match('/<td align="left">.*?' . $item[9] . '.+?<td.+?<td.+?' . $item[10] . '<td.+?>(.+?)</s', $res, $match);
 
         $description .= "\n" . $item[5] . ' - ' . $item[6] . ' ' . $match[1];
     }
