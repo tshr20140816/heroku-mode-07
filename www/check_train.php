@@ -15,6 +15,7 @@ $minute = ltrim(date('i', strtotime('+9 hours')), '0');
 if (($hour > 6 || ($hours == 5 && $minute > 29)) && ($hour < 22 || ($hour == 22 && $minute < 30))) {
     search_sunrize($mu);
     search_extra($mu);
+    search_extra2($mu);
 }
 
 $time_finish = microtime(true);
@@ -620,6 +621,77 @@ function search_extra($mu_)
 
     $url = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
     $hash_url = 'url' . hash('sha512', $url . 'extra');
+
+    $cookie = tempnam("/tmp", 'cookie_' .  md5(microtime(true)));
+
+    $options = [
+        CURLOPT_ENCODING => 'gzip, deflate',
+        CURLOPT_HTTPHEADER => [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: ja,en-US;q=0.7,en;q=0.3',
+            'Cache-Control: no-cache',
+            'Connection: keep-alive',
+            'DNT: 1',
+            'Upgrade-Insecure-Requests: 1',
+            'Referer: ' . $url,
+            ],
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => '',
+    ];
+
+    foreach ($list as $item) {
+        $post_data = [
+            'month' => $item[0],
+            'day' => $item[1],
+            'hour' => $item[2],
+            'minute' => $item[3],
+            'train' => $item[4],
+            'dep_stn' => mb_convert_encoding($item[5], 'SJIS', 'UTF-8'),
+            'arr_stn' => mb_convert_encoding($item[6], 'SJIS', 'UTF-8'),
+            'dep_stnpb' => $item[7],
+            'arr_stnpb' => $item[8],
+            'script' => '1',
+        ];
+        $options[CURLOPT_POSTFIELDS] = http_build_query($post_data);
+        $res = $mu_->get_contents($url, $options);
+        unlink($cookie);
+        $res = mb_convert_encoding($res, 'UTF-8', 'SJIS');
+
+        $rc = preg_match('/<td align="left">.*?' . $item[9] . '.+?<td.+?<td.+?<td.+?' . $item[10] . '<td.+?>(.+?)</s', $res, $match);
+
+        $description .= "\n" . $item[5] . ' - ' . $item[6] . ' ' . $match[1];
+    }
+
+    $mu_->logging_object($description, $log_prefix);
+    $hash_description = hash('sha512', $description);
+
+    $res = $mu_->search_blog($hash_url);
+    if ($res != $hash_description) {
+        $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ ' . $hash_url . '</');
+        $description = '<div class="' . $hash_url . '">' . "${hash_description}</div>${description}";
+        $mu_->post_blog_wordpress($hash_url, $description, 'train_extra');
+    }
+}
+
+function search_extra2($mu_)
+{
+    $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
+    error_log($log_prefix . 'BEGIN');
+
+    $list = [];
+    $list[] = ['10','20','21','30','2','新大阪','広島','6100','6190','こだま　７６７号',''];
+    /*
+    $list[] = ['10','20','16','50','4','富山','金沢','5280','5260','はくたか５６７号',''];
+    $list[] = ['10','20','17','30','5','金沢','新大阪','5260','6100','４０号','<td.+?'];
+    $list[] = ['10','20','20','10','1','新大阪','広島','6100','8100','さくら　５７３号','<td.+?'];
+    */
+    
+    $description = '';
+
+    $url = 'http://www1.jr.cyberstation.ne.jp/csws/Vacancy.do';
+    $hash_url = 'url' . hash('sha512', $url . 'extra2');
 
     $cookie = tempnam("/tmp", 'cookie_' .  md5(microtime(true)));
 
