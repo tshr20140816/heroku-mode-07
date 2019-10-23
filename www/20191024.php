@@ -9,9 +9,15 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$rc = check_train2($mu);
-$hour = date('G', strtotime('+9 hours'));
-$minute = ltrim(date('i', strtotime('+9 hours')), '0');
+$cloudinary_cloud_name = base64_decode($mu->get_env('CLOUDINARY_CLOUD_NAME'));
+$cloudinary_api_key = base64_decode($mu->get_env('CLOUDINARY_API_KEY'));
+$cloudinary_api_secret = base64_decode($mu->get_env('CLOUDINARY_API_SECRET'));
+
+error_log('a : ' . $mu->get_encrypt_string($cloudinary_cloud_name));
+error_log('b : ' . $mu->get_encrypt_string($cloudinary_api_key));
+error_log('c : ' . $mu->get_encrypt_string($cloudinary_api_secret));
+
+// $rc = check_train2($mu);
 
 $time_finish = microtime(true);
 
