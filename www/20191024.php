@@ -9,15 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$cloudinary_cloud_name = base64_decode($mu->get_env('CLOUDINARY_CLOUD_NAME'));
-$cloudinary_api_key = base64_decode($mu->get_env('CLOUDINARY_API_KEY'));
-$cloudinary_api_secret = base64_decode($mu->get_env('CLOUDINARY_API_SECRET'));
-
-error_log('a : ' . $mu->get_encrypt_string($cloudinary_cloud_name));
-error_log('b : ' . $mu->get_encrypt_string($cloudinary_api_key));
-error_log('c : ' . $mu->get_encrypt_string($cloudinary_api_secret));
-
-// $rc = check_train2($mu);
+$rc = check_train2($mu);
 
 $time_finish = microtime(true);
 
@@ -146,6 +138,18 @@ function check_train2($mu_)
     $res = file_get_contents($file);
     unlink($file);
 
+    $cloudinary_cloud_name = $mu_->get_env('CLOUDINARY_CLOUD_NAME', true);
+    $cloudinary_api_key = $mu_->get_env('CLOUDINARY_API_KEY', true);
+    $cloudinary_api_secret = $mu_->get_env('CLOUDINARY_API_SECRET', true);
+    
+    $time = time();
+    $hash = hash('sha512', $url);
+    $line = 'curl https://api.cloudinary.com/v1_1/' . $cloudinary_cloud_name . '/image/upload -X POST' .
+        ' --data "file=' . $url
+        . '&public_id=train/id_' . $hash . '&timestamp=' . $time . '&api_key=' . $cloudinary_api_key
+        . '&signature=' . hash('sha1', 'public_id=20191013/id_' . $hash . '&timestamp=' . $time . $cloudinary_api_secret) . '"';
+    $mu_->cmd_execute($line);
+    
     $description .= "\n" . '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
     // $mu_->post_blog_livedoor('TRAIN', $description);
