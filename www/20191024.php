@@ -9,23 +9,16 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-$rc = check_train($mu);
+$rc = check_train2($mu);
 $hour = date('G', strtotime('+9 hours'));
 $minute = ltrim(date('i', strtotime('+9 hours')), '0');
-/*
-if (($hour > 6 || ($hours == 5 && $minute > 29)) && ($hour < 22 || ($hour == 22 && $minute < 30))) {
-    search_sunrize($mu);
-    search_extra($mu);
-    search_extra2($mu);
-}
-*/
 
 $time_finish = microtime(true);
 
 error_log("${pid} FINISH " . substr((microtime(true) - $time_start), 0, 6) . 's');
 exit();
 
-function check_train($mu_)
+function check_train2($mu_)
 {
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
@@ -102,72 +95,18 @@ function check_train($mu_)
             $tmp = trim(strip_tags($item));
             $tmp = preg_replace('/\t+/', '', $tmp);
             $tmp = mb_convert_kana($tmp, 'as');
-            // $description .= "\n\n" . $tmp;
+            /*
             if (strpos($tmp, '【芸備線】 西日本豪雨に伴う 運転見合わせ') === false) {
                 $description .= "\n\n" . $tmp;
             }
+            */
+            $description .= "\n\n" . $tmp;
         }
     }
 
     $mu_->post_blog_wordpress('TRAIN', $description, 'train', true);
-
-    /*
-    $hatena_id = $mu_->get_env('HATENA_ID', true);
-    $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
-    $hatena_api_key = $mu_->get_env('HATENA_API_KEY', true);
-
-    $url = "https://blog.hatena.ne.jp/${hatena_id}/${hatena_blog_id}/atom/entry";
-
-    $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-        CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
-        CURLOPT_HEADER => true,
-        CURLOPT_HTTPHEADER => ['Expect:',],
-    ];
-
-    for ($i = 0; $i < 10; $i++) {
-        $res = $mu_->get_contents($url, $options);
-        // error_log($res);
-
-        $entrys = explode('<entry>', $res);
-        array_shift($entrys);
-        foreach ($entrys as $entry) {
-            $rc = preg_match('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ TRAIN</', $entry, $match);
-            error_log($log_prefix . $rc);
-
-            if ($rc === 1) {
-                $rc = preg_match('/<link rel="edit" href="(.+?)"/', $entry, $match);
-                error_log($log_prefix . $match[1]);
-                $url = $match[1];
-
-                $options = [
-                    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                    CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
-                    CURLOPT_CUSTOMREQUEST => 'DELETE',
-                    CURLOPT_HEADER => true,
-                    CURLOPT_HTTPHEADER => ['Expect:',],
-                ];
-
-                $res = $mu_->get_contents($url, $options);
-                // error_log($log_prefix . $res);
-                $mu_->logging_object($res, $log_prefix);
-                break 2;
-            }
-        }
-        $rc = preg_match('/<link rel="next" href="(.+?)"/', $res, $match);
-        $url = $match[1];
-    }
-    */
+    
     $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ TRAIN</');
-
-    // $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
-    // $sanyo2_st = $mu_->get_contents($url, null, true);
-
-    // $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
-    // $sanyo2 = $mu_->get_contents($url);
-
-    // error_log($log_prefix . print_r(json_decode($res_sanyo2_st, true), true));
-    // error_log($log_prefix . print_r(json_decode($res_sanyo2, true), true));
 
     $res_kudari = get_train_sanyo2_image3($mu_, $res_sanyo2_st, $res_sanyo2, '1');
     if ($res_kudari != '400') {
@@ -204,10 +143,10 @@ function check_train($mu_)
     $description .= "\n" . '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
     // $mu_->post_blog_livedoor('TRAIN', $description);
-    $mu_->post_blog_hatena('TRAIN', $description, 'train');
+    // $mu_->post_blog_hatena('TRAIN', $description, 'train');
 
     error_log($log_prefix . 'start exec');
-    exec('php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ../scripts/update_ttrss.php >/dev/null &');
+    // exec('php -d apc.enable_cli=1 -d include_path=.:/app/.heroku/php/lib/php:/app/lib ../scripts/update_ttrss.php >/dev/null &');
     error_log($log_prefix . 'finish exec');
 }
 
@@ -477,32 +416,10 @@ function get_train_sanyo2_image3($mu_, $sanyo2_st_, $sanyo2_, $direction_ = '0')
         $height = 160;
     }
 
-    /*
-    $url = "https://quickchart.io/chart?width=1500&height=${height}&c=" . urlencode(json_encode($json));
-    $res = $mu_->get_contents($url);
-    error_log($log_prefix . 'URL length : ' . number_format(strlen($url)));
-    */
-
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
     exec('node ../scripts/chartjs_node.js 1000 ' . $height . ' ' . base64_encode(json_encode($json)) . ' ' . $file);
     $res = file_get_contents($file);
     unlink($file);
-
-    /*
-    if ($res != '400') {
-        $im1 = imagecreatefromstring($res);
-        error_log($log_prefix . imagesx($im1) . ' ' . imagesy($im1));
-        $im2 = imagecreatetruecolor(imagesx($im1) / 3, imagesy($im1) / 3);
-        imagefill($im2, 0, 0, imagecolorallocate($im1, 255, 255, 255));
-        imagecopyresampled($im2, $im1, 0, 0, 0, 0, imagesx($im1) / 3, imagesy($im1) / 3, imagesx($im1), imagesy($im1));
-        imagedestroy($im1);
-        $file = tempnam('/tmp', 'png_' . md5(microtime(true)));
-        imagepng($im2, $file, 9);
-        imagedestroy($im2);
-        $res = file_get_contents($file);
-        unlink($file);
-    }
-    */
 
     return $res;
 }
