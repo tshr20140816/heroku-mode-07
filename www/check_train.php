@@ -167,7 +167,7 @@ function check_train($mu_)
     
     $description .= "\n" . '<img src="' . $url_image . '" />';
 
-    $mu_->post_blog_wordpress('TRAIN', $description, 'train', true);
+    $mu_->post_blog_wordpress('TRAIN', '<div style="font-size:medium;font-family:sans-serif;">' . $description . '</div>', 'train', true);
     // $mu_->post_blog_livedoor('TRAIN', $description);
     $mu_->post_blog_hatena('TRAIN', $description, 'train');
 
