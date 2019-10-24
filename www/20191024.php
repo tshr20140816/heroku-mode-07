@@ -152,9 +152,11 @@ function check_train2($mu_)
         ' --data "file=' . $url
         . '&public_id=train/id_' . $hash . '&timestamp=' . $time . '&api_key=' . $cloudinary_api_key
         . '&signature=' . hash('sha1', 'public_id=train/id_' . $hash . '&timestamp=' . $time . $cloudinary_api_secret) . '"';
-    $mu_->cmd_execute($line);
+    $res = $mu_->cmd_execute($line);
     
     unlink($file);
+    
+    error_log(print_r(json_encode($res), true);
     
     // $description .= "\n" . '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
