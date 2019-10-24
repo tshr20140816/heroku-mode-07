@@ -212,10 +212,11 @@ function check_train($mu_)
     
     $time = time();
     $hash = hash('sha512', $url);
+    $public_id = 'train/' . date('Ym') . '/id_' . $hash;
     $line = "curl https://api.cloudinary.com/v1_1/${cloudinary_cloud_name}/image/upload -X POST" .
         ' --data "file=' . $url
-        . '&public_id=train/id_' . $hash . '&timestamp=' . $time . '&api_key=' . $cloudinary_api_key
-        . '&signature=' . hash('sha1', 'public_id=train/id_' . $hash . '&timestamp=' . $time . $cloudinary_api_secret) . '"';
+        . "&public_id=${public_id}&timestamp=${time}&api_key=${cloudinary_api_key}"
+        . '&signature=' . hash('sha1', "public_id=${public_id}&timestamp=${time}${cloudinary_api_secret}") . '"';
     $res = $mu_->cmd_execute($line);
     
     unlink($file);
