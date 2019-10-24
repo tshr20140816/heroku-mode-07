@@ -102,9 +102,9 @@ function check_train2($mu_)
         }
     }
 
-    $mu_->post_blog_wordpress('TRAIN', $description, 'train', true);
+    // $mu_->post_blog_wordpress('TRAIN', $description, 'train', true);
     
-    $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ TRAIN</');
+    // $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ TRAIN</');
 
     $res_kudari = get_train_sanyo2_image3($mu_, $res_sanyo2_st, $res_sanyo2, '1');
     if ($res_kudari != '400') {
