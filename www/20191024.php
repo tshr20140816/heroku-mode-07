@@ -156,7 +156,7 @@ function check_train2($mu_)
     
     unlink($file);
     
-    error_log(print_r(json_encode($res), true);
+    error_log(print_r(json_encode($res), true));
     
     // $description .= "\n" . '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
