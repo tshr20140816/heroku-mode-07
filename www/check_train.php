@@ -108,66 +108,8 @@ function check_train($mu_)
             }
         }
     }
-
-    // $mu_->post_blog_wordpress('TRAIN', $description, 'train', true);
-
-    /*
-    $hatena_id = $mu_->get_env('HATENA_ID', true);
-    $hatena_blog_id = $mu_->get_env('HATENA_BLOG_ID', true);
-    $hatena_api_key = $mu_->get_env('HATENA_API_KEY', true);
-
-    $url = "https://blog.hatena.ne.jp/${hatena_id}/${hatena_blog_id}/atom/entry";
-
-    $options = [
-        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-        CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
-        CURLOPT_HEADER => true,
-        CURLOPT_HTTPHEADER => ['Expect:',],
-    ];
-
-    for ($i = 0; $i < 10; $i++) {
-        $res = $mu_->get_contents($url, $options);
-        // error_log($res);
-
-        $entrys = explode('<entry>', $res);
-        array_shift($entrys);
-        foreach ($entrys as $entry) {
-            $rc = preg_match('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ TRAIN</', $entry, $match);
-            error_log($log_prefix . $rc);
-
-            if ($rc === 1) {
-                $rc = preg_match('/<link rel="edit" href="(.+?)"/', $entry, $match);
-                error_log($log_prefix . $match[1]);
-                $url = $match[1];
-
-                $options = [
-                    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                    CURLOPT_USERPWD => "${hatena_id}:${hatena_api_key}",
-                    CURLOPT_CUSTOMREQUEST => 'DELETE',
-                    CURLOPT_HEADER => true,
-                    CURLOPT_HTTPHEADER => ['Expect:',],
-                ];
-
-                $res = $mu_->get_contents($url, $options);
-                // error_log($log_prefix . $res);
-                $mu_->logging_object($res, $log_prefix);
-                break 2;
-            }
-        }
-        $rc = preg_match('/<link rel="next" href="(.+?)"/', $res, $match);
-        $url = $match[1];
-    }
-    */
+    
     $mu_->delete_blog_hatena('/<title>\d+\/\d+\/+\d+ \d+:\d+:\d+ TRAIN</');
-
-    // $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2_st.json';
-    // $sanyo2_st = $mu_->get_contents($url, null, true);
-
-    // $url = 'https://www.train-guide.westjr.co.jp/api/v3/sanyo2.json';
-    // $sanyo2 = $mu_->get_contents($url);
-
-    // error_log($log_prefix . print_r(json_decode($res_sanyo2_st, true), true));
-    // error_log($log_prefix . print_r(json_decode($res_sanyo2, true), true));
 
     $res_kudari = get_train_sanyo2_image3($mu_, $res_sanyo2_st, $res_sanyo2, '1');
     if ($res_kudari != '400') {
@@ -195,11 +137,9 @@ function check_train($mu_)
     imagecopy($im1, $im2, 0, $y1, 0, 0, $x, $y2);
     imagedestroy($im2);
 
-    // $file = tempnam("/tmp", md5(microtime(true)));
     $file = tempnam("/app/www/", md5(microtime(true))) . '.png';
     imagepng($im1, $file, 9);
     imagedestroy($im1);
-    // $res = file_get_contents($file);
     
     $basic_user = getenv('BASIC_USER');
     $basic_password = getenv('BASIC_PASSWORD');
@@ -223,7 +163,6 @@ function check_train($mu_)
     
     $url_image = json_decode($res[0])->secure_url;
     
-    // $description .= "\n" . '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
     $description .= "\n" . '<img src="' . $url_image . '" />';
 
     $mu_->post_blog_wordpress('TRAIN', $description, 'train', true);
