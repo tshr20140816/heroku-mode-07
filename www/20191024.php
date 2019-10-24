@@ -132,25 +132,31 @@ function check_train2($mu_)
     imagecopy($im1, $im2, 0, $y1, 0, 0, $x, $y2);
     imagedestroy($im2);
 
-    $file = tempnam("/tmp", md5(microtime(true)));
+    $file = tempnam("/app/www/", md5(microtime(true))) . '.png';
     imagepng($im1, $file, 9);
     imagedestroy($im1);
-    $res = file_get_contents($file);
-    unlink($file);
-
+    // $res = file_get_contents($file);
+    
+    $basic_user = getenv('BASIC_USER');
+    $basic_password = getenv('BASIC_PASSWORD');
+    
+    $url = "https://${basic_user}:${basic_password}@" . getenv('HEROKU_APP_NAME') . '.herokuapp.com/' . basename($file);
+    
     $cloudinary_cloud_name = $mu_->get_env('CLOUDINARY_CLOUD_NAME', true);
     $cloudinary_api_key = $mu_->get_env('CLOUDINARY_API_KEY', true);
     $cloudinary_api_secret = $mu_->get_env('CLOUDINARY_API_SECRET', true);
     
     $time = time();
     $hash = hash('sha512', $url);
-    $line = 'curl https://api.cloudinary.com/v1_1/' . $cloudinary_cloud_name . '/image/upload -X POST' .
+    $line = "curl https://api.cloudinary.com/v1_1/${cloudinary_cloud_name}/image/upload -X POST" .
         ' --data "file=' . $url
         . '&public_id=train/id_' . $hash . '&timestamp=' . $time . '&api_key=' . $cloudinary_api_key
-        . '&signature=' . hash('sha1', 'public_id=20191013/id_' . $hash . '&timestamp=' . $time . $cloudinary_api_secret) . '"';
+        . '&signature=' . hash('sha1', 'public_id=train/id_' . $hash . '&timestamp=' . $time . $cloudinary_api_secret) . '"';
     $mu_->cmd_execute($line);
     
-    $description .= "\n" . '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
+    unlink($file);
+    
+    // $description .= "\n" . '<img src="data:image/png;base64,' . base64_encode($res) . '" />';
 
     // $mu_->post_blog_livedoor('TRAIN', $description);
     // $mu_->post_blog_hatena('TRAIN', $description, 'train');
