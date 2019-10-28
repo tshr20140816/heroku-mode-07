@@ -9,7 +9,7 @@
     "packages-dev": [
         {
             "name": "heroku/heroku-buildpack-php",
-            "version": "v163",
+            "version": "v164",
             "source": {
                 "type": "git",
                 "url": "https://github.com/heroku/heroku-buildpack-php.git",
@@ -58,7 +58,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.3.10",
+        "php": ">=7.3.11",
         "ext-mbstring": "*",
         "ext-gd": "*",
         "ext-apcu": "*",
