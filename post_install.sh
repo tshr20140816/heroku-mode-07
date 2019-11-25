@@ -147,7 +147,7 @@ cp /tmp/php_error.txt ./
 time bin/curl -w "%{time_total} %{filename_effective}\n" -Z -sS \
  -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcs.phar \
  -O https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.4.2/phpcbf.phar \
- -O https://oscdl.ipa.go.jp/IPAexfont/ipaexg00401.zip \
+ -O https://ipafont.ipa.go.jp/IPAexfont/ipaexg00401.zip \
  -L -o migu-1m.zip "https://ja.osdn.net/frs/redir.php?m=iij&f=mix-mplus-ipa/63545/migu-1m-20150712.zip"
 
 mkdir .fonts
