@@ -1,6 +1,6 @@
 <?php
 
-include(dirname(__FILE__) . '/../classes/MyUtils.php');
+include('/app/classes/MyUtils.php');
 
 $pid = getmypid();
 $requesturi = $_SERVER['REQUEST_URI'];
@@ -9,7 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-get_river_water_level($mu, $mu->get_env('URL_RIVER_YAHOO_1'), $mu->get_env('RIVER_POINT_1'));
+get_river_water_level($mu, getenv('URL_RIVER_YAHOO_1'), getenv('RIVER_POINT_1'));
 
 $time_finish = microtime(true);
 
@@ -252,7 +252,7 @@ function get_river_water_level($mu_, $url_, $point_)
     */
 
     $file = tempnam('/tmp', 'chartjs_' . md5(microtime(true)));
-    exec('node ../scripts/chartjs_node.js 300 160 ' . base64_encode(json_encode($json)) . ' ' . $file);
+    exec('node /app/scripts/chartjs_node.js 300 160 ' . base64_encode(json_encode($json)) . ' ' . $file);
     $res = file_get_contents($file);
     unlink($file);
     
