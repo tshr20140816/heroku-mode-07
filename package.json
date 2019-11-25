@@ -4,8 +4,8 @@
     "node": "10.x"
   },
   "dependencies": {
-    "npm-check-updates": "^3.2.1",
-    "eslint": "^6.6.0",
+    "npm-check-updates": "^3.2.2",
+    "eslint": "^6.7.0",
     "chart.js": "^2.9.3",
     "chartjs-node": "^1.7.1",
     "chartjs-plugin-annotation": "^0.5.7"
