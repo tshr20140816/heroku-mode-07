@@ -14,9 +14,9 @@ $file_name_rss_items = tempnam('/tmp', 'rss_' . md5(microtime(true)));
 
 // get_river_image($mu, $file_name_rss_items);
 get_river_water_level($mu, $file_name_rss_items, $mu->get_env('URL_RIVER_YAHOO_1'), $mu->get_env('RIVER_POINT_1'));
-get_river_water_level($mu, $file_name_rss_items, $mu->get_env('URL_RIVER_YAHOO_2'), $mu->get_env('RIVER_POINT_2'));
-get_shinkansen_image($mu, $file_name_rss_items);
-get_train_sanyo2_2($mu, $file_name_rss_items);
+// get_river_water_level($mu, $file_name_rss_items, $mu->get_env('URL_RIVER_YAHOO_2'), $mu->get_env('RIVER_POINT_2'));
+// get_shinkansen_image($mu, $file_name_rss_items);
+// get_train_sanyo2_2($mu, $file_name_rss_items);
 
 $xml_text = <<< __HEREDOC__
 <?xml version="1.0" encoding="utf-8"?>
