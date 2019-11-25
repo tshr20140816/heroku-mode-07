@@ -55,8 +55,7 @@ mv ical.php ${ICS_ADDRESS}.php
 mv rss.php ${RSS_ADDRESS}.php
 popd
 
-# fc-cache -fv >/dev/null 2>&1 &
-fc-cache -fv
+fc-cache -f >/dev/null 2>&1 &
 
 if [ -f ./update_heroku-mode-07 ]; then
     ./scripts/sync_composer.sh >/dev/null 2>&1 &
