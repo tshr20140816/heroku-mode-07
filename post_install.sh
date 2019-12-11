@@ -31,8 +31,9 @@ fi
 
 # ***** heroku cli & phppgadmin *****
 
+time curl -sS --create-dirs -o heroku/heroku.tar.xz $(curl -sS https://cli-assets.heroku.com/linux-x64 | grep -oE https.+xz)
+
 cat << '__HEREDOC__' >jobs.txt
-curl -sS -o heroku.tar.gz https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz
 git clone --depth=1 -b REL_7-12-0  https://github.com/phppgadmin/phppgadmin.git www/phppgadmin
 git clone --depth=1 https://github.com/tshr20140816/heroku-mode-07.git /tmp/heroku-mode-07
 git clone --depth=1 https://github.com/tshr20140816/heroku-mode-09.git /tmp/heroku-mode-09
@@ -41,14 +42,13 @@ __HEREDOC__
 time cat jobs.txt | parallel -j2 --joblog /tmp/joblog.txt 2>&1
 cat /tmp/joblog.txt
 
-mkdir heroku
-mv heroku.tar.gz ./heroku/heroku.tar.gz
 pushd heroku
-time tar xf heroku.tar.gz --strip-components=1
-rm heroku.tar.gz
+tar xf heroku.tar.xz --strip-components=1
+rm heroku.tar.xz
+./bin/heroku plugins --core
+./bin/heroku plugins --version
+./bin/heroku plugins status
 popd
-./heroku/bin/heroku --version
-./heroku/bin/heroku status
 
 pushd www
 cp ../config.inc.php phppgadmin/conf/
