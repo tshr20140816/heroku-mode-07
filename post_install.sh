@@ -46,8 +46,8 @@ pushd heroku
 tar xf heroku.tar.xz --strip-components=1
 rm heroku.tar.xz
 ./bin/heroku plugins --core
-./bin/heroku plugins --version
-./bin/heroku plugins status
+./bin/heroku --version
+./bin/heroku status
 popd
 
 pushd www
