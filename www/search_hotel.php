@@ -117,8 +117,8 @@ function search_hotel_sancoinn($mu_)
     // $list_date[] = '2020/07/31';
     // $list_date[] = '2020/08/09';
     // $list_date[] = '2020/09/09';
-    $list_date[] = '2020/09/29';
-    $list_date[] = '2020/09/30';
+    // $list_date[] = '2020/09/29';
+    // $list_date[] = '2020/09/30';
     $list_date[] = '2020/10/01';
     $list_date[] = '2020/10/08';
     $list_date[] = '2020/10/09';
@@ -306,11 +306,11 @@ function search_hotel_grandcourt($mu_)
     $list_date = [];
     // $list_date[] = '2019/10/11';
     // $list_date[] = '2019/10/12';
-    $list_date[] = '2020/02/29';
-    $list_date[] = '2020/03/02';
+    // $list_date[] = '2020/02/29';
+    // $list_date[] = '2020/03/02';
     $list_date[] = '2020/03/15';
-    // $list_date[] = '2020/04/15';
-    // $list_date[] = '2020/05/15';
+    $list_date[] = '2020/04/15';
+    $list_date[] = '2020/05/15';
     $list_date[] = '2020/10/01';
     $list_date[] = '2020/10/08';
     $list_date[] = '2020/10/09';
