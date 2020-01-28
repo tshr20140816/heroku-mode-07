@@ -104,4 +104,31 @@ __HEREDOC__;
     
     $parking_information_all .= ' ' . date('m/d H:i', strtotime('+9 hours'));
     error_log($parking_information_all);
+    
+    $xml_text = <<< __HEREDOC__
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>Parking Information</title>
+<link>http://dummy.local/</link>
+<description>Parking Information</description>
+<item>
+<guid isPermaLink="false">__HASH__</guid>
+<pubDate />
+<title>__TITLE__</title>
+<link>http://dummy.local/</link>
+<description>dummy</description>
+</item>
+</channel>
+</rss>
+__HEREDOC__;
+    
+    $xml_text = str_replace('__TITLE__', $parking_information_all, $xml_text);
+    $xml_text = str_replace('__HASH__', hash('sha256', $parking_information_all), $xml_text);
+    
+    // $file_name = '/tmp/' . getenv('FC2_RSS_01') . '.xml';
+    $file_name = '/tmp/test.xml';
+    file_put_contents($file_name, $xml_text);
+    $mu_->upload_fc2($file_name);
+    unlink($file_name);
 }
