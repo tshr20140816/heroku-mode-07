@@ -21,9 +21,15 @@ function f20200128($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
 
-    $url = $mu_->get_env('URL_OUTLET');
-    $res = $mu_->get_contents($url);
+    $urls[$mu_->get_env('URL_OUTLET')] = null;
     
+    for ($i = 1; $i < 5; $i++) {
+        $urls[$mu->get_env('URL_PARKING_1') . '?park_id=' . $i . '&mode=pc'] = null;
+    }
+    
+    $list_contents = $mu->get_contents_multi($urls);
+    
+    $res = $res = $list_contents[$mu_->get_env('URL_OUTLET')];
     $rc = preg_match('/<p id="parkingnow"><img src="(.+?)"/s', $res, $matches);
     $res = $mu_->get_contents($matches[1]);
     $hash_text = hash('sha512', $res);
