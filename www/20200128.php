@@ -24,10 +24,10 @@ function f20200128($mu_)
     $urls[$mu_->get_env('URL_OUTLET')] = null;
     
     for ($i = 1; $i < 5; $i++) {
-        $urls[$mu->get_env('URL_PARKING_1') . '?park_id=' . $i . '&mode=pc'] = null;
+        $urls[$mu_->get_env('URL_PARKING_1') . '?park_id=' . $i . '&mode=pc'] = null;
     }
     
-    $list_contents = $mu->get_contents_multi($urls);
+    $list_contents = $mu_->get_contents_multi($urls);
     
     $res = $res = $list_contents[$mu_->get_env('URL_OUTLET')];
     $rc = preg_match('/<p id="parkingnow"><img src="(.+?)"/s', $res, $matches);
