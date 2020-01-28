@@ -102,6 +102,6 @@ __HEREDOC__;
         $parking_information_all .= ' [' . $list_parking_name[$i] . "]${parse_text}";
     }
     
-    $parking_information_all .= ' ' . date('m/d H:i');
+    $parking_information_all .= ' ' . date('m/d H:i', strtotime('+9 hours'));
     error_log($parking_information_all);
 }
