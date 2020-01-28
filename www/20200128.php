@@ -58,4 +58,47 @@ __HEREDOC__;
     $pdo = null;
     
     error_log($parse_text);
+    
+    $list_parking_name = [' ', '体', 'ク', 'セ', 'シ'];
+    
+    $parking_information_all = '';
+    for ($i = 1; $i < 5; $i++) {
+        $url = $mu_->get_env('URL_PARKING_1') . '?park_id=' . $i . '&mode=pc';
+        if (array_key_exists($url, $list_contents)) {
+            $res = $list_contents[$url];
+        } else {
+            $res = $mu_->get_contents($url);
+        }
+
+        $hash_text = hash('sha512', $res);
+
+        $pdo = $mu_->get_pdo();
+
+        $sql = <<< __HEREDOC__
+SELECT T1.parse_text
+  FROM t_imageparsehash T1
+ WHERE T1.group_id = 2
+   AND T1.hash_text = :b_hash_text;
+__HEREDOC__;
+
+        $statement = $pdo->prepare($sql);
+        $rc = $statement->execute([':b_hash_text' => $hash_text]);
+        error_log($log_prefix . 'SELECT RESULT : ' . $rc);
+        $results = $statement->fetchAll();
+
+        $parse_text = '';
+        foreach ($results as $row) {
+            $parse_text = $row['parse_text'];
+        }
+
+        $pdo = null;
+
+        if (strlen($parse_text) == 0) {
+            $parse_text = '不明';
+            error_log($log_prefix . '$hash_text : ' . $hash_text);
+        }
+        $parking_information_all .= ' [' . $list_parking_name[$i] . "]${parse_text}";
+    }
+    
+    error_log($parking_information_all);
 }
