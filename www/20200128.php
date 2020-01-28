@@ -21,6 +21,8 @@ function f20200128($mu_)
     $log_prefix = getmypid() . ' [' . __METHOD__ . '] ';
     error_log($log_prefix . 'BEGIN');
 
+    $parking_information_all = '';
+    
     $urls[$mu_->get_env('URL_OUTLET')] = null;
     
     for ($i = 1; $i < 5; $i++) {
@@ -57,11 +59,11 @@ __HEREDOC__;
 
     $pdo = null;
     
-    error_log($parse_text);
+    $parking_information_all = "P [ア]${parse_text}";
+    error_log($parking_information_all);
     
     $list_parking_name = [' ', '体', 'ク', 'セ', 'シ'];
     
-    $parking_information_all = '';
     for ($i = 1; $i < 5; $i++) {
         $url = $mu_->get_env('URL_PARKING_1') . '?park_id=' . $i . '&mode=pc';
         if (array_key_exists($url, $list_contents)) {
