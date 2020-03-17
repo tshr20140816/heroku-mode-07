@@ -1,7 +1,7 @@
 {
   "require":
   {
-    "php": ">=7.3.11",
+    "php": ">=7.4.3",
     "ext-mbstring": "*",
     "ext-gd": "*",
     "ext-apcu": "*",
@@ -11,7 +11,8 @@
     "ext-soap": "*",
     "ext-ftp": "*",
     "ext-intl": "*",
-    "ext-imap": "*"
+    "ext-imap": "*",
+    "phpmailer/phpmailer": "^6.1"
   }
   ,
   "require-dev":
