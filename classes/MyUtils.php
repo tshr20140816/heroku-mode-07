@@ -1,6 +1,6 @@
 <?php
 
-require_once 'XML/RPC2/Client.php';
+// require_once 'XML/RPC2/Client.php';
 
 class MyUtils
 {
@@ -517,6 +517,7 @@ __HEREDOC__;
     {
         $log_prefix = $this->logging_function_begin(__METHOD__);
 
+        /*
         if (is_null($description_)) {
             $description_ = '.';
         }
@@ -526,12 +527,14 @@ __HEREDOC__;
              base64_encode($title_) . ' ' .
              base64_encode($description_) . ' >/dev/null &');
         error_log($log_prefix . 'finish exec');
+        */
     }
 
     public function post_blog_fc2($title_, $description_ = null)
     {
         $log_prefix = $this->logging_function_begin(__METHOD__);
 
+        /*
         try {
             $url = 'https://blog.fc2.com/xmlrpc.php';
             error_log($log_prefix . 'url : ' . $url);
@@ -551,6 +554,7 @@ __HEREDOC__;
             error_log($log_prefix . 'Exception : ' . $e->getMessage());
             $this->post_blog_wordpress($title_, $description_);
         }
+        */
     }
 
     public function post_blog_hatena($title_, $description_ = null, $category_ = null)
