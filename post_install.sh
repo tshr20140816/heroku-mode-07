@@ -161,6 +161,9 @@ ls -lang .fonts/
 
 bin/curl -s -m 1 https://${HEROKU_APP_NAME}.herokuapp.com/check_point_100 >/dev/null 2>&1
 
+time ncu
+time npm update
+
 date
 
 wait
