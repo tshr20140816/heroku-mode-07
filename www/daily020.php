@@ -7,10 +7,6 @@ $requesturi = $_SERVER['REQUEST_URI'];
 $time_start = microtime(true);
 error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
-$rc = apcu_clear_cache();
-
-$mu = new MyUtils();
-
 if (file_exists('/tmp/' . basename(__FILE__) . '.txt')) {
     $file_time = filemtime('/tmp/' . basename(__FILE__) . '.txt');
     if ((time() - $file_time) < 3600) {
@@ -19,107 +15,187 @@ if (file_exists('/tmp/' . basename(__FILE__) . '.txt')) {
     }
 }
 
-$file_name_blog = tempnam("/tmp", 'blog_' .  md5(microtime(true)));
-@unlink($file_name_blog);
+$rc = apcu_clear_cache();
+
+$mu = new MyUtils();
+
+$index = (int)$_GET['index'];
+
+if ($index === 100) {
+    $file_name_blog = tempnam('/tmp', 'blog_' .  md5(microtime(true)));
+    @unlink($file_name_blog);
+} else {
+    $file_name_blog = urldecode($_GET['file_name']);
+}
 
 exec('cd /app && composer update >/dev/null 2>&1 &');
 // exec('cd /app && ncu >/tmp/ncu_result 2>&1 &');
 // exec('curl --head ' . $mu->get_env('URL_TTRSS_1') . ' > /dev/null 2>&1 &');
 
-// quota
-get_quota($mu, $file_name_blog);
+switch ($index)
+{
+    case 100:
+        // quota
+        get_quota($mu, $file_name_blog);
+        $index = 200;
+        break;
+    case 200:
+        // Database Backup TOODLEDO
+        backup_db($mu, $file_name_blog);
+        $index = 300;
+        break;
+    case 300:
+        // Database Backup TTRSS
+        backup_db($mu, $file_name_blog, 'TTRSS');
+        $index = 400;
+        break;
+    case 400:
+        // Database Backup REDMINE
+        backup_db($mu, $file_name_blog, 'REDMINE');
+        $index = 500;
+        break;
+    case 500:
+        // WAON balance check
+        check_waon_balance($mu, $file_name_blog);
+        $index = 600;
+        break;
+    case 600:
+        // Task Backup
+        backup_task($mu, $file_name_blog);
+        $index = 700;
+        break;
+    case 700:
+        // OPML Backup
+        backup_opml($mu, $file_name_blog);
+        $index = 800;
+        break;
+    case 800:
+        // OPML2 Backup
+        backup_opml2($mu, $file_name_blog);
+        $index = 900;
+        break;
+    case 900:
+        // HiDrive usage
+        check_hidrive_usage($mu, $file_name_blog);
+        $index = 900;
+        break;
+    case 900:
+        // pCloud usage
+        check_pcloud_usage($mu, $file_name_blog);
+        $index = 1000;
+        break;
+    case 1000:
+        // TeraCLOUD usage
+        check_teracloud_usage($mu, $file_name_blog);
+        $index = 1100;
+        break;
+    case 1100:
+        // OpenDrive usage
+        check_opendrive_usage($mu, $file_name_blog);
+        $index = 1200;
+        break;
+    case 1200:
+        // CloudMe usage
+        check_cloudme_usage($mu, $file_name_blog);
+        $index = 1300;
+        break;
+    case 1300:
+        // 4shared usage
+        check_4shared_usage($mu, $file_name_blog);
+        $index = 1400;
+        break;
+    case 1400:
+        // CloudApp usage
+        // check_cloudapp_usage($mu, $file_name_blog);
+        $index = 1500;
+        break;
+    case 1500:
+        // Zoho usage
+        check_zoho_usage($mu, $file_name_blog);
+        $index = 1600;
+        break;
+    case 1600:
+        // MEGA usage
+        check_mega_usage($mu, $file_name_blog);
+        $index = 1700;
+        break;
+    case 1700:
+        // Dropbox usage
+        check_dropbox_usage($mu, $file_name_blog);
+        $index = 1800;
+        break;
+    case 1800:
+        // github contribution count
+        count_github_contribution($mu, $file_name_blog);
+        $index = 1900;
+        break;
+    case 1900:
+        // apache version check
+        check_version_apache($mu, $file_name_blog);
+        $index = 2000;
+        break;
+    case 2000:
+        // php version check
+        check_version_php($mu, $file_name_blog);
+        $index = 2100;
+        break;
+    case 2100:
+        // curl version check
+        check_version_curl($mu, $file_name_blog);
+        $index = 2200;
+        break;
+    case 2200:
+        // PostgreSQL version check
+        check_version_postgresql($mu, $file_name_blog);
+        $index = 2300;
+        break;
+    case 2300:
+        // Ruby version check
+        check_version_ruby($mu, $file_name_blog);
+        $index = 2400;
+        break;
+    case 2400:
+        // lbzip2 version check
+        check_version_package($mu, $file_name_blog, 'lbzip2', 'lbzip2 --version');
+        $index = 2500;
+        break;
+    case 2500:
+        // megatools version check
+        check_version_package($mu, $file_name_blog, 'megatools', 'megals --version');
+        $index = 2600;
+        break;
+    case 2600:
+        // parallel version check
+        check_version_package($mu, $file_name_blog, 'parallel', 'parallel --version');
+        $index = 2700;
+        break;
+    case 2700:
+        // CPU info
+        check_cpu_info($mu, $file_name_blog);
+        $index = 2800;
+        break;
+    case 2800:
+        // bs_ponta
+        bs_ponta($mu);
+        $index = 2900;
+        break;
+    case 2900:
+        // fc2 page update
+        update_page_fc2($mu);
+        $index = -1;
+        break;
+}
 
-// Database Backup TOODLEDO
-backup_db($mu, $file_name_blog);
+if ($index === -1) {
+    file_put_contents('/tmp/' . basename(__FILE__) . '.txt', time());
 
-// Database Backup TTRSS
-backup_db($mu, $file_name_blog, 'TTRSS');
-
-// Database Backup REDMINE
-backup_db($mu, $file_name_blog, 'REDMINE');
-
-// WAON balance check
-check_waon_balance($mu, $file_name_blog);
-
-// Task Backup
-backup_task($mu, $file_name_blog);
-
-// OPML Backup
-backup_opml($mu, $file_name_blog);
-
-// OPML2 Backup
-backup_opml2($mu, $file_name_blog);
-
-// HiDrive usage
-check_hidrive_usage($mu, $file_name_blog);
-
-// pCloud usage
-check_pcloud_usage($mu, $file_name_blog);
-
-// TeraCLOUD usage
-check_teracloud_usage($mu, $file_name_blog);
-
-// OpenDrive usage
-check_opendrive_usage($mu, $file_name_blog);
-
-// CloudMe usage
-check_cloudme_usage($mu, $file_name_blog);
-
-// 4shared usage
-check_4shared_usage($mu, $file_name_blog);
-
-// CloudApp usage
-// check_cloudapp_usage($mu, $file_name_blog);
-
-// Zoho usage
-check_zoho_usage($mu, $file_name_blog);
-
-// MEGA usage
-check_mega_usage($mu, $file_name_blog);
-
-// Dropbox usage
-check_dropbox_usage($mu, $file_name_blog);
-
-// github contribution count
-count_github_contribution($mu, $file_name_blog);
-
-// apache version check
-check_version_apache($mu, $file_name_blog);
-
-// php version check
-check_version_php($mu, $file_name_blog);
-
-// curl version check
-check_version_curl($mu, $file_name_blog);
-
-// PostgreSQL version check
-check_version_postgresql($mu, $file_name_blog);
-
-// Ruby version check
-check_version_ruby($mu, $file_name_blog);
-
-// lbzip2 version check
-check_version_package($mu, $file_name_blog, 'lbzip2', 'lbzip2 --version');
-
-// megatools version check
-check_version_package($mu, $file_name_blog, 'megatools', 'megals --version');
-
-// parallel version check
-check_version_package($mu, $file_name_blog, 'parallel', 'parallel --version');
-
-// CPU info
-check_cpu_info($mu, $file_name_blog);
-
-// bs_ponta
-bs_ponta($mu);
-
-// fc2 page update
-update_page_fc2($mu);
-
-file_put_contents('/tmp/' . basename(__FILE__) . '.txt', time());
-
-$url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/daily030.php';
-exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
+    $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/daily030.php';
+    exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
+} else {
+    $url = 'https://' . getenv('HEROKU_APP_NAME') . ".herokuapp.com/daily020.php?index=${index}&file_name="
+        . urlencode($file_name_blog);
+    exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
+}
 
 $time_finish = microtime(true);
 $mu->post_blog_wordpress_async("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]',
