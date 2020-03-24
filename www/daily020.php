@@ -28,11 +28,6 @@ if ($index === 100) {
     $file_name_blog = urldecode($_GET['file_name']);
 }
 
-if ($file_name_blog == '') {
-    error_log("${pid} FINISH param none");
-    exit();
-}
-
 exec('cd /app && composer update >/dev/null 2>&1 &');
 // exec('cd /app && ncu >/tmp/ncu_result 2>&1 &');
 // exec('curl --head ' . $mu->get_env('URL_TTRSS_1') . ' > /dev/null 2>&1 &');
@@ -191,21 +186,22 @@ switch ($index)
         break;
 }
 
+$time_finish = microtime(true);
+
 if ($index === -1) {
     file_put_contents('/tmp/' . basename(__FILE__) . '.txt', time());
 
     $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/daily030.php';
     exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
+    
+    $mu->post_blog_wordpress_async("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]',
+                                   file_get_contents($file_name_blog));
+    @unlink($file_name_blog);
 } else {
     $url = 'https://' . getenv('HEROKU_APP_NAME') . ".herokuapp.com/daily020.php?index=${index}&file_name="
         . urlencode($file_name_blog);
     exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 }
-
-$time_finish = microtime(true);
-$mu->post_blog_wordpress_async("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]',
-                        file_get_contents($file_name_blog));
-@unlink($file_name_blog);
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
