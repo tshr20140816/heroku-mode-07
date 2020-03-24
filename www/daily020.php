@@ -37,149 +37,149 @@ switch ($index)
     case 100:
         // quota
         get_quota($mu, $file_name_blog);
-        $index = 200;
+        $index += 100;
         break;
     case 200:
         // Database Backup TOODLEDO
         backup_db($mu, $file_name_blog);
-        $index = 300;
+        $index += 100;
         break;
     case 300:
         // Database Backup TTRSS
         // backup_db($mu, $file_name_blog, 'TTRSS');
-        $index = 400;
+        $index += 100;
         break;
     case 400:
         // Database Backup REDMINE
         backup_db($mu, $file_name_blog, 'REDMINE');
-        $index = 500;
+        $index += 100;
         break;
     case 500:
         // WAON balance check
         check_waon_balance($mu, $file_name_blog);
-        $index = 600;
+        $index += 100;
         break;
     case 600:
         // Task Backup
         backup_task($mu, $file_name_blog);
-        $index = 700;
+        $index += 100;
         break;
     case 700:
         // OPML Backup
         backup_opml($mu, $file_name_blog);
-        $index = 800;
+        $index += 100;
         break;
     case 800:
         // OPML2 Backup
         backup_opml2($mu, $file_name_blog);
-        $index = 900;
+        $index += 100;
         break;
     case 900:
         // HiDrive usage
         check_hidrive_usage($mu, $file_name_blog);
-        $index = 900;
-        break;
-    case 900:
-        // pCloud usage
-        check_pcloud_usage($mu, $file_name_blog);
-        $index = 1000;
+        $index += 100;
         break;
     case 1000:
-        // TeraCLOUD usage
-        check_teracloud_usage($mu, $file_name_blog);
-        $index = 1100;
+        // pCloud usage
+        check_pcloud_usage($mu, $file_name_blog);
+        $index += 100;
         break;
     case 1100:
-        // OpenDrive usage
-        check_opendrive_usage($mu, $file_name_blog);
-        $index = 1200;
+        // TeraCLOUD usage
+        check_teracloud_usage($mu, $file_name_blog);
+        $index += 100;
         break;
     case 1200:
-        // CloudMe usage
-        check_cloudme_usage($mu, $file_name_blog);
-        $index = 1300;
+        // OpenDrive usage
+        check_opendrive_usage($mu, $file_name_blog);
+        $index += 100;
         break;
     case 1300:
-        // 4shared usage
-        check_4shared_usage($mu, $file_name_blog);
-        $index = 1400;
+        // CloudMe usage
+        check_cloudme_usage($mu, $file_name_blog);
+        $index += 100;
         break;
     case 1400:
-        // CloudApp usage
-        // check_cloudapp_usage($mu, $file_name_blog);
-        $index = 1500;
+        // 4shared usage
+        check_4shared_usage($mu, $file_name_blog);
+        $index += 100;
         break;
     case 1500:
-        // Zoho usage
-        check_zoho_usage($mu, $file_name_blog);
-        $index = 1600;
+        // CloudApp usage
+        // check_cloudapp_usage($mu, $file_name_blog);
+        $index += 100;
         break;
     case 1600:
-        // MEGA usage
-        check_mega_usage($mu, $file_name_blog);
-        $index = 1700;
+        // Zoho usage
+        check_zoho_usage($mu, $file_name_blog);
+        $index += 100;
         break;
     case 1700:
-        // Dropbox usage
-        check_dropbox_usage($mu, $file_name_blog);
-        $index = 1800;
+        // MEGA usage
+        check_mega_usage($mu, $file_name_blog);
+        $index += 100;
         break;
     case 1800:
-        // github contribution count
-        count_github_contribution($mu, $file_name_blog);
-        $index = 1900;
+        // Dropbox usage
+        check_dropbox_usage($mu, $file_name_blog);
+        $index += 100;
         break;
     case 1900:
-        // apache version check
-        check_version_apache($mu, $file_name_blog);
-        $index = 2000;
+        // github contribution count
+        count_github_contribution($mu, $file_name_blog);
+        $index += 100;
         break;
     case 2000:
-        // php version check
-        check_version_php($mu, $file_name_blog);
-        $index = 2100;
+        // apache version check
+        check_version_apache($mu, $file_name_blog);
+        $index += 100;
         break;
     case 2100:
-        // curl version check
-        check_version_curl($mu, $file_name_blog);
-        $index = 2200;
+        // php version check
+        check_version_php($mu, $file_name_blog);
+        $index += 100;
         break;
     case 2200:
-        // PostgreSQL version check
-        check_version_postgresql($mu, $file_name_blog);
-        $index = 2300;
+        // curl version check
+        check_version_curl($mu, $file_name_blog);
+        $index += 100;
         break;
     case 2300:
-        // Ruby version check
-        check_version_ruby($mu, $file_name_blog);
-        $index = 2400;
+        // PostgreSQL version check
+        check_version_postgresql($mu, $file_name_blog);
+        $index += 100;
         break;
     case 2400:
-        // lbzip2 version check
-        check_version_package($mu, $file_name_blog, 'lbzip2', 'lbzip2 --version');
-        $index = 2500;
+        // Ruby version check
+        check_version_ruby($mu, $file_name_blog);
+        $index += 100;
         break;
     case 2500:
-        // megatools version check
-        check_version_package($mu, $file_name_blog, 'megatools', 'megals --version');
-        $index = 2600;
+        // lbzip2 version check
+        check_version_package($mu, $file_name_blog, 'lbzip2', 'lbzip2 --version');
+        $index += 100;
         break;
     case 2600:
-        // parallel version check
-        check_version_package($mu, $file_name_blog, 'parallel', 'parallel --version');
-        $index = 2700;
+        // megatools version check
+        check_version_package($mu, $file_name_blog, 'megatools', 'megals --version');
+        $index += 100;
         break;
     case 2700:
-        // CPU info
-        check_cpu_info($mu, $file_name_blog);
-        $index = 2800;
+        // parallel version check
+        check_version_package($mu, $file_name_blog, 'parallel', 'parallel --version');
+        $index += 100;
         break;
     case 2800:
-        // bs_ponta
-        bs_ponta($mu);
-        $index = 2900;
+        // CPU info
+        check_cpu_info($mu, $file_name_blog);
+        $index += 100;
         break;
     case 2900:
+        // bs_ponta
+        bs_ponta($mu);
+        $index += 100;
+        break;
+    case 3000:
         // fc2 page update
         update_page_fc2($mu);
         $index = -1;
