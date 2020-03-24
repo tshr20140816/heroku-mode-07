@@ -198,8 +198,8 @@ if ($index === -1) {
                                    file_get_contents($file_name_blog));
     @unlink($file_name_blog);
 } else {
-    $url = 'https://' . getenv('HEROKU_APP_NAME') . ".herokuapp.com/daily020.php?index=${index}&file_name="
-        . urlencode($file_name_blog);
+    $url = 'https://' . getenv('HEROKU_APP_NAME') . ".herokuapp.com/daily020.php?file_name="
+        . urlencode($file_name_blog) . "\&index=${index}";
     exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 }
 
