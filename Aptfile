@@ -10,6 +10,7 @@ exiftool
 nkf
 tree
 cadaver
+php-pear
 
 # -- curl --
 libssh2-1-dev
