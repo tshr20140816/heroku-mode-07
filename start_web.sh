@@ -18,7 +18,7 @@ if [ ! -v BASIC_PASSWORD ]; then
 fi
 
 npm update >/tmp/npm_update_log 2>&1 &
-pear list-upgrades >/tmp/pear_upgrades_log 2>&1 &
+# pear list-upgrades >/tmp/pear_upgrades_log 2>&1 &
 
 find -L . -type l | grep -v usr/share/doc
 
