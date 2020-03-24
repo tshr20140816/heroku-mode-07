@@ -15,6 +15,8 @@ if (file_exists('/tmp/' . basename(__FILE__) . '.txt')) {
     }
 }
 
+error_log("${pid} memory_get_usage : " . number_format(memory_get_usage()) . 'byte');
+
 $index = (int)$_GET['index'];
 
 if ($index === 100) {
@@ -202,6 +204,8 @@ if ($index === -1) {
         . urlencode($file_name_blog) . "\&index=${index}";
     exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 }
+
+error_log("${pid} memory_get_usage : " . number_format(memory_get_usage()) . 'byte');
 
 error_log("${pid} FINISH " . substr(($time_finish - $time_start), 0, 6) . 's ' . substr((microtime(true) - $time_start), 0, 6) . 's');
 
