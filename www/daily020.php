@@ -15,18 +15,18 @@ if (file_exists('/tmp/' . basename(__FILE__) . '.txt')) {
     }
 }
 
-$rc = apcu_clear_cache();
-
-$mu = new MyUtils();
-
 $index = (int)$_GET['index'];
 
 if ($index === 100) {
+    $rc = apcu_clear_cache();
+    
     $file_name_blog = tempnam('/tmp', 'blog_' .  md5(microtime(true)));
     @unlink($file_name_blog);
 } else {
     $file_name_blog = urldecode($_GET['file_name']);
 }
+
+$mu = new MyUtils();
 
 exec('cd /app && composer update >/dev/null 2>&1 &');
 // exec('cd /app && ncu >/tmp/ncu_result 2>&1 &');
