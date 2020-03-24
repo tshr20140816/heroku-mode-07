@@ -212,7 +212,7 @@ if ($index === -1) {
         CURLOPT_TIMEOUT => 2,
         CURLOPT_USERPWD => getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD'),
     ];
-    $res = $mu_->get_contents($url, $options);
+    $res = $mu->get_contents($url, $options);
 }
 
 error_log("${pid} memory_get_usage : " . number_format(memory_get_usage()) . 'byte');
