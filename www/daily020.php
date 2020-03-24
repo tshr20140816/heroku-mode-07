@@ -46,7 +46,7 @@ switch ($index)
         break;
     case 300:
         // Database Backup TTRSS
-        backup_db($mu, $file_name_blog, 'TTRSS');
+        // backup_db($mu, $file_name_blog, 'TTRSS');
         $index = 400;
         break;
     case 400:
