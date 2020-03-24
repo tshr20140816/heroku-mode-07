@@ -79,109 +79,46 @@ switch ($index)
     case 900:
         // HiDrive usage
         check_hidrive_usage($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 1000:
         // pCloud usage
         check_pcloud_usage($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 1100:
         // TeraCLOUD usage
         check_teracloud_usage($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 1200:
         // OpenDrive usage
         check_opendrive_usage($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 1300:
         // CloudMe usage
         check_cloudme_usage($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 1400:
         // 4shared usage
         check_4shared_usage($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 1500:
         // CloudApp usage
         // check_cloudapp_usage($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 1600:
         // Zoho usage
         check_zoho_usage($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 1700:
         // MEGA usage
         check_mega_usage($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 1800:
         // Dropbox usage
         check_dropbox_usage($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 1900:
         // github contribution count
         count_github_contribution($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 2000:
         // apache version check
         check_version_apache($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 2100:
         // php version check
         check_version_php($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 2200:
         // curl version check
         check_version_curl($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 2300:
         // PostgreSQL version check
         check_version_postgresql($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 2400:
         // Ruby version check
         check_version_ruby($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 2500:
         // lbzip2 version check
         check_version_package($mu, $file_name_blog, 'lbzip2', 'lbzip2 --version');
-        $index += 100;
-        break;
-    case 2600:
         // megatools version check
         check_version_package($mu, $file_name_blog, 'megatools', 'megals --version');
-        $index += 100;
-        break;
-    case 2700:
         // parallel version check
         check_version_package($mu, $file_name_blog, 'parallel', 'parallel --version');
-        $index += 100;
-        break;
-    case 2800:
         // CPU info
         check_cpu_info($mu, $file_name_blog);
-        $index += 100;
-        break;
-    case 2900:
         // bs_ponta
         bs_ponta($mu);
-        $index += 100;
-        break;
-    case 3000:
         // fc2 page update
         update_page_fc2($mu);
         $index = -1;
