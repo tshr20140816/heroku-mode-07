@@ -205,7 +205,8 @@ if ($index === -1) {
         . urlencode($file_name_blog) . "\&index=${index}";
     exec('curl -m 3 -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
     */
-    $url = 'https://' . getenv('HEROKU_APP_NAME') . ".herokuapp.com/daily020.php?index=${index}&" . urlencode($file_name_blog);
+    $url = 'https://' . getenv('HEROKU_APP_NAME') . ".herokuapp.com/daily020.php?index=${index}&file_name="
+        . urlencode($file_name_blog);
     
     $options = [
         CURLOPT_TIMEOUT => 2,
