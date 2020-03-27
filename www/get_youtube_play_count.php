@@ -8,7 +8,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-get_youtube_play_count($mu);
+// get_youtube_play_count($mu);
 
 // $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/get_results_batting.php';
 $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/make_graph.php';
