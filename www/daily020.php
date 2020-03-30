@@ -427,7 +427,7 @@ function backup_db($mu_, $file_name_blog_, $target_ = 'TOODLEDO')
     }
     $file_name = "/tmp/${heroku_app_name}_" .  date('d', strtotime('+9 hours')) . '_pg_dump.txt';
     error_log($log_prefix . $file_name);
-    $line = "pg_dump --format=plain --dbname=${database_url} >${file_name}";
+    $line = "pg_dump --format=plain --dbname=${database_url} --exclude-table=t_webcache >${file_name}";
     $res = null;
     error_log($log_prefix . $line);
     $time_start = microtime(true);
