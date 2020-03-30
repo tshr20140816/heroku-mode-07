@@ -1299,7 +1299,7 @@ __HEREDOC__;
 
         file_put_contents('/tmp/jobs.txt', $jobs);
         $line = 'cat /tmp/jobs.txt | parallel -j6 --joblog /tmp/joblog.txt 2>&1';
-        $this->cmd_execute($line);
+        // $this->cmd_execute($line);
         // error_log(file_get_contents('/tmp/joblog.txt'));
         $tmp = explode("\n", file_get_contents('/tmp/joblog.txt'));
         $this->logging_object($tmp, $log_prefix);
