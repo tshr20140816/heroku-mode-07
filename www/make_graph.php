@@ -14,14 +14,16 @@ $file_name_rss_items = tempnam('/tmp', 'rss_' . md5(microtime(true)));
 
 $url_length = [];
 
-$url_length['make_waon_balance'] = make_waon_balance($mu, $file_name_rss_items);
+// $url_length['make_waon_balance'] = make_waon_balance($mu, $file_name_rss_items);
 $url_length['make_heroku_dyno_usage_graph'] = make_heroku_dyno_usage_graph($mu, $file_name_rss_items);
+/*
 $url_length['make_database'] = make_database($mu, $file_name_rss_items);
 $url_length['make_process_time'] = make_process_time($mu, $file_name_rss_items);
 $url_length['make_post_count'] = make_post_count($mu, $file_name_rss_items);
 $url_length['make_github_contributions'] = make_github_contributions($mu, $file_name_rss_items);
 $url_length['make_storage_usage'] = make_storage_usage($mu, $file_name_rss_items);
 $url_length['make_loggly_usage'] = make_loggly_usage($mu, $file_name_rss_items);
+*/
 // $url_length['make_score_map'] = make_score_map($mu, $file_name_rss_items);
 // $url_length['npb_team_ranking'] = npb_team_ranking($mu, $file_name_rss_items);
 
