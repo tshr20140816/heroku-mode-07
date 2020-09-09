@@ -34,7 +34,7 @@ gcc --version
 time curl -sS --create-dirs -o heroku/heroku.tar.xz $(curl -sS https://cli-assets.heroku.com/linux-x64 | grep -oE https.+xz)
 
 cat << '__HEREDOC__' >jobs.txt
-git clone --depth=1 -b REL_7-12-0  https://github.com/phppgadmin/phppgadmin.git www/phppgadmin
+git clone --depth=1 -b REL_7-12-1  https://github.com/phppgadmin/phppgadmin.git www/phppgadmin
 git clone --depth=1 https://github.com/tshr20140816/heroku-mode-07.git /tmp/heroku-mode-07
 git clone --depth=1 https://github.com/tshr20140816/heroku-mode-09.git /tmp/heroku-mode-09
 __HEREDOC__
