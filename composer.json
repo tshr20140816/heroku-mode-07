@@ -1,17 +1,18 @@
 {
   "require":
   {
-    "php": ">=7.4.4",
-    "ext-mbstring": "*",
-    "ext-gd": "*",
+    "php": ">=7.4.9",
     "ext-apcu": "*",
-    "ext-pcntl": "*",
-    "ext-xmlrpc": "*",
-    "ext-imagick": "*",
-    "ext-soap": "*",
+    "ext-blackfire": "*",
     "ext-ftp": "*",
-    "ext-intl": "*",
+    "ext-gd": "*",
+    "ext-imagick": "*",
     "ext-imap": "*",
+    "ext-intl": "*",
+    "ext-mbstring": "*",
+    "ext-pcntl": "*",
+    "ext-soap": "*",
+    "ext-xmlrpc": "*",
     "phpmailer/phpmailer": "^6.1"
   }
   ,
