@@ -1,7 +1,7 @@
 {
   "require":
   {
-    "php": ">=7.4.10",
+    "php": ">=7.4.11",
     "ext-apcu": "*",
     "ext-blackfire": "*",
     "ext-ftp": "*",
