@@ -9,7 +9,7 @@ error_log("${pid} START ${requesturi} " . date('Y/m/d H:i:s'));
 
 $mu = new MyUtils();
 
-backup_opendrive($mu);
+// backup_opendrive($mu);
 
 $time_finish = microtime(true);
 // $mu->post_blog_wordpress("${requesturi} [" . substr(($time_finish - $time_start), 0, 6) . 's]', $description);
