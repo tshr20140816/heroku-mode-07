@@ -43,7 +43,7 @@ switch ($index)
         break;
     case 200:
         // Database Backup TOODLEDO
-        backup_db($mu, $file_name_blog);
+        // backup_db($mu, $file_name_blog);
         $index += 100;
         break;
     case 300:
@@ -53,7 +53,7 @@ switch ($index)
         break;
     case 400:
         // Database Backup REDMINE
-        backup_db($mu, $file_name_blog, 'REDMINE');
+        // backup_db($mu, $file_name_blog, 'REDMINE');
         $index += 100;
         break;
     case 500:
@@ -68,57 +68,57 @@ switch ($index)
         break;
     case 700:
         // OPML Backup
-        backup_opml($mu, $file_name_blog);
+        // backup_opml($mu, $file_name_blog);
         $index += 100;
         break;
     case 800:
         // OPML2 Backup
-        backup_opml2($mu, $file_name_blog);
+        // backup_opml2($mu, $file_name_blog);
         $index += 100;
         break;
     case 900:
         // HiDrive usage
-        check_hidrive_usage($mu, $file_name_blog);
+        // check_hidrive_usage($mu, $file_name_blog);
         // pCloud usage
-        check_pcloud_usage($mu, $file_name_blog);
+        // check_pcloud_usage($mu, $file_name_blog);
         // TeraCLOUD usage
-        check_teracloud_usage($mu, $file_name_blog);
+        // check_teracloud_usage($mu, $file_name_blog);
         // OpenDrive usage
-        check_opendrive_usage($mu, $file_name_blog);
+        // check_opendrive_usage($mu, $file_name_blog);
         // CloudMe usage
-        check_cloudme_usage($mu, $file_name_blog);
+        // check_cloudme_usage($mu, $file_name_blog);
         // 4shared usage
-        check_4shared_usage($mu, $file_name_blog);
+        // check_4shared_usage($mu, $file_name_blog);
         // CloudApp usage
         // check_cloudapp_usage($mu, $file_name_blog);
         // Zoho usage
-        check_zoho_usage($mu, $file_name_blog);
+        // check_zoho_usage($mu, $file_name_blog);
         // MEGA usage
-        check_mega_usage($mu, $file_name_blog);
+        // check_mega_usage($mu, $file_name_blog);
         // Dropbox usage
-        check_dropbox_usage($mu, $file_name_blog);
+        // check_dropbox_usage($mu, $file_name_blog);
         // github contribution count
-        count_github_contribution($mu, $file_name_blog);
+        // count_github_contribution($mu, $file_name_blog);
         // apache version check
-        check_version_apache($mu, $file_name_blog);
+        // check_version_apache($mu, $file_name_blog);
         // php version check
-        check_version_php($mu, $file_name_blog);
+        // check_version_php($mu, $file_name_blog);
         // curl version check
-        check_version_curl($mu, $file_name_blog);
+        // check_version_curl($mu, $file_name_blog);
         // PostgreSQL version check
-        check_version_postgresql($mu, $file_name_blog);
+        // check_version_postgresql($mu, $file_name_blog);
         // Ruby version check
-        check_version_ruby($mu, $file_name_blog);
+        // check_version_ruby($mu, $file_name_blog);
         // lbzip2 version check
-        check_version_package($mu, $file_name_blog, 'lbzip2', 'lbzip2 --version');
+        // check_version_package($mu, $file_name_blog, 'lbzip2', 'lbzip2 --version');
         // megatools version check
-        check_version_package($mu, $file_name_blog, 'megatools', 'megals --version');
+        // check_version_package($mu, $file_name_blog, 'megatools', 'megals --version');
         // parallel version check
-        check_version_package($mu, $file_name_blog, 'parallel', 'parallel --version');
+        // check_version_package($mu, $file_name_blog, 'parallel', 'parallel --version');
         // CPU info
-        check_cpu_info($mu, $file_name_blog);
+        // check_cpu_info($mu, $file_name_blog);
         // bs_ponta
-        bs_ponta($mu);
+        // bs_ponta($mu);
         // fc2 page update
         update_page_fc2($mu);
         $index = -1;
