@@ -25,8 +25,8 @@ $mu = new MyUtils();
 
 $hour_now = (int)date('G', strtotime('+9 hours')); // JST
 
-$file_outlet_parking_information = '/tmp/outlet_parking_information.txt';
-@unlink($file_outlet_parking_information);
+// $file_outlet_parking_information = '/tmp/outlet_parking_information.txt';
+// @unlink($file_outlet_parking_information);
 
 $longitude = $mu->get_env('LONGITUDE');
 $latitude = $mu->get_env('LATITUDE');
@@ -35,8 +35,8 @@ $api_key_yahoo = $mu->get_env('YAHOO_API_KEY', true);
 // cache search off url list
 
 // outlet parking information ここでは呼び捨て 後で回収
-$url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/outlet_parking_information.php';
-exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
+// $url = 'https://' . getenv('HEROKU_APP_NAME') . '.herokuapp.com/outlet_parking_information.php';
+// exec('curl -u ' . getenv('BASIC_USER') . ':' . getenv('BASIC_PASSWORD') . " ${url} > /dev/null 2>&1 &");
 
 $urls[$mu->get_env('URL_AMEDAS')] = null;
 $urls[$mu->get_env('URL_WEATHER_WARN')] = null;
@@ -213,7 +213,7 @@ foreach (get_task_rainfall($mu, $list_contents) as $task) {
 }
 
 // parking information
-$list_add_task = array_merge($list_add_task, get_task_parking_information($mu, $list_contents, $file_outlet_parking_information));
+// $list_add_task = array_merge($list_add_task, get_task_parking_information($mu, $list_contents, $file_outlet_parking_information));
 
 // Get Tasks
 $url = 'https://api.toodledo.com/3/tasks/get.php'
@@ -224,7 +224,7 @@ $tasks = json_decode($res, true);
 error_log($pid . ' TASKS COUNT : ' . count($tasks));
 
 // heroku buildpack php
-check_heroku_buildpack_php($mu);
+// check_heroku_buildpack_php($mu);
 
 // iCalendar データ作成
 make_ical($mu, $tasks);
